@@ -128,7 +128,7 @@ class WinFocus(QMainWindow, Ui_MainWindow):
                 self.lblA2.setText("{:.4}".format(p[2]))
                 self.lblA3.setText("{:.4}".format(p[3]))
                 
-                waist = np.sqrt(2)/p[1]
+                waist = np.sqrt(2)/p[1]*1e3 # in um
                 
                 self.lblWaist.setText("{:.4}".format(waist))
                 
