@@ -268,12 +268,29 @@
           </property>
          </widget>
         </item>
+        <item row="12" column="1">
+         <widget class="QLineEdit" name="txtBufferNo">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>TTBuffer number</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
     </item>
     <item>
      <widget class="QTabWidget" name="tabWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -288,7 +305,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Three state</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -342,7 +359,7 @@
       </widget>
       <widget class="QWidget" name="tabVisibility">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Visibility</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
@@ -408,7 +425,58 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QComboBox" name="cmbChannels"/>
+           <widget class="QComboBox" name="cmbChannels">
+            <item>
+             <property name="text">
+              <string>CH1-CH2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>a1-a2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>a1-b2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>a1-c2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>b1-a2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>b1-b2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>b1-c2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>c1-a2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>c1-b2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>c1-c2</string>
+             </property>
+            </item>
+           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_11">
@@ -418,7 +486,14 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="txtRange"/>
+           <widget class="QLineEdit" name="txtRange">
+            <property name="text">
+             <string>5</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -494,7 +569,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGraphicsView" name="pltMonitor"/>
+        <widget class="PlotWidget" name="pltMonitor"/>
        </item>
        <item>
         <widget class="QGraphicsView" name="pltAlign"/>
@@ -516,6 +591,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
