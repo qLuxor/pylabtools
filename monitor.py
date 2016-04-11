@@ -44,17 +44,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.curTab = self.tabWidget.currentIndex()
         self.SetupView(self.curTab)
 
-        self.pltMonitor.setMouseEnabled(x=False,y=False)
-        
-#        self.figMonitor = plt.figure()
-#        self.plotMonitor = FigureCanvas(self.figMonitor)
-#        self.pltMonitor.addWidget(self.plotMonitor)
-#        self.axMonitor = self.figMonitor.add_subplot(111)
-#        self.axMonitor.hold(False)
-        
-        
+        self.pltMonitor.setMouseEnabled(x=False,y=False)  
         self.inAcq = False
-        
+
         self.getParameters()
         
     def SetupView(self,index):
@@ -63,10 +55,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             # three state view
             self.txtDelay5.setEnabled(True)
             self.txtDelay6.setEnabled(True)
+            # parameters
+            self.NumCh = 6
         elif self.curTab == 1:
             # visibility view
             self.txtDelay5.setEnabled(False)
             self.txtDelay6.setEnabled(False)
+            # parameters
+            self.NumCh = 4
         
     def getParameters(self):
         self.bufNum = int(self.txtBufferNo.text())
@@ -105,16 +101,39 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     def UpdateView(self):
         self.getParameters()
         self.Monitor()
+        self.Align()
         
     def Monitor(self):
+        chs = np.arange(self.NumCh)
+        singles = self.ttagBuf.singles(self.exptime)[:self.NumCh]
         if self.curTab == 0:
-            chs = np.arange(6)
-            singles = self.ttagBuf.singles(self.exptime)[:6]
-            bg = pg.BarGraphItem(x=chs, height=singles, width=0.7, brush='b')
-            txt1 = pg.TextItem(text=str(singles[0]),color='k', anchor=(0.5,3.2))
-            self.pltMonitor.clear()
-            self.pltMonitor.addItem(bg)
-            self.pltMonitor.addItem(txt1)
+            xdict = {0:str(singles[0]),1:str(singles[1]),
+                     2:str(singles[2]),3:str(singles[3]),
+                     4:str(singles[4]),5:str(singles[5])}
+        elif self.curTab == 1:
+            xdict = {0:str(singles[0]),1:str(singles[1]),
+                     2:str(singles[2]),3:str(singles[3])}
+        ax = self.pltMonitor.getAxis('bottom')
+        bg = pg.BarGraphItem(x=chs, height=singles, width=0.7, brush='b')
+        self.pltMonitor.clear()
+        ax.setTicks([xdict.items(), []])
+        self.pltMonitor.addItem(bg)
+
+    def Align(self):
+        chs=np.arange(3)
+        if self.curTab == 0:
+            c1 = np.sum(self.ttagBuf.singles(self.exptime)[0:2])
+            c2 = np.sum(self.ttagBuf.singles(self.exptime)[3:5])
+            print(c1,c2)
+            c12 = 0
+            xdict = {0:str(c1),1:str(c2),2:str(c12)}
+        C = np.array([c1,c2,c12])
+        ax = self.pltAlign.getAxis('bottom')
+        bg = pg.BarGraphItem(x=chs, height=C, width=0.7, brush='b')
+        self.pltAlign.clear()
+        ax.setTicks([xdict.items(),[]])
+        self.pltAlign.addItem(bg)
+
             
             
 if __name__ == "__main__":

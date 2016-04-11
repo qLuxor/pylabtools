@@ -298,7 +298,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabThreeState">
        <property name="layoutDirection">
@@ -572,7 +572,7 @@
         <widget class="PlotWidget" name="pltMonitor"/>
        </item>
        <item>
-        <widget class="QGraphicsView" name="pltAlign"/>
+        <widget class="PlotWidget" name="pltAlign"/>
        </item>
       </layout>
      </widget>
