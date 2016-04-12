@@ -298,7 +298,7 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabThreeState">
        <property name="layoutDirection">
@@ -309,7 +309,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QGraphicsView" name="pltSingle"/>
+         <widget class="PlotWidget" name="pltSingle"/>
         </item>
         <item>
          <layout class="QFormLayout" name="formLayout_2">
@@ -353,7 +353,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QGraphicsView" name="pltCoinc"/>
+         <widget class="PlotWidget" name="pltCoinc"/>
         </item>
        </layout>
       </widget>
@@ -363,17 +363,14 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QGraphicsView" name="pltSingleVis"/>
+         <widget class="PlotWidget" name="pltSingleVis"/>
         </item>
         <item>
-         <layout class="QFormLayout" name="formLayout_4">
-          <property name="fieldGrowthPolicy">
-           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-          </property>
+         <layout class="QFormLayout" name="formLayout_5">
           <item row="0" column="0">
            <widget class="QLabel" name="lblRate_2">
             <property name="text">
-             <string>Visibility</string>
+             <string>Visibility (Raw)</string>
             </property>
            </widget>
           </item>
@@ -390,10 +387,27 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Visibility (Net)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="lblVisNet">
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
-         <widget class="QGraphicsView" name="pltCoincVis"/>
+         <widget class="PlotWidget" name="pltCoincVis"/>
         </item>
        </layout>
       </widget>
@@ -426,11 +440,6 @@
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="cmbChannels">
-            <item>
-             <property name="text">
-              <string>CH1-CH2</string>
-             </property>
-            </item>
             <item>
              <property name="text">
               <string>a1-a2</string>
@@ -476,6 +485,11 @@
               <string>c1-c2</string>
              </property>
             </item>
+            <item>
+             <property name="text">
+              <string>CH1-CH2</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item row="1" column="0">
@@ -502,7 +516,7 @@
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QGraphicsView" name="pltDelay"/>
+           <widget class="PlotWidget" name="pltDelay"/>
           </item>
           <item>
            <widget class="QCheckBox" name="chkFit">
