@@ -109,6 +109,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.btnStart.setText('Start')   
     
     def UpdateView(self):
+        QtGui.qApp.processEvents()
         self.getParameters()
         self.getData()
         self.Monitor()
@@ -120,7 +121,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     
     def getData(self):
         self.singles = self.ttagBuf.singles(self.exptime)
-        self.coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,self.delay)
+        self.coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
 		
 
     def Monitor(self):
@@ -164,8 +165,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             count = self.coincidences[0:3,3:6].flatten()
             pltFig = self.pltCoinc
         elif self.curTab == 1:
-            chGood = np.array([1,3])
-            chErr = np.array([0,2])
+            chGood = np.array([0,3])
+            chErr = np.array([1,2])
             count = self.coincidences[0:2,2:4].flatten()
             pltFig = self.pltCoincVis
         xdict = dict(enumerate(count))
@@ -204,14 +205,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 self.lblQBER.setText('###')
         elif self.curTab == 1:
             if np.sum(self.coincidences[0:2,2:4]):
-                visRaw = 1 - 2*np.sum(np.diag(self.coincidences[0:2,2:4]))/np.sum(self.coincidences[0:2,2:4])
+                visRaw = 1 - 2*(self.coincidences[0,2]+self.coincidences[1,3])/np.sum(self.coincidences[0:2,2:4])
                 self.lblVis.setText("{:.4f}".format(visRaw))
             else:
                 self.lblVis.setText("###")
             C_acc = np.maximum( np.array( [self.singles[0]*self.singles[2:4],self.singles[1]*self.singles[2:4]] ), np.zeros( (2,2) ) )*2*self.coincWindow/self.exptime
             C_noacc = np.maximum( self.coincidences[0:2,2:4] - C_acc, np.zeros( (2,2) ) )
             if np.sum(C_noacc):
-                visNet = 1 - 2*np.sum(np.diag(C_noacc))/np.sum(C_noacc)
+                visNet = 1 - 2*(C_noacc[0,0]+C_noacc[1,1])/np.sum(C_noacc)
                 self.lblVisNet.setText("{:.4f}".format(visNet))
             else:
                 self.lblVisNet.setText("###")
@@ -270,17 +271,21 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         binCenter = (bins[1:]+bins[:-1])/2
         delays = binCenter * self.ttagBuf.resolution * 1e9
 
-        bg = pg.BarGraphItem(x=delays,height=count,width=1,brush='b')
+        bg = pg.BarGraphItem(x=delays,height=count,width=0.1,brush='b')
         self.pltDelay.clear()
-        self.pltDelay.addItem(bg)
-
+        
         # fit results if the fit box is checked
         if self.chkFit.isChecked():
             gaussian = lambda x,A,x0,s: A*np.exp(-(x-x0)**2/(2*s**2))
-            p0 = [np.max(count),np.argmax(count),3e-10]
+            p0 = [np.max(count),delays[np.argmax(count)],0.3]
             popt,perr = curve_fit(gaussian,delays,count,p0=p0)
+            x = np.linspace(np.amin(delays),np.amax(delays),1000)
+            yfit = gaussian(x,*popt)
+            self.pltDelay.plot(x,yfit,pen='r')
+            self.lblMean.setText("{:.4f}".format(popt[1]))
+            self.lblStd.setText("{:.4f}".format(popt[2]))
 
-
+        self.pltDelay.addItem(bg)
 		
 
             
