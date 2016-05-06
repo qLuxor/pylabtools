@@ -21,7 +21,7 @@ qtCreatorFile = 'timebin.ui'
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-timeAfterPlateMove = 1.
+timeAfterPlateMove = 1
 
 class Visibility(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -35,8 +35,10 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btnStart.clicked.connect(self.Start)
         self.btnConnect.clicked.connect(self.Connect)
+        self.btnSaveData.clicked.connect(self.SaveData)
 
         self.pltVisibility.setMouseEnabled(x=False,y=False)  
+        self.btnSaveData.setEnabled(False)
 
         self.inAcq = False
         self.connected = False
@@ -44,6 +46,12 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
 
         self.getParameters()
         self.Ncounts = []
+    
+    def SaveData(self):
+        data = np.array(self.Ncounts)
+        angles = np.arange(self.iniAngle, self.finAngle, self.stepAngle)
+        filename = self.txtFileName.text()
+        np.savez(filename, data=data, angles=angles)
         
     def getParameters(self):
         self.bufNum = int(self.txtBufferNo.text())
@@ -78,6 +86,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.UpdateLabels()
             print('Acquisition started') 
             self.ttagBuf = ttag.TTBuffer(self.bufNum) 
+            self.btnSaveData.setEnabled(True)
             self.Ncounts = []
             for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
                 QtGui.qApp.processEvents()
@@ -89,7 +98,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                 time.sleep(.1)
                 self.Ncounts.append(sum(self.ttagBuf.singles(self.integrationTime)))
                 
-                self.con.move(self.stepAngle) ## Move plate to angle=angle
+                self.con.goto(angle,wait=True) ## Move plate to angle=angle
                 
                 time.sleep(timeAfterPlateMove)
                 self.UpdateView()
