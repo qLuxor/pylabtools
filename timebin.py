@@ -96,7 +96,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                 time.sleep(self.integrationTime/.9)
                 self.ttagBuf.stop()
                 time.sleep(.1)
-                self.Ncounts.append(sum(self.ttagBuf.singles(self.integrationTime)))
+                self.Ncounts.append(self.ttagBuf.singles(self.integrationTime))
                 
                 self.con.goto(angle,wait=True) ## Move plate to angle=angle
                 
@@ -136,13 +136,18 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.txtTotTime.setText(str(self.totalTime) + " s")
     def PlotSingles(self):
         x = np.arange(self.iniAngle, self.finAngle, self.stepAngle)[:len(self.Ncounts)]
-        y = np.array(self.Ncounts)
-#        self.pltVisibility.plot(x,y)
-#        ax = self.pltVisibility.getAxis('bottom')
-        plot = pg.ScatterPlotItem(x,y)
+        y = np.array(self.Ncounts[0])
+        y2 = np.array(self.Ncounts[1])
+        ytot = np.array(self.Ncounts[1] + self.Ncounts[1])
+        
+        plot1 = pg.ScatterPlotItem(x,y,symbol='s')
+        plot2 = pg.ScatterPlotItem(x,y2)
+        plotTot = pg.ScatterPlotItem(x,ytot,symbol='+')
+        
         self.pltVisibility.clear()
-        self.pltVisibility.addItem(plot)
-#        self.pltVisibility.showGrid()
+        self.pltVisibility.addItem(plot1)
+        self.pltVisibility.addItem(plot2)
+        self.pltVisibility.addItem(plotTot)
     
     def Connect(self):
         if not self.connected:
