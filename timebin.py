@@ -87,18 +87,28 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             print('Acquisition started') 
             self.ttagBuf = ttag.TTBuffer(self.bufNum) 
             self.btnSaveData.setEnabled(True)
-            self.Ncounts = []
+            self.Ncounts = np.array([])
             for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
                 QtGui.qApp.processEvents()
                 if not self.inAcq:
                     break
+                
+                self.con.goto(angle,wait=True) ## Move plate to angle=angle
+                time.sleep(0.1)
+                
                 self.ttagBuf.start()
                 time.sleep(self.integrationTime/.9)
                 self.ttagBuf.stop()
                 time.sleep(.1)
-                self.Ncounts.append(self.ttagBuf.singles(self.integrationTime))
+           #     print(self.ttagBuf.singles(self.integrationTime))
+           #     print(self.Ncounts)
+           #     print()
+                if self.Ncounts.size == 0:
+                  self.Ncounts = np.array(self.ttagBuf.singles(self.integrationTime))
+                  self.Ncounts = self.Ncounts[np.newaxis,:]
+                else:
+                  self.Ncounts = np.vstack( (self.Ncounts,self.ttagBuf.singles(self.integrationTime)) )
                 
-                self.con.goto(angle,wait=True) ## Move plate to angle=angle
                 
                 time.sleep(timeAfterPlateMove)
                 self.UpdateView()
@@ -114,7 +124,6 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
 
     def UpdateView(self):
         self.PlotSingles()
-        self.LabelMaxVis()
         self.LabelTotalTime()
         self.LabelTimeLeft()
         
@@ -122,11 +131,6 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.LabelTotalTime()
         self.LabelTimeLeft()
                 
-    def LabelMaxVis(self):        
-        maxN = np.amax(np.array(self.Ncounts))
-        minN = np.amin(np.array(self.Ncounts))
-        self.txtMaxVis.setText(str((maxN - minN) / (maxN + minN)*100) + "%")
-        
     def LabelTimeLeft(self):
         self.txtTimeLeft.setText(str(self.totalTime - len(self.Ncounts)*\
                                  (self.integrationTime/.9 + timeAfterPlateMove)) + " s")
@@ -136,9 +140,9 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.txtTotTime.setText(str(self.totalTime) + " s")
     def PlotSingles(self):
         x = np.arange(self.iniAngle, self.finAngle, self.stepAngle)[:len(self.Ncounts)]
-        y = np.array(self.Ncounts[0])
-        y2 = np.array(self.Ncounts[1])
-        ytot = np.array(self.Ncounts[1] + self.Ncounts[1])
+        y = self.Ncounts[:,0]
+        y2 = self.Ncounts[:,1]
+        ytot = self.Ncounts[:,0] + self.Ncounts[:,1]
         
         plot1 = pg.ScatterPlotItem(x,y,symbol='s')
         plot2 = pg.ScatterPlotItem(x,y2)
@@ -148,6 +152,11 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.pltVisibility.addItem(plot1)
         self.pltVisibility.addItem(plot2)
         self.pltVisibility.addItem(plotTot)
+
+        maxN = np.amax(ytot)
+        minN = np.amin(ytot)
+        self.txtMaxVis.setText(str((maxN - minN) / (maxN + minN)*100) + "%")
+        
     
     def Connect(self):
         if not self.connected:
