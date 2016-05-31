@@ -58,7 +58,7 @@
       <item row="2" column="1">
        <widget class="QLineEdit" name="txtIniAngle">
         <property name="text">
-         <string>0</string>
+         <string>-10</string>
         </property>
        </widget>
       </item>
@@ -72,7 +72,7 @@
       <item row="3" column="1">
        <widget class="QLineEdit" name="txtFinAngle">
         <property name="text">
-         <string>3</string>
+         <string>10</string>
         </property>
        </widget>
       </item>
@@ -216,21 +216,38 @@
        <widget class="PlotWidget" name="pltVisibility"/>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+      </item>
+      <item>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_9">
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="txtMaxVis0">
           <property name="text">
-           <string>Max visibiliby</string>
+           <string>0%</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="txtMaxVis">
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="txtMaxVis1">
           <property name="text">
            <string>0%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Max visibility channel 1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Max visibility channel 0</string>
           </property>
          </widget>
         </item>
