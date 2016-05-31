@@ -1,5 +1,5 @@
 import sys
-from PyQt4 import QtCore,QtGui,uic
+from PyQt4 import QtGui,uic
 import pyqtgraph as pg
 import numpy as np
 import time
@@ -153,9 +153,14 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.pltVisibility.addItem(plot2)
         self.pltVisibility.addItem(plotTot)
 
-        maxN = np.amax(ytot)
-        minN = np.amin(ytot)
-        self.txtMaxVis.setText(str((maxN - minN) / (maxN + minN)*100) + "%")
+        maxN0 = np.amax(y)
+        minN0 = np.amin(y)
+        maxN1 = np.amax(y2)
+        minN1 = np.amin(y2)
+        vis0 = (maxN0 - minN0) / (maxN0 + minN0)*100
+        vis1 = (maxN1 - minN1) / (maxN1 + minN1)*100
+        self.txtMaxVis0.setText(str(vis0) + "%")
+        self.txtMaxVis1.setText(str(vis1) + "%")
         
     
     def Connect(self):
