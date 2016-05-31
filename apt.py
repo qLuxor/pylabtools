@@ -8,6 +8,7 @@ Created on Tue Mar 22 11:14:59 2016
 import sys
 from PyQt4 import QtCore, QtGui, uic
 
+# TODO: change from deprecated pyAPT to aptlib
 sys.path.append('../pyAPT')
 import pyAPT
 

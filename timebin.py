@@ -14,8 +14,8 @@ import time
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
 
-sys.path.append('../pyAPT')
-import pyAPT
+sys.path.append('..')
+import aptlib 
 
 qtCreatorFile = 'timebin.ui'
 
@@ -164,7 +164,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.btnConnect.setStyleSheet('background-color: red')
             self.btnConnect.setText('Disconnect')
             self.SN = int(self.txtSN.text())
-            self.con = pyAPT.PRM1(serial_number=self.SN)
+            self.con = aptlib.PRM1(serial_number=self.SN)
         else:            
             self.connected =  False
             self.con.close()

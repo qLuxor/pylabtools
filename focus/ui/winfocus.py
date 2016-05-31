@@ -3,6 +3,7 @@
 """
 Module implementing WinFocus.
 """
+# TODO: change from pyAPT to aptlib
 
 import sys
 sys.path.append('/home/sagnac/Quantum/')

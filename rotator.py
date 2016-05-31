@@ -8,8 +8,8 @@ Created on Tue Mar 22 11:14:59 2016
 import sys
 from PyQt4 import QtCore, QtGui, uic
 
-sys.path.append('../pyAPT')
-import pyAPT
+sys.path.append('..')
+import aptlib
 
 qtCreatorFile = 'rotator.ui'
 
@@ -42,7 +42,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect.setStyleSheet('background-color: red')
             self.btnConnect.setText('Disconnect')
             self.SN = int(self.txtSN.text())
-            self.con = pyAPT.PRM1(serial_number=self.SN)
+            self.con = aptlib.PRM1(serial_number=self.SN)
             
             self.btnUp.setEnabled(True)
             self.btnDown.setEnabled(True)
