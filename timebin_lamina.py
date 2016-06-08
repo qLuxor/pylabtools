@@ -94,10 +94,13 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.btnSaveData.setEnabled(True)
             self.Ncounts_list = []
             for angleLamina in np.arange(self.iniAngleLamina, self.finAngleLamina, self.stepAngleLamina):
+                if not self.inAcq:
+                  break
                 self.Ncounts = np.array([])
                 
                 # Move lamina
-                self.conLamina.goto(angleLamina,wait=True)
+                print('angleLamina=',angleLamina)
+                self.conLamina.goto(float(angleLamina),wait=True)
                 time.sleep(0.1)
                 
                 for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
@@ -105,7 +108,8 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                     if not self.inAcq:
                         break
                     
-                    self.con.goto(angle,wait=True) ## Move plate to angle=angle
+                    print('angle=',angle)
+                    self.con.goto(float(angle),wait=True) ## Move plate to angle=angle
                     time.sleep(0.1)
                     
                     self.ttagBuf.start()
