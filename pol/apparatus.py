@@ -5,7 +5,6 @@ import aptlib
 import numpy as np
 
 
-
 class Apparatus():
     ''' This class keeps track of the experimental apparatus for the double
     violation of the CHSH inequality. The full apparatus consists of five
@@ -23,9 +22,9 @@ class Apparatus():
 
         Alice:
             basis:
-                SN: xxxxxxxx
+                serial_number: xxxxxxxx
                 zero: xxx
-                rotDir: 'CW'/'CCW'
+                dirRot: 'CW'/'CCW'
                 home: True
         Bob2:
             basis:
@@ -34,18 +33,169 @@ class Apparatus():
             basis:
             ...
             meas:
-                SN: xxxxxxxx
+                serial_number: xxxxxxxx
                 posMin: xxx
                 posMax: xxx
                 home: True
         weak:
-            SN: xxxxxxxx
+            serial_number: xxxxxxxx
             home: True
 
         '''
+        self.alice = None
+        self.bob1 = None
+        self.bob2 = None
+        self.weak = None
 
-        # TODO: implement the class structure of the experimental apparatus
-        pass
+        if 'Alice' in config:
+            A1basis = None
+            try:
+                if 'basis' in config['Alice']:
+                    A1basis = HWP(**config['Alice']['basis'])
+                self.alice = Alice(A1basis)
+            except:
+                self.alice = None
+        if 'Bob1' in config:
+            B1basis = None
+            B1meas = None
+            try:
+                if 'basis' in config['Bob1']:
+                    B1basis = HWP(**config['Bob1']['basis'])
+                if 'meas' in config['Bob1']:
+                    try:
+                        B1meas = phGlass(**config['Bob1']['meas'])
+                    except:
+                        B1meas = None
+                self.bob1 = Bob1(B1basis,B1meas)
+            except:
+                self.bob1 = None
+        if 'Bob2' in config:
+            B2basis = None
+            try:
+                if 'basis' in config['Bob2']:
+                    B2basis = HWP(**config['Bob2']['basis']
+                self.bob2 = Bob2(B2basis)
+            except:
+                self.bob2 = None
+
+    def setAlice(self,basis):
+        if self.alice == None:
+            raise Exception('No Alice defined for the current apparatus')
+
+        self.alice.setBasis(basis)
+
+    def setBob1(self,basis):
+        if self.bob1 == None:
+            raise Exception('No Bob1 defined for the current apparatus')
+
+        self.Bob1.setBasis(basis)
+
+        if self.bob2 != None:
+            self.Bob2.setBasis(self.bob2.curbasis,self.bob1.curbasis)
+
+    def setBob2(self,basis):
+        if self.bob2 == None:
+            raise Exception('No Bob2 defined for the current apparatus')
+
+        if self.bob1 != None:
+            self.bob2.setBasis(basis,self.bob1.curbasis)
+        else:
+            self.bob2.setBasis(basis)
+
+class AliceBasisException(Exception): pass
+class Bob1BasisException(Exception): pass
+class Bob1ValueException(Exception): pass
+class Bob2BasisException(Exception): pass
+        
+class Alice():
+    def __init__(self,hwp):
+        self.hwp = hwp
+
+        self.anglebase = {'Z':0,'X':22.5,'-X-Z':33.75,'-X+Z':11.25}
+
+        self.selBasis('Z')
+
+    def selBasis(self,basis):
+        if self.hwp==None:
+            raise AliceBasisException('Alice''s HWP not connected')
+        if not basis in self.anglebase:
+            raise Exception('Basis not implemented')
+        
+        self.curbasis = basis
+        self.curangle = self.anglebase[basis]
+        self.hwp.rotate(self.curangle)
+
+class Bob1():
+    def __init__(self,hwp,phshift):
+        self.hwp = hwp
+        self.phshift = phshift
+
+        self.anglebase = {'Z':45,'X':67.5}
+
+        self.selBasis('Z')
+
+        if self.phshift == None:
+            self.curval = None
+            self.curvalangle = None
+        else:
+            self.curval = self.phshift.posRel
+            self.curvalangle = self.phshift.posAbs
+
+    def selBasis(self,basis):
+        if self.hwp == None:
+            raise Bob1BasisException('Bob1''s HWP not connected')
+        if not basis in self.anglebase:
+            raise Exception('Basis not implemented')
+
+        self.curbasis = basis
+        self.curangle = self.anglebase[basis]
+        self.hwp.rotate(self.curangle)
+
+    def selValueAngle(self,angle):
+        if self.phshift == None:
+            raise Bob1ValueException('Bob1''s glass not connected')
+
+        self.phshift.goto(angle)
+        self.curvalangle = self.phshift.posAbs
+        self.curval = self.phshift.posRel
+
+    def selValue(self,value):
+        if self.phshift == None:
+            raise Bob1ValueException('Bob1''s glass not connected')
+        if not value in ['min','max']:
+            raise Exception('Value not implemented')
+
+        if value == 'min':
+            self.phshift.gotoMin()
+        elif value == 'max':
+            self.phshift.gotoMax()
+
+        self.curvalangle = self.phshift.posAbs
+        self.curval = self.phshift.posRel
+
+
+class Bob2():
+    def __init__(self,hwp):
+        self.hwp = hwp
+
+        self.anglebase = { 'Z': 0, 'X': 22.5 }
+
+        self.selBasis('Z')
+
+    def selBasis(self,basis,angleBob1=None):
+        if self.hwp==None:
+            raise Bob2BasisException('Alice''s HWP not connected')
+        if not basis in self.anglebase:
+            raise Exception('Basis not implemented')
+        
+        if angleBob1 != None:
+            angle = angleBob1 - self.anglebase[basis]
+        else:
+            angle = self.anglebase
+
+        self.curbasis = basis
+        self.curangle = angle
+        self.hwp.rotate(self.curangle)
 
 
 class HWP(PRM1):
@@ -126,6 +276,7 @@ class phGlass(PRM1):
             interference is not set')
 
         super(phGlass,self).goto(self.posMin)
+        self.posAbs = self.getPosition()
         self.posRel = 'min'
     
     def gotoMax(self):
@@ -134,10 +285,12 @@ class phGlass(PRM1):
             interference is not set')
 
         super(phGlass,self).goto(self.posMax)
+        self.posAbs = self.getPosition()
         self.posRel = 'max'
 
     def goto(self,position):
         super(phGlass,self).goto(position)
+        self.posAbs = self.getPosition()
         self.posRel = 'none'
 
 
