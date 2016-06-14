@@ -22,6 +22,8 @@ from scipy.optimize import curve_fit
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
 
+import config
+
 qtCreatorFile = 'pol.ui'
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -37,48 +39,33 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
         self.setupUi(self)
         self.btnStart.clicked.connect(self.Start)
-        self.tabWidget.currentChanged.connect(self.SetupView)
+
+        self.btnConfig.clicked.connect(self.showConfig)
+        self.config = config.Config()
         
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.UpdateView)
         
-        self.curTab = self.tabWidget.currentIndex()
-        self.SetupView(self.curTab)
+        self.NumCh = 4
 
         self.pltMonitor.setMouseEnabled(x=False,y=False)  
         self.pltAlign.setMouseEnabled(x=False,y=False)  
         self.pltDelay.setMouseEnabled(x=False,y=False)  
-        self.pltSingle.setMouseEnabled(x=False,y=False)  
-        self.pltCoinc.setMouseEnabled(x=False,y=False)  
         self.pltSingleVis.setMouseEnabled(x=False,y=False)  
         self.pltCoincVis.setMouseEnabled(x=False,y=False)  
 
         self.inAcq = False
 
         self.getParameters()
+
+    def showConfig(self):
+        self.config.show()
         
-    def SetupView(self,index):
-        self.curTab = index
-        if self.curTab == 0:
-            # three state view
-            self.txtDelay5.setEnabled(True)
-            self.txtDelay6.setEnabled(True)
-            # parameters
-            self.NumCh = 6
-        elif self.curTab == 1:
-            # visibility view
-            self.txtDelay5.setEnabled(False)
-            self.txtDelay6.setEnabled(False)
-            # parameters
-            self.NumCh = 4
         
     def getParameters(self):
         self.bufNum = int(self.txtBufferNo.text())
         self.delay = np.array([float(self.txtDelay1.text()), float(self.txtDelay2.text()),
                                float(self.txtDelay3.text()),float(self.txtDelay4.text())])
-        if self.curTab==0:
-            self.delay = np.concatenate( (self.delay,np.array([float(self.txtDelay5.text()),float(self.txtDelay6.text())])) ) 
-        
         self.delay = self.delay*1e-9
         
         self.exptime = float(self.txtExp.text())/1000
@@ -127,13 +114,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     def Monitor(self):
         chs = np.arange(self.NumCh)
         singles = self.singles[:self.NumCh]
-        if self.curTab == 0:
-            xdict = {0:str(singles[0]),1:str(singles[1]),
-                     2:str(singles[2]),3:str(singles[3]),
-                     4:str(singles[4]),5:str(singles[5])}
-        elif self.curTab == 1:
-            xdict = {0:str(singles[0]),1:str(singles[1]),
-                     2:str(singles[2]),3:str(singles[3])}
+        xdict = {0:str(singles[0]),1:str(singles[1]),
+            2:str(singles[2]),3:str(singles[3])}
         ax = self.pltMonitor.getAxis('bottom')
         bg = pg.BarGraphItem(x=chs, height=singles, width=0.7, brush='b')
         self.pltMonitor.clear()
@@ -142,14 +124,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
     def Align(self):
         chs=np.arange(3)
-        if self.curTab == 0:
-            c1 = np.sum(self.singles[0:3])
-            c2 = np.sum(self.singles[3:6])
-            c12 = np.sum(self.coincidences[0:3,3:6])
-        elif self.curTab == 1:
-            c1 = np.sum(self.singles[0:2])
-            c2 = np.sum(self.singles[2:4])
-            c12 = np.sum(self.coincidences[0:2,2:4])
+        c1 = np.sum(self.singles[0:2])
+        c2 = np.sum(self.singles[2:4])
+        c12 = np.sum(self.coincidences[0:2,2:4])
         xdict = {0:str(c1),1:str(c2),2:str(c12)}
         C = np.array([c1,c2,c12])
         ax = self.pltAlign.getAxis('bottom')
@@ -159,16 +136,10 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.pltAlign.addItem(bg)
 
     def CoincView(self):
-        if self.curTab == 0:
-            chGood = np.array([1,2,4,5,7,8])
-            chErr = np.array([0,3,6])
-            count = self.coincidences[0:3,3:6].flatten()
-            pltFig = self.pltCoinc
-        elif self.curTab == 1:
-            chGood = np.array([0,3])
-            chErr = np.array([1,2])
-            count = self.coincidences[0:2,2:4].flatten()
-            pltFig = self.pltCoincVis
+        chGood = np.array([0,3])
+        chErr = np.array([1,2])
+        count = self.coincidences[0:2,2:4].flatten()
+        pltFig = self.pltCoincVis
         xdict = dict(enumerate(count))
         bgGood = pg.BarGraphItem(x=chGood,height=count[chGood],width=0.7,brush='b')
         bgErr = pg.BarGraphItem(x=chErr,height=count[chErr],width=0.7,brush='r')
@@ -180,12 +151,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
     def SingleView(self):
         chs = np.arange(self.NumCh)
-        if self.curTab == 0:
-            count = np.concatenate( (np.sum(self.coincidences[0:3,3:6],axis=1), np.sum(self.coincidences[0:3,3:6],axis=0)) )
-            pltFig = self.pltSingle
-        elif self.curTab == 1:
-            count = np.concatenate( (np.sum(self.coincidences[0:2,2:4],axis=1), np.sum(self.coincidences[0:2,2:4],axis=0)) )
-            pltFig = self.pltSingleVis
+        count = np.concatenate( (np.sum(self.coincidences[0:2,2:4],axis=1), np.sum(self.coincidences[0:2,2:4],axis=0)) )
+        pltFig = self.pltSingleVis
         xdict = dict(enumerate(count))
         bg = pg.BarGraphItem(x=chs,height=count,width=0.7,brush='b')
         ax = pltFig.getAxis('bottom')
@@ -194,16 +161,6 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         pltFig.addItem(bg)
 
     def UpdateResults(self):
-        if self.curTab == 0:
-            rate = np.sum(self.coincidences[0:3,3:6])/self.exptime
-            # print rate and QBER
-            self.lblRate.setText("{:.2f}".format(rate).rstrip('00').rstrip('.'))
-            if rate != 0:
-                qber = np.sum(np.diag(self.coincidences[0:3,3:6]))/(rate*self.exptime)
-                self.lblQBER.setText("{:.4f}".format(qber))
-            else:
-                self.lblQBER.setText('###')
-        elif self.curTab == 1:
             if np.sum(self.coincidences[0:2,2:4]):
                 visRaw = 1 - 2*(self.coincidences[0,2]+self.coincidences[1,3])/np.sum(self.coincidences[0:2,2:4])
                 self.lblVis.setText("{:.4f}".format(visRaw))
