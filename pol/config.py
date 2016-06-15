@@ -4,24 +4,28 @@ Created on Tue Jun 14 18:23:10 2016
 @author: sagnac
 """
 
+from __future__ import absolute_import
+
 from PyQt4 import QtCore,QtGui,uic
 import yaml
+
+import apparatus
 
 qtCreatorFile = 'config.ui'
 
 Ui_Widget, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class ConfigUI(QtGui.QWidget,Ui_Widget):
-    def __init__(self,c):
+    def __init__(self,c,app):
 
         QtGui.QWidget.__init__(self)
         Ui_Widget.__init__(self)
 
         # an istance of the class Config
         self._config = c
+        self._app = app
 
         self.setupUi(self)
-        self.btnConnect.clicked.connect(self.connect)
 
         # capture all changes in the UI
         self.txtSNAlice.textChanged.connect(self.uiChanged)
@@ -46,8 +50,6 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         # load and save buttons
         self.btnLoadConfig.clicked.connect(self.loadFileToUI)
         self.btnSaveConfig.clicked.connect(self.saveUItoFile)
-
-        self.connected = False
 
 
     def closeEvent(self,event):
@@ -83,46 +85,49 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
 
 
     def updateUI(self):
-        if not self.chkActiveAlice.isChecked():
-            self.cmbDirAlice.setEnabled(False)
-            self.txtSNAlice.setEnabled(False)
-            self.txtZeroAlice.setEnabled(False)
-        else:
-            self.cmbDirAlice.setEnabled(True)
-            self.txtSNAlice.setEnabled(True)
-            self.txtZeroAlice.setEnabled(True)
+        if not self._app.connected:
+            # Update Alice
+            if not self.chkActiveAlice.isChecked():
+                self.cmbDirAlice.setEnabled(False)
+                self.txtSNAlice.setEnabled(False)
+                self.txtZeroAlice.setEnabled(False)
+            else:
+                self.cmbDirAlice.setEnabled(True)
+                self.txtSNAlice.setEnabled(True)
+                self.txtZeroAlice.setEnabled(True)
+            self.lblConnAlice.setStyleSheet(' {background-color: green}')
 
-        if not self.chkActiveBob2.isChecked():
-            self.cmbDirBob2.setEnabled(False)
-            self.txtSNBob2.setEnabled(False)
-            self.txtZeroBob2.setEnabled(False)
-        else:
-            self.cmbDirBob2.setEnabled(True)
-            self.txtSNBob2.setEnabled(True)
-            self.txtZeroBob2.setEnabled(True)
+            if not self.chkActiveBob2.isChecked():
+                self.cmbDirBob2.setEnabled(False)
+                self.txtSNBob2.setEnabled(False)
+                self.txtZeroBob2.setEnabled(False)
+            else:
+                self.cmbDirBob2.setEnabled(True)
+                self.txtSNBob2.setEnabled(True)
+                self.txtZeroBob2.setEnabled(True)
 
-        if not self.chkActiveHWPBob1.isChecked():
-            self.cmbDirHWPBob1.setEnabled(False)
-            self.txtSNHWPBob1.setEnabled(False)
-            self.txtZeroHWPBob1.setEnabled(False)
-        else:
-            self.cmbDirHWPBob1.setEnabled(True)
-            self.txtSNHWPBob1.setEnabled(True)
-            self.txtZeroHWPBob1.setEnabled(True)
+            if not self.chkActiveHWPBob1.isChecked():
+                self.cmbDirHWPBob1.setEnabled(False)
+                self.txtSNHWPBob1.setEnabled(False)
+                self.txtZeroHWPBob1.setEnabled(False)
+            else:
+                self.cmbDirHWPBob1.setEnabled(True)
+                self.txtSNHWPBob1.setEnabled(True)
+                self.txtZeroHWPBob1.setEnabled(True)
 
-        if not self.chkActiveGlass.isChecked():
-            self.txtSNGlass.setEnabled(False)
-            self.txtPosMinGlass.setEnabled(False)
-            self.txtPosMaxGlass.setEnabled(False)
-        else:
-            self.txtSNGlass.setEnabled(True)
-            self.txtPosMinGlass.setEnabled(True)
-            self.txtPosMaxGlass.setEnabled(True)
+            if not self.chkActiveGlass.isChecked():
+                self.txtSNGlass.setEnabled(False)
+                self.txtPosMinGlass.setEnabled(False)
+                self.txtPosMaxGlass.setEnabled(False)
+            else:
+                self.txtSNGlass.setEnabled(True)
+                self.txtPosMinGlass.setEnabled(True)
+                self.txtPosMaxGlass.setEnabled(True)
 
-        if not self.chkActiveWeak.isChecked():
-            self.txtSNWeak.setEnabled(False)
-        else:
-            self.txtSNWeak.setEnabled(True)
+            if not self.chkActiveWeak.isChecked():
+                self.txtSNWeak.setEnabled(False)
+            else:
+                self.txtSNWeak.setEnabled(True)
     
     def connect(self):
         pass
