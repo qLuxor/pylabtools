@@ -34,6 +34,9 @@
         </item>
         <item row="0" column="1">
          <widget class="QComboBox" name="cmbDirAlice">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -58,6 +61,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QLineEdit" name="txtSNAlice">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -72,6 +78,9 @@
         </item>
         <item row="2" column="1">
          <widget class="QLineEdit" name="txtZeroAlice">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -135,6 +144,9 @@
         </item>
         <item row="0" column="1">
          <widget class="QComboBox" name="cmbDirBob2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -159,6 +171,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QLineEdit" name="txtSNBob2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -173,6 +188,9 @@
         </item>
         <item row="2" column="1">
          <widget class="QLineEdit" name="txtZeroBob2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -251,6 +269,9 @@
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="txtSNHWPBob1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -265,6 +286,9 @@
          </item>
          <item row="2" column="1">
           <widget class="QLineEdit" name="txtZeroHWPBob1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -291,7 +315,10 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="chkDirHWPBob1">
+          <widget class="QComboBox" name="cmbDirHWPBob1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="currentIndex">
             <number>0</number>
            </property>
@@ -352,6 +379,9 @@
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="txtSNGlass">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -366,6 +396,9 @@
          </item>
          <item row="2" column="1">
           <widget class="QLineEdit" name="txtPosMinGlass">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -380,6 +413,9 @@
          </item>
          <item row="3" column="1">
           <widget class="QLineEdit" name="txtPosMaxGlass">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -458,6 +494,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QLineEdit" name="txtSNWeak">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string/>
           </property>
