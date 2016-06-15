@@ -23,6 +23,7 @@ sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
 
 import config
+import apparatus
 
 qtCreatorFile = 'pol.ui'
 
@@ -40,10 +41,12 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btnStart.clicked.connect(self.Start)
 
+        self.apparatus = apparatus.Apparatus()
+
         self.btnConfig.clicked.connect(self.showConfigUI)
         self.btnConnect.clicked.connect(self.connectApparatus)
         self.config = config.Config()
-        self.configUI = config.ConfigUI(self.config)
+        self.configUI = config.ConfigUI(self.config,self.apparatus)
         
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.UpdateView)
@@ -64,7 +67,13 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.configUI.show()
 
     def connectApparatus(self):
-        self.config.printConfig()
+        try:
+            self.config.setConfig(self.configUI.getConfigFromUI())
+            self.apparatus.connect(self.config.getConfig())
+            self.configUI.updateUI()
+        except Exception as e:
+            print(e.__doc__)
+            print(e.message)
         
         
     def getParameters(self):
