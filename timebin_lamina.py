@@ -69,6 +69,8 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.stepAngleLamina = float(self.txtStpAngleLamina.text())
         self.iniAngleLamina = float(self.txtIniAngleLamina.text())
         self.finAngleLamina = float(self.txtFinAngleLamina.text())
+        self.ZeroAngle = float(self.txtZeroAngle.text())
+        self.OffsetLamina2 = float(self.txtOffsetLamina2.text())
                 
     def Start(self):
         if not self.connected:
@@ -101,6 +103,8 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                 # Move lamina
                 print('angleLamina=',angleLamina)
                 self.conLamina.goto(float(angleLamina),wait=True)
+                angleLamina2 = -1. * float(angleLamina - self.OffsetLamina2 - self.ZeroAngle) + float(self.ZeroAngle)
+                self.conLamina2.goto(float(angleLamina2),wait=True)
                 time.sleep(0.1)
                 
                 for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
@@ -191,10 +195,13 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.con = aptlib.PRM1(serial_number=self.SN)
             self.SNlamina = int(self.txtSNlamina.text())
             self.conLamina = aptlib.PRM1(serial_number=self.SNlamina)
+            self.SNlamina2 = int(self.txtSNlamina2.text())
+            self.conLamina2 = aptlib.PRM1(serial_number=self.SNlamina2)
         else:            
             self.connected =  False
             self.con.close()
             self.conLamina.close()
+            self.conLamina2.close()
             self.btnConnect.setStyleSheet('')            
             self.btnConnect.setText('Connect')
 
