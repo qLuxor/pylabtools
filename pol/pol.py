@@ -40,8 +40,10 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btnStart.clicked.connect(self.Start)
 
-        self.btnConfig.clicked.connect(self.showConfig)
+        self.btnConfig.clicked.connect(self.showConfigUI)
+        self.btnConnect.clicked.connect(self.connectApparatus)
         self.config = config.Config()
+        self.configUI = config.ConfigUI(self.config)
         
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.UpdateView)
@@ -58,8 +60,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
         self.getParameters()
 
-    def showConfig(self):
-        self.config.show()
+    def showConfigUI(self):
+        self.configUI.show()
+
+    def connectApparatus(self):
+        self.config.printConfig()
         
         
     def getParameters(self):
