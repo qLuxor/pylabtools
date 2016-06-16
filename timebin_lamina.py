@@ -51,10 +51,15 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         data = np.array(self.Ncounts_list)
         angles = np.arange(self.iniAngle, self.finAngle, self.stepAngle)
         anglesLamina = np.arange(self.iniAngleLamina, self.finAngleLamina, self.stepAngleLamina)
+        anglesLamina2 = -1. * (anglesLamina - self.OffsetLamina2 - self.ZeroAngle) + self.ZeroAngle -2*self.orthAngleWplate1
         filename = self.txtFileName.text()
-        np.savez(filename, data=data, angles=angles, anglesLamina=anglesLamina)
+        np.savez(filename, data=data, angles=angles, anglesLamina=anglesLamina, anglesLamina2=anglesLamina2)
         
     def getParameters(self):
+        self.orthAngleGlass = float(self.txtAngleGlass.text())
+        self.orthAngleWplate1 = float(self.txtAngleWplate1.text())
+        self.orthAngleWplate2 = float(self.txtAngleWplate2.text())
+        
         self.bufNum = int(self.txtBufferNo.text())
         self.integrationTime = float(self.txtIntTime.text())
         self.stepAngle = float(self.txtStpAngle.text())
@@ -69,9 +74,9 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.stepAngleLamina = float(self.txtStpAngleLamina.text())
         self.iniAngleLamina = float(self.txtIniAngleLamina.text())
         self.finAngleLamina = float(self.txtFinAngleLamina.text())
-        self.ZeroAngle = float(self.txtZeroAngle.text())
-        self.OffsetLamina2 = float(self.txtOffsetLamina2.text())
-                
+        self.ZeroAngle = float(self.txtZeroAngle.text()) + self.orthAngleWplate1
+        self.OffsetLamina2 = self.orthAngleWplate2 - self.orthAngleWplate1
+        
     def Start(self):
         if not self.connected:
             print('Connect the rotator before starting acquisition')
@@ -80,7 +85,10 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.btnConnect.setEnabled(False)
         if not self.inAcq:
             self.inAcq = True
-
+            self.con.home()
+            self.conLamina.home()  #move to home
+            self.conLamina2.home()
+            
             self.txtBufferNo.setEnabled(False)
             self.btnStart.setStyleSheet('background-color: red')
             self.btnStart.setText('Stop')
@@ -95,7 +103,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.ttagBuf = ttag.TTBuffer(self.bufNum) 
             self.btnSaveData.setEnabled(True)
             self.Ncounts_list = []
-            for angleLamina in np.arange(self.iniAngleLamina, self.finAngleLamina, self.stepAngleLamina):
+            for angleLamina in np.arange(self.iniAngleLamina, self.finAngleLamina, self.stepAngleLamina) + self.orthAngleWplate1:
                 if not self.inAcq:
                   break
                 self.Ncounts = np.array([])
@@ -107,7 +115,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                 self.conLamina2.goto(float(angleLamina2),wait=True)
                 time.sleep(0.1)
                 
-                for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
+                for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle) + self.orthAngleGlass:
                     QtGui.qApp.processEvents()
                     if not self.inAcq:
                         break
