@@ -36,6 +36,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.btnStart.clicked.connect(self.Start)
         self.btnConnect.clicked.connect(self.Connect)
         self.btnSaveData.clicked.connect(self.SaveData)
+        self.btnHome.clicked.connect(self.SetHomePlates)
 
         self.pltVisibility.setMouseEnabled(x=False,y=False)  
         self.btnSaveData.setEnabled(False)
@@ -47,6 +48,11 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.getParameters()
         self.Ncounts = []
     
+    def SetHomePlates(self):
+        self.con.home()
+        self.conLamina.home()
+        self.conLamina2.home()
+        
     def SaveData(self):
         data = np.array(self.Ncounts_list)
         angles = np.arange(self.iniAngle, self.finAngle, self.stepAngle)
@@ -85,9 +91,6 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.btnConnect.setEnabled(False)
         if not self.inAcq:
             self.inAcq = True
-            self.con.home()
-            self.conLamina.home()  #move to home
-            self.conLamina2.home()
             
             self.txtBufferNo.setEnabled(False)
             self.btnStart.setStyleSheet('background-color: red')
