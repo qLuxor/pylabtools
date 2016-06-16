@@ -56,9 +56,11 @@ class Apparatus():
             A1basis = None
             try:
                 if 'basis' in config['Alice']:
+                    print(config)
                     A1basis = HWP(**config['Alice']['basis'])
                 self.alice = Alice(A1basis)
-            except:
+            except AliceBasisException as e:
+                print('Exception')
                 self.alice = None
         if 'Bob1' in config:
             B1basis = None
@@ -84,6 +86,21 @@ class Apparatus():
                 self.bob2 = None
 
         self.connected = True
+
+    def disconnect(self):
+        if self.alice != None:
+            self.alice.hwp.close()
+        if self.bob2 != None:
+            self.bob2.hwp.close()
+        if self.bob1 != None:
+            if self.bob1.hwp != None:
+                self.bob1.hwp.close()
+            if self.bob1.phshift != None:
+                self.bob1.phshift.close()
+        self.alice = None
+        self.bob1 = None
+        self.bob2 = None
+        self.connected = False
 
 
     def setAlice(self,basis):
@@ -253,7 +270,7 @@ class HWP(aptlib.PRM1):
         ''' Rotate the WP of angle degrees in the clockwise direction (if looked
         from the source), using self.zero as zero.'''
         angle = self._lamina2rot(newAngle)
-        self.setPosition(angle)
+        super(HWP,self).goto(float(angle))
 
         self.angle = self._rot2lamina(self.getPosition())
 
@@ -283,7 +300,7 @@ class phGlass(aptlib.PRM1):
             raise Exception('The position of constructive and destructive \
             interference is not set')
 
-        super(phGlass,self).goto(self.posMin)
+        super(phGlass,self).goto(float(self.posMin))
         self.posAbs = self.getPosition()
         self.posRel = 'min'
     
@@ -292,12 +309,12 @@ class phGlass(aptlib.PRM1):
             raise Exception('The position of constructive and destructive \
             interference is not set')
 
-        super(phGlass,self).goto(self.posMax)
+        super(phGlass,self).goto(flaot(self.posMax))
         self.posAbs = self.getPosition()
         self.posRel = 'max'
 
     def goto(self,position):
-        super(phGlass,self).goto(position)
+        super(phGlass,self).goto(float(position))
         self.posAbs = self.getPosition()
         self.posRel = 'none'
 

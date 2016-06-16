@@ -18,6 +18,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QGroupBox" name="grpAlice">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="title">
         <string>Alice</string>
        </property>
@@ -504,6 +507,9 @@
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="lblConnWeak">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="text">
            <string>Connected</string>
           </property>

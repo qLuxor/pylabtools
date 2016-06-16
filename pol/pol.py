@@ -48,6 +48,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.config = config.Config()
         self.configUI = config.ConfigUI(self.config,self.apparatus)
         
+        self.connected = False
+
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.UpdateView)
         
@@ -67,13 +69,23 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.configUI.show()
 
     def connectApparatus(self):
-        try:
-            self.config.setConfig(self.configUI.getConfigFromUI())
-            self.apparatus.connect(self.config.getConfig())
-            self.configUI.updateUI()
-        except Exception as e:
-            print(e.__doc__)
-            print(e.message)
+        if not self.connected:
+            try:
+                self.config.setConfig(self.configUI.getConfigFromUI())
+                self.apparatus.connect(self.config.getConfig())
+                self.configUI.connect()
+                self.btnConnect.setStyleSheet('background-color: red')
+                self.btnConnect.setText('Disconnect')
+                self.connected = True
+            except Exception as e:
+                print(e.__doc__)
+                print(e.message)
+        else:
+            self.apparatus.disconnect()
+            self.configUI.disconnect()
+            self.btnConnect.setText('Connect')
+            self.btnConnect.setStyleSheet('')
+            self.connected = False
         
         
     def getParameters(self):
@@ -96,6 +108,12 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.btnStart.setStyleSheet('background-color: red')
             self.btnStart.setText('Stop')
 
+            self.cmbBasisAlice.setEnabled(False)
+            self.cmbBasisBob1.setEnabled(False)
+            self.cmbBasisBob2.setEnabled(False)
+
+            self.apparatus.alice.selBasis(self.cmbBasisAlice.currentText())
+
             self.getParameters()
             self.timer.start(self.pause)
 
@@ -108,6 +126,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtBufferNo.setEnabled(True)
             self.btnStart.setStyleSheet('')
             self.btnStart.setText('Start')   
+            self.cmbBasisAlice.setEnabled(True)
+            self.cmbBasisBob1.setEnabled(True)
+            self.cmbBasisBob2.setEnabled(True)
     
     def UpdateView(self):
         QtGui.qApp.processEvents()
@@ -209,12 +230,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             selTags = newTags
             selChan = newChan
         else:
-            if self.curTab == 0:
-                ch1 = np.array([0,0,0,1,1,1,2,2,2])
-                ch2 = np.array([3,4,5,3,4,5,3,4,5])
-            elif self.curTab == 1:
-                ch1 = np.array([0,0,0,1,1,1,-1,-1,-1])
-                ch2 = np.array([2,3,-1,2,3,-1,2,3,-1])
+            ch1 = np.array([0,0,1,1,])
+            ch2 = np.array([2,3,2,3,])
             selPos = np.nonzero( np.bitwise_or(newChan == ch1[selDelay],newChan == ch2[selDelay]) )[0]
             selTags = newTags[selPos]
             selChan = newChan[selPos]
@@ -227,10 +244,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         selChan = selChan.astype(np.int8)
 
         if selDelay > 8:
-            if self.curTab == 0:
-                chMap = np.array([0,0,0,1,1,1])
-            elif self.curTab == 1:
-                chMap = np.array([0,0,1,1])
+            chMap = np.array([0,0,1,1])
             selChan = chMap[selChan]
 
         t12diff = np.diff(selTags)

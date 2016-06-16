@@ -16,8 +16,46 @@ qtCreatorFile = 'config.ui'
 Ui_Widget, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 class ConfigUI(QtGui.QWidget,Ui_Widget):
-    def __init__(self,c,app):
+    '''This class manages the UI monitoring the experimental apparatus. The
+    apparatus is configured using a YAML file with the following structure:
 
+        Alice:
+            basis:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                dirRot: 'CW'/'CCW'
+                home: True
+        Bob2:
+            basis:
+            ...
+        Bob1:
+            basis:
+            ...
+            meas:
+                serial_number: 'xxxxxxxx'
+                posMin: xxx
+                posMax: xxx
+                home: True
+        weak:
+            serial_number: 'xxxxxxxx'
+            home: True.
+
+        The configuration is taken either from the UI or from an external file,
+        and can be saved into a YAML file.
+        '''
+
+
+    def __init__(self,c,app):
+        '''Constructor of the ConfigUI class.
+
+            Args:
+                c: instance of the Config class, containing the configuration of
+                   the exerimental apparatus.
+                app: instance of the Apparatus class (from the apparatus file),
+                     containing information about the state of the experimental
+                     apparatus connected.
+        '''
+            
         QtGui.QWidget.__init__(self)
         Ui_Widget.__init__(self)
 
@@ -28,36 +66,44 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         self.setupUi(self)
 
         # capture all changes in the UI
-        self.txtSNAlice.textChanged.connect(self.uiChanged)
-        self.txtSNHWPBob1.textChanged.connect(self.uiChanged)
-        self.txtSNBob2.textChanged.connect(self.uiChanged)
-        self.txtZeroAlice.textChanged.connect(self.uiChanged)
-        self.txtZeroHWPBob1.textChanged.connect(self.uiChanged)
-        self.txtZeroBob2.textChanged.connect(self.uiChanged)
-        self.cmbDirAlice.currentIndexChanged.connect(self.uiChanged)
-        self.cmbDirHWPBob1.currentIndexChanged.connect(self.uiChanged)
-        self.cmbDirBob2.currentIndexChanged.connect(self.uiChanged)
-        self.chkActiveAlice.stateChanged.connect(self.uiChanged)
-        self.chkActiveHWPBob1.stateChanged.connect(self.uiChanged)
-        self.chkActiveBob2.stateChanged.connect(self.uiChanged)
-        self.chkActiveGlass.stateChanged.connect(self.uiChanged)
-        self.txtSNGlass.textChanged.connect(self.uiChanged)
-        self.txtPosMinGlass.textChanged.connect(self.uiChanged)
-        self.txtPosMaxGlass.textChanged.connect(self.uiChanged)
-        self.chkActiveWeak.stateChanged.connect(self.uiChanged)
-        self.txtSNWeak.textChanged.connect(self.uiChanged)
+#        self.txtSNAlice.textChanged.connect(self.uiChanged)
+#        self.txtSNHWPBob1.textChanged.connect(self.uiChanged)
+#        self.txtSNBob2.textChanged.connect(self.uiChanged)
+#        self.txtZeroAlice.textChanged.connect(self.uiChanged)
+#        self.txtZeroHWPBob1.textChanged.connect(self.uiChanged)
+#        self.txtZeroBob2.textChanged.connect(self.uiChanged)
+#        self.cmbDirAlice.currentIndexChanged.connect(self.uiChanged)
+#        self.cmbDirHWPBob1.currentIndexChanged.connect(self.uiChanged)
+#        self.cmbDirBob2.currentIndexChanged.connect(self.uiChanged)
+        self.chkActiveAlice.stateChanged.connect(self.updateUI)
+        self.chkActiveHWPBob1.stateChanged.connect(self.updateUI)
+        self.chkActiveBob2.stateChanged.connect(self.updateUI)
+        self.chkActiveGlass.stateChanged.connect(self.updateUI)
+#        self.txtSNGlass.textChanged.connect(self.uiChanged)
+#        self.txtPosMinGlass.textChanged.connect(self.uiChanged)
+#        self.txtPosMaxGlass.textChanged.connect(self.uiChanged)
+        self.chkActiveWeak.stateChanged.connect(self.updateUI)
+#        self.txtSNWeak.textChanged.connect(self.uiChanged)
 
         # load and save buttons
         self.btnLoadConfig.clicked.connect(self.loadFileToUI)
         self.btnSaveConfig.clicked.connect(self.saveUItoFile)
 
+        # timer connected to the updateUI function when the apparatus is
+        # connected
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.updateUI)
+
 
     def closeEvent(self,event):
+        '''This function is called when the signal of window closure is issued.
+        It puts the configuration in the UI into the Config object where the
+        total configuration of the experimental apparatus is stored.'''
         newConfig = self.getConfigFromUI()
         self._config.setConfig(newConfig)
 
-    def uiChanged(self):
-        self.updateUI()
+#    def uiChanged(self):
+#        self.updateUI()
 
     def loadFileToUI(self):
         fname = QtGui.QFileDialog.getOpenFileName(self,'Load \
@@ -72,6 +118,8 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
 
 
     def saveUItoFile(self):
+        '''Save the state of the UI into the Config object and call its
+        saveConfigToFile method.'''
         fname = QtGui.QFileDialog.getSaveFileName(self,'Load \
         configuration...','.','*.yml *.yaml')
         
@@ -82,11 +130,67 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         except:
             return -1
 
+    def connect(self):
+        '''This function shoul be called when the apparatus is connected.'''
+        # Disable Alice
+        self.chkActiveAlice.setEnabled(False)
+        self.cmbDirAlice.setEnabled(False)
+        self.txtSNAlice.setEnabled(False)
+        self.txtZeroAlice.setEnabled(False)
+        
+        # Disable Bob1
+        self.chkActiveHWPBob1.setEnabled(False)
+        self.cmbDirHWPBob1.setEnabled(False)
+        self.txtSNHWPBob1.setEnabled(False)
+        self.txtZeroHWPBob1.setEnabled(False)
+        self.chkActiveGlass.setEnabled(False)
+        self.txtSNGlass.setEnabled(False)
+        self.txtPosMinGlass.setEnabled(False)
+        self.txtPosMaxGlass.setEnabled(False)
+
+        # Disable Bob2
+        self.chkActiveBob2.setEnabled(False)
+        self.cmbDirBob2.setEnabled(False)
+        self.txtSNBob2.setEnabled(False)
+        self.txtZeroBob2.setEnabled(False)
+
+        # Disable Weak
+        self.chkActiveWeak.setEnabled(False)
+
+        # Start timer
+        self.timer.start(100)
+
+
+    def disconnect(self):
+        self.timer.stop()
+
+        # enable WP selection
+        self.chkActiveAlice.setEnabled(True)
+        self.chkActiveBob2.setEnabled(True)
+        self.chkActiveHWPBob1.setEnabled(True)
+        self.chkActiveGlass.setEnabled(True)
+        self.chkActiveWeak.setEnabled(True)
+
+        # erase control background
+        self.lblConnAlice.setStyleSheet('')
+        self.lblConnBob2.setStyleSheet('')
+        self.lblConnHWPBob1.setStyleSheet('')
+        self.lblConnGlass.setStyleSheet('')
+        self.lblConnWeak.setStyleSheet('')
+
+        self.lblHomedAlice.setStyleSheet('')
+        self.lblHomedBob2.setStyleSheet('')
+        self.lblHomedHWPBob1.setStyleSheet('')
+        self.lblHomedGlass.setStyleSheet('')
+        self.lblHomedWeak.setStyleSheet('')
+
+        self.updateUI()
 
 
     def updateUI(self):
+        '''Update the UI.'''
         if not self._app.connected:
-            # Update Alice
+            #self.chkActiveAlice.setEnabled(True)
             if not self.chkActiveAlice.isChecked():
                 self.cmbDirAlice.setEnabled(False)
                 self.txtSNAlice.setEnabled(False)
@@ -95,8 +199,8 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.cmbDirAlice.setEnabled(True)
                 self.txtSNAlice.setEnabled(True)
                 self.txtZeroAlice.setEnabled(True)
-            self.lblConnAlice.setStyleSheet(' {background-color: green}')
 
+            #self.chkActiveBob2.setEnabled(True)
             if not self.chkActiveBob2.isChecked():
                 self.cmbDirBob2.setEnabled(False)
                 self.txtSNBob2.setEnabled(False)
@@ -106,6 +210,7 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.txtSNBob2.setEnabled(True)
                 self.txtZeroBob2.setEnabled(True)
 
+            #self.chkActiveHWPBob1.setEnabled(True)
             if not self.chkActiveHWPBob1.isChecked():
                 self.cmbDirHWPBob1.setEnabled(False)
                 self.txtSNHWPBob1.setEnabled(False)
@@ -115,6 +220,7 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.txtSNHWPBob1.setEnabled(True)
                 self.txtZeroHWPBob1.setEnabled(True)
 
+            #self.chkActiveGlass.setEnabled(True)
             if not self.chkActiveGlass.isChecked():
                 self.txtSNGlass.setEnabled(False)
                 self.txtPosMinGlass.setEnabled(False)
@@ -124,16 +230,52 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.txtPosMinGlass.setEnabled(True)
                 self.txtPosMaxGlass.setEnabled(True)
 
+            #self.chkActiveWeak.setEnabled(True)
             if not self.chkActiveWeak.isChecked():
                 self.txtSNWeak.setEnabled(False)
             else:
                 self.txtSNWeak.setEnabled(True)
-    
-    def connect(self):
-        pass
+        else:
+            a = self._app
+            # Update state Alice
+            if a.alice != None:
+                if a.alice.hwp != None:
+                    self.lblConnAlice.setStyleSheet('background-color: green')
+                    self.lblAngleAlice.setText("{:.4f}".format(a.alice.hwp.getPosition()))
+                    if a.alice.hwp.homed:
+                        self.lblHomedAlice.setStyleSheet('background-color: green')
+            # Update state Bob2
+            if a.bob2 != None:
+                if a.bob2.hwp != None:
+                    self.lblConnBob2.setStyleSheet('background-color: green')
+                    self.lblAngleBob2.setText("{:.4f}".format(a.bob2.hwp.getPosition()))
+                    if a.bob2.hwp.homed:
+                        self.lblHomedBob2.setStyleSheet('background-color: green')
+            # Update state Bob1
+            if a.bob1 != None:
+                if a.bob1.hwp != None:
+                    self.lblConnHWPBob1.setStyleSheet('background-color: green')
+                    self.lblAngleHWPBob1.setText("{:.4f}".format(a.bob1.hwp.getPosition()))
+                    if a.bob1.hwp.homed:
+                        self.lblHomedHWPBob1.setStyleSheet('background-color: green')
+                if a.bob1.phglass != None:
+                    self.lblConnGlass.setStyleSheet('background-color: green')
+                    self.lblAngleGlass.setText("{:.4f}".format(a.bob1.phglass.getPosition()))
+                    if a.bob1.phglass.homed:
+                        self.lblHomedGlass.setStyleSheet('background-color: green')
+            # Update state Weak
+            if a.weak != None:
+                if a.weak.hwp != None:
+                    self.lblConnWeak.setStyleSheet('background-color: green')
+                    self.lblAngleWeak.setText("{:.4f}".format(a.bob1.phglass.getPosition()))
+                    if a.weak.hwp.homed:
+                        self.lblHomedWeak.setStyleSheet('background-color: green')
 
     def getConfigFromUI(self):
-        '''Get configuration from GUI and put it into object c.'''
+        ''' Get configuration from the UI.
+            
+                Return: structure containing the configuration of the UI.
+        '''
         config = {}
 
         dirRot = ['CW','CCW']
@@ -175,6 +317,14 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         return config
 
     def setUIFromConfig(self,config):
+        ''' Set the UI with the values contained in the provided configuration
+        structure.
+
+            Args:
+                config: configuration structure, organized in a dictionary with
+                        structure equivalent to the structure of YAML
+                        configuration files.
+        '''
         try:
             if 'Alice' in config:
                 if 'basis' in config['Alice']:
@@ -260,16 +410,47 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         return 0
 
 class Config():
+    ''' Class containing the configuration of the current apparatus. The
+    configuration is stored in the dictionary _config, which is equivalent to
+    the following YAML file:
+
+     Alice:
+            basis:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                dirRot: 'CW'/'CCW'
+                home: True
+        Bob2:
+            basis:
+            ...
+        Bob1:
+            basis:
+            ...
+            meas:
+                serial_number: 'xxxxxxxx'
+                posMin: xxx
+                posMax: xxx
+                home: True
+        weak:
+            serial_number: 'xxxxxxxx'
+            home: True.
+    '''
+
     def __init__(self):
+        '''Constructor. Initialize the configuration structure to an empty
+        dictionary.'''
         self._config = {}
 
     def getConfig(self):
+        '''Return the current configuration.'''
         return self._config
 
     def setConfig(self,config):
+        '''Set the configuration dictionary to config.'''
         self._config = config
 
     def loadConfigFromFile(self,fname):
+        '''Load configuration from YAML file.'''
         print('Loading configuration from '+fname)
         f = open(fname,'r')
         conffile = f.read()
@@ -278,10 +459,12 @@ class Config():
         self.setConfig(config)
 
     def saveConfigToFile(self,fname):
+        '''Save configuration to YAML file.'''
         print('Saving configuration to '+fname)
         f = open(fname,'w')
         f.write(yaml.dump(self._config,default_flow_style=False))
         f.close()
 
     def printConfig(self):
+        '''Print current configuration in dictionary format.'''
         print(yaml.dump(self._config))
