@@ -113,6 +113,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisBob2.setEnabled(False)
 
             self.apparatus.alice.selBasis(self.cmbBasisAlice.currentText())
+            self.apparatus.bob1.selBasis(self.cmbBasisBob1.currentText())
+            self.apparatus.bob2.selBasis(self.cmbBasisBob2.currentText())
 
             self.getParameters()
             self.timer.start(self.pause)

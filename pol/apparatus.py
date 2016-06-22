@@ -43,12 +43,20 @@ class Apparatus():
             ...
             meas:
                 serial_number: 'xxxxxxxx'
+                zero: xxx
                 posMin: xxx
                 posMax: xxx
                 home: True
-        weak:
-            serial_number: 'xxxxxxxx'
-            home: True
+            weak1:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                home: True
+                func: 'aaa'
+            weak2:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                home: True
+                func: 'aaa'
 
         '''
 
@@ -130,10 +138,11 @@ class Apparatus():
 class AliceBasisException(Exception): pass
 class Bob1BasisException(Exception): pass
 class Bob1ValueException(Exception): pass
+class Bob1WeakException(Exception): pass
 class Bob2BasisException(Exception): pass
         
 class Alice():
-    def __init__(self,hwp):
+    def __init__(self,hwp=None):
         self.hwp = hwp
 
         self.anglebase = {'Z':0,'X':22.5,'-X-Z':33.75,'-X+Z':11.25}
@@ -151,9 +160,10 @@ class Alice():
         self.hwp.rotate(self.curangle)
 
 class Bob1():
-    def __init__(self,hwp,phshift):
+    def __init__(self,hwp=None,phshift=None,weak1=None,weak2=None):
         self.hwp = hwp
         self.phshift = phshift
+        self.weak = [weak1, weak2]
 
         self.anglebase = {'Z':45,'X':67.5}
 
@@ -198,9 +208,43 @@ class Bob1():
         self.curvalangle = self.phshift.posAbs
         self.curval = self.phshift.posRel
 
+    def _getRotFromFunc(self,reqfunc):
+        func = {}
+        for i in range(len(self.weak)):
+            if self.weak[i] != None:
+                func[self.weak[i].func] = i
+        return self.weak[func[reqfunc]]
+        
+    def selWeakHWPAngle(self,angle):
+        reqfunc = 'Weak HWP'
+        try:
+            rot = self._getRotFromFunc(reqfunc)
+        except KeyError:
+            raise Exception('No rotator associated to Bob1''s Weak HWP')
+
+        rot.setPosition(angle)
+
+    def selWeakQWPAngle(self,angle):
+        reqfunc = 'Weak QWP'
+        try:
+            rot = self._getRotFromFunc(reqfunc)
+        except KeyError:
+            raise Exception('No rotator associated to Bob1''s Weak QWP')
+
+        rot.setPosition(angle)
+
+    def selWeakCompAngle(self,angle):
+        reqfunc = 'Compensation'
+        try:
+            rot = self._getRotFromFunc(reqfunc)
+        except KeyError:
+            raise Exception('No rotator associated to Bob1''s Weak compensation\
+            WP')
+
+        rot.setPosition(angle)
 
 class Bob2():
-    def __init__(self,hwp):
+    def __init__(self,hwp=None):
         self.hwp = hwp
 
         self.anglebase = { 'Z': 0, 'X': 22.5 }
@@ -221,7 +265,6 @@ class Bob2():
         self.curbasis = basis
         self.curangle = angle
         self.hwp.rotate(self.curangle)
-
 
 class HWP(aptlib.PRM1):
     ''' This class describes the behaviour of a HWP mounted on a Thorlabs PRM1
@@ -278,7 +321,7 @@ class HWP(aptlib.PRM1):
 class phGlass(aptlib.PRM1):
     ''' This class control the rotator of the glass giving a phase shift between
     the two paths of the Sagnac interferometer.'''
-    def __init__(self,serial_number,posMin=None,posMax=None,home=True):
+    def __init__(self,serial_number,zero=None,posMin=None,posMax=None,home=True):
         super(phGlass,self).__init__(int(serial_number))
 
         if home:
@@ -287,6 +330,7 @@ class phGlass(aptlib.PRM1):
         else:
             self.homed = False
 
+        self.zero = zero
         self.posMin = posMin
         self.posMax = posMax
 
@@ -323,7 +367,7 @@ class phGlass(aptlib.PRM1):
 class epsWP(aptlib.PRM1):
     '''This class controls the lamina that shifts the phase of the H and the V
     polarization.'''
-    def __init__(self,serial_number,home=True):
+    def __init__(self,serial_number,zero=None,func=None,home=True):
         super(epsWP,self).__init__(int(serial_number))
 
         if home:
@@ -331,3 +375,7 @@ class epsWP(aptlib.PRM1):
             self.homed = True
         else:
             self.homed = False
+
+        self.zero = zero
+
+        self.func = func

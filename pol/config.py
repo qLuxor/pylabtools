@@ -33,12 +33,20 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
             ...
             meas:
                 serial_number: 'xxxxxxxx'
+                zero: xxx
                 posMin: xxx
                 posMax: xxx
                 home: True
-        weak:
-            serial_number: 'xxxxxxxx'
-            home: True.
+            weak1:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                home: True
+                func: 'aaa'
+            weak2:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                home: True
+                func: 'aaa'
 
         The configuration is taken either from the UI or from an external file,
         and can be saved into a YAML file.
@@ -82,7 +90,8 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
 #        self.txtSNGlass.textChanged.connect(self.uiChanged)
 #        self.txtPosMinGlass.textChanged.connect(self.uiChanged)
 #        self.txtPosMaxGlass.textChanged.connect(self.uiChanged)
-        self.chkActiveWeak.stateChanged.connect(self.updateUI)
+        self.chkActiveWeak1.stateChanged.connect(self.updateUI)
+        self.chkActiveWeak2.stateChanged.connect(self.updateUI)
 #        self.txtSNWeak.textChanged.connect(self.uiChanged)
 
         # load and save buttons
@@ -225,16 +234,33 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.txtSNGlass.setEnabled(False)
                 self.txtPosMinGlass.setEnabled(False)
                 self.txtPosMaxGlass.setEnabled(False)
+                self.txtZeroGlass.setEnabled(False)
             else:
                 self.txtSNGlass.setEnabled(True)
                 self.txtPosMinGlass.setEnabled(True)
                 self.txtPosMaxGlass.setEnabled(True)
+                self.txtZeroGlass.setEnabled(True)
 
-            #self.chkActiveWeak.setEnabled(True)
-            if not self.chkActiveWeak.isChecked():
-                self.txtSNWeak.setEnabled(False)
+            #self.chkActiveWeak1.setEnabled(True)
+            if not self.chkActiveWeak1.isChecked():
+                self.cmbFuncWeak1.setEnabled(False)
+                self.txtSNWeak1.setEnabled(False)
+                self.txtZeroWeak1.setEnabled(False)
             else:
-                self.txtSNWeak.setEnabled(True)
+                self.cmbFuncWeak1.setEnabled(True)
+                self.txtSNWeak1.setEnabled(True)
+                self.txtZeroWeak1.setEnabled(True)
+            
+            #self.chkActiveWeak2.setEnabled(True)
+            if not self.chkActiveWeak2.isChecked():
+                self.cmbFuncWeak2.setEnabled(False)
+                self.txtSNWeak2.setEnabled(False)
+                self.txtZeroWeak2.setEnabled(False)
+            else:
+                self.cmbFuncWeak2.setEnabled(True)
+                self.txtSNWeak2.setEnabled(True)
+                self.txtZeroWeak2.setEnabled(True)
+
         else:
             a = self._app
             # Update state Alice
@@ -263,13 +289,16 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     self.lblAngleGlass.setText("{:.4f}".format(a.bob1.phglass.getPosition()))
                     if a.bob1.phglass.homed:
                         self.lblHomedGlass.setStyleSheet('background-color: green')
-            # Update state Weak
-            if a.weak != None:
-                if a.weak.hwp != None:
-                    self.lblConnWeak.setStyleSheet('background-color: green')
-                    self.lblAngleWeak.setText("{:.4f}".format(a.bob1.phglass.getPosition()))
-                    if a.weak.hwp.homed:
-                        self.lblHomedWeak.setStyleSheet('background-color: green')
+                if a.bob1.weak[0] != None:
+                        self.lblConnWeak1.setStyleSheet('background-color: green')
+                        self.lblAngleWeak1.setText("{:.4f}".format(a.bob1.weak[0].getPosition()))
+                        if a.bob1.weak[0].homed:
+                            self.lblHomedWeak1.setStyleSheet('background-color: green')
+                if a.bob1.weak[1] != None:
+                        self.lblConnWeak2.setStyleSheet('background-color: green')
+                        self.lblAngleWeak2.setText("{:.4f}".format(a.bob1.weak[1].getPosition()))
+                        if a.bob1.weak[1].homed:
+                            self.lblHomedWeak2.setStyleSheet('background-color: green')
 
     def getConfigFromUI(self):
         ''' Get configuration from the UI.
@@ -306,13 +335,27 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 config['Bob1'] = {}
             config['Bob1']['meas'] = {
                     'serial_number' : self.txtSNGlass.text(),
+                    'zero' : float(self.txtZeroGlass.text()),
                     'posMin': float(self.txtPosMinGlass.text()),
                     'posMax': float(self.txtPosMaxGlass.text()),
                     'home': True }
-        if self.chkActiveWeak.isChecked():
-            config['weak'] = {
-                    'serial_number' : self.txtSNWeak.text(),
-                    'home': True }
+        if self.chkActiveWeak1.isChecked():
+            if not 'Bob1' in config:
+                config['Bob1'] = {}
+            config['Bob1']['weak1'] = {
+                    'serial_number' : self.txtSNWeak1.text(),
+                    'zero' : float(self.txtZeroWeak1.text()),
+                    'home': True,
+                    'func': self.cmbFuncWeak1.currentText()}
+        if self.chkActiveWeak2.isChecked():
+            if not 'Bob1' in config:
+                config['Bob1'] = {}
+            config['Bob1']['weak2'] = {
+                    'serial_number' : self.txtSNWeak2.text(),
+                    'zero' : float(self.txtZeroWeak2.text()),
+                    'home': True,
+                    'func': self.cmbFuncWeak2.currentText()}
+                    
 
         return config
 
@@ -387,6 +430,7 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
 #                    self.txtPosMaxGlass.setEnabled(True)
                     c = config['Bob1']['meas']
                     self.txtSNGlass.setText(c['serial_number'])
+                    self.txtZeroGlass.setText(str(c['zero']))
                     self.txtPosMinGlass.setText(str(c['posMin']))
                     self.txtPosMaxGlass.setText(str(c['posMax']))
                 else:
@@ -394,15 +438,32 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
 #                    self.txtSNGlass.setEnabled(False)
 #                    self.txtPosMinGlass.setEnabled(False)
 #                    self.txtPosMaxGlass.setEnabled(False)
-            if 'weak' in config:
-                self.chkActiveWeak.setChecked(True)
-#                self.txtSNWeak.setEnabled(True)
-                c = config['weak']
-                self.txtSNWeak.setText(c['serial_number'])
-            else:
-                self.chkActiveWeak.setChecked(False)
-#                self.txtSNWeak.setEnabled(False)
+                if 'weak1' in config['Bob1']:
+                    self.chkActiveWeak1.setChecked(True)
+                    c = config['Bob1']['weak1']
+                    self.txtSNWeak1.setText(c['serial_number'])
+                    self.txtZeroWeak1.setText(str(c['zero']))
+                    index = self.cmbFuncWeak1.findText(c['func'])
+                    if index >= 0:
+                        self.cmbFuncWeak1.setCurrentIndex(index)
+                    else:
+                        raise Exception('Invalid func string in weak1')
+                else:
+                    self.chkActiveWeak1.setChecked(False)
+                if 'weak2' in config['Bob1']:
+                    self.chkActiveWeak2.setChecked(True)
+                    c = config['Bob1']['weak2']
+                    self.txtSNWeak2.setText(c['serial_number'])
+                    self.txtZeroWeak2.setText(str(c['zero']))
+                    index = self.cmbFuncWeak2.findText(c['func'])
+                    if index >= 0:
+                        self.cmbFuncWeak2.setCurrentIndex(index)
+                    else:
+                        raise Exception('Invalid func string in weak2')
+                else:
+                    self.chkActiveWeak2.setChecked(False)
         except Exception as e:
+            print('Exception in setUIFromConfig:')
             print(e.__doc__)
             print(e.message)
             return -1
