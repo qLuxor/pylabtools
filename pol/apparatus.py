@@ -173,8 +173,13 @@ class Bob1():
             self.curval = None
             self.curvalangle = None
         else:
-            self.curval = self.phshift.posRel
-            self.curvalangle = self.phshift.posAbs
+            self.selValueAngle(0)
+
+        for i in range(len(self.weak)):
+            if self.weak[i] != None:
+                self.weak[i].goto(0)
+
+
 
     def selBasis(self,basis):
         if self.hwp == None:
@@ -222,7 +227,7 @@ class Bob1():
         except KeyError:
             raise Exception('No rotator associated to Bob1''s Weak HWP')
 
-        rot.setPosition(angle)
+        rot.goto(angle)
 
     def selWeakQWPAngle(self,angle):
         reqfunc = 'Weak QWP'
@@ -231,7 +236,7 @@ class Bob1():
         except KeyError:
             raise Exception('No rotator associated to Bob1''s Weak QWP')
 
-        rot.setPosition(angle)
+        rot.goto(angle)
 
     def selWeakCompAngle(self,angle):
         reqfunc = 'Compensation'
@@ -241,7 +246,7 @@ class Bob1():
             raise Exception('No rotator associated to Bob1''s Weak compensation\
             WP')
 
-        rot.setPosition(angle)
+        rot.goto(angle)
 
 class Bob2():
     def __init__(self,hwp=None):
