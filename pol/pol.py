@@ -173,8 +173,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.pltAlign.addItem(bg)
 
     def CoincView(self):
-        chGood = np.array([0,3])
-        chErr = np.array([1,2])
+        chGood = np.array([1,2])
+        chErr = np.array([0,3])
         count = self.coincidences[0:2,2:4].flatten()
         pltFig = self.pltCoincVis
         xdict = dict(enumerate(count))
