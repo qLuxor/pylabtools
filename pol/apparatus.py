@@ -288,7 +288,7 @@ class HWP(aptlib.PRM1):
         # numbers are written, the WP rotates CW)
         self.dirRot = dirRot
 
-        self.angle = self._rot2lamina(self.getPosition())
+        self.angle = self.getPosition()
 
     def _rot2lamina(self,rotangle):
         '''Transform an angle from the rotator system of reference into the
@@ -315,7 +315,10 @@ class HWP(aptlib.PRM1):
         angle = self._lamina2rot(newAngle)
         super(HWP,self).goto(float(angle))
 
-        self.angle = self._rot2lamina(self.getPosition())
+        self.angle = self.getPosition()
+
+    def getPosition(self):
+        return self._rot2lamina(super(HWP,self).getPosition())
 
 
 class phGlass(aptlib.PRM1):
@@ -344,7 +347,7 @@ class phGlass(aptlib.PRM1):
             raise Exception('The position of constructive and destructive \
             interference is not set')
 
-        super(phGlass,self).goto(float(self.posMin))
+        super(phGlass,self).goto(float(self._pos2rot(self.posMin)))
         self.posAbs = self.getPosition()
         self.posRel = 'min'
     
@@ -353,16 +356,25 @@ class phGlass(aptlib.PRM1):
             raise Exception('The position of constructive and destructive \
             interference is not set')
 
-        super(phGlass,self).goto(flaot(self.posMax))
+        super(phGlass,self).goto(float(self._pos2rot(self.posMax)))
         self.posAbs = self.getPosition()
         self.posRel = 'max'
 
+    def _pos2rot(self,position):
+        return np.fmod(position + self.zero,360)
+
+    def _rot2pos(self,rot):
+        return np.fmod(rot - self.zero,360)
+
     def goto(self,position):
-        super(phGlass,self).goto(float(position))
+        ''' Go to position, related to the zero value contained in self.zero.
+        '''
+        super(phGlass,self).goto(float(self._pos2rot(position)))
         self.posAbs = self.getPosition()
         self.posRel = 'none'
 
-
+    def getPosition(self):
+        return self._rot2pos(super(phGlass,self).getPosition())
 
 class epsWP(aptlib.PRM1):
     '''This class controls the lamina that shifts the phase of the H and the V
@@ -379,3 +391,18 @@ class epsWP(aptlib.PRM1):
         self.zero = zero
 
         self.func = func
+
+        self.angle = self.getPosition()
+
+    def _pos2rot(self,position):
+        return np.fmod(position + self.zero,360)
+
+    def _rot2pos(self,rot):
+        return np.fmod(rot - self.zero,360)
+
+    def goto(self,position):
+        super(epsWP,self).goto(self._pos2rot(position))
+        self.angle = self.getPosition()
+
+    def getPosition(self):
+        return self._rot2pos(super(epsWP,self).getPosition())
