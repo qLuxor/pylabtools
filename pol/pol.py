@@ -77,6 +77,32 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 self.btnConnect.setStyleSheet('background-color: red')
                 self.btnConnect.setText('Disconnect')
                 self.connected = True
+
+                # set visibility of the apparatus input fields
+                a = self.apparatus
+                if a.alice != None:
+                    self.lblAlice.setEnabled(True)
+                    if a.alice.hwp != None:
+                        self.cmbBasisAlice.setEnabled(True)
+                if a.bob1 != None:
+                    self.grpBob1.setEnabled(True)
+                    if a.bob1.hwp != None:
+                        self.cmbBasisBob1.setEnabled(True)
+                    if a.bob1.phshift != None:
+                        self.txtPhaseBob1.setEnabled(True)
+                    for i in range(len(a.bob1.weak)):
+                        if a.bob1.weak[i] != None:
+                            if a.bob1.weak[i].func == 'Weak HWP':
+                                self.txtEpsHWPBob1.setEnabled(True)
+                            elif a.bob1.weak[i].func == 'Weak QWP':
+                                self.txtEpsQWPBob1.setEnabled(True)
+                            elif a.bob1.weak[i].func == 'Compensation':
+                                self.txtCompBob1.setEnabled(True)
+                if a.bob2 != None:
+                    self.lblBob2.setEnabled(True)
+                    if a.bob2.hwp != None:
+                        self.cmbBasisBob2.setEnabled(True)
+
             except Exception as e:
                 print(e.__doc__)
                 print(e.message)
@@ -86,6 +112,20 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.btnConnect.setText('Connect')
             self.btnConnect.setStyleSheet('')
             self.connected = False
+
+            # disable apparatus input fields
+            self.lblAlice.setEnabled(False)
+            self.cmbBasisAlice.setEnabled(False)
+            self.grpBob1.setEnabled(False)
+            self.cmbBasisBob1.setEnabled(False)
+            self.txtPhaseBob1.setEnabled(False)
+            self.txtEpsHWPBob1.setEnabled(False)
+            self.txtEpsQWPBob1.setEnabled(False)
+            self.txtCompBob1.setEnabled(False)
+            self.lblBob2.setEnabled(False)
+            self.cmbBasisBob2.setEnabled(False)
+
+
         
         
     def getParameters(self):
@@ -111,9 +151,17 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisAlice.setEnabled(False)
             self.cmbBasisBob1.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
+            self.txtPhaseBob1.setEnabled(False)
+            self.txtEpsHWPBob1.setEnabled(False)
+            self.txtEpsQWPBob1.setEnabled(False)
+            self.txtCompBob1.setEnabled(False)
 
             self.apparatus.alice.selBasis(self.cmbBasisAlice.currentText())
             self.apparatus.bob1.selBasis(self.cmbBasisBob1.currentText())
+            self.apparatus.bob1.selValueAngle(float(self.txtPhaseBob1.text()))
+            self.apparatus.bob1.selWeakHWPAngle(float(self.txtEpsHWPBob1.text()))
+            self.apparatus.bob1.selWeakQWPAngle(float(self.txtEpsQWPBob1.text()))
+            self.apparatus.bob1.selWeakCompAngle(float(self.txtCompBob1.text()))
             self.apparatus.bob2.selBasis(self.cmbBasisBob2.currentText())
 
             self.getParameters()
@@ -128,9 +176,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtBufferNo.setEnabled(True)
             self.btnStart.setStyleSheet('')
             self.btnStart.setText('Start')   
+
             self.cmbBasisAlice.setEnabled(True)
             self.cmbBasisBob1.setEnabled(True)
             self.cmbBasisBob2.setEnabled(True)
+            self.txtPhaseBob1.setEnabled(True)
+            self.txtEpsHWPBob1.setEnabled(True)
+            self.txtEpsQWPBob1.setEnabled(True)
+            self.txtCompBob1.setEnabled(True)
     
     def UpdateView(self):
         QtGui.qApp.processEvents()

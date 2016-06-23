@@ -7,16 +7,16 @@
     <x>0</x>
     <y>0</y>
     <width>861</width>
-    <height>540</height>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="0">
@@ -103,8 +103,8 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>20</width>
-          <height>28</height>
+          <width>272</width>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -229,7 +229,7 @@
         <property name="title">
          <string>Apparatus</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="btnConfig">
            <property name="text">
@@ -254,7 +254,10 @@
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="lblAlice">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Alice</string>
            </property>
@@ -262,6 +265,9 @@
          </item>
          <item row="0" column="1">
           <widget class="QComboBox" name="cmbBasisAlice">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <item>
             <property name="text">
              <string>Z</string>
@@ -284,29 +290,139 @@
            </item>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
+         <item row="1" column="0" colspan="2">
+          <widget class="QGroupBox" name="grpBob1">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="title">
             <string>Bob1</string>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QComboBox" name="cmbBasisBob1">
-           <item>
-            <property name="text">
-             <string>Z</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>X</string>
-            </property>
-           </item>
+           <layout class="QFormLayout" name="formLayout_6">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Basis</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="cmbBasisBob1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <item>
+               <property name="text">
+                <string>Z</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>X</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Phase (phi)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="txtPhaseBob1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>EpsHWP</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="txtEpsHWPBob1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>EpsQWP</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="txtEpsQWPBob1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>Comp</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="txtCompBob1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_15">
+          <widget class="QLabel" name="lblBob2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Bob2</string>
            </property>
@@ -314,6 +430,9 @@
          </item>
          <item row="2" column="1">
           <widget class="QComboBox" name="cmbBasisBob2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <item>
             <property name="text">
              <string>Z</string>
@@ -337,7 +456,7 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>272</width>
-          <height>17</height>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -370,7 +489,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="PlotWidget" name="pltSingleVis"/>
       </item>
