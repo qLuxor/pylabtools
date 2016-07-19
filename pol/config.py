@@ -164,7 +164,8 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         self.txtZeroBob2.setEnabled(False)
 
         # Disable Weak
-        self.chkActiveWeak.setEnabled(False)
+        self.chkActiveWeak1.setEnabled(False)
+        self.chkActiveWeak2.setEnabled(False)
 
         # Start timer
         self.timer.start(100)
@@ -178,20 +179,23 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         self.chkActiveBob2.setEnabled(True)
         self.chkActiveHWPBob1.setEnabled(True)
         self.chkActiveGlass.setEnabled(True)
-        self.chkActiveWeak.setEnabled(True)
+        self.chkActiveWeak1.setEnabled(True)
+        self.chkActiveWeak2.setEnabled(True)
 
         # erase control background
         self.lblConnAlice.setStyleSheet('')
         self.lblConnBob2.setStyleSheet('')
         self.lblConnHWPBob1.setStyleSheet('')
         self.lblConnGlass.setStyleSheet('')
-        self.lblConnWeak.setStyleSheet('')
+        self.lblConnWeak1.setStyleSheet('')
+        self.lblConnWeak2.setStyleSheet('')
 
         self.lblHomedAlice.setStyleSheet('')
         self.lblHomedBob2.setStyleSheet('')
         self.lblHomedHWPBob1.setStyleSheet('')
         self.lblHomedGlass.setStyleSheet('')
-        self.lblHomedWeak.setStyleSheet('')
+        self.lblHomedWeak1.setStyleSheet('')
+        self.lblHomedWeak2.setStyleSheet('')
 
         self.updateUI()
 
@@ -284,10 +288,10 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     self.lblAngleHWPBob1.setText("{:.4f}".format(a.bob1.hwp.getPosition()))
                     if a.bob1.hwp.homed:
                         self.lblHomedHWPBob1.setStyleSheet('background-color: green')
-                if a.bob1.phglass != None:
+                if a.bob1.phshift != None:
                     self.lblConnGlass.setStyleSheet('background-color: green')
-                    self.lblAngleGlass.setText("{:.4f}".format(a.bob1.phglass.getPosition()))
-                    if a.bob1.phglass.homed:
+                    self.lblAngleGlass.setText("{:.4f}".format(a.bob1.phshift.getPosition()))
+                    if a.bob1.phshift.homed:
                         self.lblHomedGlass.setStyleSheet('background-color: green')
                 if a.bob1.weak[0] != None:
                         self.lblConnWeak1.setStyleSheet('background-color: green')

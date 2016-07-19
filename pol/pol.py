@@ -70,42 +70,43 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
     def connectApparatus(self):
         if not self.connected:
+            self.config.setConfig(self.configUI.getConfigFromUI())
             try:
-                self.config.setConfig(self.configUI.getConfigFromUI())
                 self.apparatus.connect(self.config.getConfig())
-                self.configUI.connect()
-                self.btnConnect.setStyleSheet('background-color: red')
-                self.btnConnect.setText('Disconnect')
-                self.connected = True
-
-                # set visibility of the apparatus input fields
-                a = self.apparatus
-                if a.alice != None:
-                    self.lblAlice.setEnabled(True)
-                    if a.alice.hwp != None:
-                        self.cmbBasisAlice.setEnabled(True)
-                if a.bob1 != None:
-                    self.grpBob1.setEnabled(True)
-                    if a.bob1.hwp != None:
-                        self.cmbBasisBob1.setEnabled(True)
-                    if a.bob1.phshift != None:
-                        self.txtPhaseBob1.setEnabled(True)
-                    for i in range(len(a.bob1.weak)):
-                        if a.bob1.weak[i] != None:
-                            if a.bob1.weak[i].func == 'Weak HWP':
-                                self.txtEpsHWPBob1.setEnabled(True)
-                            elif a.bob1.weak[i].func == 'Weak QWP':
-                                self.txtEpsQWPBob1.setEnabled(True)
-                            elif a.bob1.weak[i].func == 'Compensation':
-                                self.txtCompBob1.setEnabled(True)
-                if a.bob2 != None:
-                    self.lblBob2.setEnabled(True)
-                    if a.bob2.hwp != None:
-                        self.cmbBasisBob2.setEnabled(True)
 
             except Exception as e:
+                print('Exception in rotator initialization')
                 print(e.__doc__)
-                print(e.message)
+
+            self.configUI.connect()
+            self.btnConnect.setStyleSheet('background-color: red')
+            self.btnConnect.setText('Disconnect')
+            self.connected = True
+
+            # set visibility of the apparatus input fields
+            a = self.apparatus
+            if a.alice != None:
+                self.lblAlice.setEnabled(True)
+                if a.alice.hwp != None:
+                    self.cmbBasisAlice.setEnabled(True)
+            if a.bob1 != None:
+                self.grpBob1.setEnabled(True)
+                if a.bob1.hwp != None:
+                    self.cmbBasisBob1.setEnabled(True)
+                if a.bob1.phshift != None:
+                    self.txtPhaseBob1.setEnabled(True)
+                for i in range(len(a.bob1.weak)):
+                    if a.bob1.weak[i] != None:
+                        if a.bob1.weak[i].func == 'Weak HWP':
+                            self.txtEpsHWPBob1.setEnabled(True)
+                        elif a.bob1.weak[i].func == 'Weak QWP':
+                            self.txtEpsQWPBob1.setEnabled(True)
+                        elif a.bob1.weak[i].func == 'Compensation':
+                            self.txtCompBob1.setEnabled(True)
+            if a.bob2 != None:
+                self.lblBob2.setEnabled(True)
+                if a.bob2.hwp != None:
+                    self.cmbBasisBob2.setEnabled(True)
         else:
             self.apparatus.disconnect()
             self.configUI.disconnect()
@@ -139,6 +140,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.coincWindow = float(self.txtWindow.text())*1e-9
         
         self.delayRange = float(self.txtRange.text())*1e-9
+
+    def closeEvent(self,event):
+        if self.connected:
+            self.connectApparatus()
+        self.configUI.close()
         
     def Start(self):
         if not self.inAcq:
@@ -156,13 +162,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtEpsQWPBob1.setEnabled(False)
             self.txtCompBob1.setEnabled(False)
 
-            self.apparatus.alice.selBasis(self.cmbBasisAlice.currentText())
-            self.apparatus.bob1.selBasis(self.cmbBasisBob1.currentText())
-            self.apparatus.bob1.selValueAngle(float(self.txtPhaseBob1.text()))
-            self.apparatus.bob1.selWeakHWPAngle(float(self.txtEpsHWPBob1.text()))
-            self.apparatus.bob1.selWeakQWPAngle(float(self.txtEpsQWPBob1.text()))
-            self.apparatus.bob1.selWeakCompAngle(float(self.txtCompBob1.text()))
-            self.apparatus.bob2.selBasis(self.cmbBasisBob2.currentText())
+            self.apparatus.setAlice(self.cmbBasisAlice.currentText())
+            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
+            self.apparatus.setBob2(self.cmbBasisBob2.currentText())
 
             self.getParameters()
             self.timer.start(self.pause)

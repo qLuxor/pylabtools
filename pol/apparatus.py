@@ -22,7 +22,6 @@ class Apparatus():
         self.alice = None
         self.bob1 = None
         self.bob2 = None
-        self.weak = None
 
     def connect(self,config):
         '''Connect the apparatus according to the information in the config
@@ -61,6 +60,7 @@ class Apparatus():
         '''
 
         if 'Alice' in config:
+            print('Initilizing Alice...')
             A1basis = None
             try:
                 if 'basis' in config['Alice']:
@@ -68,11 +68,13 @@ class Apparatus():
                     A1basis = HWP(**config['Alice']['basis'])
                 self.alice = Alice(A1basis)
             except AliceBasisException as e:
-                print('Exception')
                 self.alice = None
         if 'Bob1' in config:
+            print('Initializing Bob1...')
             B1basis = None
             B1meas = None
+            B1weak1 = None
+            B1weak2 = None
             try:
                 if 'basis' in config['Bob1']:
                     B1basis = HWP(**config['Bob1']['basis'])
@@ -81,16 +83,32 @@ class Apparatus():
                         B1meas = phGlass(**config['Bob1']['meas'])
                     except:
                         B1meas = None
-                self.bob1 = Bob1(B1basis,B1meas)
-            except:
+                if 'weak1' in config['Bob1']:
+                    try:
+                        B1weak1 = epsWP(**config['Bob1']['weak1'])
+                    except:
+                        B1weak1 = None
+                if 'weak2' in config['Bob1']:
+                    try:
+                        B1weak2 = epsWP(**config['Bob1']['weak2'])
+                    except:
+                        B1weak2 = None
+                self.bob1 = Bob1(B1basis,B1meas,B1weak1,B1weak2)
+                print('DONE')
+            except Exception as e:
+                print(e.__doc__)
+                print('Exception in Bob1 intialization')
                 self.bob1 = None
         if 'Bob2' in config:
+            print('Initializing Bob2...')
             B2basis = None
             try:
                 if 'basis' in config['Bob2']:
                     B2basis = HWP(**config['Bob2']['basis'])
                 self.bob2 = Bob2(B2basis)
+                print('DONE')
             except:
+                print('Exception in Bob2 initialization')
                 self.bob2 = None
 
         self.connected = True
@@ -113,27 +131,35 @@ class Apparatus():
 
     def setAlice(self,basis):
         if self.alice == None:
-            raise Exception('No Alice defined for the current apparatus')
+            print('No Alice defined for the current apparatus')
+            return
 
-        self.alice.setBasis(basis)
+        self.alice.selBasis(basis)
 
-    def setBob1(self,basis):
+    def setBob1(self,basis,angleglass,epsHWP,epsQWP,comp):
         if self.bob1 == None:
-            raise Exception('No Bob1 defined for the current apparatus')
+            print('No Bob1 defined for the current apparatus')
+            return
 
-        self.Bob1.setBasis(basis)
+        self.bob1.selBasis(basis)
 
         if self.bob2 != None:
-            self.Bob2.setBasis(self.bob2.curbasis,self.bob1.curbasis)
+            self.bob2.selBasis(self.bob2.curbasis,self.bob1.curangle)
+
+        self.bob1.selValueAngle(angleglass)
+        self.bob1.selWeakHWPAngle(epsHWP)
+        self.bob1.selWeakQWPAngle(epsQWP)
+        self.bob1.selWeakCompAngle(comp)
 
     def setBob2(self,basis):
         if self.bob2 == None:
-            raise Exception('No Bob2 defined for the current apparatus')
+            print('No Bob2 defined for the current apparatus')
+            return
 
         if self.bob1 != None:
-            self.bob2.setBasis(basis,self.bob1.curbasis)
+            self.bob2.selBasis(basis,self.bob1.curangle)
         else:
-            self.bob2.setBasis(basis)
+            self.bob2.selBasis(basis)
 
 class AliceBasisException(Exception): pass
 class Bob1BasisException(Exception): pass
@@ -151,9 +177,13 @@ class Alice():
 
     def selBasis(self,basis):
         if self.hwp==None:
-            raise AliceBasisException('Alice''s HWP not connected')
+            print('Alice''s HWP not connected')
+            return
+            #raise AliceBasisException('Alice''s HWP not connected')
         if not basis in self.anglebase:
-            raise Exception('Basis not implemented')
+            print('Basis not implemented')
+            return
+            #raise Exception('Basis not implemented')
         
         self.curbasis = basis
         self.curangle = self.anglebase[basis]
@@ -167,25 +197,29 @@ class Bob1():
 
         self.anglebase = {'Z':45,'X':67.5}
 
-        self.selBasis('Z')
+        #self.selBasis('Z')
 
-        if self.phshift == None:
-            self.curval = None
-            self.curvalangle = None
-        else:
-            self.selValueAngle(0)
-
-        for i in range(len(self.weak)):
-            if self.weak[i] != None:
-                self.weak[i].goto(0)
+#        if self.phshift == None:
+#            self.curval = None
+#            self.curvalangle = None
+#        else:
+#            self.selValueAngle(0)
+#
+#        for i in range(len(self.weak)):
+#            if self.weak[i] != None:
+#                self.weak[i].goto(0)
 
 
 
     def selBasis(self,basis):
         if self.hwp == None:
-            raise Bob1BasisException('Bob1''s HWP not connected')
+            print('Bob1''s HWP not connected')
+            return
+            #raise Bob1BasisException('Bob1''s HWP not connected')
         if not basis in self.anglebase:
-            raise Exception('Basis not implemented')
+            print('Basis not implemented')
+            return
+            #raise Exception('Basis not implemented')
 
         self.curbasis = basis
         self.curangle = self.anglebase[basis]
@@ -193,17 +227,24 @@ class Bob1():
 
     def selValueAngle(self,angle):
         if self.phshift == None:
-            raise Bob1ValueException('Bob1''s glass not connected')
+            print('Bob1''s glss not connected')
+            return
+            #raise Bob1ValueException('Bob1''s glass not connected')
 
         self.phshift.goto(angle)
         self.curvalangle = self.phshift.posAbs
+        
         self.curval = self.phshift.posRel
 
     def selValue(self,value):
         if self.phshift == None:
-            raise Bob1ValueException('Bob1''s glass not connected')
+            print('Bob1''s glass not connected')
+            return
+            #raise Bob1ValueException('Bob1''s glass not connected')
         if not value in ['min','max']:
-            raise Exception('Value not implemented')
+            print('Value not implemented')
+            return
+            #raise Exception('Value not implemented')
 
         if value == 'min':
             self.phshift.gotoMin()
@@ -225,7 +266,9 @@ class Bob1():
         try:
             rot = self._getRotFromFunc(reqfunc)
         except KeyError:
-            raise Exception('No rotator associated to Bob1''s Weak HWP')
+            print('No rotator associated to Bob1''s Weak HWP')
+            return
+            #raise Exception('No rotator associated to Bob1''s Weak HWP')
 
         rot.goto(angle)
 
@@ -234,7 +277,9 @@ class Bob1():
         try:
             rot = self._getRotFromFunc(reqfunc)
         except KeyError:
-            raise Exception('No rotator associated to Bob1''s Weak QWP')
+            print('No rotator associated to Bob1''s Weak QWP')
+            return
+            #raise Exception('No rotator associated to Bob1''s Weak QWP')
 
         rot.goto(angle)
 
@@ -243,8 +288,10 @@ class Bob1():
         try:
             rot = self._getRotFromFunc(reqfunc)
         except KeyError:
-            raise Exception('No rotator associated to Bob1''s Weak compensation\
-            WP')
+            print('No rotator associated to Bob1''s Weak compensation')
+            return
+            #raise Exception('No rotator associated to Bob1''s Weak compensation\
+            #WP')
 
         rot.goto(angle)
 
@@ -258,14 +305,18 @@ class Bob2():
 
     def selBasis(self,basis,angleBob1=None):
         if self.hwp==None:
-            raise Bob2BasisException('Alice''s HWP not connected')
+            print('Bob2''s HWP not connected')
+            return
+            #raise Bob2BasisException('Bob2''s HWP not connected')
         if not basis in self.anglebase:
-            raise Exception('Basis not implemented')
+            print('Basis not implemented')
+            return
+            #raise Exception('Basis not implemented')
         
         if angleBob1 != None:
             angle = angleBob1 - self.anglebase[basis]
         else:
-            angle = self.anglebase
+            angle = self.anglebase[basis]
 
         self.curbasis = basis
         self.curangle = angle
@@ -282,7 +333,9 @@ class HWP(aptlib.PRM1):
         super(HWP,self).__init__(serial_number=int(serial_number))
 
         if home:
+            print('Homing HWP...',end='')
             self.home()
+            print('done')
             self.homed = True
         else:
             self.homed = False
@@ -333,7 +386,9 @@ class phGlass(aptlib.PRM1):
         super(phGlass,self).__init__(int(serial_number))
 
         if home:
+            print('Homing phGlass...',end='')
             self.home()
+            print('done')
             self.homed = True
         else:
             self.homed = False
@@ -406,7 +461,7 @@ class epsWP(aptlib.PRM1):
         return np.fmod(rot - self.zero,360)
 
     def goto(self,position):
-        super(epsWP,self).goto(self._pos2rot(position))
+        super(epsWP,self).goto(float(self._pos2rot(position)))
         self.angle = self.getPosition()
 
     def getPosition(self):
