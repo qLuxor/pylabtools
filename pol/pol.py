@@ -9,6 +9,8 @@ import sys
 from PyQt4 import QtCore,QtGui,uic
 import pyqtgraph as pg
 import numpy as np
+import time
+import os
 
 from scipy.optimize import curve_fit
 
@@ -51,7 +53,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.connected = False
 
         self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.UpdateView)
+        self.timer.timeout.connect(self.SaveData)
         
         self.NumCh = 4
 
@@ -62,8 +64,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.pltCoincVis.setMouseEnabled(x=False,y=False)  
 
         self.inAcq = False
+        
+        self.saving = False
+        self.filename = ''
+        self.saveStartIndex = 0
+        self.savePause = 30
 
         self.getParameters()
+
 
     def showConfigUI(self):
         self.configUI.show()
@@ -167,12 +175,26 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.apparatus.setBob2(self.cmbBasisBob2.currentText())
 
             self.getParameters()
-            self.timer.start(self.pause)
+            
+            self.ttagBuf = ttag.TTBuffer(self.bufNum)   
+            
+            if self.chkSave.isChecked():
+                self.saving = True
+                self.saveStartIndex = self.ttagBuf.datapoints
+                self.filename = self.txtFilename.text()
+                self.timer.start(self.savePause)
 
-            self.ttagBuf = ttag.TTBuffer(self.bufNum)            
+            self.chkSave.setEnabled(False)
+            self.txtFilename.setEnabled(False)
+            self.btnFilename.setEnabled(False)
+            self.cmbSave.setEnabled(False)
+            
+            while (self.inAcq):
+                self.UpdateView()
+                time.sleep(self.pause)
             
         else:
-            self.timer.stop()
+#            self.timer.stop()
             self.inAcq = False    
             self.txtPause.setEnabled(True)
             self.txtBufferNo.setEnabled(True)
@@ -186,6 +208,42 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtEpsHWPBob1.setEnabled(True)
             self.txtEpsQWPBob1.setEnabled(True)
             self.txtCompBob1.setEnabled(True)
+            
+            if self.saving:
+                self.timer.stop()
+                self.SaveData()
+                self.saving = False
+            
+            self.chkSave.setEnabled(True)
+            self.txtFilename.setEnabled(True)
+            self.btnFilename.setEnabled(True)
+            self.cmbSave.setEnabled(True)
+            
+    def AcquiredData(self):
+        if self.saving:
+            self.lblAcquired.setText(str(self.ttagBuf.datapoints-self.saveStartIndex))
+        else:
+            self.lblAcquired.setText('0')
+            
+    def SaveData(self):
+        # save all data
+        if self.cmbSave.currentIndex() == 0:
+            x = self.ttagBuf
+            lastIndex = x.datapoints
+            data = np.vstack( (x.rawtags[self.saveStartIndex:lastIndex],x.rawchans[self.saveStartIndex:lastIndex]))
+            np.save(self.filename,data)
+            
+            filesize = os.path.getsize(self.filename)
+            if not filesize//2**10:
+                sizetxt = str(filesize)+' B'
+            elif not filesize//2**20:
+                sizetxt = str(filesize//2**10)+' KiB'
+            elif not filesize//2**30:
+                sizetxt = str(filesize//2**20)+' MiB'
+            elif not filesize//2**40:
+                sizetxt = str(filesize//2**30)+' GiB'
+            self.lblSize.setText(sizetxt)
+        
     
     def UpdateView(self):
         QtGui.qApp.processEvents()
@@ -195,6 +253,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.Align()
         self.CoincView()
         self.SingleView()
+        self.AcquiredData()
         self.UpdateResults()
         self.DelayFunc()
     
@@ -278,12 +337,12 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         rawTags = self.ttagBuf.rawtags[rawPos]
         rawChan = self.ttagBuf.rawchannels[rawPos]
         rawAll = np.vstack( (rawTags,rawChan) )
-        newAll = np.sort(rawAll,axis=0)
+#        newAll = np.sort(rawAll,axis=0)
         newTags = rawAll[0]
         newChan = rawAll[1]
         # filter data to plot
         selDelay = self.cmbChannels.currentIndex()
-        if selDelay > 8:
+        if selDelay > 3:
             selTags = newTags
             selChan = newChan
         else:
@@ -300,7 +359,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         selTags = selTags.astype(np.int64)
         selChan = selChan.astype(np.int8)
 
-        if selDelay > 8:
+        if selDelay > 3:
             chMap = np.array([0,0,1,1])
             selChan = chMap[selChan]
 
@@ -328,9 +387,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.lblStd.setText("{:.4f}".format(popt[2]))
 
         self.pltDelay.addItem(bg)
-		
 
-            
             
 if __name__ == "__main__":
     app = QtGui.QApplication.instance()
