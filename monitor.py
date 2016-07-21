@@ -291,7 +291,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             
             
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QtGui.QApplication.instance()
+    if app is None:
+        app = QtGui.QApplication(sys.argv)
     window = Monitor()
     window.show()
     sys.exit(app.exec_())

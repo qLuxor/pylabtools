@@ -88,7 +88,9 @@ class Apt(QtGui.QWidget, Ui_Widget):
         self.txtPos.setText("{:10.5}".format(self.con.position()))
             
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QtGui.QApplication.instance()
+    if app is None:
+        app = QtGui.QApplication(sys.argv)
     window = Apt()
     window.show()
     sys.exit(app.exec_())
