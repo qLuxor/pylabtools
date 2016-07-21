@@ -65,10 +65,13 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
         self.inAcq = False
         
+        self.clock = QtCore.QTime()
         self.saving = False
-        self.filename = ''
+        self.maindir = ''
         self.saveStartIndex = 0
-        self.savePause = 30
+        self.saveCurIndex = 0
+        self.saveInterval = 30
+        self.savedSize = 0
 
         self.getParameters()
 
@@ -181,13 +184,21 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             if self.chkSave.isChecked():
                 self.saving = True
                 self.saveStartIndex = self.ttagBuf.datapoints
-                self.filename = self.txtFilename.text()
-                self.timer.start(self.savePause)
+                self.saveCurIndex = self.saveStartIndex
+                if self.txtMainDir.text() == '':
+                    self.SetMainDir()
+                AliceBasis = ['Z','X','D','A']
+                self.maindir = self.txtMainDir.text() + '/meas_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_ph' + self.txtPhaseBob1.text() + '/'
+                self.savedSize = 0
+                self.saveInterval = float(self.txtSaveInterval.text())
+                self.clock.start()
+                self.timer.start(self.saveInterval)
 
             self.chkSave.setEnabled(False)
-            self.txtFilename.setEnabled(False)
-            self.btnFilename.setEnabled(False)
+            self.txtMainDir.setEnabled(False)
+            self.btnMainDir.setEnabled(False)
             self.cmbSave.setEnabled(False)
+            self.txtSaveInterval.setEnable(False)
             
             while (self.inAcq):
                 self.UpdateView()
@@ -210,41 +221,49 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtCompBob1.setEnabled(True)
             
             if self.saving:
+                self.clock.stop()
                 self.timer.stop()
                 self.SaveData()
                 self.saving = False
             
             self.chkSave.setEnabled(True)
-            self.txtFilename.setEnabled(True)
-            self.btnFilename.setEnabled(True)
+            self.txtMainDir.setEnabled(True)
+            self.btnMainDir.setEnabled(True)
             self.cmbSave.setEnabled(True)
+            self.txtSaveInterval.setEnable(True)
             
     def AcquiredData(self):
         if self.saving:
             self.lblAcquired.setText(str(self.ttagBuf.datapoints-self.saveStartIndex))
-        else:
-            self.lblAcquired.setText('0')
             
     def SaveData(self):
         # save all data
         if self.cmbSave.currentIndex() == 0:
+            curtime = self.clock.elapsed()//1000
+
+            filename = 't_'+'{0:05d}'.format(curtime)+'.npz'
+            fullname = self.maindir + filename
+
             x = self.ttagBuf
-            lastIndex = x.datapoints
-            data = np.vstack( (x.rawtags[self.saveStartIndex:lastIndex],x.rawchans[self.saveStartIndex:lastIndex]))
-            np.save(self.filename,data)
+            lastIndex = x.datapoint
+            data = np.vstack( (x.rawtags[self.saveCurIndex:lastIndex],x.rawchans[self.saveCurIndex:lastIndex]) )
+            np.savez(fullname,tags=data)
+            self.saveCurIndex = lastIndex
             
-            filesize = os.path.getsize(self.filename)
+            self.savedSize += os.path.getsize(fullname)
             if not filesize//2**10:
-                sizetxt = str(filesize)+' B'
+                sizetxt = str(self.savedSize)+' B'
             elif not filesize//2**20:
-                sizetxt = str(filesize//2**10)+' KiB'
+                sizetxt = str(self.savedSize//2**10)+' KiB'
             elif not filesize//2**30:
-                sizetxt = str(filesize//2**20)+' MiB'
+                sizetxt = str(self.savedSize//2**20)+' MiB'
             elif not filesize//2**40:
-                sizetxt = str(filesize//2**30)+' GiB'
+                sizetxt = str(self.savedSize//2**30)+' GiB'
             self.lblSize.setText(sizetxt)
-        
-    
+
+    def SetMainDir(self):
+        self.txtMainDir.setText( QtGui.QFileDialog.getExistingDirectory(self, "Choose main acquisition folder", '.', QtGui.QFileDialog.ShowDirsOnly) )
+
     def UpdateView(self):
         QtGui.qApp.processEvents()
         self.getParameters()

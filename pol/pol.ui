@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>864</width>
-    <height>721</height>
+    <height>835</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -495,6 +495,13 @@
          <string>Save</string>
         </property>
         <layout class="QFormLayout" name="formLayout_7">
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="chkSave">
+           <property name="text">
+            <string>Save</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="1">
           <widget class="QComboBox" name="cmbSave">
            <item>
@@ -509,14 +516,38 @@
            </item>
           </widget>
          </item>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="btnMainDir">
+           <property name="text">
+            <string>Main Dir</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="txtMainDir"/>
+         </item>
          <item row="2" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Interval [s]</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="txtSaveInterval">
+           <property name="text">
+            <string>30</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
           <widget class="QLabel" name="label_7">
            <property name="text">
             <string>Acquired</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="3" column="1">
           <widget class="QLabel" name="lblAcquired">
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
@@ -529,14 +560,14 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="label_23">
            <property name="text">
             <string>File size</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="4" column="1">
           <widget class="QLabel" name="lblSize">
            <property name="text">
             <string>0 B</string>
@@ -545,23 +576,6 @@
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QPushButton" name="btnFilename">
-           <property name="text">
-            <string>Filename</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="chkSave">
-           <property name="text">
-            <string>Save</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="txtFilename"/>
          </item>
         </layout>
        </widget>
