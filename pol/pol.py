@@ -106,14 +106,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                     self.cmbBasisBob1.setEnabled(True)
                 if a.bob1.phshift != None:
                     self.txtPhaseBob1.setEnabled(True)
-                for i in range(len(a.bob1.weak)):
-                    if a.bob1.weak[i] != None:
-                        if a.bob1.weak[i].func == 'Weak HWP':
-                            self.txtEpsHWPBob1.setEnabled(True)
-                        elif a.bob1.weak[i].func == 'Weak QWP':
-                            self.txtEpsQWPBob1.setEnabled(True)
-                        elif a.bob1.weak[i].func == 'Compensation':
-                            self.txtCompBob1.setEnabled(True)
+#                for i in range(len(a.bob1.weak)):
+#                    if a.bob1.weak[i] != None:
+#                        if a.bob1.weak[i].func == 'Weak HWP':
+#                            self.txtEpsHWPBob1.setEnabled(True)
+#                        elif a.bob1.weak[i].func == 'Weak QWP':
+#                            self.txtEpsQWPBob1.setEnabled(True)
+#                        elif a.bob1.weak[i].func == 'Compensation':
+#                            self.txtCompBob1.setEnabled(True)
             if a.bob2 != None:
                 self.lblBob2.setEnabled(True)
                 if a.bob2.hwp != None:
@@ -131,9 +131,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.grpBob1.setEnabled(False)
             self.cmbBasisBob1.setEnabled(False)
             self.txtPhaseBob1.setEnabled(False)
-            self.txtEpsHWPBob1.setEnabled(False)
-            self.txtEpsQWPBob1.setEnabled(False)
-            self.txtCompBob1.setEnabled(False)
+#            self.txtEpsHWPBob1.setEnabled(False)
+#            self.txtEpsQWPBob1.setEnabled(False)
+#            self.txtCompBob1.setEnabled(False)
             self.lblBob2.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
 
@@ -169,12 +169,13 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisBob1.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
             self.txtPhaseBob1.setEnabled(False)
-            self.txtEpsHWPBob1.setEnabled(False)
-            self.txtEpsQWPBob1.setEnabled(False)
-            self.txtCompBob1.setEnabled(False)
+#            self.txtEpsHWPBob1.setEnabled(False)
+#            self.txtEpsQWPBob1.setEnabled(False)
+#            self.txtCompBob1.setEnabled(False)
 
             self.apparatus.setAlice(self.cmbBasisAlice.currentText())
-            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
+            #self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
+            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),0,0,0)
             self.apparatus.setBob2(self.cmbBasisBob2.currentText())
 
             self.getParameters()
@@ -198,7 +199,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtMainDir.setEnabled(False)
             self.btnMainDir.setEnabled(False)
             self.cmbSave.setEnabled(False)
-            self.txtSaveInterval.setEnable(False)
+            self.txtSaveInterval.setEnabled(False)
             
             while (self.inAcq):
                 self.UpdateView()
@@ -216,9 +217,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisBob1.setEnabled(True)
             self.cmbBasisBob2.setEnabled(True)
             self.txtPhaseBob1.setEnabled(True)
-            self.txtEpsHWPBob1.setEnabled(True)
-            self.txtEpsQWPBob1.setEnabled(True)
-            self.txtCompBob1.setEnabled(True)
+#            self.txtEpsHWPBob1.setEnabled(True)
+#            self.txtEpsQWPBob1.setEnabled(True)
+#            self.txtCompBob1.setEnabled(True)
             
             if self.saving:
                 self.clock.stop()
