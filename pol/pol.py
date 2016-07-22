@@ -9,7 +9,6 @@ import sys
 from PyQt4 import QtCore,QtGui,uic
 import pyqtgraph as pg
 import numpy as np
-import time
 import os
 
 from scipy.optimize import curve_fit
@@ -49,11 +48,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.btnConnect.clicked.connect(self.connectApparatus)
         self.config = config.Config()
         self.configUI = config.ConfigUI(self.config,self.apparatus)
+        self.btnMainDir.clicked.connect(self.SetMainDir)
         
         self.connected = False
 
-        self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.SaveData)
+        self.savetimer = QtCore.QTimer(self)
+        self.savetimer.timeout.connect(self.SaveData)
+
+        self.updatetimer = QtCore.QTimer(self)
         
         self.NumCh = 4
 
@@ -66,6 +68,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.inAcq = False
         
         self.clock = QtCore.QTime()
+        self.clock.start()
         self.saving = False
         self.maindir = ''
         self.saveStartIndex = 0
@@ -190,10 +193,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                     self.SetMainDir()
                 AliceBasis = ['Z','X','D','A']
                 self.maindir = self.txtMainDir.text() + '/meas_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_ph' + self.txtPhaseBob1.text() + '/'
+                os.mkdir(self.maindir)
                 self.savedSize = 0
                 self.saveInterval = float(self.txtSaveInterval.text())
-                self.clock.start()
-                self.timer.start(self.saveInterval)
+                self.clock.restart()
+                self.savetimer.start(self.saveInterval*1000)
 
             self.chkSave.setEnabled(False)
             self.txtMainDir.setEnabled(False)
@@ -201,12 +205,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbSave.setEnabled(False)
             self.txtSaveInterval.setEnabled(False)
             
-            while (self.inAcq):
-                self.UpdateView()
-                time.sleep(self.pause)
+            self.updatetimer.start()
+            self.UpdateView()
             
         else:
-#            self.timer.stop()
+            self.updatetimer.stop()
             self.inAcq = False    
             self.txtPause.setEnabled(True)
             self.txtBufferNo.setEnabled(True)
@@ -222,8 +225,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 #            self.txtCompBob1.setEnabled(True)
             
             if self.saving:
-                self.clock.stop()
-                self.timer.stop()
+                self.savetimer.stop()
                 self.SaveData()
                 self.saving = False
             
@@ -231,7 +233,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.txtMainDir.setEnabled(True)
             self.btnMainDir.setEnabled(True)
             self.cmbSave.setEnabled(True)
-            self.txtSaveInterval.setEnable(True)
+            self.txtSaveInterval.setEnabled(True)
             
     def AcquiredData(self):
         if self.saving:
@@ -245,20 +247,20 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             filename = 't_'+'{0:05d}'.format(curtime)+'.npz'
             fullname = self.maindir + filename
 
-            x = self.ttagBuf
-            lastIndex = x.datapoint
-            data = np.vstack( (x.rawtags[self.saveCurIndex:lastIndex],x.rawchans[self.saveCurIndex:lastIndex]) )
+            lastIndex = self.ttagBuf.datapoints
+            print('Save from '+str(self.saveCurIndex)+' to '+str(lastIndex))
+            data = self.ttagBuf[self.saveCurIndex:lastIndex]
             np.savez(fullname,tags=data)
             self.saveCurIndex = lastIndex
             
             self.savedSize += os.path.getsize(fullname)
-            if not filesize//2**10:
+            if not self.savedSize//2**10:
                 sizetxt = str(self.savedSize)+' B'
-            elif not filesize//2**20:
+            elif not self.savedSize//2**20:
                 sizetxt = str(self.savedSize//2**10)+' KiB'
-            elif not filesize//2**30:
+            elif not self.savedSize//2**30:
                 sizetxt = str(self.savedSize//2**20)+' MiB'
-            elif not filesize//2**40:
+            elif not self.savedSize//2**40:
                 sizetxt = str(self.savedSize//2**30)+' GiB'
             self.lblSize.setText(sizetxt)
 
@@ -276,6 +278,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.AcquiredData()
         self.UpdateResults()
         self.DelayFunc()
+        if self.inAcq:
+            self.updatetimer.singleShot(self.pause,self.UpdateView)
     
     def getData(self):
         self.singles = self.ttagBuf.singles(self.exptime)
