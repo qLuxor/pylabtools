@@ -198,6 +198,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 self.saveInterval = float(self.txtSaveInterval.text())
                 self.clock.restart()
                 self.savetimer.start(self.saveInterval*1000)
+                self.lblSize.setText('0 B')
 
             self.chkSave.setEnabled(False)
             self.txtMainDir.setEnabled(False)
@@ -237,7 +238,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             
     def AcquiredData(self):
         if self.saving:
-            self.lblAcquired.setText(str(self.ttagBuf.datapoints-self.saveStartIndex))
+            #self.lblAcquired.setText(str(self.ttagBuf.datapoints-self.saveStartIndex))
+            self.lblAcquired.setText( str(int(float(self.lblAcquired.text()) + np.sum(self.coincidences[0:2,2:4]))) )
             
     def SaveData(self):
         # save all data
@@ -255,13 +257,13 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             
             self.savedSize += os.path.getsize(fullname)
             if not self.savedSize//2**10:
-                sizetxt = str(self.savedSize)+' B'
+                sizetxt = '{:<4.2f}'.format(self.savedSize)+' B'
             elif not self.savedSize//2**20:
-                sizetxt = str(self.savedSize//2**10)+' KiB'
+                sizetxt = '{:<4.2f}'.format(self.savedSize/2**10)+' KiB'
             elif not self.savedSize//2**30:
-                sizetxt = str(self.savedSize//2**20)+' MiB'
+                sizetxt = '{:<4.2f}'.format(self.savedSize/2**20)+' MiB'
             elif not self.savedSize//2**40:
-                sizetxt = str(self.savedSize//2**30)+' GiB'
+                sizetxt = '{:<4.2f}'.format(self.savedSize/2**30)+' GiB'
             self.lblSize.setText(sizetxt)
 
     def SetMainDir(self):
