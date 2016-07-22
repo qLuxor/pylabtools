@@ -9,6 +9,7 @@ import sys
 from PyQt4 import QtCore,QtGui,uic
 import pyqtgraph as pg
 import numpy as np
+import os
 
 from scipy.optimize import curve_fit
 
@@ -47,11 +48,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.btnConnect.clicked.connect(self.connectApparatus)
         self.config = config.Config()
         self.configUI = config.ConfigUI(self.config,self.apparatus)
+        self.btnMainDir.clicked.connect(self.SetMainDir)
         
         self.connected = False
 
-        self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.UpdateView)
+        self.savetimer = QtCore.QTimer(self)
+        self.savetimer.timeout.connect(self.SaveData)
+
+        self.updatetimer = QtCore.QTimer(self)
         
         self.NumCh = 4
 
@@ -62,8 +66,18 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.pltCoincVis.setMouseEnabled(x=False,y=False)  
 
         self.inAcq = False
+        
+        self.clock = QtCore.QTime()
+        self.clock.start()
+        self.saving = False
+        self.maindir = ''
+        self.saveStartIndex = 0
+        self.saveCurIndex = 0
+        self.saveInterval = 30
+        self.savedSize = 0
 
         self.getParameters()
+
 
     def showConfigUI(self):
         self.configUI.show()
@@ -95,14 +109,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                     self.cmbBasisBob1.setEnabled(True)
                 if a.bob1.phshift != None:
                     self.txtPhaseBob1.setEnabled(True)
-                for i in range(len(a.bob1.weak)):
-                    if a.bob1.weak[i] != None:
-                        if a.bob1.weak[i].func == 'Weak HWP':
-                            self.txtEpsHWPBob1.setEnabled(True)
-                        elif a.bob1.weak[i].func == 'Weak QWP':
-                            self.txtEpsQWPBob1.setEnabled(True)
-                        elif a.bob1.weak[i].func == 'Compensation':
-                            self.txtCompBob1.setEnabled(True)
+#                for i in range(len(a.bob1.weak)):
+#                    if a.bob1.weak[i] != None:
+#                        if a.bob1.weak[i].func == 'Weak HWP':
+#                            self.txtEpsHWPBob1.setEnabled(True)
+#                        elif a.bob1.weak[i].func == 'Weak QWP':
+#                            self.txtEpsQWPBob1.setEnabled(True)
+#                        elif a.bob1.weak[i].func == 'Compensation':
+#                            self.txtCompBob1.setEnabled(True)
             if a.bob2 != None:
                 self.lblBob2.setEnabled(True)
                 if a.bob2.hwp != None:
@@ -120,9 +134,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.grpBob1.setEnabled(False)
             self.cmbBasisBob1.setEnabled(False)
             self.txtPhaseBob1.setEnabled(False)
-            self.txtEpsHWPBob1.setEnabled(False)
-            self.txtEpsQWPBob1.setEnabled(False)
-            self.txtCompBob1.setEnabled(False)
+#            self.txtEpsHWPBob1.setEnabled(False)
+#            self.txtEpsQWPBob1.setEnabled(False)
+#            self.txtCompBob1.setEnabled(False)
             self.lblBob2.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
 
@@ -158,21 +172,45 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisBob1.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
             self.txtPhaseBob1.setEnabled(False)
-            self.txtEpsHWPBob1.setEnabled(False)
-            self.txtEpsQWPBob1.setEnabled(False)
-            self.txtCompBob1.setEnabled(False)
+#            self.txtEpsHWPBob1.setEnabled(False)
+#            self.txtEpsQWPBob1.setEnabled(False)
+#            self.txtCompBob1.setEnabled(False)
 
             self.apparatus.setAlice(self.cmbBasisAlice.currentText())
-            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
+            #self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
+            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),0,0,0)
             self.apparatus.setBob2(self.cmbBasisBob2.currentText())
 
             self.getParameters()
-            self.timer.start(self.pause)
+            
+            self.ttagBuf = ttag.TTBuffer(self.bufNum)   
+            
+            if self.chkSave.isChecked():
+                self.saving = True
+                self.saveStartIndex = self.ttagBuf.datapoints
+                self.saveCurIndex = self.saveStartIndex
+                if self.txtMainDir.text() == '':
+                    self.SetMainDir()
+                AliceBasis = ['Z','X','D','A']
+                self.maindir = self.txtMainDir.text() + '/meas_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_ph' + self.txtPhaseBob1.text() + '/'
+                os.mkdir(self.maindir)
+                self.savedSize = 0
+                self.saveInterval = float(self.txtSaveInterval.text())
+                self.clock.restart()
+                self.savetimer.start(self.saveInterval*1000)
+                self.lblSize.setText('0 B')
 
-            self.ttagBuf = ttag.TTBuffer(self.bufNum)            
+            self.chkSave.setEnabled(False)
+            self.txtMainDir.setEnabled(False)
+            self.btnMainDir.setEnabled(False)
+            self.cmbSave.setEnabled(False)
+            self.txtSaveInterval.setEnabled(False)
+            
+            self.updatetimer.start()
+            self.UpdateView()
             
         else:
-            self.timer.stop()
+            self.updatetimer.stop()
             self.inAcq = False    
             self.txtPause.setEnabled(True)
             self.txtBufferNo.setEnabled(True)
@@ -183,10 +221,54 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisBob1.setEnabled(True)
             self.cmbBasisBob2.setEnabled(True)
             self.txtPhaseBob1.setEnabled(True)
-            self.txtEpsHWPBob1.setEnabled(True)
-            self.txtEpsQWPBob1.setEnabled(True)
-            self.txtCompBob1.setEnabled(True)
-    
+#            self.txtEpsHWPBob1.setEnabled(True)
+#            self.txtEpsQWPBob1.setEnabled(True)
+#            self.txtCompBob1.setEnabled(True)
+            
+            if self.saving:
+                self.savetimer.stop()
+                self.SaveData()
+                self.saving = False
+            
+            self.chkSave.setEnabled(True)
+            self.txtMainDir.setEnabled(True)
+            self.btnMainDir.setEnabled(True)
+            self.cmbSave.setEnabled(True)
+            self.txtSaveInterval.setEnabled(True)
+            
+    def AcquiredData(self):
+        if self.saving:
+            #self.lblAcquired.setText(str(self.ttagBuf.datapoints-self.saveStartIndex))
+            self.lblAcquired.setText( str(int(float(self.lblAcquired.text()) + np.sum(self.coincidences[0:2,2:4]))) )
+            
+    def SaveData(self):
+        # save all data
+        if self.cmbSave.currentIndex() == 0:
+            curtime = self.clock.elapsed()//1000
+
+            filename = 't_'+'{0:05d}'.format(curtime)+'.npz'
+            fullname = self.maindir + filename
+
+            lastIndex = self.ttagBuf.datapoints
+            print('Save from '+str(self.saveCurIndex)+' to '+str(lastIndex))
+            data = self.ttagBuf[self.saveCurIndex:lastIndex]
+            np.savez(fullname,tags=data)
+            self.saveCurIndex = lastIndex
+            
+            self.savedSize += os.path.getsize(fullname)
+            if not self.savedSize//2**10:
+                sizetxt = '{:<4.2f}'.format(self.savedSize)+' B'
+            elif not self.savedSize//2**20:
+                sizetxt = '{:<4.2f}'.format(self.savedSize/2**10)+' KiB'
+            elif not self.savedSize//2**30:
+                sizetxt = '{:<4.2f}'.format(self.savedSize/2**20)+' MiB'
+            elif not self.savedSize//2**40:
+                sizetxt = '{:<4.2f}'.format(self.savedSize/2**30)+' GiB'
+            self.lblSize.setText(sizetxt)
+
+    def SetMainDir(self):
+        self.txtMainDir.setText( QtGui.QFileDialog.getExistingDirectory(self, "Choose main acquisition folder", '.', QtGui.QFileDialog.ShowDirsOnly) )
+
     def UpdateView(self):
         QtGui.qApp.processEvents()
         self.getParameters()
@@ -195,8 +277,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.Align()
         self.CoincView()
         self.SingleView()
+        self.AcquiredData()
         self.UpdateResults()
         self.DelayFunc()
+        if self.inAcq:
+            self.updatetimer.singleShot(self.pause,self.UpdateView)
     
     def getData(self):
         self.singles = self.ttagBuf.singles(self.exptime)
@@ -278,12 +363,12 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         rawTags = self.ttagBuf.rawtags[rawPos]
         rawChan = self.ttagBuf.rawchannels[rawPos]
         rawAll = np.vstack( (rawTags,rawChan) )
-        newAll = np.sort(rawAll,axis=0)
+#        newAll = np.sort(rawAll,axis=0)
         newTags = rawAll[0]
         newChan = rawAll[1]
         # filter data to plot
         selDelay = self.cmbChannels.currentIndex()
-        if selDelay > 8:
+        if selDelay > 3:
             selTags = newTags
             selChan = newChan
         else:
@@ -300,7 +385,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         selTags = selTags.astype(np.int64)
         selChan = selChan.astype(np.int8)
 
-        if selDelay > 8:
+        if selDelay > 3:
             chMap = np.array([0,0,1,1])
             selChan = chMap[selChan]
 
@@ -328,9 +413,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.lblStd.setText("{:.4f}".format(popt[2]))
 
         self.pltDelay.addItem(bg)
-		
 
-            
             
 if __name__ == "__main__":
     app = QtGui.QApplication.instance()
