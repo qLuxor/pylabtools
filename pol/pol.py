@@ -293,6 +293,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.AcquiredData()
         self.UpdateResults()
         self.DelayFunc()
+        if self.autoAcq:
+            self.autoUpdate()
         if self.inAcq:
             self.updatetimer.singleShot(self.pause,self.UpdateView)
     
@@ -435,8 +437,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
     def autoStart(self):
         if not self.autoAcq:
-            autoExp = float(self.txtAutoExp.text())
-            if autoExp <= 0:
+            self.autoExp = float(self.txtAutoExp.text())
+            if self.autoExp <= 0:
                 return
 
             self.autoAcq = True
@@ -444,6 +446,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
             self.chkSave.setChecked(True)
 
+            self.lblRemainingTime.setText(str(self.autoExp))
             self.txtAutoExp.setEnabled(False)
             self.btnAutoMeasure.setStyleSheet('background-color: green')
 
@@ -459,9 +462,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.autoAcq = False
 
     def autoUpdate(self):
-        remTime = float(self.lblRemainingTime.text()) - self.clock.elapsed()/1000
-        if remTime > 0:
-            self.lblRemainingTime.setText('{:.2f}'.format(remTime))
+        self.remTime = self.autoExp - self.clock.elapsed()/1000
+        if self.remTime > 0:
+            self.lblRemainingTime.setText('{:.2f}'.format(self.remTime))
         else:
             self.lblRemainingTime.setText('0.00')
             self.Start() # stop current acquisition
@@ -469,6 +472,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 self.autoSetParams(*self.autoBases[self.autoIndex])
                 self.autoIndex += 1
                 self.lblMeasNow.setText(str(int(self.autoIndex)))
+                self.lblRemainingTime.setText('{:.2f}'.format(self.autoExp))
                 self.Start()
             else:
                 self.btnAutoMeasure.setStyleSheet('')
