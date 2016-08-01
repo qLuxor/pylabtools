@@ -358,42 +358,20 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="txtPhaseBob1">
+             <widget class="QComboBox" name="cmbPhaseBob1">
               <property name="enabled">
                <bool>false</bool>
               </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>EpsHWP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="txtEpsHWPBob1">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>0</string>
-              </property>
+              <item>
+               <property name="text">
+                <string>min</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>max</string>
+               </property>
+              </item>
              </widget>
             </item>
            </layout>
