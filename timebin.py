@@ -93,7 +93,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                 if not self.inAcq:
                     break
                 
-                self.con.goto(angle,wait=True) ## Move plate to angle=angle
+                self.con.goto(float(angle),wait=True) ## Move plate to angle=angle
                 time.sleep(0.1)
                 
                 self.ttagBuf.start()
@@ -140,9 +140,9 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.txtTotTime.setText(str(self.totalTime) + " s")
     def PlotSingles(self):
         x = np.arange(self.iniAngle, self.finAngle, self.stepAngle)[:len(self.Ncounts)]
-        y = self.Ncounts[:,0]
-        y2 = self.Ncounts[:,1]
-        ytot = self.Ncounts[:,0] + self.Ncounts[:,1]
+        y = self.Ncounts[:,2]
+        y2 = self.Ncounts[:,3]
+        ytot = self.Ncounts[:,2] + self.Ncounts[:,3]
         
         plot1 = pg.ScatterPlotItem(x,y,symbol='s')
         plot2 = pg.ScatterPlotItem(x,y2)
