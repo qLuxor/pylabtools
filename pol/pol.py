@@ -13,6 +13,8 @@ import os
 
 from scipy.optimize import curve_fit
 
+import itertools
+
 #import os
 #if 'LD_LIBRARY_PATH' in os.environ.keys():
 #    os.environ['LD_LIBRARY_PATH'] = '/home/sagnac/Quantum/ttag/python/:'+os.environ['LD_LIBRARY_PATH']
@@ -49,6 +51,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.config = config.Config()
         self.configUI = config.ConfigUI(self.config,self.apparatus)
         self.btnMainDir.clicked.connect(self.SetMainDir)
+        self.btnAutoMeasure.clicked.connect(self.autoStart)
         
         self.connected = False
 
@@ -75,6 +78,16 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.saveCurIndex = 0
         self.saveInterval = 30
         self.savedSize = 0
+
+        self.autoIndex = 0
+        iters = [
+                    [2,3], # Alice
+                    [0,1], # Bob1
+                    [0,1], # outcome Bob1
+                    [0,1]  # Bob2
+                ]
+        self.autoBases = list(itertools.product(*iters))
+        self.autoAcq = False
 
         self.getParameters()
 
@@ -140,7 +153,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.lblBob2.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
 
-
+    
         
         
     def getParameters(self):
@@ -414,7 +427,55 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
         self.pltDelay.addItem(bg)
 
-            
+    def autoSetParams(self,a,b1,ob1,b2):
+        self.cmbBasisAlice.setCurrentIndex(a)
+        self.cmbBasisBob1.setCurrentIndex(b1)
+        self.cmbBasisBob2.setCurrentIndex(b2)
+        self.cmbPhaseBob1.setCurrentIndex(ob1)
+
+    def autoStart(self):
+        if not self.autoAcq:
+            autoExp = float(self.txtAutoExp.text())
+            if autoExp <= 0:
+                return
+
+            self.autoAcq = True
+            self.autoIndex = 0
+
+            self.chkSave.setChecked(True)
+
+            self.txtAutoExp.setEnabled(False)
+            self.btnAutoMeasure.setStyleSheet('background-color: green')
+
+            self.autoSetParams(*self.autoBases[0])
+            self.autoIndex += 1
+            self.lblMeasNow.setText(str(int(self.autoIndex)))
+            self.Start()
+
+        else:
+            self.Start() # stop current acquisition
+            self.txtAutoExp.setEnabled(True)
+            self.btnAutoMeasure.setStyleSheet('')
+            self.autoAcq = False
+
+    def autoUpdate(self):
+        remTime = float(self.lblRemainingTime.text()) - self.clock.elapsed()/1000
+        if remTime > 0:
+            self.lblRemainingTime.setText('{:.2f}'.format(remTime))
+        else:
+            self.lblRemainingTime.setText('0.00')
+            self.Start() # stop current acquisition
+            if self.autoIndex < len(self.autoBases):
+                self.autoSetParams(*self.autoBases[self.autoIndex])
+                self.autoIndex += 1
+                self.lblMeasNow.setText(str(int(self.autoIndex)))
+                self.Start()
+            else:
+                self.btnAutoMeasure.setStyleSheet('')
+                self.txtAutoExp.setEnabled(True)
+                self.autoAcq = False
+
+
 if __name__ == "__main__":
     app = QtGui.QApplication.instance()
     if app is None:
