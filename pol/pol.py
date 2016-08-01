@@ -108,7 +108,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 if a.bob1.hwp != None:
                     self.cmbBasisBob1.setEnabled(True)
                 if a.bob1.phshift != None:
-                    self.txtPhaseBob1.setEnabled(True)
+                    self.cmbPhaseBob1.setEnabled(True)
 #                for i in range(len(a.bob1.weak)):
 #                    if a.bob1.weak[i] != None:
 #                        if a.bob1.weak[i].func == 'Weak HWP':
@@ -133,7 +133,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisAlice.setEnabled(False)
             self.grpBob1.setEnabled(False)
             self.cmbBasisBob1.setEnabled(False)
-            self.txtPhaseBob1.setEnabled(False)
+            self.cmbPhaseBob1.setEnabled(False)
 #            self.txtEpsHWPBob1.setEnabled(False)
 #            self.txtEpsQWPBob1.setEnabled(False)
 #            self.txtCompBob1.setEnabled(False)
@@ -171,14 +171,14 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisAlice.setEnabled(False)
             self.cmbBasisBob1.setEnabled(False)
             self.cmbBasisBob2.setEnabled(False)
-            self.txtPhaseBob1.setEnabled(False)
+            self.cmbPhaseBob1.setEnabled(False)
 #            self.txtEpsHWPBob1.setEnabled(False)
 #            self.txtEpsQWPBob1.setEnabled(False)
 #            self.txtCompBob1.setEnabled(False)
 
             self.apparatus.setAlice(self.cmbBasisAlice.currentText())
-            #self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
-            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.txtPhaseBob1.text()),0,0,0)
+            #self.apparatus.setBob1(self.cmbBasisBob1.currentText(),float(self.cmbPhaseBob1.text()),float(self.txtEpsHWPBob1.text()),float(self.txtEpsQWPBob1.text()),float(self.txtCompBob1.text()))
+            self.apparatus.setBob1(self.cmbBasisBob1.currentText(),self.cmbPhaseBob1.currentText(),0,0,0)
             self.apparatus.setBob2(self.cmbBasisBob2.currentText())
 
             self.getParameters()
@@ -192,7 +192,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 if self.txtMainDir.text() == '':
                     self.SetMainDir()
                 AliceBasis = ['Z','X','D','A']
-                self.maindir = self.txtMainDir.text() + '/meas_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_ph' + self.txtPhaseBob1.text() + '/'
+                self.maindir = self.txtMainDir.text() + '/meas_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_' + self.cmbPhaseBob1.currentText() + '/'
                 os.mkdir(self.maindir)
                 self.savedSize = 0
                 self.saveInterval = float(self.txtSaveInterval.text())
@@ -220,7 +220,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbBasisAlice.setEnabled(True)
             self.cmbBasisBob1.setEnabled(True)
             self.cmbBasisBob2.setEnabled(True)
-            self.txtPhaseBob1.setEnabled(True)
+            self.cmbPhaseBob1.setEnabled(True)
 #            self.txtEpsHWPBob1.setEnabled(True)
 #            self.txtEpsQWPBob1.setEnabled(True)
 #            self.txtCompBob1.setEnabled(True)

@@ -136,7 +136,7 @@ class Apparatus():
 
         self.alice.selBasis(basis)
 
-    def setBob1(self,basis,angleglass,epsHWP,epsQWP,comp):
+    def setBob1(self,basis,posglass,epsHWP,epsQWP,comp):
         if self.bob1 == None:
             print('No Bob1 defined for the current apparatus')
             return
@@ -146,7 +146,7 @@ class Apparatus():
         if self.bob2 != None:
             self.bob2.selBasis(self.bob2.curbasis,self.bob1.curangle)
 
-        self.bob1.selValueAngle(angleglass)
+        self.bob1.selValue(posglass)
         self.bob1.selWeakHWPAngle(epsHWP)
         self.bob1.selWeakQWPAngle(epsQWP)
         self.bob1.selWeakCompAngle(comp)
@@ -227,7 +227,7 @@ class Bob1():
 
     def selValueAngle(self,angle):
         if self.phshift == None:
-            print('Bob1''s glss not connected')
+            print('Bob1''s glass not connected')
             return
             #raise Bob1ValueException('Bob1''s glass not connected')
 
