@@ -284,7 +284,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.txtMainDir.setText( QtGui.QFileDialog.getExistingDirectory(self, "Choose main acquisition folder", '.', QtGui.QFileDialog.ShowDirsOnly) )
 
     def UpdateView(self):
-        QtGui.qApp.processEvents()
+        print('START UpdateView')
+        #QtGui.qApp.processEvents()
         self.getParameters()
         self.getData()
         self.Monitor()
@@ -298,6 +299,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.autoUpdate()
         if self.inAcq:
             self.updatetimer.singleShot(self.pause,self.UpdateView)
+        print('END UpdateView')
     
     def getData(self):
         self.singles = self.ttagBuf.singles(self.exptime)
