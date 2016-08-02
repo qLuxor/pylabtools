@@ -220,11 +220,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbSave.setEnabled(False)
             self.txtSaveInterval.setEnabled(False)
             
-            self.updatetimer.start()
+            #self.updatetimer.start()
             self.UpdateView()
             
         else:
-            self.updatetimer.stop()
+            #self.updatetimer.stop()
             self.inAcq = False    
             self.txtPause.setEnabled(True)
             self.txtBufferNo.setEnabled(True)
