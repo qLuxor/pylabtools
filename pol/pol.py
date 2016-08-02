@@ -81,10 +81,10 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
         self.autoIndex = 0
         iters = [
-                    [2,3], # Alice
-                    [0,1], # Bob1
                     [0,1], # outcome Bob1
+                    [0,1], # Bob1
                     [0,1]  # Bob2
+                    [2,3], # Alice
                 ]
         self.autoBases = list(itertools.product(*iters))
         self.autoAcq = False
@@ -429,7 +429,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
         self.pltDelay.addItem(bg)
 
-    def autoSetParams(self,a,b1,ob1,b2):
+    def autoSetParams(self,ob1,b1,b2,a):
         self.cmbBasisAlice.setCurrentIndex(a)
         self.cmbBasisBob1.setCurrentIndex(b1)
         self.cmbBasisBob2.setCurrentIndex(b2)
