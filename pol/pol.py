@@ -83,8 +83,8 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         iters = [
                     [0,1], # outcome Bob1
                     [0,1], # Bob1
-                    [0,1]  # Bob2
-                    [2,3], # Alice
+                    [0,1], # Bob2
+                    [2,3]  # Alice
                 ]
         self.autoBases = list(itertools.product(*iters))
         self.autoAcq = False
