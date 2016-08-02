@@ -212,6 +212,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 self.clock.restart()
                 self.savetimer.start(self.saveInterval*1000)
                 self.lblSize.setText('0 B')
+                self.lblAcquired.setText('0')
 
             self.chkSave.setEnabled(False)
             self.txtMainDir.setEnabled(False)
