@@ -6,254 +6,489 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1302</width>
+    <height>825</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <layout class="QFormLayout" name="formLayout">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="5" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtTotTime">
+      <property name="text">
+       <string>0</string>
       </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Integration time [s]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="txtIntTime">
-        <property name="text">
-         <string>0.5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Step angle [°]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="txtStpAngle">
-        <property name="text">
-         <string>0.05</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Initial angle [°]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="txtIniAngle">
-        <property name="text">
-         <string>-10</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Final angle [°]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="txtFinAngle">
-        <property name="text">
-         <string>10</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Total time [min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="txtTotTime">
-        <property name="text">
-         <string>0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Time left [min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="txtTimeLeft">
-        <property name="text">
-         <string>0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="8" column="0">
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>TTBuffer number</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="QLineEdit" name="txtBufferNo">
-        <property name="text">
-         <string>0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QLineEdit" name="txtSN">
-        <property name="text">
-         <string>83825706</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1">
-       <widget class="QPushButton" name="btnConnect">
-        <property name="text">
-         <string>Connect Rotator</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Serial number</string>
-        </property>
-       </widget>
-      </item>
-      <item row="15" column="1">
-       <widget class="QPushButton" name="btnStart">
-        <property name="text">
-         <string>Start Acquisition</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1">
-       <spacer name="verticalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="14" column="1">
-       <widget class="QLineEdit" name="txtFileName"/>
-      </item>
-      <item row="14" column="0">
-       <widget class="QPushButton" name="btnSaveData">
-        <property name="text">
-         <string>Save Data</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     </widget>
     </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="PlotWidget" name="pltVisibility"/>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout_2">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="txtMaxVis0">
-          <property name="text">
-           <string>0%</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="txtMaxVis1">
-          <property name="text">
-           <string>0%</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Max visibility channel 1</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Max visibility channel 0</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+    <item row="17" column="2">
+     <widget class="QLineEdit" name="txtFitMaxIntensity0"/>
+    </item>
+    <item row="15" column="4">
+     <widget class="QLabel" name="label_23">
+      <property name="text">
+       <string>Ch1 Fit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtStpAngle">
+      <property name="text">
+       <string>0.05</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="2">
+     <widget class="QLineEdit" name="txtFitAngle0"/>
+    </item>
+    <item row="20" column="3">
+     <widget class="QLabel" name="label_24">
+      <property name="text">
+       <string>Diff phase</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="0">
+     <widget class="QLabel" name="label_14">
+      <property name="text">
+       <string>max intensity</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Step angle [°]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="1" colspan="2">
+     <widget class="QPushButton" name="btnStart">
+      <property name="text">
+       <string>Start Acquisition</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="2">
+     <widget class="QLineEdit" name="txtFitPhase0"/>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtIniAngle">
+      <property name="text">
+       <string>-10</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="4">
+     <widget class="QLineEdit" name="txtFitPhase1"/>
+    </item>
+    <item row="4" column="0">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>17</width>
+        <height>37</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="8" column="0">
+     <spacer name="verticalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>17</width>
+        <height>37</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="17" column="3">
+     <widget class="QLineEdit" name="txtMaxIntensity1">
+      <property name="text">
+       <string>1e4</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtSN">
+      <property name="text">
+       <string>83825036</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>noise</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Initial angle [°]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Time left [min]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="4">
+     <widget class="QLineEdit" name="txtFitMaxIntensity1"/>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>TTBuffer number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <spacer name="verticalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>17</width>
+        <height>36</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="20" column="0">
+     <widget class="QLabel" name="label_12">
+      <property name="text">
+       <string>zero angle</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="1">
+     <widget class="QLineEdit" name="txtAngle0">
+      <property name="text">
+       <string>54.6</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>Serial number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="text">
+       <string>xi</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="label_18">
+      <property name="text">
+       <string>Fit parameters</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="3">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>Ch1 Guess</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtFinAngle">
+      <property name="text">
+       <string>10</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Final angle [°]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtBufferNo">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>17</width>
+        <height>36</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="21" column="6">
+     <widget class="QCheckBox" name="checkCh1">
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Show Ch1</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="7">
+     <widget class="QLineEdit" name="txtCh1">
+      <property name="text">
+       <string>3</string>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="2">
+     <widget class="QLineEdit" name="txtFitXi"/>
+    </item>
+    <item row="20" column="8">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Max visibility channel 0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="6">
+     <widget class="QCheckBox" name="checkCh0">
+      <property name="text">
+       <string>Show Ch0</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="7">
+     <widget class="QLineEdit" name="txtCh0">
+      <property name="text">
+       <string>2</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="8">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>Max visibility channel 1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="9">
+     <widget class="QLineEdit" name="txtMaxVis1">
+      <property name="text">
+       <string>0%</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="QLineEdit" name="txtPhase0">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="4">
+     <widget class="QLabel" name="label_26">
+      <property name="text">
+       <string>-------------------------</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="5">
+     <widget class="QLabel" name="label_20">
+      <property name="text">
+       <string>Ch1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="3">
+     <widget class="QLineEdit" name="txtNoise1">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Integration time [s]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="1" colspan="2">
+     <widget class="QPushButton" name="btnConnect">
+      <property name="text">
+       <string>Connect Rotator</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="2">
+     <widget class="QLineEdit" name="txtFitNoise0"/>
+    </item>
+    <item row="15" column="2">
+     <widget class="QLabel" name="label_22">
+      <property name="text">
+       <string>Ch0 Fit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Total time [min]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="1">
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>Ch0 Guess</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtFileName"/>
+    </item>
+    <item row="20" column="4">
+     <widget class="QLineEdit" name="txtDiffPhase"/>
+    </item>
+    <item row="20" column="5">
+     <widget class="QLabel" name="label_19">
+      <property name="text">
+       <string>Ch0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtIntTime">
+      <property name="text">
+       <string>0.5</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="1">
+     <widget class="QLineEdit" name="txtNoise0">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" colspan="2">
+     <widget class="QLineEdit" name="txtTimeLeft">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="1">
+     <widget class="QLineEdit" name="txtXi">
+      <property name="text">
+       <string>1200</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="9">
+     <widget class="QLineEdit" name="txtMaxVis0">
+      <property name="text">
+       <string>0%</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="0">
+     <widget class="QPushButton" name="btnMakeFit">
+      <property name="text">
+       <string>Make fit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="3">
+     <widget class="QCheckBox" name="checkFitSameXi">
+      <property name="text">
+       <string>Fit with same xi</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="19" column="5">
+     <widget class="QLabel" name="label_21">
+      <property name="text">
+       <string>Choose channels</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="1">
+     <widget class="QLineEdit" name="txtMaxIntensity0">
+      <property name="text">
+       <string>1e4</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="3">
+     <widget class="QLineEdit" name="txtPhase1">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="text">
+       <string>phase</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QPushButton" name="btnSaveData">
+      <property name="text">
+       <string>Save Data</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="4">
+     <widget class="QLineEdit" name="txtFitNoise1"/>
+    </item>
+    <item row="21" column="1">
+     <widget class="QCheckBox" name="checkFitGuess">
+      <property name="text">
+       <string>Fit guess</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="2">
+     <widget class="QLabel" name="label_25">
+      <property name="text">
+       <string>-----------------------</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="5" rowspan="19" colspan="5">
+     <widget class="PlotWidget" name="pltVisibility"/>
     </item>
    </layout>
   </widget>
@@ -262,7 +497,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1302</width>
      <height>25</height>
     </rect>
    </property>
