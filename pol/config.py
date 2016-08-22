@@ -319,7 +319,8 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     'dirRot': dirRot[self.cmbDirHWP1Bob1.currentIndex()],
                     'home': True }
         if self.chkActiveHWP2Bob1.isChecked():
-            config['Bob1'] = {}
+            if not 'Bob1' in config:
+                config['Bob1'] = {}
             config['Bob1']['basis2'] = {
                     'serial_number': self.txtSNHWP2Bob1.text(),
                     'zero': float(self.txtZeroHWP2Bob1.text()),
@@ -334,14 +335,14 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     'posMin': float(self.txtPosMinGlass.text()),
                     'posMax': float(self.txtPosMaxGlass.text()),
                     'home': True }
-        if self.chkActiveWeak1.isChecked():
+        if self.chkActiveWeak.isChecked():
             if not 'Bob1' in config:
                 config['Bob1'] = {}
             config['Bob1']['weak'] = {
-                    'serial_number' : self.txtSNWeak1.text(),
-                    'zero' : float(self.txtZeroWeak1.text()),
+                    'serial_number' : self.txtSNWeak.text(),
+                    'zero' : float(self.txtZeroWeak.text()),
                     'home': True,
-                    'func': self.cmbFuncWeak1.currentText()}
+                    'func': self.cmbFuncWeak.currentText()}
 
         return config
 
@@ -401,7 +402,7 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     else:
                         self.cmbDirHWP2Bob1.setCurrentIndex(0)
                 else:
-                    self.chkActiveHWP1Bob1.setChecked(False)
+                    self.chkActiveHWP2Bob1.setChecked(False)
                 if 'meas' in config['Bob1']:
                     self.chkActiveGlass.setChecked(True)
                     c = config['Bob1']['meas']
@@ -483,10 +484,8 @@ class Config():
         conffile = f.read()
         f.close()
         config = yaml.load(conffile)
-        try:
+        if 'basis' in config['Bob1']:
             config['Bob1']['basis1'] = config['Bob1'].pop('basis')
-        except:
-            pass
         self.setConfig(config)
 
     def saveConfigToFile(self,fname):

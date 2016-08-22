@@ -120,7 +120,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                     self.cmbBasisAlice.setEnabled(True)
             if a.bob1 != None:
                 self.grpBob1.setEnabled(True)
-                if a.bob1.hwp != None:
+                if a.bob1.hwp1 != None:
                     self.cmbBasisBob1.setEnabled(True)
                 if a.bob1.phshift != None:
                     self.cmbPhaseBob1.setEnabled(True)
@@ -207,7 +207,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 if self.txtMainDir.text() == '':
                     self.SetMainDir()
                 AliceBasis = ['Z','X','D','A']
-                self.maindir = self.txtMainDir.text() + '/meas_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_' + self.cmbPhaseBob1.currentText() + '/'
+                self.maindir = self.txtMainDir.text() + '/meas_'+str((self.autoIndex-1)//len(self.autoBases)+1)+'_' + AliceBasis[self.cmbBasisAlice.currentIndex()] + self.cmbBasisBob1.currentText() + self.cmbBasisBob2.currentText() + '_' + self.cmbPhaseBob1.currentText() + '/'
                 os.mkdir(self.maindir)
                 self.savedSize = 0
                 self.saveInterval = float(self.txtSaveInterval.text())
@@ -444,7 +444,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             if self.autoExp <= 0:
                 return
 
-            self.measNumber = int(self.txtMeasNumber)
+            self.measNumber = int(self.txtMeasNumber.text())
             if self.measNumber < 1:
                 return
 
@@ -453,13 +453,12 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
 
             self.chkSave.setChecked(True)
 
-            self.lblRemainingTime.setText(str(datetime.timedelta(self.autoExp*len(self.autoBases)*self.measNumber)))
+            self.lblRemainingTime.setText(str(datetime.timedelta(seconds=self.autoExp*len(self.autoBases)*self.measNumber)))
             self.txtAutoExp.setEnabled(False)
             self.txtMeasNumber.setEnabled(False)
             self.btnAutoMeasure.setStyleSheet('background-color: green')
 
             self.autoSetParams(*self.autoBases[0])
-            self.txtMainDir.setText(self.txtMaindir.text()+str(int(self.autoIndex//len(self.autoBases))+1))
             self.autoIndex += 1
             self.lblMeasNow.setText(str(int(self.autoIndex)))
             self.lblMeasTot.setText(str(int(self.measNumber*len(self.autoBases))))
@@ -475,14 +474,13 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     def autoUpdate(self):
         self.remTime = self.autoExp - self.clock.elapsed()/1000
         if self.remTime > 0:
-            self.lblRemainingTime.setText(str(datetime.timedelta(self.remTime+self.autoExp*(self.measNumber*len(self.autoBases)-self.autoIndex))))
+            self.lblRemainingTime.setText(str(datetime.timedelta(seconds=self.remTime+self.autoExp*(self.measNumber*len(self.autoBases)-self.autoIndex))))
         else:
             self.lblRemainingTime.setText('0.00')
             self.Start() # stop current acquisition
             if self.autoIndex < self.measNumber*len(self.autoBases):
                 self.autoSetParams(*self.autoBases[np.mod(self.autoIndex,len(self.autoBases))])
-                self.lblRemainingTime.setText(str(datetime.timedelta(self.autoExp*(self.measNumber*len(self.autoBases)-self.autoIndex))))
-                self.txtMainDir.setText(self.txtMaindir.text()+str(int(self.autoIndex//len(self.autoBases))+1))
+                self.lblRemainingTime.setText(str(datetime.timedelta(seconds=self.autoExp*(self.measNumber*len(self.autoBases)-self.autoIndex))))
                 self.autoIndex += 1
                 self.lblMeasNow.setText(str(int(self.autoIndex)))
                 self.Start()
