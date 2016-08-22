@@ -10,6 +10,7 @@ from PyQt4 import QtCore,QtGui,uic
 import pyqtgraph as pg
 import numpy as np
 import os
+import datetime
 
 from scipy.optimize import curve_fit
 
@@ -88,6 +89,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
                 ]
         self.autoBases = list(itertools.product(*iters))
         self.autoAcq = False
+        self.measNumber = 1
 
         self.getParameters()
 
@@ -442,42 +444,52 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             if self.autoExp <= 0:
                 return
 
+            self.measNumber = int(self.txtMeasNumber)
+            if self.measNumber < 1:
+                return
+
             self.autoAcq = True
             self.autoIndex = 0
 
             self.chkSave.setChecked(True)
 
-            self.lblRemainingTime.setText(str(self.autoExp))
+            self.lblRemainingTime.setText(str(datetime.timedelta(self.autoExp*len(self.autoBases)*self.measNumber)))
             self.txtAutoExp.setEnabled(False)
+            self.txtMeasNumber.setEnabled(False)
             self.btnAutoMeasure.setStyleSheet('background-color: green')
 
             self.autoSetParams(*self.autoBases[0])
+            self.txtMainDir.setText(self.txtMaindir.text()+str(int(self.autoIndex//len(self.autoBases))+1))
             self.autoIndex += 1
             self.lblMeasNow.setText(str(int(self.autoIndex)))
+            self.lblMeasTot.setText(str(int(self.measNumber*len(self.autoBases))))
             self.Start()
 
         else:
             self.Start() # stop current acquisition
             self.txtAutoExp.setEnabled(True)
+            self.txtMeasNumber.setEnabled(True)
             self.btnAutoMeasure.setStyleSheet('')
             self.autoAcq = False
 
     def autoUpdate(self):
         self.remTime = self.autoExp - self.clock.elapsed()/1000
         if self.remTime > 0:
-            self.lblRemainingTime.setText('{:.2f}'.format(self.remTime))
+            self.lblRemainingTime.setText(str(datetime.timedelta(self.remTime+self.autoExp*(self.measNumber*len(self.autoBases)-self.autoIndex))))
         else:
             self.lblRemainingTime.setText('0.00')
             self.Start() # stop current acquisition
-            if self.autoIndex < len(self.autoBases):
-                self.autoSetParams(*self.autoBases[self.autoIndex])
+            if self.autoIndex < self.measNumber*len(self.autoBases):
+                self.autoSetParams(*self.autoBases[np.mod(self.autoIndex,len(self.autoBases))])
+                self.lblRemainingTime.setText(str(datetime.timedelta(self.autoExp*(self.measNumber*len(self.autoBases)-self.autoIndex))))
+                self.txtMainDir.setText(self.txtMaindir.text()+str(int(self.autoIndex//len(self.autoBases))+1))
                 self.autoIndex += 1
                 self.lblMeasNow.setText(str(int(self.autoIndex)))
-                self.lblRemainingTime.setText('{:.2f}'.format(self.autoExp))
                 self.Start()
             else:
                 self.btnAutoMeasure.setStyleSheet('')
                 self.txtAutoExp.setEnabled(True)
+                self.txtMeasNumber.setEnabled(True)
                 self.autoAcq = False
 
 
