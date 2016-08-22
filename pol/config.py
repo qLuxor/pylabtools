@@ -29,7 +29,9 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
             basis:
             ...
         Bob1:
-            basis:
+            basis1:
+            ...
+            basis2:
             ...
             meas:
                 serial_number: 'xxxxxxxx'
@@ -37,12 +39,7 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 posMin: xxx
                 posMax: xxx
                 home: True
-            weak1:
-                serial_number: 'xxxxxxxx'
-                zero: xxx
-                home: True
-                func: 'aaa'
-            weak2:
+            weak:
                 serial_number: 'xxxxxxxx'
                 zero: xxx
                 home: True
@@ -74,25 +71,12 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         self.setupUi(self)
 
         # capture all changes in the UI
-#        self.txtSNAlice.textChanged.connect(self.uiChanged)
-#        self.txtSNHWPBob1.textChanged.connect(self.uiChanged)
-#        self.txtSNBob2.textChanged.connect(self.uiChanged)
-#        self.txtZeroAlice.textChanged.connect(self.uiChanged)
-#        self.txtZeroHWPBob1.textChanged.connect(self.uiChanged)
-#        self.txtZeroBob2.textChanged.connect(self.uiChanged)
-#        self.cmbDirAlice.currentIndexChanged.connect(self.uiChanged)
-#        self.cmbDirHWPBob1.currentIndexChanged.connect(self.uiChanged)
-#        self.cmbDirBob2.currentIndexChanged.connect(self.uiChanged)
         self.chkActiveAlice.stateChanged.connect(self.updateUI)
-        self.chkActiveHWPBob1.stateChanged.connect(self.updateUI)
+        self.chkActiveHWP1Bob1.stateChanged.connect(self.updateUI)
+        self.chkActiveHWP2Bob1.stateChanged.connect(self.updateUI)
         self.chkActiveBob2.stateChanged.connect(self.updateUI)
         self.chkActiveGlass.stateChanged.connect(self.updateUI)
-#        self.txtSNGlass.textChanged.connect(self.uiChanged)
-#        self.txtPosMinGlass.textChanged.connect(self.uiChanged)
-#        self.txtPosMaxGlass.textChanged.connect(self.uiChanged)
-        self.chkActiveWeak1.stateChanged.connect(self.updateUI)
-        self.chkActiveWeak2.stateChanged.connect(self.updateUI)
-#        self.txtSNWeak.textChanged.connect(self.uiChanged)
+        self.chkActiveWeak.stateChanged.connect(self.updateUI)
 
         # load and save buttons
         self.btnLoadConfig.clicked.connect(self.loadFileToUI)
@@ -110,9 +94,6 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         total configuration of the experimental apparatus is stored.'''
         newConfig = self.getConfigFromUI()
         self._config.setConfig(newConfig)
-
-#    def uiChanged(self):
-#        self.updateUI()
 
     def loadFileToUI(self):
         fname = QtGui.QFileDialog.getOpenFileName(self,'Load \
@@ -148,10 +129,14 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         self.txtZeroAlice.setEnabled(False)
         
         # Disable Bob1
-        self.chkActiveHWPBob1.setEnabled(False)
-        self.cmbDirHWPBob1.setEnabled(False)
-        self.txtSNHWPBob1.setEnabled(False)
-        self.txtZeroHWPBob1.setEnabled(False)
+        self.chkActiveHWP1Bob1.setEnabled(False)
+        self.cmbDirHWP1Bob1.setEnabled(False)
+        self.txtSNHWP1Bob1.setEnabled(False)
+        self.txtZeroHWP1Bob1.setEnabled(False)
+        self.chkActiveHWP2Bob1.setEnabled(False)
+        self.cmbDirHWP2Bob1.setEnabled(False)
+        self.txtSNHWP2Bob1.setEnabled(False)
+        self.txtZeroHWP2Bob1.setEnabled(False)
         self.chkActiveGlass.setEnabled(False)
         self.txtSNGlass.setEnabled(False)
         self.txtPosMinGlass.setEnabled(False)
@@ -164,8 +149,7 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         self.txtZeroBob2.setEnabled(False)
 
         # Disable Weak
-        self.chkActiveWeak1.setEnabled(False)
-        self.chkActiveWeak2.setEnabled(False)
+        self.chkActiveWeak.setEnabled(False)
 
         # Start timer
         self.timer.start(100)
@@ -177,25 +161,25 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         # enable WP selection
         self.chkActiveAlice.setEnabled(True)
         self.chkActiveBob2.setEnabled(True)
-        self.chkActiveHWPBob1.setEnabled(True)
+        self.chkActiveHWP1Bob1.setEnabled(True)
+        self.chkActiveHWP2Bob1.setEnabled(True)
         self.chkActiveGlass.setEnabled(True)
-        self.chkActiveWeak1.setEnabled(True)
-        self.chkActiveWeak2.setEnabled(True)
+        self.chkActiveWeak.setEnabled(True)
 
         # erase control background
         self.lblConnAlice.setStyleSheet('')
         self.lblConnBob2.setStyleSheet('')
-        self.lblConnHWPBob1.setStyleSheet('')
+        self.lblConnHWP1Bob1.setStyleSheet('')
+        self.lblConnHWP2Bob1.setStyleSheet('')
         self.lblConnGlass.setStyleSheet('')
-        self.lblConnWeak1.setStyleSheet('')
-        self.lblConnWeak2.setStyleSheet('')
+        self.lblConnWeak.setStyleSheet('')
 
         self.lblHomedAlice.setStyleSheet('')
         self.lblHomedBob2.setStyleSheet('')
-        self.lblHomedHWPBob1.setStyleSheet('')
+        self.lblHomedHWP1Bob1.setStyleSheet('')
+        self.lblHomedHWP2Bob1.setStyleSheet('')
         self.lblHomedGlass.setStyleSheet('')
-        self.lblHomedWeak1.setStyleSheet('')
-        self.lblHomedWeak2.setStyleSheet('')
+        self.lblHomedWeak.setStyleSheet('')
 
         self.updateUI()
 
@@ -223,15 +207,25 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.txtSNBob2.setEnabled(True)
                 self.txtZeroBob2.setEnabled(True)
 
-            #self.chkActiveHWPBob1.setEnabled(True)
-            if not self.chkActiveHWPBob1.isChecked():
-                self.cmbDirHWPBob1.setEnabled(False)
-                self.txtSNHWPBob1.setEnabled(False)
-                self.txtZeroHWPBob1.setEnabled(False)
+            #self.chkActiveHWP1Bob1.setEnabled(True)
+            if not self.chkActiveHWP1Bob1.isChecked():
+                self.cmbDirHWP1Bob1.setEnabled(False)
+                self.txtSNHWP1Bob1.setEnabled(False)
+                self.txtZeroHWP1Bob1.setEnabled(False)
             else:
-                self.cmbDirHWPBob1.setEnabled(True)
-                self.txtSNHWPBob1.setEnabled(True)
-                self.txtZeroHWPBob1.setEnabled(True)
+                self.cmbDirHWP1Bob1.setEnabled(True)
+                self.txtSNHWP1Bob1.setEnabled(True)
+                self.txtZeroHWP1Bob1.setEnabled(True)
+
+            #self.chkActiveHWP2Bob1.setEnabled(True)
+            if not self.chkActiveHWP2Bob1.isChecked():
+                self.cmbDirHWP2Bob1.setEnabled(False)
+                self.txtSNHWP2Bob1.setEnabled(False)
+                self.txtZeroHWP2Bob1.setEnabled(False)
+            else:
+                self.cmbDirHWP2Bob1.setEnabled(True)
+                self.txtSNHWP2Bob1.setEnabled(True)
+                self.txtZeroHWP2Bob1.setEnabled(True)
 
             #self.chkActiveGlass.setEnabled(True)
             if not self.chkActiveGlass.isChecked():
@@ -245,26 +239,16 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                 self.txtPosMaxGlass.setEnabled(True)
                 self.txtZeroGlass.setEnabled(True)
 
-            #self.chkActiveWeak1.setEnabled(True)
-            if not self.chkActiveWeak1.isChecked():
-                self.cmbFuncWeak1.setEnabled(False)
-                self.txtSNWeak1.setEnabled(False)
-                self.txtZeroWeak1.setEnabled(False)
+            #self.chkActiveWeak.setEnabled(True)
+            if not self.chkActiveWeak.isChecked():
+                self.cmbFuncWeak.setEnabled(False)
+                self.txtSNWeak.setEnabled(False)
+                self.txtZeroWeak.setEnabled(False)
             else:
-                self.cmbFuncWeak1.setEnabled(True)
-                self.txtSNWeak1.setEnabled(True)
-                self.txtZeroWeak1.setEnabled(True)
+                self.cmbFuncWeak.setEnabled(True)
+                self.txtSNWeak.setEnabled(True)
+                self.txtZeroWeak.setEnabled(True)
             
-            #self.chkActiveWeak2.setEnabled(True)
-            if not self.chkActiveWeak2.isChecked():
-                self.cmbFuncWeak2.setEnabled(False)
-                self.txtSNWeak2.setEnabled(False)
-                self.txtZeroWeak2.setEnabled(False)
-            else:
-                self.cmbFuncWeak2.setEnabled(True)
-                self.txtSNWeak2.setEnabled(True)
-                self.txtZeroWeak2.setEnabled(True)
-
         else:
             a = self._app
             # Update state Alice
@@ -283,26 +267,26 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                         self.lblHomedBob2.setStyleSheet('background-color: green')
             # Update state Bob1
             if a.bob1 != None:
-                if a.bob1.hwp != None:
-                    self.lblConnHWPBob1.setStyleSheet('background-color: green')
-                    self.lblAngleHWPBob1.setText("{:.4f}".format(a.bob1.hwp.getPosition()))
-                    if a.bob1.hwp.homed:
-                        self.lblHomedHWPBob1.setStyleSheet('background-color: green')
+                if a.bob1.hwp1 != None:
+                    self.lblConnHWP1Bob1.setStyleSheet('background-color: green')
+                    self.lblAngleHWP1Bob1.setText("{:.4f}".format(a.bob1.hwp1.getPosition()))
+                    if a.bob1.hwp1.homed:
+                        self.lblHomedHWP1Bob1.setStyleSheet('background-color: green')
+                if a.bob1.hwp2 != None:
+                    self.lblConnHWP2Bob1.setStyleSheet('background-color: green')
+                    self.lblAngleHWP2Bob1.setText("{:.4f}".format(a.bob1.hwp2.getPosition()))
+                    if a.bob1.hwp2.homed:
+                        self.lblHomedHWP2Bob1.setStyleSheet('background-color: green')
                 if a.bob1.phshift != None:
                     self.lblConnGlass.setStyleSheet('background-color: green')
                     self.lblAngleGlass.setText("{:.4f}".format(a.bob1.phshift.getPosition()))
                     if a.bob1.phshift.homed:
                         self.lblHomedGlass.setStyleSheet('background-color: green')
                 if a.bob1.weak[0] != None:
-                        self.lblConnWeak1.setStyleSheet('background-color: green')
-                        self.lblAngleWeak1.setText("{:.4f}".format(a.bob1.weak[0].getPosition()))
+                        self.lblConnWeak.setStyleSheet('background-color: green')
+                        self.lblAngleWeak.setText("{:.4f}".format(a.bob1.weak[0].getPosition()))
                         if a.bob1.weak[0].homed:
-                            self.lblHomedWeak1.setStyleSheet('background-color: green')
-                if a.bob1.weak[1] != None:
-                        self.lblConnWeak2.setStyleSheet('background-color: green')
-                        self.lblAngleWeak2.setText("{:.4f}".format(a.bob1.weak[1].getPosition()))
-                        if a.bob1.weak[1].homed:
-                            self.lblHomedWeak2.setStyleSheet('background-color: green')
+                            self.lblHomedWeak.setStyleSheet('background-color: green')
 
     def getConfigFromUI(self):
         ''' Get configuration from the UI.
@@ -327,12 +311,19 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     'zero': float(self.txtZeroBob2.text()),
                     'dirRot': dirRot[self.cmbDirBob2.currentIndex()],
                     'home': True }
-        if self.chkActiveHWPBob1.isChecked():
+        if self.chkActiveHWP1Bob1.isChecked():
             config['Bob1'] = {}
-            config['Bob1']['basis'] = {
-                    'serial_number': self.txtSNHWPBob1.text(),
-                    'zero': float(self.txtZeroHWPBob1.text()),
-                    'dirRot': dirRot[self.cmbDirHWPBob1.currentIndex()],
+            config['Bob1']['basis1'] = {
+                    'serial_number': self.txtSNHWP1Bob1.text(),
+                    'zero': float(self.txtZeroHWP1Bob1.text()),
+                    'dirRot': dirRot[self.cmbDirHWP1Bob1.currentIndex()],
+                    'home': True }
+        if self.chkActiveHWP2Bob1.isChecked():
+            config['Bob1'] = {}
+            config['Bob1']['basis2'] = {
+                    'serial_number': self.txtSNHWP2Bob1.text(),
+                    'zero': float(self.txtZeroHWP2Bob1.text()),
+                    'dirRot': dirRot[self.cmbDirHWP2Bob1.currentIndex()],
                     'home': True }
         if self.chkActiveGlass.isChecked():
             if not 'Bob1' in config:
@@ -346,20 +337,11 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
         if self.chkActiveWeak1.isChecked():
             if not 'Bob1' in config:
                 config['Bob1'] = {}
-            config['Bob1']['weak1'] = {
+            config['Bob1']['weak'] = {
                     'serial_number' : self.txtSNWeak1.text(),
                     'zero' : float(self.txtZeroWeak1.text()),
                     'home': True,
                     'func': self.cmbFuncWeak1.currentText()}
-        if self.chkActiveWeak2.isChecked():
-            if not 'Bob1' in config:
-                config['Bob1'] = {}
-            config['Bob1']['weak2'] = {
-                    'serial_number' : self.txtSNWeak2.text(),
-                    'zero' : float(self.txtZeroWeak2.text()),
-                    'home': True,
-                    'func': self.cmbFuncWeak2.currentText()}
-                    
 
         return config
 
@@ -376,9 +358,6 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
             if 'Alice' in config:
                 if 'basis' in config['Alice']:
                     self.chkActiveAlice.setChecked(True)
-#                    self.cmbDirAlice.setEnabled(True)
-#                    self.txtSNAlice.setEnabled(True)
-#                    self.txtZeroAlice.setEnabled(True)
                     c = config['Alice']['basis']
                     self.txtSNAlice.setText(c['serial_number'])
                     self.txtZeroAlice.setText(str(c['zero']))
@@ -388,15 +367,9 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                         self.cmbDirAlice.setCurrentIndex(0)
                 else:
                     self.chkActiveAlice.setChecked(False)
-#                    self.cmbDirAlice.setEnabled(False)
-#                    self.txtSNAlice.setEnabled(False)
-#                    self.txtZeroAlice.setEnabled(False)
             if 'Bob2' in config:
                 if 'basis' in config['Bob2']:
                     self.chkActiveBob2.setChecked(True)
-#                    self.cmbDirBob2.setEnabled(True)
-#                    self.txtSNBob2.setEnabled(True)
-#                    self.txtZeroBob2.setEnabled(True)
                     c = config['Bob2']['basis']
                     self.txtSNBob2.setText(c['serial_number'])
                     self.txtZeroBob2.setText(str(c['zero']))
@@ -406,32 +379,31 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                         self.cmbDirBob2.setCurrentIndex(0)
                 else:
                     self.chkActiveBob2.setChecked(False)
-#                    self.cmbDirBob2.setEnabled(False)
-#                    self.txtSNBob2.setEnabled(False)
-#                    self.txtZeroBob2.setEnabled(False)
             if 'Bob1' in config:
-                if 'basis' in config['Bob1']:
-                    self.chkActiveHWPBob1.setChecked(True)
-#                    self.cmbDirHWPBob1.setEnabled(True)
-#                    self.txtSNHWPBob1.setEnabled(True)
-#                    self.txtZeroHWPBob1.setEnabled(True)
-                    c = config['Bob1']['basis']
-                    self.txtSNHWPBob1.setText(c['serial_number'])
-                    self.txtZeroHWPBob1.setText(str(c['zero']))
+                if 'basis1' in config['Bob1']:
+                    self.chkActiveHWP1Bob1.setChecked(True)
+                    c = config['Bob1']['basis1']
+                    self.txtSNHWP1Bob1.setText(c['serial_number'])
+                    self.txtZeroHWP1Bob1.setText(str(c['zero']))
                     if c['dirRot'] == 'CCW':
-                        self.cmbDirHWPBob1.setCurrentIndex(1)
+                        self.cmbDirHWP1Bob1.setCurrentIndex(1)
                     else:
-                        self.cmbDirHWPBob1.setCurrentIndex(0)
+                        self.cmbDirHWP1Bob1.setCurrentIndex(0)
                 else:
-                    self.chkActiveHWPBob1.setChecked(False)
-#                    self.cmbDirHWPBob1.setEnabled(False)
-#                    self.txtSNHWPBob1.setEnabled(False)
-#                    self.txtZeroHWPBob1.setEnabled(False)
+                    self.chkActiveHWP1Bob1.setChecked(False)
+                if 'basis2' in config['Bob1']:
+                    self.chkActiveHWP2Bob1.setChecked(True)
+                    c = config['Bob1']['basis2']
+                    self.txtSNHWP2Bob1.setText(c['serial_number'])
+                    self.txtZeroHWP2Bob1.setText(str(c['zero']))
+                    if c['dirRot'] == 'CCW':
+                        self.cmbDirHWP2Bob1.setCurrentIndex(1)
+                    else:
+                        self.cmbDirHWP2Bob1.setCurrentIndex(0)
+                else:
+                    self.chkActiveHWP1Bob1.setChecked(False)
                 if 'meas' in config['Bob1']:
                     self.chkActiveGlass.setChecked(True)
-#                    self.txtSNGlass.setEnabled(True)
-#                    self.txtPosMinGlass.setEnabled(True)
-#                    self.txtPosMaxGlass.setEnabled(True)
                     c = config['Bob1']['meas']
                     self.txtSNGlass.setText(c['serial_number'])
                     self.txtZeroGlass.setText(str(c['zero']))
@@ -439,33 +411,18 @@ class ConfigUI(QtGui.QWidget,Ui_Widget):
                     self.txtPosMaxGlass.setText(str(c['posMax']))
                 else:
                     self.chkActiveGlass.setChecked(False)
-#                    self.txtSNGlass.setEnabled(False)
-#                    self.txtPosMinGlass.setEnabled(False)
-#                    self.txtPosMaxGlass.setEnabled(False)
-                if 'weak1' in config['Bob1']:
-                    self.chkActiveWeak1.setChecked(True)
-                    c = config['Bob1']['weak1']
-                    self.txtSNWeak1.setText(c['serial_number'])
-                    self.txtZeroWeak1.setText(str(c['zero']))
-                    index = self.cmbFuncWeak1.findText(c['func'])
+                if 'weak' in config['Bob1']:
+                    self.chkActiveWeak.setChecked(True)
+                    c = config['Bob1']['weak']
+                    self.txtSNWeak.setText(c['serial_number'])
+                    self.txtZeroWeak.setText(str(c['zero']))
+                    index = self.cmbFuncWeak.findText(c['func'])
                     if index >= 0:
-                        self.cmbFuncWeak1.setCurrentIndex(index)
+                        self.cmbFuncWeak.setCurrentIndex(index)
                     else:
-                        raise Exception('Invalid func string in weak1')
+                        raise Exception('Invalid func string in weak')
                 else:
                     self.chkActiveWeak1.setChecked(False)
-                if 'weak2' in config['Bob1']:
-                    self.chkActiveWeak2.setChecked(True)
-                    c = config['Bob1']['weak2']
-                    self.txtSNWeak2.setText(c['serial_number'])
-                    self.txtZeroWeak2.setText(str(c['zero']))
-                    index = self.cmbFuncWeak2.findText(c['func'])
-                    if index >= 0:
-                        self.cmbFuncWeak2.setCurrentIndex(index)
-                    else:
-                        raise Exception('Invalid func string in weak2')
-                else:
-                    self.chkActiveWeak2.setChecked(False)
         except Exception as e:
             print('Exception in setUIFromConfig:')
             print(e.__doc__)
@@ -479,7 +436,7 @@ class Config():
     configuration is stored in the dictionary _config, which is equivalent to
     the following YAML file:
 
-     Alice:
+        Alice:
             basis:
                 serial_number: 'xxxxxxxx'
                 zero: xxx
@@ -487,18 +444,23 @@ class Config():
                 home: True
         Bob2:
             basis:
-            ...
+                ...
         Bob1:
-            basis:
-            ...
+            basis1:
+                ...
+            basis2:
+                ...
             meas:
                 serial_number: 'xxxxxxxx'
+                zero: xxx
                 posMin: xxx
                 posMax: xxx
                 home: True
-        weak:
-            serial_number: 'xxxxxxxx'
-            home: True.
+            weak:
+                serial_number: 'xxxxxxxx'
+                zero: xxx
+                home: True
+                func: 'aaa'   
     '''
 
     def __init__(self):
@@ -521,6 +483,10 @@ class Config():
         conffile = f.read()
         f.close()
         config = yaml.load(conffile)
+        try:
+            config['Bob1']['basis1'] = config['Bob1'].pop('basis')
+        except:
+            pass
         self.setConfig(config)
 
     def saveConfigToFile(self,fname):
