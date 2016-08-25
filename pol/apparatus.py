@@ -36,26 +36,23 @@ class Apparatus():
                 home: True
         Bob2:
             basis:
-            ...
+                ...
         Bob1:
-            basis:
-            ...
+            basis1:
+                ...
+            basis2:
+                ...
             meas:
                 serial_number: 'xxxxxxxx'
                 zero: xxx
                 posMin: xxx
                 posMax: xxx
                 home: True
-            weak1:
+            weak:
                 serial_number: 'xxxxxxxx'
                 zero: xxx
                 home: True
-                func: 'aaa'
-            weak2:
-                serial_number: 'xxxxxxxx'
-                zero: xxx
-                home: True
-                func: 'aaa'
+                func: 'aaa'   
 
         '''
 
@@ -71,29 +68,29 @@ class Apparatus():
                 self.alice = None
         if 'Bob1' in config:
             print('Initializing Bob1...')
-            B1basis = None
+            B1basis1 = None
+            B1basis2 = None
             B1meas = None
-            B1weak1 = None
-            B1weak2 = None
+            B1weak = None
             try:
-                if 'basis' in config['Bob1']:
-                    B1basis = HWP(**config['Bob1']['basis'])
+                if 'basis1' in config['Bob1']:
+                    B1basis1 = HWP(**config['Bob1']['basis1'])
+                if 'basis2' in config['Bob1']:
+                    try:
+                        B1basis2 = HWP(**config['Bob1']['basis2'])
+                    except:
+                        B1basis2 = None
                 if 'meas' in config['Bob1']:
                     try:
                         B1meas = phGlass(**config['Bob1']['meas'])
                     except:
                         B1meas = None
-                if 'weak1' in config['Bob1']:
+                if 'weak' in config['Bob1']:
                     try:
-                        B1weak1 = epsWP(**config['Bob1']['weak1'])
+                        B1weak1 = epsWP(**config['Bob1']['weak'])
                     except:
                         B1weak1 = None
-                if 'weak2' in config['Bob1']:
-                    try:
-                        B1weak2 = epsWP(**config['Bob1']['weak2'])
-                    except:
-                        B1weak2 = None
-                self.bob1 = Bob1(B1basis,B1meas,B1weak1,B1weak2)
+                self.bob1 = Bob1(B1basis1,B1basis2,B1meas,B1weak)
                 print('DONE')
             except Exception as e:
                 print(e.__doc__)
@@ -119,8 +116,10 @@ class Apparatus():
         if self.bob2 != None:
             self.bob2.hwp.close()
         if self.bob1 != None:
-            if self.bob1.hwp != None:
-                self.bob1.hwp.close()
+            if self.bob1.hwp1 != None:
+                self.bob1.hwp1.close()
+            if self.bob1.hwp2 != None:
+                self.bob1.hwp2.close()
             if self.bob1.phshift != None:
                 self.bob1.phshift.close()
         self.alice = None
@@ -143,7 +142,7 @@ class Apparatus():
 
         self.bob1.selBasis(basis)
 
-        if self.bob2 != None:
+        if self.bob1.hwp2 == None and self.bob2 != None:
             self.bob2.selBasis(self.bob2.curbasis,self.bob1.curangle)
 
         self.bob1.selValue(posglass)
@@ -156,7 +155,7 @@ class Apparatus():
             print('No Bob2 defined for the current apparatus')
             return
 
-        if self.bob1 != None:
+        if self.bob1 != None and self.bob1.hwp2 == None:
             self.bob2.selBasis(basis,self.bob1.curangle)
         else:
             self.bob2.selBasis(basis)
@@ -190,30 +189,17 @@ class Alice():
         self.hwp.rotate(self.curangle)
 
 class Bob1():
-    def __init__(self,hwp=None,phshift=None,weak1=None,weak2=None):
-        self.hwp = hwp
+    def __init__(self,hwp1=None,hwp2=None,phshift=None,weak=None):
+        self.hwp1 = hwp1
+        self.hwp2 = hwp2
         self.phshift = phshift
-        self.weak = [weak1, weak2]
+        self.weak = [weak]
 
         self.anglebase = {'Z':45,'X':67.5}
 
-        #self.selBasis('Z')
-
-#        if self.phshift == None:
-#            self.curval = None
-#            self.curvalangle = None
-#        else:
-#            self.selValueAngle(0)
-#
-#        for i in range(len(self.weak)):
-#            if self.weak[i] != None:
-#                self.weak[i].goto(0)
-
-
-
     def selBasis(self,basis):
-        if self.hwp == None:
-            print('Bob1''s HWP not connected')
+        if self.hwp1 == None:
+            print('Bob1''s first HWP not connected')
             return
             #raise Bob1BasisException('Bob1''s HWP not connected')
         if not basis in self.anglebase:
@@ -223,7 +209,10 @@ class Bob1():
 
         self.curbasis = basis
         self.curangle = self.anglebase[basis]
-        self.hwp.rotate(self.curangle)
+        self.hwp1.rotate(self.curangle)
+
+        if self.hwp2 != None:
+            self.hwp2.rotate(self.curangle)
 
     def selValueAngle(self,angle):
         if self.phshift == None:

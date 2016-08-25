@@ -190,7 +190,6 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
     
     def MakeFit(self):
         self.getParameters()
-
         # fit channels
         popt0 = [self.maxIntensity0, self.phase0, self.xi, self.zeroAngle/rad_to_grad, self.noise0]
         popt1 = [self.maxIntensity1, self.phase1, self.xi, self.zeroAngle/rad_to_grad, self.noise1]

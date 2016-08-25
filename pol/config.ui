@@ -308,23 +308,23 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QGroupBox" name="grpHWPBob1">
+       <widget class="QGroupBox" name="grpHWP1Bob1">
         <property name="title">
-         <string>HWP</string>
+         <string>HWP1</string>
         </property>
         <layout class="QFormLayout" name="formLayout_4">
          <property name="fieldGrowthPolicy">
           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
          </property>
          <item row="0" column="0">
-          <widget class="QCheckBox" name="chkActiveHWPBob1">
+          <widget class="QCheckBox" name="chkActiveHWP1Bob1">
            <property name="text">
             <string>Active</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="cmbDirHWPBob1">
+          <widget class="QComboBox" name="cmbDirHWP1Bob1">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -351,7 +351,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="txtSNHWPBob1">
+          <widget class="QLineEdit" name="txtSNHWP1Bob1">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -368,7 +368,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="txtZeroHWPBob1">
+          <widget class="QLineEdit" name="txtZeroHWP1Bob1">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -378,7 +378,7 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="lblConnHWPBob1">
+          <widget class="QLabel" name="lblConnHWP1Bob1">
            <property name="text">
             <string>Connected</string>
            </property>
@@ -388,7 +388,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLabel" name="lblHomedHWPBob1">
+          <widget class="QLabel" name="lblHomedHWP1Bob1">
            <property name="text">
             <string>Homed</string>
            </property>
@@ -408,7 +408,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLabel" name="lblAngleHWPBob1">
+          <widget class="QLabel" name="lblAngleHWP1Bob1">
            <property name="text">
             <string>0</string>
            </property>
@@ -420,21 +420,21 @@
         </layout>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QGroupBox" name="grpWeak1">
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="grpHWP2Bob1">
         <property name="title">
-         <string>Weak1</string>
+         <string>HWP2</string>
         </property>
         <layout class="QFormLayout" name="formLayout_5">
          <item row="0" column="0">
-          <widget class="QCheckBox" name="chkActiveWeak1">
+          <widget class="QCheckBox" name="chkActiveHWP2Bob1">
            <property name="text">
             <string>Active</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="cmbFuncWeak1">
+          <widget class="QComboBox" name="cmbDirHWP2Bob1">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -443,17 +443,12 @@
            </property>
            <item>
             <property name="text">
-             <string>Weak HWP</string>
+             <string>ClockWise</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Weak QWP</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Compensation</string>
+             <string>CounterCW</string>
             </property>
            </item>
           </widget>
@@ -466,7 +461,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="txtSNWeak1">
+          <widget class="QLineEdit" name="txtSNHWP2Bob1">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -478,12 +473,12 @@
          <item row="2" column="0">
           <widget class="QLabel" name="label_19">
            <property name="text">
-            <string>Zero</string>
+            <string>Zero HWP</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="txtZeroWeak1">
+          <widget class="QLineEdit" name="txtZeroHWP2Bob1">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -493,7 +488,7 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="lblConnWeak1">
+          <widget class="QLabel" name="lblConnHWP2Bob1">
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -506,7 +501,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLabel" name="lblHomedWeak1">
+          <widget class="QLabel" name="lblHomedHWP2Bob1">
            <property name="text">
             <string>Homed</string>
            </property>
@@ -526,7 +521,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLabel" name="lblAngleWeak1">
+          <widget class="QLabel" name="lblAngleHWP2Bob1">
            <property name="text">
             <string>0</string>
            </property>
@@ -538,7 +533,7 @@
         </layout>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="0" column="1">
        <widget class="QGroupBox" name="grpGlass">
         <property name="title">
          <string>glass</string>
@@ -663,179 +658,121 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QGroupBox" name="grpWeak2">
+       <widget class="QGroupBox" name="grpWeak">
         <property name="title">
-         <string>Weak2</string>
+         <string>Weak</string>
         </property>
-        <widget class="QCheckBox" name="chkActiveWeak2">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>25</y>
-           <width>61</width>
-           <height>19</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Active</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="cmbFuncWeak2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>25</y>
-           <width>120</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="currentIndex">
-          <number>1</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>Weak HWP</string>
-          </property>
+        <layout class="QFormLayout" name="formLayout_6">
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="chkActiveWeak">
+           <property name="text">
+            <string>Active</string>
+           </property>
+          </widget>
          </item>
-         <item>
-          <property name="text">
-           <string>Weak QWP</string>
-          </property>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cmbFuncWeak">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Weak HWP</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Weak QWP</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Compensation</string>
+            </property>
+           </item>
+          </widget>
          </item>
-         <item>
-          <property name="text">
-           <string>Compensation</string>
-          </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_31">
+           <property name="text">
+            <string>SN</string>
+           </property>
+          </widget>
          </item>
-        </widget>
-        <widget class="QLabel" name="label_31">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>51</y>
-           <width>17</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>SN</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="txtSNWeak2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>51</y>
-           <width>110</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_20">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>77</y>
-           <width>30</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Zero</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="txtZeroWeak2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>77</y>
-           <width>110</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lblConnWeak2">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>103</y>
-           <width>68</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Connected</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lblHomedWeak2">
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>103</y>
-           <width>44</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Homed</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_36">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>123</y>
-           <width>73</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Angle (deg)</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lblAngleWeak2">
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>123</y>
-           <width>16</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="txtSNWeak">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_20">
+           <property name="text">
+            <string>Zero</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="txtZeroWeak">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="lblConnWeak">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Connected</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lblHomedWeak">
+           <property name="text">
+            <string>Homed</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_36">
+           <property name="text">
+            <string>Angle (deg)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="lblAngleWeak">
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
