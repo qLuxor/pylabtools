@@ -529,19 +529,15 @@
      </layout>
     </item>
     <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <widget class="PlotWidget" name="pltSingleVis"/>
-      <widget class="QWidget" name="layoutWidget">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="PlotWidget" name="pltSingleVis"/>
+      </item>
+      <item>
        <layout class="QFormLayout" name="formLayout_5">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="lblRate_2">
           <property name="text">
@@ -580,98 +576,102 @@
          </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="PlotWidget" name="pltCoincVis"/>
-      <widget class="QGroupBox" name="groupBox_3">
-       <property name="title">
-        <string>Save</string>
-       </property>
-       <layout class="QFormLayout" name="formLayout_7">
-        <item row="0" column="0">
-         <widget class="QCheckBox" name="chkSave">
-          <property name="text">
-           <string>Save</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="cmbSave">
-          <item>
+      </item>
+      <item>
+       <widget class="PlotWidget" name="pltCoincVis"/>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Save</string>
+        </property>
+        <layout class="QFormLayout" name="formLayout_7">
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="chkSave">
            <property name="text">
-            <string>All data</string>
+            <string>Save</string>
            </property>
-          </item>
-          <item>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cmbSave">
+           <item>
+            <property name="text">
+             <string>All data</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Coincident TS</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="btnMainDir">
            <property name="text">
-            <string>Coincident TS</string>
+            <string>Main Dir</string>
            </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="btnMainDir">
-          <property name="text">
-           <string>Main Dir</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="txtMainDir"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_15">
-          <property name="text">
-           <string>Interval [s]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="txtSaveInterval">
-          <property name="text">
-           <string>30</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Acquired</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="lblAcquired">
-          <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
-          </property>
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_23">
-          <property name="text">
-           <string>File size</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="lblSize">
-          <property name="text">
-           <string>0 B</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="txtMainDir"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Interval [s]</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="txtSaveInterval">
+           <property name="text">
+            <string>30</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Acquired</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="lblAcquired">
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_23">
+           <property name="text">
+            <string>File size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="lblSize">
+           <property name="text">
+            <string>0 B</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
