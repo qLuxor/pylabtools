@@ -277,15 +277,15 @@ class Apt(QtGui.QWidget, Ui_Widget):
         self.con_5.move(-self.step)
         
     def UpdatePos(self):
-        if self.connect:
+        if self.connected:
             self.txtPos.setText("{:10.5}".format(self.con.position()))
-        if self.connect_2:
+        if self.connected_2:
             self.txtPos_2.setText("{:10.5}".format(self.con_2.position()))
-        if self.connect_3:
+        if self.connected_3:
             self.txtPos_3.setText("{:10.5}".format(self.con_3.position()))
-        if self.connect_4:
+        if self.connected_4:
             self.txtPos_4.setText("{:10.5}".format(self.con_4.position()))
-        if self.connect_5:
+        if self.connected_5:
             self.txtPos_5.setText("{:10.5}".format(self.con_5.position()))
     
     def ChangeStep(self):
