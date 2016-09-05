@@ -259,21 +259,6 @@
      </widget>
     </widget>
    </item>
-   <item row="3" column="3" colspan="4">
-    <widget class="QLineEdit" name="txtMove_2">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>102.4</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="7">
     <widget class="QPushButton" name="btnMove_2">
      <property name="enabled">
@@ -433,7 +418,7 @@
       </font>
      </property>
      <property name="text">
-      <string>2.5</string>
+      <string>0.5</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -487,7 +472,7 @@
       </font>
      </property>
      <property name="text">
-      <string>83825706</string>
+      <string>83865112</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -518,6 +503,21 @@
      </property>
      <property name="text">
       <string>HOME</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="7">
+    <widget class="QPushButton" name="btnMove_4">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>MOVE</string>
      </property>
     </widget>
    </item>
@@ -599,25 +599,10 @@
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>-1.8</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="7">
-    <widget class="QPushButton" name="btnMove_4">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>MOVE</string>
      </property>
     </widget>
    </item>
@@ -765,7 +750,7 @@
       </font>
      </property>
      <property name="text">
-      <string>54</string>
+      <string>23.4</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -825,7 +810,7 @@
       </font>
      </property>
      <property name="text">
-      <string>75.5</string>
+      <string>76.5</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -868,6 +853,21 @@
      </property>
      <property name="text">
       <string>Step</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3" colspan="4">
+    <widget class="QLineEdit" name="txtMove_2">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>103.5</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
