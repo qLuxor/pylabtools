@@ -122,7 +122,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     def getData(self):
         self.singles = self.ttagBuf.singles(self.exptime)
         self.coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
-		
+        # TODO: Ugly hack to remove
+        #self.singles[0:4] = self.singles[4:8]
+        #self.coincidences[0:4,0:4] = self.coincidences[4:8,4:8]
+		# ---------------------------
+
 
     def Monitor(self):
         chs = np.arange(self.NumCh)
@@ -228,6 +232,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         rawPos = np.nonzero(np.bitwise_and(self.ttagBuf.rawtags>firstTag,self.ttagBuf.rawtags<lastTag))[0]
         rawTags = self.ttagBuf.rawtags[rawPos]
         rawChan = self.ttagBuf.rawchannels[rawPos]
+        # TODO: ugly hack
+        #rawChan = rawChan-4
+        # ------------------
         rawAll = np.vstack( (rawTags,rawChan) )
         newAll = np.sort(rawAll,axis=0)
         newTags = rawAll[0]
@@ -250,7 +257,9 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         # add delays to tags
         selTags = selTags + np.around(self.delay[selChan]/self.ttagBuf.resolution).astype(np.int64)
         # compute delay histogram
-        delayEdges = np.arange( -np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32) , np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32), 2 )
+        #delayEdges = np.arange( -np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32) , np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32), 2 )
+        # TODO: linea aggiunta
+        delayEdges = np.arange( -np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32) , np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32), 4 )
 
         selTags = selTags.astype(np.int64)
         selChan = selChan.astype(np.int8)
