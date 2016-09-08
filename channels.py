@@ -7,6 +7,9 @@ Created on Thu Spt  9 16:07:23 2016
 
 import sys
 from PyQt4 import QtCore,QtGui,uic      # importing Qt libraries
+
+
+sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag                             # importing libraries to read Qtools output
 
 import pyqtgraph as pg                  # importing graph libraries
@@ -20,7 +23,6 @@ from scipy.optimize import curve_fit    # importing fit method
 #    os.environ['LD_LIBRARY_PATH'] = '/home/sagnac/Quantum/ttag/python/'
         
 
-sys.path.append('/home/sagnac/Quantum/ttag/python/')
 
 qtCreatorFile = 'channels.ui'
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile) #import the monitor.ui interface
@@ -30,11 +32,11 @@ class Channels(QtGui.QMainWindow, Ui_MainWindow):
         
         QtGui.QMainWindow.__init__(self)            # These three commands
         Ui_MainWindow.__init__(self)                # are needed to
-        self.setupUi(self)                          # to setup the ui
 
         pg.setConfigOption('background', 'w')       # sets graph background to white                                                 
         pg.setConfigOption('foreground', 'k')       # sets axis color to black 
 
+        self.setupUi(self)                          # to setup the ui
         # La logica di programmare una interfaccia mi sembra la seguente:
         # per prima cosa inizializzo l'interfaccia grafica
         # dopo aver inizializzato l'interfaccia 
@@ -52,10 +54,6 @@ class Channels(QtGui.QMainWindow, Ui_MainWindow):
         self.pltMonitor.setMouseEnabled(x=False,y=False)  
         self.pltAlign.setMouseEnabled(x=False,y=False)  
         self.pltDelay.setMouseEnabled(x=False,y=False)  
-        self.pltSingle.setMouseEnabled(x=False,y=False)  
-        self.pltCoinc.setMouseEnabled(x=False,y=False)  
-        self.pltSingleVis.setMouseEnabled(x=False,y=False)  
-        self.pltCoincVis.setMouseEnabled(x=False,y=False)  
         self.NumCh = 8
 
         self.inAcq = False      # flag di acquisizione in corso o meno
@@ -122,7 +120,7 @@ class Channels(QtGui.QMainWindow, Ui_MainWindow):
         #   coincidences e' una matrice 8x8 simmetrica con le coincidenze tra i cari canali
 
     def Monitor(self):      # metodo che stampa i singoli a monitor
-        chs = 8             # creo un array con tanti numeri quanti il numero di canali
+        chs = np.arange(self.NumCh)             # creo un array con tanti numeri quanti il numero di canali
         singles = self.singles[:self.NumCh]     # copio in singles (che e' un array) solo i registrati nei canali attivi
 
         # creo un dizionario di oggetti contenenti il numero di singoli registrati per ciascun canale

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>843</width>
-    <height>600</height>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -357,89 +357,89 @@
           <widget class="QComboBox" name="ch_A">
            <item>
             <property name="text">
-             <string>Ch 1</string>
+             <string>Ch1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 2</string>
+             <string>Ch2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 3</string>
+             <string>Ch3</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 4</string>
+             <string>Ch4</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 5</string>
+             <string>Ch5</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 6</string>
+             <string>Ch6</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 7</string>
+             <string>Ch7</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 8</string>
+             <string>Ch8</string>
             </property>
            </item>
           </widget>
          </item>
          <item row="3" column="1">
           <widget class="QComboBox" name="ch_B">
-           <property name="currentText">
-            <string>Ch 2</string>
+           <property name="currentText" stdset="0">
+            <string>Ch1</string>
            </property>
            <item>
             <property name="text">
-             <string>Ch 1</string>
+             <string>Ch1</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 2</string>
+             <string>Ch2</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 3</string>
+             <string>Ch3</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 4</string>
+             <string>Ch4</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 5</string>
+             <string>Ch5</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 6</string>
+             <string>Ch6</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 7</string>
+             <string>Ch7</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Ch 8</string>
+             <string>Ch8</string>
             </property>
            </item>
           </widget>
@@ -565,7 +565,7 @@
      <x>0</x>
      <y>0</y>
      <width>843</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>
