@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr  8 11:43:23 2016
+Created on Thu Spt  9 16:07:23 2016
 
-@author: sagnac
+@author: mirko
 """
 
 import sys
@@ -22,10 +22,10 @@ from scipy.optimize import curve_fit    # importing fit method
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 
-qtCreatorFile = 'monitor.ui'
+qtCreatorFile = 'channels.ui'
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile) #import the monitor.ui interface
 
-class Monitor(QtGui.QMainWindow, Ui_MainWindow):
+class Channels(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
         
         QtGui.QMainWindow.__init__(self)            # These three commands
@@ -43,14 +43,10 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         # un metodo della classe che definisco a seguito
 
         self.btnStart.clicked.connect(self.Start)
-        self.tabWidget.currentChanged.connect(self.SetupView)
         
         self.timer = QtCore.QTimer(self)                # qui richiamo l'oggetto  timer delle libreria QT 
         self.timer.timeout.connect(self.UpdateView)     # e gli dico che quando il timer va in timeout devo fare l'update dells visuale 
         
-        self.curTab = self.tabWidget.currentIndex()
-        self.SetupView(self.curTab)
-
         # le istruzioni seguenti servono a disabilitare il mouse su tutti
         # i possobili plot dell'interfaccia
         self.pltMonitor.setMouseEnabled(x=False,y=False)  
@@ -60,45 +56,30 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.pltCoinc.setMouseEnabled(x=False,y=False)  
         self.pltSingleVis.setMouseEnabled(x=False,y=False)  
         self.pltCoincVis.setMouseEnabled(x=False,y=False)  
+        self.NumCh = 8
 
         self.inAcq = False      # flag di acquisizione in corso o meno
 
         self.getParameters()
         
-    def SetupView(self,index):
-        self.curTab = index
-        # Abilito o disabilito i campi delay nel caso
-        # sia nella modalita' three state o visibility 
-        # e cambio l'attributo NumCh -> numero di canali attivi
-        if self.curTab == 0:
-            # three state view
-            self.txtDelay5.setEnabled(True)
-            self.txtDelay6.setEnabled(True)
-            # parameters
-            self.NumCh = 6
-        elif self.curTab == 1:
-            # visibility view
-            self.txtDelay5.setEnabled(False)
-            self.txtDelay6.setEnabled(False)
-            # parameters
-            self.NumCh = 4
         
     def getParameters(self):
         self.bufNum = int(self.txtBufferNo.text())      # registro il TTBufferNumber
         # registro i delay in un array (il numero di delay cambia a seconda della vista scelta)
         # e converto in secondi
         self.delay = np.array([float(self.txtDelay1.text()), float(self.txtDelay2.text()),
-                               float(self.txtDelay3.text()),float(self.txtDelay4.text())])
-        if self.curTab==0:
-            self.delay = np.concatenate( (self.delay,np.array([float(self.txtDelay5.text()),float(self.txtDelay6.text())])) ) 
-        
+                               float(self.txtDelay3.text()), float(self.txtDelay4.text()),
+                               float(self.txtDelay5.text()), float(self.txtDelay6.text()),
+                               float(self.txtDelay7.text()), float(self.txtDelay8.text())])
         self.delay = self.delay*1e-9
         
         self.exptime = float(self.txtExp.text())/1000           # registro il exposure time e converto in secondi
         self.pause = float(self.txtPause.text())                # registro il tempo di pausa
         self.coincWindow = float(self.txtWindow.text())*1e-9    # registro la coincidence window e converto in s
         
-        self.delayRange = float(self.txtRange.text())*1e-9      # registro il rangr del plot che voglio mostrare
+        self.chA = self.ch_A.currentIndex()                          # registro la coppia di canali scelta
+        self.chB = self.ch_B.currentIndex()
+        self.delayRange = float(self.txtRange.text())*1e-9      # registro il range del plot che voglio mostrare
         
     def Start(self):
         if not self.inAcq:
@@ -127,9 +108,6 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.getData()
         self.Monitor()
         self.Align()
-        self.CoincView()
-        self.SingleView()
-        self.UpdateResults()
         self.DelayFunc()
     
     def getData(self):      # metodo che  legge i dati dal buffer
@@ -139,21 +117,19 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         # che carica tutte le coincidenze, avvenute tra i canali shiftati di un certo delay time,
         # accadute entro una cera coincidence window
         self.coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
-        # TODO come sono fatti esattamente questi oggetti? chiedi a Matteo
-        # se non sbaglio:
+        # se non sbaglio questo oggetto e' fatto come:
         #   singles e' un array di 8 canali in cui si mettono le coincidenze per ciascun canale
         #   coincidences e' una matrice 8x8 simmetrica con le coincidenze tra i cari canali
 
     def Monitor(self):      # metodo che stampa i singoli a monitor
-        chs = np.arange(self.NumCh)             # creo un array con tanti numeri quanti il numero di canali
+        chs = 8             # creo un array con tanti numeri quanti il numero di canali
         singles = self.singles[:self.NumCh]     # copio in singles (che e' un array) solo i registrati nei canali attivi
-        if self.curTab == 0:    # creo un dizionario di oggetti contenenti il numero sdi singoli registrati per ciascun canale
-            xdict = {0:str(singles[0]),1:str(singles[1]),
-                     2:str(singles[2]),3:str(singles[3]),
-                     4:str(singles[4]),5:str(singles[5])}
-        elif self.curTab == 1:
-            xdict = {0:str(singles[0]),1:str(singles[1]),
-                     2:str(singles[2]),3:str(singles[3])}
+
+        # creo un dizionario di oggetti contenenti il numero di singoli registrati per ciascun canale
+        xdict = {0:str(singles[0]),1:str(singles[1]),
+                 2:str(singles[2]),3:str(singles[3]),
+                 4:str(singles[4]),5:str(singles[5]),
+                 6:str(singles[6]),7:str(singles[7])}        
         # stampo singoli a monitor
         ax = self.pltMonitor.getAxis('bottom')
         bg = pg.BarGraphItem(x=chs, height=singles, width=0.7, brush='b')
@@ -161,16 +137,11 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         ax.setTicks([xdict.items(), []])
         self.pltMonitor.addItem(bg)
 
-    def Align(self):        # metodo che mostra quanti singoli arrivano e quanti di questi dono delle coincidenze
+    def Align(self):        # metodo che mostra quanti singoli arrivano e quanti di questi sono delle coincidenze
         chs=np.arange(3)
-        if self.curTab == 0:
-            c1 = np.sum(self.singles[0:3])              # sommo singoli che sono arrivati nei primi tre canali
-            c2 = np.sum(self.singles[3:6])              # sommo singoli che sono arrivati negli ultimi tre canali
-            c12 = np.sum(self.coincidences[0:3,3:6])    # somma di tutte le possibili coincidenze avvenute tra i primi tre e gli ultimi tre canali
-        elif self.curTab == 1:
-            c1 = np.sum(self.singles[0:2])
-            c2 = np.sum(self.singles[2:4])
-            c12 = np.sum(self.coincidences[0:2,2:4])
+        c1 = self.singles[self.chA]
+        c2 = self.singles[self.chB]
+        c12 = self.coincidences[self.chA,self.chB]
         xdict = {0:str(c1),1:str(c2),2:str(c12)}
         # stampo somma dei tre canali e somma di tutte le coincidenze a monitor
         C = np.array([c1,c2,c12])
@@ -179,66 +150,6 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         self.pltAlign.clear()
         ax.setTicks([xdict.items(),[]])
         self.pltAlign.addItem(bg)
-
-    def CoincView(self):
-        if self.curTab == 0:
-            chGood = np.array([1,2,4,5,7,8])
-            chErr = np.array([0,3,6])
-            count = self.coincidences[0:3,3:6].flatten()
-            pltFig = self.pltCoinc
-        elif self.curTab == 1:
-            chGood = np.array([0,3])
-            chErr = np.array([1,2])
-            count = self.coincidences[0:2,2:4].flatten()
-            pltFig = self.pltCoincVis
-        xdict = dict(enumerate(count))
-        bgGood = pg.BarGraphItem(x=chGood,height=count[chGood],width=0.7,brush='b')
-        bgErr = pg.BarGraphItem(x=chErr,height=count[chErr],width=0.7,brush='r')
-        ax = pltFig.getAxis('bottom')
-        pltFig.clear()
-        ax.setTicks([xdict.items(), []])
-        pltFig.addItem(bgGood)
-        pltFig.addItem(bgErr)
-
-    def SingleView(self):
-        chs = np.arange(self.NumCh)
-        if self.curTab == 0:
-            count = np.concatenate( (np.sum(self.coincidences[0:3,3:6],axis=1), np.sum(self.coincidences[0:3,3:6],axis=0)) )
-            pltFig = self.pltSingle
-        elif self.curTab == 1:
-            count = np.concatenate( (np.sum(self.coincidences[0:2,2:4],axis=1), np.sum(self.coincidences[0:2,2:4],axis=0)) )
-            pltFig = self.pltSingleVis
-        xdict = dict(enumerate(count))
-        bg = pg.BarGraphItem(x=chs,height=count,width=0.7,brush='b')
-        ax = pltFig.getAxis('bottom')
-        pltFig.clear()
-        ax.setTicks([xdict.items(), []])
-        pltFig.addItem(bg)
-
-    def UpdateResults(self):
-        if self.curTab == 0:
-            rate = np.sum(self.coincidences[0:3,3:6])/self.exptime
-            # print rate and QBER
-            self.lblRate.setText("{:.2f}".format(rate).rstrip('00').rstrip('.'))
-            if rate != 0:
-                qber = np.sum(np.diag(self.coincidences[0:3,3:6]))/(rate*self.exptime)
-                self.lblQBER.setText("{:.4f}".format(qber))
-            else:
-                self.lblQBER.setText('###')
-        elif self.curTab == 1:
-            if np.sum(self.coincidences[0:2,2:4]):
-                visRaw = 1 - 2*(self.coincidences[0,2]+self.coincidences[1,3])/np.sum(self.coincidences[0:2,2:4])
-                self.lblVis.setText("{:.4f}".format(visRaw))
-            else:
-                self.lblVis.setText("###")
-            C_acc = np.maximum( np.array( [self.singles[0]*self.singles[2:4],self.singles[1]*self.singles[2:4]] ), np.zeros( (2,2) ) )*2*self.coincWindow/self.exptime
-            C_noacc = np.maximum( self.coincidences[0:2,2:4] - C_acc, np.zeros( (2,2) ) )
-            if np.sum(C_noacc):
-                visNet = 1 - 2*(C_noacc[0,0]+C_noacc[1,1])/np.sum(C_noacc)
-                self.lblVisNet.setText("{:.4f}".format(visNet))
-            else:
-                self.lblVisNet.setText("###")
-
 
     def DelayFunc(self):
         # self.ttagBuf.rawtags -> is an array with all the arrival times
@@ -260,38 +171,27 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         newTags = rawAll[0]
         newChan = rawAll[1]
         # filter data to plot based on the selected channel combination
-        selDelay = self.cmbChannels.currentIndex()
-        if selDelay > 8:
-            selTags = newTags
-            selChan = newChan
-        else:
-            if self.curTab == 0:
-                ch1 = np.array([0,0,0,1,1,1,2,2,2])
-                ch2 = np.array([3,4,5,3,4,5,3,4,5])
-            elif self.curTab == 1:
-                ch1 = np.array([0,0,0,1,1,1,-1,-1,-1])
-                ch2 = np.array([2,3,-1,2,3,-1,2,3,-1])
-            # modo furbo per otterere l'array delle posizioni in cui ho solo i tag dei canali eletti 
-            selPos = np.nonzero( np.bitwise_or(newChan == ch1[selDelay],newChan == ch2[selDelay]) )[0]
-            selTags = newTags[selPos]
-            selChan = newChan[selPos]
+        # modo furbo per otterere l'array delle posizioni in cui ho solo i tag dei canali eletti 
+        selPos = np.nonzero( np.bitwise_or(newChan == self.chA,newChan == self.chB ) )[0]
+        selTags = newTags[selPos]
+        selChan = newChan[selPos]
         # add delays to tags
         # il metodo around arrotonda col metodo "piu' vicino numero pari"
         selTags = selTags + np.around(self.delay[selChan]/self.ttagBuf.resolution).astype(np.int64)
         # compute delay histogram
         #delayEdges = np.arange( -np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32) , np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32), 2 )
-        # TODO: linea aggiunta
+        # linea aggiunta
         delayEdges = np.arange( -np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32) , np.around(self.delayRange/self.ttagBuf.resolution).astype(np.int32), 4 )
 
         selTags = selTags.astype(np.int64)
         selChan = selChan.astype(np.int8)
 
-        if selDelay > 8:
-            if self.curTab == 0:
-                chMap = np.array([0,0,0,1,1,1])
-            elif self.curTab == 1:
-                chMap = np.array([0,0,1,1])
-            selChan = chMap[selChan]
+#        if selDelay > 8:
+#            if self.curTab == 0:
+#                chMap = np.array([0,0,0,1,1,1])
+#            elif self.curTab == 1:
+#                chMap = np.array([0,0,1,1])
+#            selChan = chMap[selChan]
 
         t12diff = np.diff(selTags)
         chdiff = np.diff(selChan)
@@ -325,6 +225,6 @@ if __name__ == "__main__":
     app = QtGui.QApplication.instance()
     if app is None:
         app = QtGui.QApplication(sys.argv)
-    window = Monitor()
+    window = Channels()
     window.show()
     sys.exit(app.exec_())
