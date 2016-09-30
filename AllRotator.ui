@@ -46,7 +46,7 @@
       </font>
      </property>
      <property name="text">
-      <string>83825706</string>
+      <string>83865112</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -418,7 +418,7 @@
       </font>
      </property>
      <property name="text">
-      <string>0.5</string>
+      <string>1</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -472,7 +472,7 @@
       </font>
      </property>
      <property name="text">
-      <string>83865112</string>
+      <string>83825836</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -599,7 +599,7 @@
       </font>
      </property>
      <property name="text">
-      <string>-1.8</string>
+      <string>-1.7</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -638,7 +638,7 @@
       </font>
      </property>
      <property name="text">
-      <string>83825836</string>
+      <string>83825706</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -810,7 +810,7 @@
       </font>
      </property>
      <property name="text">
-      <string>76.5</string>
+      <string>77</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -864,7 +864,7 @@
       </font>
      </property>
      <property name="text">
-      <string>103.5</string>
+      <string>12.9</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
