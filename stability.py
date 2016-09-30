@@ -18,6 +18,9 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
     # Signal emitted when new data are ready
     dataReady = QtCore.pyqtSignal(tuple)
 
+    # Signal emitted when new data are to be saved
+    saveReady = QtCore.pyqtSignal(tuple)
+
     def __init__(self):
 
         QtGui.QMainWindow.__init__(self)
@@ -31,6 +34,10 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
         self.btnStart.clicked.connect(self.Start)
         self.dataReady.connect(self.updateUI)
 
+        self.saveReady.connect(self.saveData)
+        self.saveInterval = 30
+        self.clock = QtCore.QTime()
+
         self.inAcq = False
 
 
@@ -41,6 +48,7 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbSource.setEnabled(False)
             self.txtBufNo.setEnabled(False)
             self.cmbChannel.setEnabled(False)
+            self.chkSave.setEnabled(False)
 
             self.btnStart.setText('Stop')
             self.btnStart.setStyleSheet('background-color: red')
@@ -52,7 +60,16 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
             self.ttagBuf = ttag.TTBuffer(self.bufNo)
 
             self.counts = []
+            self.time = []
             self.index = 0
+
+            self.saveFlag = self.chkSave.isChecked()
+
+            if self.saveFlag:
+                self.saveFile = QtGui.QFileDialog.getSaveFileName(self,'Save file','/home/saganc/doubleCHSH/','*.npz')
+                self.saveTime = 0
+
+            self.clock.start()
 
             self.stopAcq = threading.Event()
             self.c_thread = threading.Thread(target=self.funcAcq, args=(self.stopAcq,))
@@ -65,6 +82,7 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
             self.cmbSource.setEnabled(True)
             self.txtBufNo.setEnabled(True)
             self.cmbChannel.setEnabled(True)
+            self.chkSave.setEnabled(True)
 
             self.btnStart.setText('Start')
             self.btnStart.setStyleSheet('')
@@ -87,12 +105,14 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
         while not stopAcq.isSet():
             time.sleep(self.exposure/0.9)
             self.singles = self.ttagBuf.singles(self.exposure)
-            print(self.singles)
 
             self.counts.append(self.singles[self.channel])
+            self.time.append(self.clock.elapsed()/1000.)
             self.index += 1
 
-            x = np.arange(self.index)
+            #print(self.index,self.time[-1],self.counts[-1])
+
+            x = np.array(self.time)
             y = np.array(self.counts)
 
             #pl1 = pg.ScatterPlotItem(x,y)
@@ -110,7 +130,22 @@ class Stability(QtGui.QMainWindow, Ui_MainWindow):
             #self.lblMean.setText(str(self.meanCount))
             #self.lblStd.setText(str(self.stdCount))
     
+            if self.saveFlag and (stopAcq.isSet() or ((self.time[-1] - self.saveTime) > self.saveInterval) ):
+                self.saveTime = self.time[-1]
+                self.saveReady.emit( (x,y) )
+
             self.dataReady.emit( (x,y) )
+
+    def saveData(self, data):
+        self.save_thread = threading.Thread(target=self.saveThreadFunc,args=(data,))
+        self.save_thread.start()
+
+    def saveThreadFunc(self, data):
+        time = data[0]
+        count = data[1]
+
+        np.savez(self.saveFile,time=time,count=count)
+        
 
 
 if __name__ == "__main__":
