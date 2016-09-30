@@ -7,7 +7,6 @@ Created on Fri Apr  8 11:43:23 2016
 
 import sys
 from PyQt4 import QtCore,QtGui,uic      # importing Qt libraries
-import ttag                             # importing libraries to read Qtools output
 
 import pyqtgraph as pg                  # importing graph libraries
 import numpy as np                      # importing mathematical libraries
@@ -21,6 +20,7 @@ from scipy.optimize import curve_fit    # importing fit method
         
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
+import ttag                             # importing libraries to read Qtools output
 
 qtCreatorFile = 'monitor.ui'
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile) #import the monitor.ui interface
@@ -28,12 +28,12 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile) #import the monitor.u
 class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
         
+        pg.setConfigOption('background', 'w')       # sets graph background to white                                                 
+        pg.setConfigOption('foreground', 'k')       # sets axis color to black 
+
         QtGui.QMainWindow.__init__(self)            # These three commands
         Ui_MainWindow.__init__(self)                # are needed to
         self.setupUi(self)                          # to setup the ui
-
-        pg.setConfigOption('background', 'w')       # sets graph background to white                                                 
-        pg.setConfigOption('foreground', 'k')       # sets axis color to black 
 
         # La logica di programmare una interfaccia mi sembra la seguente:
         # per prima cosa inizializzo l'interfaccia grafica
