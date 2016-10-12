@@ -51,10 +51,9 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.getParameters()
         self.Ncounts = []
     
-    def SaveData(self):
+    def SaveData(self,filename):
         data = np.array(self.Ncounts)
         angles = self.anglePlate #np.arange(self.iniAngle, self.finAngle, self.stepAngle)
-        filename = self.txtFileName.text()
         np.savez(filename, data=data, angles=angles)
         
     def getParameters(self):
@@ -92,6 +91,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         if not self.inAcq:
             self.inAcq = True
 
+            self.txtMeasNo.setEnabled(False)
             self.txtBufferNo.setEnabled(False)
             self.btnStart.setStyleSheet('background-color: red')
             self.btnStart.setText('Stop')
@@ -103,38 +103,55 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
                 return
             self.UpdateLabels()
             print('Acquisition started') 
-            self.ttagBuf = ttag.TTBuffer(self.bufNum) 
-            self.btnSaveData.setEnabled(True)
-            self.Ncounts = np.array([])
-            self.anglePlate = np.array([])
-            for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
-                QtGui.qApp.processEvents()
-                if not self.inAcq:
-                    break
-                
-                self.con.goto(float(angle),wait=True) ## Move plate to angle=angle
-                time.sleep(0.1)
-                
-                self.ttagBuf.start()
-                time.sleep(self.integrationTime/.9)
-                self.ttagBuf.stop()
-                time.sleep(.1)
-                
-                if self.Ncounts.size == 0:
-                  self.Ncounts = np.array(self.ttagBuf.singles(self.integrationTime))
-                  self.Ncounts = self.Ncounts[np.newaxis,:]
-                else:
-                  self.Ncounts = np.vstack( (self.Ncounts,self.ttagBuf.singles(self.integrationTime)) )
-                
-                self.anglePlate = np.concatenate((self.anglePlate, [angle]))
-                time.sleep(timeAfterPlateMove)
-                self.UpdateView()
+            self.ttagBuf = ttag.TTBuffer(self.bufNum)
+            self.measNo = int(self.txtMeasNo.text())
+            self.totCounts = []
+
+            if self.chkSaveData.isChecked() and self.txtFileName.text() == '':
+                self.saveDir = QtGui.QFileDialog.getSaveFileName(self,'Save directory','/home/sagnac/doubleCHSH/data/timebin/')
+                self.txtFilename.setText(self.saveDir)
+            else:
+                self.saveDir = self.txtFileName.text()
+
+            self.tstart = time.time()
+
+            for i in np.arange(self.measNo):
+
+                self.Ncounts = np.array([])
+                self.anglePlate = np.array([])
+                for angle in np.arange(self.iniAngle, self.finAngle, self.stepAngle):
+                    QtGui.qApp.processEvents()
+                    if not self.inAcq:
+                        break
+                    
+                    self.con.goto(float(angle),wait=True) ## Move plate to angle=angle
+                    time.sleep(0.1)
+                    
+                    self.ttagBuf.start()
+                    time.sleep(self.integrationTime/.9)
+                    self.ttagBuf.stop()
+                    time.sleep(.1)
+                    
+                    if self.Ncounts.size == 0:
+                      self.Ncounts = np.array(self.ttagBuf.singles(self.integrationTime))
+                      self.Ncounts = self.Ncounts[np.newaxis,:]
+                    else:
+                      self.Ncounts = np.vstack( (self.Ncounts,self.ttagBuf.singles(self.integrationTime)) )
+                    
+                    self.anglePlate = np.concatenate((self.anglePlate, [angle]))
+                    time.sleep(timeAfterPlateMove)
+                    self.UpdateView()
+
+                if self.chkSaveData.isChecked():
+                    filename = 'meas_'+time.strftime('%Y%m%d_%H%M%S')+'.npz' 
+                    self.SaveData(self.saveDir+'/'+filename)
                 
             self.runStart = 0
             self.btnConnect.setEnabled(True)
             print('Acquisition stopped') 
         
-        self.inAcq = False    
+        self.inAcq = False
+        self.txtMeasNo.setEnabled(True)
         self.txtBufferNo.setEnabled(True)
         self.btnStart.setStyleSheet('')
         self.btnStart.setText('Start')   
@@ -149,12 +166,11 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.LabelTimeLeft()
                 
     def LabelTimeLeft(self):
-        self.txtTimeLeft.setText(str(self.totalTime - len(self.Ncounts)*\
-                                 (self.integrationTime/.9 + timeAfterPlateMove)) + " s")
+        self.txtTimeLeft.setText(str( (self.tstart+self.totalTime - time.time())/60. ) + " min")
         
     def LabelTotalTime(self):
-        self.totalTime = (self.integrationTime/.9 + timeAfterPlateMove +.1) * np.arange(self.iniAngle, self.finAngle, self.stepAngle).size
-        self.txtTotTime.setText(str(self.totalTime) + " s")
+        self.totalTime = (self.integrationTime/.9 + timeAfterPlateMove +.1) * np.arange(self.iniAngle, self.finAngle, self.stepAngle).size * self.measNo
+        self.txtTotTime.setText(str(self.totalTime/60.) + " min")
         
     def PlotSingles(self):
         x = np.arange(self.iniAngle, self.finAngle, self.stepAngle)[:len(self.Ncounts)]
