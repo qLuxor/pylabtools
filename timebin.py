@@ -38,11 +38,9 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.btnStart.clicked.connect(self.Start)
         self.btnConnect.clicked.connect(self.Connect)
-        self.btnSaveData.clicked.connect(self.SaveData)
         self.btnMakeFit.clicked.connect(self.MakeFit)
 
         self.pltVisibility.setMouseEnabled(x=False,y=False)  
-        self.btnSaveData.setEnabled(False)
 
         self.inAcq = False
         self.connected = False
@@ -72,6 +70,8 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         if self.finAngle > self.iniAngle and self.stepAngle < 0:
             self.stepAngle = -self.stepAngle
         
+        self.measNo = int(self.txtMeasNo.text())
+        
         #Fit parameters
         self.phase0 = float(self.txtPhase0.text())
         self.phase1 = float(self.txtPhase1.text())
@@ -97,6 +97,7 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.btnStart.setText('Stop')
 
             self.getParameters()
+            self.tstart = time.time()
             
             self.runStart += 1
             if self.runStart > 1:
@@ -104,16 +105,13 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
             self.UpdateLabels()
             print('Acquisition started') 
             self.ttagBuf = ttag.TTBuffer(self.bufNum)
-            self.measNo = int(self.txtMeasNo.text())
-            self.totCounts = []
 
             if self.chkSaveData.isChecked() and self.txtFileName.text() == '':
-                self.saveDir = QtGui.QFileDialog.getSaveFileName(self,'Save directory','/home/sagnac/doubleCHSH/data/timebin/')
-                self.txtFilename.setText(self.saveDir)
+                self.saveDir = QtGui.QFileDialog.getExistingDirectory(self,'Save directory','/home/sagnac/doubleCHSH/data/timebin/',QtGui.QFileDialog.ShowDirsOnly)
+                self.txtFileName.setText(self.saveDir)
             else:
                 self.saveDir = self.txtFileName.text()
 
-            self.tstart = time.time()
 
             for i in np.arange(self.measNo):
 
@@ -166,11 +164,11 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.LabelTimeLeft()
                 
     def LabelTimeLeft(self):
-        self.txtTimeLeft.setText(str( (self.tstart+self.totalTime - time.time())/60. ) + " min")
+        self.lblTimeLeft.setText("{%.2f}".format( (self.tstart+self.totalTime - time.time())/60. ) + " min")
         
     def LabelTotalTime(self):
         self.totalTime = (self.integrationTime/.9 + timeAfterPlateMove +.1) * np.arange(self.iniAngle, self.finAngle, self.stepAngle).size * self.measNo
-        self.txtTotTime.setText(str(self.totalTime/60.) + " min")
+        self.lblTotalTime.setText("{%.2f}".format(self.totalTime/60.) + " min")
         
     def PlotSingles(self):
         x = np.arange(self.iniAngle, self.finAngle, self.stepAngle)[:len(self.Ncounts)]
