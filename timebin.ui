@@ -76,7 +76,7 @@
     <item row="2" column="1" colspan="2">
      <widget class="QLineEdit" name="txtIniAngle">
       <property name="text">
-       <string>17</string>
+       <string>14</string>
       </property>
      </widget>
     </item>
@@ -119,7 +119,7 @@
     <item row="10" column="1" colspan="2">
      <widget class="QLineEdit" name="txtSN">
       <property name="text">
-       <string>83825836</string>
+       <string>83825706</string>
       </property>
      </widget>
     </item>
@@ -177,7 +177,7 @@
     <item row="20" column="1">
      <widget class="QLineEdit" name="txtAngle0">
       <property name="text">
-       <string>23.4</string>
+       <string>20.4</string>
       </property>
      </widget>
     </item>
@@ -212,7 +212,7 @@
     <item row="3" column="1" colspan="2">
      <widget class="QLineEdit" name="txtFinAngle">
       <property name="text">
-       <string>30</string>
+       <string>26</string>
       </property>
      </widget>
     </item>
@@ -371,7 +371,11 @@
      </widget>
     </item>
     <item row="13" column="1" colspan="2">
-     <widget class="QLineEdit" name="txtFileName"/>
+     <widget class="QLineEdit" name="txtFileName">
+      <property name="text">
+       <string>phase_diff_</string>
+      </property>
+     </widget>
     </item>
     <item row="20" column="4">
      <widget class="QLineEdit" name="txtDiffPhase"/>
