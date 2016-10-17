@@ -195,7 +195,8 @@ class Bob1():
         self.phshift = phshift
         self.weak = [weak]
 
-        self.anglebase = {'Z':45,'X':67.5}
+        self.anglebase =  {'Z':45,'X':22.5}
+        #self.anglebase = {'Z':45,'X':67.5}
         #self.anglebase = {'Z':0, 'X': 22.5}
 
     def selBasis(self,basis):
