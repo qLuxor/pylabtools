@@ -164,11 +164,11 @@ class Visibility(QtGui.QMainWindow, Ui_MainWindow):
         self.LabelTimeLeft()
                 
     def LabelTimeLeft(self):
-        self.lblTimeLeft.setText("{%.2f}".format( (self.tstart+self.totalTime - time.time())/60. ) + " min")
+        self.lblTimeLeft.setText("{0:.2f}".format( (self.tstart+self.totalTime - time.time())/60. ) + " min")
         
     def LabelTotalTime(self):
         self.totalTime = (self.integrationTime/.9 + timeAfterPlateMove +.1) * np.arange(self.iniAngle, self.finAngle, self.stepAngle).size * self.measNo
-        self.lblTotalTime.setText("{%.2f}".format(self.totalTime/60.) + " min")
+        self.lblTotalTime.setText("{0:.2f}".format(self.totalTime/60.) + " min")
         
     def PlotSingles(self):
         x = np.arange(self.iniAngle, self.finAngle, self.stepAngle)[:len(self.Ncounts)]
