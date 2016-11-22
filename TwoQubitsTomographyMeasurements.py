@@ -8,7 +8,9 @@ Created on Fri Nov 11 12:38:28 2016
 import time
 import sys
 import numpy as np
-sys.path.append('../..')
+import json
+
+sys.path.append('..')
 import aptlib
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
@@ -20,18 +22,18 @@ IntegrationTime = 1.
 CoincidenceRadius = 1e-9
 
 # Channel delays
-Delays = [0., 0., 0., 0.]
+Delays = [0., 0.61, -10.88, -15.31]
 
 # Serial Numbers of APT controllers
-SNAliceHWP = 0
-SNAliceQWP = 0
-SNBobHWP = 0
-SNBobQWP = 0
+SNAliceHWP = 83825836
+SNAliceQWP = 83865112
+SNBobHWP = 83830445
+SNBobQWP = 83865359
 
 # Set off angles of rotators
-zeroAngle = {'AliceHWP': 0.,
+zeroAngle = {'AliceHWP': 12.56,
              'AliceQWP': 0.,
-             'BobHWP': 0.,
+             'BobHWP': -0.5,
              'BobQWP': 0.
              }
             
@@ -93,7 +95,7 @@ Measurements = {'HVHV': 0,
                 'DARL': 0,
                 'RLHV': 0,
                 'RLDA': 0,
-                'RLRL': 0,}
+                'RLRL': 0}
 
 for Alice in OrderOfMeasuredBases:
     # Move Alice's plates
@@ -113,12 +115,5 @@ for Alice in OrderOfMeasuredBases:
         Measurements[Alice+Bob] = cMatrix
         
 # Save measurements
-np.save('Tomography.npy', Measurements)
-
-
-
-
-
-
-
-
+with open('Tomography.json', 'w') as fp:
+    json.dump(Measurements, fp)
