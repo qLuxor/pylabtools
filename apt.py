@@ -8,9 +8,8 @@ Created on Tue Mar 22 11:14:59 2016
 import sys
 from PyQt4 import QtCore, QtGui, uic
 
-# TODO: change from deprecated pyAPT to aptlib
-sys.path.append('../pyAPT')
-import pyAPT
+sys.path.append('..')
+import aptlib
 
 qtCreatorFile = 'apt.ui'
 
@@ -43,7 +42,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect.setStyleSheet('background-color: red')
             self.btnConnect.setText('Disconnect')
             self.SN = int(self.txtSN.text())
-            self.con = pyAPT.MTS50(serial_number=self.SN)
+            self.con = aptlib.Z8XX(serial_number=self.SN)
             
             self.btnUp.setEnabled(True)
             self.btnDown.setEnabled(True)

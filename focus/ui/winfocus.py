@@ -7,12 +7,11 @@ Module implementing WinFocus.
 
 import sys
 sys.path.append('/home/sagnac/Quantum/')
-sys.path.append('/home/sagnac/Quantum/pyAPT/')
 
 import time
 
 from pyThorPM100.pm100 import pm100d
-import pyAPT
+import aptlib
 
 import numpy as np
 from scipy.special import erfc
@@ -87,17 +86,18 @@ class WinFocus(QMainWindow, Ui_MainWindow):
             if selLinear == 'thorlabs':
                 # open APT controller
                 SN = int(self.txtSN.text())
-                con = pyAPT.MTS50(serial_number=SN)
-                con.goto(x[0], wait=True)
+                con = aptlib.Z8XX(serial_number=SN)
+                con.goto(float(x[0]), wait=True)
 
             for i in range(x.size):
                 qApp.processEvents()
-                con.goto(x[i],  wait=True)
+                con.goto(float(x[i]),  wait=True)
                 # wait until the movement has finished
-                stat = con.status()
-                while stat.moving:
-                    time.sleep(0.01)
-                    stat = con.status
+                #stat = con.status()
+                #while stat.moving:
+                #    time.sleep(0.01)
+                #    stat = con.status
+                time.sleep(0.1)
                 singleMeasure = np.zeros(average)
                 for j in range(average):
                     p = max(pwm.read()*1000, 0.)
