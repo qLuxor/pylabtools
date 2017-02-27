@@ -8,7 +8,6 @@ Created on Fri Nov 11 12:38:28 2016
 import time
 import sys
 import numpy as np
-import json
 
 sys.path.append('..')
 import aptlib
@@ -18,29 +17,31 @@ import ttag
 # buffer number
 bufNum = 0
 
-IntegrationTime = 1.
+IntegrationTime = 5.
 CoincidenceRadius = 1e-9
 
 # Channel delays
-Delays = [0., 0.61, -10.88, -15.31]
+Delays = [0.35, 0.685, -10.88, -15.31]
 
 # Serial Numbers of APT controllers
 SNAliceHWP = 83825836
-SNAliceQWP = 83865112
+SNAliceQWP = 83825870
 SNBobHWP = 83830445
 SNBobQWP = 83865359
 
 # Set off angles of rotators
 zeroAngle = {'AliceHWP': 12.56,
-             'AliceQWP': 0.,
+             'AliceQWP': -27.0,
              'BobHWP': -0.5,
-             'BobQWP': 0.
+             'BobQWP': 16.8
              }
             
 # Measurement configurations: wave plates positions
 # Structure of the dictionary: 'BasisName':[HWPangle, QWPangle] angles are in degrees
+#MeasurementsConf = {'HV': [0.,0.], 'VH': [45.,0.], 'DA': [22.5, 45.], 'AD': [67.5, 45.], 'RL': [22.5, 0.], 'LR': [67.5, 0.]}
 MeasurementsConf = {'HV': [0.,0.], 'DA': [22.5, 45.], 'RL': [22.5, 0.]}
 
+#OrderOfMeasuredBases = ['HV', 'VH', 'DA', 'AD', 'RL', 'LR']
 OrderOfMeasuredBases = ['HV', 'DA', 'RL']
 
 # Homing the plates
@@ -69,10 +70,10 @@ ttagBuf = ttag.TTBuffer(bufNum)
 
 # set channel delays
 delays = np.zeros(ttagBuf.channels,dtype=np.double)
-delays[0] = Delays[0]
-delays[1] = Delays[1] 
-delays[2] = Delays[2] 
-delays[3] = Delays[3] 
+delays[0] = Delays[0]*1e-9
+delays[1] = Delays[1]*1e-9 
+delays[2] = Delays[2]*1e-9 
+delays[3] = Delays[3]*1e-9 
 
 # Connect APT controllers
 conAliceHWP = aptlib.PRM1(serial_number=SNAliceHWP)
@@ -82,21 +83,23 @@ conBobQWP = aptlib.PRM1(serial_number=SNBobQWP)
 
 # Homing plates
 HomingWP()
+print('Homing DONE')
 
 # Set plates to zero angle
 MoveToZeroAngle()
+print('Plates to Zero')
 
 # Initialize dictionary to save coincidences
-Measurements = {'HVHV': 0,
-                'HVDA': 0,
-                'HVRL': 0,
-                'DAHV': 0,
-                'DADA': 0,
-                'DARL': 0,
-                'RLHV': 0,
-                'RLDA': 0,
-                'RLRL': 0}
-
+#Measurements = {'HVHV': 0,
+#                'HVDA': 0,
+#                'HVRL': 0,
+#                'DAHV': 0,
+#                'DADA': 0,
+#                'DARL': 0,
+#                'RLHV': 0,
+#                'RLDA': 0,
+#                'RLRL': 0}
+Measurements={}
 for Alice in OrderOfMeasuredBases:
     # Move Alice's plates
     RotateWP(conAliceHWP, MeasurementsConf[Alice][0], 'AliceHWP')
@@ -106,14 +109,27 @@ for Alice in OrderOfMeasuredBases:
         # Move Bob's plates
         RotateWP(conBobHWP, MeasurementsConf[Bob][0], 'BobHWP')
         RotateWP(conBobQWP, MeasurementsConf[Bob][1], 'BobQWP')
-        
+        print('Bases: Alice', Alice, '  Bob', Bob)
         # Wait integration time + half a second
-        time.sleep( IntegrationTime + 0.5 )
+        time.sleep( IntegrationTime + 1.0 )
         
         #Aquire data, saving coincidences
-        cMatrix = ttagBuf.coincidences(IntegrationTime, CoincidenceRadius, delays)
+        cMatrix = ttagBuf.coincidences(IntegrationTime, CoincidenceRadius, -delays)[0:4,0:4]
+        
+        #RotateWP(conAliceHWP, MeasurementsConf[Alice][0] + 45., 'AliceHWP')
+        #RotateWP(conBobHWP, MeasurementsConf[Bob][0] + 45., 'BobHWP')
+        
+        #c2 = ttagBuf.coincidences(IntegrationTime, CoincidenceRadius, -delays)[0:4,0:4]
+        #cMatrix = [c1, c2]
+        print(cMatrix)
+        #print(cMatrix[0])
         Measurements[Alice+Bob] = cMatrix
         
 # Save measurements
-with open('Tomography.json', 'w') as fp:
-    json.dump(Measurements, fp)
+np.save('Tomography.npy',Measurements)
+print('Measurements saved')
+
+RotateWP(conAliceHWP, 0., 'AliceHWP')
+RotateWP(conAliceQWP, 0., 'AliceQWP')
+RotateWP(conBobHWP, 0., 'BobHWP')
+RotateWP(conBobQWP, 0., 'BobQWP')
