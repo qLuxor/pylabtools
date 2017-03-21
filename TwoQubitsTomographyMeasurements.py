@@ -21,19 +21,19 @@ IntegrationTime = 5.
 CoincidenceRadius = 1e-9
 
 # Channel delays
-Delays = [0.35, 0.685, -10.88, -15.31]
+Delays = [0, 0.3, -9.8, -9.1]
 
 # Serial Numbers of APT controllers
-SNAliceHWP = 83825836
-SNAliceQWP = 83825870
-SNBobHWP = 83830445
+SNAliceHWP = 83830445
+SNAliceQWP = 83865112
+SNBobHWP = 83825706
 SNBobQWP = 83865359
 
 # Set off angles of rotators
-zeroAngle = {'AliceHWP': 12.56,
-             'AliceQWP': -27.0,
-             'BobHWP': -0.5,
-             'BobQWP': 16.8
+zeroAngle = {'AliceHWP': 30.5,
+             'AliceQWP': 2,
+             'BobHWP': 131,
+             'BobQWP': 23.5
              }
             
 # Measurement configurations: wave plates positions
