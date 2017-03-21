@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Module implementing WinFocus.
-"""
-# TODO: change from pyAPT to aptlib
-
 import sys
 sys.path.append('..')
 
@@ -123,7 +118,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                 p0 = [I_max - I_min, x_max, I_min]
                 print(p0)
                 bnds = ([0,-np.inf,0],[np.inf,np.inf,np.inf])
-                p, perr = curve_fit(func, x, count, p0=p0,bounds=bnds)
+                p, pcov = curve_fit(func, x, count, p0=p0,bounds=bnds)
+                perr = np.sqrt(np.diag(pcov))
                 
                 xvis = np.linspace(x[0],x[-1],1000)
                 self.axVis.hold(True)
@@ -131,13 +127,14 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.plotVis.draw()
                 self.axVis.hold(False)
                 
-                self.lblA0.setText("{:.4}".format(p[0]))
-                self.lblA1.setText("{:.4}".format(np.rad2deg(p[1])))
-                self.lblA2.setText("{:.4}".format(p[2]))
+                self.lblA0.setText("{:.4}".format(p[0])+' \u00B1 '+"{:.4}".format(perr[0]))
+                self.lblA1.setText("{:.4}".format(np.rad2deg(p[1]))+' \u00B1 '+"{:.4}".format(np.rad2deg(perr[1])))
+                self.lblA2.setText("{:.4}".format(p[2])+' \u00B1 '+"{:.4}".format(perr[2]))
                 
                 vis = p[0] / (p[0] + 2*p[2])
+                errVis = 2/(p[0] + 2*p[2])**2 * np.sqrt( (p[2]*perr[0])**2 + (p[0]*perr[2])**2 )
                 
-                self.lblVis.setText("{:.4}".format(vis*100))
+                self.lblVis.setText("{:.4}".format(vis*100)+' \u00B1 '+"{:.4}".format(errVis*100))
                 
             self.btnStart.setStyleSheet("")
             self.started = False
