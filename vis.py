@@ -74,8 +74,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             maxStage = float(self.txtMax.text())
             step = float(self.txtStep.text())
             
-            x = np.deg2rad(np.arange(minStage, maxStage, step))
-            count = np.zeros(x.size)
+            self.x = np.deg2rad(np.arange(minStage, maxStage, step))
+            self.count = np.zeros(self.x.size)
             
             # open power meter
             pwm = pm100d()
@@ -85,11 +85,11 @@ class Vis(QMainWindow, Ui_MainWindow):
                 # open APT controller
                 SN = int(self.txtSN.text())
                 con = aptlib.PRM1(serial_number=SN)
-                con.goto(float(np.rad2deg(x[0])), wait=True)
+                con.goto(float(np.rad2deg(self.x[0])), wait=True)
 
-            for i in range(x.size):
+            for i in range(self.x.size):
                 qApp.processEvents()
-                con.goto(float(np.rad2deg(x[i])),  wait=True)
+                con.goto(float(np.rad2deg(self.x[i])),  wait=True)
                 # wait until the movement has finished
                 #stat = con.status()
                 #while stat.moving:
@@ -100,8 +100,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                 for j in range(average):
                     p = max(pwm.read()*1000, 0.)
                     singleMeasure[j] = p
-                count[i] = np.mean(singleMeasure)
-                self.axVis.plot(np.rad2deg(x), count, '.')
+                self.count[i] = np.mean(singleMeasure)
+                self.axVis.plot(np.rad2deg(self.x), self.count, '.')
                 self.plotVis.draw()
                 
                 if not self.started:
@@ -109,19 +109,19 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             if self.started:
                 # find medium point
-                I_max = np.max(count)
-                I_min = np.min(count)
-                x_max = x[np.argmax(count)]
+                I_max = np.max(self.count)
+                I_min = np.min(self.count)
+                x_max = self.x[np.argmax(self.count)]
                 
                 # calculate fit
                 func = lambda x, a, b, c: a*np.cos(2*x + b)**2 + c
                 p0 = [I_max - I_min, x_max, I_min]
                 print(p0)
                 bnds = ([0,-np.inf,0],[np.inf,np.inf,np.inf])
-                p, pcov = curve_fit(func, x, count, p0=p0,bounds=bnds)
+                p, pcov = curve_fit(func, self.x, self.count, p0=p0,bounds=bnds)
                 perr = np.sqrt(np.diag(pcov))
                 
-                xvis = np.linspace(x[0],x[-1],1000)
+                xvis = np.linspace(self.x[0],self.x[-1],1000)
                 self.axVis.hold(True)
                 self.axVis.plot(np.rad2deg(xvis), func(xvis, *p), 'r')
                 self.plotVis.draw()
@@ -181,6 +181,15 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnOscilloscope.setStyleSheet("")
             self.oscilloscope = False
 
+
+    @pyqtSlot()
+    def on_btnSaveData_clicked(self):
+        """
+        Save acquired data
+        """
+        filename = self.txtFileName.text()
+        np.savez(filename, x=self.x, count=self.count)
+        
 
 if __name__ == "__main__":
     app = QApplication.instance()
