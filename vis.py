@@ -56,10 +56,10 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.axVis.set_xlabel('Position [mm]')
         self.axVis.set_ylabel('Power [mW]')
         
-        self.lcc = ik.thorlabs.LCC25.open_serial('/dev/ttyUSB2', 115200,timeout=1)
-        self.voltage_arr = np.array([0,0.25,0.5,0.75,1,1.25,1.5,1.75,2,2.25,2.5,2.75,
+        self.lcc = ik.thorlabs.LCC25.open_serial('/dev/ttyUSB1', 115200,timeout=1)
+        self.voltage_arr = np.array([0,0.2,0.5,0.7,1,1.2,1.5,1.7,2,2.2,2.5,2.7,
                                      3,3.5,4,4.5,5,5.5,6,7,8,9,10,11,13,15,17.5,20,22.5,25])
-        self.lcc.mode = lcc.Mode.voltage1
+        self.lcc.mode = self.lcc.Mode.voltage1
         self.lcc.enable = True
         
     @pyqtSlot()
@@ -90,11 +90,14 @@ class Vis(QMainWindow, Ui_MainWindow):
             if selLinear == 'thorlabs':
                 # open APT controller
                 SN = int(self.txtSN.text())
+                print(SN)
                 con = aptlib.PRM1(serial_number=SN)
                 con.goto(float(np.rad2deg(self.x[0])), wait=True)
 
             row = 0
             for voltage in self.voltage_arr:
+                self.x = np.deg2rad(np.arange(minStage, maxStage, step))
+                self.count = np.zeros(self.x.size)
                 self.lcc.voltage1 = voltage
                 time.sleep(0.5)
                 for i in range(self.x.size):
@@ -111,6 +114,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                         p = max(pwm.read()*1000, 0.)
                         singleMeasure[j] = p
                     self.count[i] = np.mean(singleMeasure)
+                    print(self.x)
+                    print(self.count)
                     self.axVis.plot(np.rad2deg(self.x), self.count, '.')
                     self.plotVis.draw()
         
