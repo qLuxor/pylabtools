@@ -17,11 +17,11 @@ from PyQt4 import uic
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
-import instruments as ik
 
 qtCreatorFile = 'vis.ui'
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
+
 
 class Vis(QMainWindow, Ui_MainWindow):
     """
@@ -56,12 +56,7 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.axVis.set_xlabel('Position [mm]')
         self.axVis.set_ylabel('Power [mW]')
         
-        self.lcc = ik.thorlabs.LCC25.open_serial('/dev/ttyUSB1', 115200,timeout=1)
-        self.voltage_arr = np.array([0,0.2,0.5,0.7,1,1.2,1.5,1.7,2,2.2,2.5,2.7,
-                                     3,3.5,4,4.5,5,5.5,6,7,8,9,10,11,13,15,17.5,20,22.5,25])
-        self.lcc.mode = self.lcc.Mode.voltage1
-        self.lcc.enable = True
-        
+    
     @pyqtSlot()
     def on_btnStart_clicked(self):
         """
@@ -81,8 +76,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             self.x = np.deg2rad(np.arange(minStage, maxStage, step))
             self.count = np.zeros(self.x.size)
-            self.TotCount = np.zeros((self.voltage_arr.size, self.x.size))
-
+            
             # open power meter
             pwm = pm100d()
             
@@ -90,45 +84,28 @@ class Vis(QMainWindow, Ui_MainWindow):
             if selLinear == 'thorlabs':
                 # open APT controller
                 SN = int(self.txtSN.text())
-                print(SN)
                 con = aptlib.PRM1(serial_number=SN)
                 con.goto(float(np.rad2deg(self.x[0])), wait=True)
 
-            row = 0
-            for voltage in self.voltage_arr:
-                self.x = np.deg2rad(np.arange(minStage, maxStage, step))
-                self.count = np.zeros(self.x.size)
-                self.lcc.voltage1 = voltage
-                time.sleep(0.5)
-                for i in range(self.x.size):
-                    qApp.processEvents()
-                    con.goto(float(np.rad2deg(self.x[i])),  wait=True)
-                    # wait until the movement has finished
-                    #stat = con.status()
-                    #while stat.moving:
-                    #    time.sleep(0.01)
-                    #    stat = con.status
-                    time.sleep(0.1)
-                    singleMeasure = np.zeros(average)
-                    for j in range(average):
-                        p = max(pwm.read()*1000, 0.)
-                        singleMeasure[j] = p
-                    self.count[i] = np.mean(singleMeasure)
-                    print(self.x)
-                    print(self.count)
-                    self.axVis.plot(np.rad2deg(self.x), self.count, '.')
-                    self.plotVis.draw()
-        
-                    if not self.started:
-                        break
+            for i in range(self.x.size):
+                qApp.processEvents()
+                con.goto(float(np.rad2deg(self.x[i])),  wait=True)
+                # wait until the movement has finished
+                #stat = con.status()
+                #while stat.moving:
+                #    time.sleep(0.01)
+                #    stat = con.status
+                time.sleep(0.1)
+                singleMeasure = np.zeros(average)
+                for j in range(average):
+                    p = max(pwm.read()*1000, 0.)
+                    singleMeasure[j] = p
+                self.count[i] = np.mean(singleMeasure)
+                self.axVis.plot(np.rad2deg(self.x), self.count, '.')
+                self.plotVis.draw()
                 
-                filename = 'LCR_' + str(voltage) + 'V'
-                np.savez(filename, x=self.x, count=self.count)
-                
-                self.TotCount[row,:] = self.count
-                row += 1
-                
-            np.savez('LCR_tot', x=self.x, TotCount=self.TotCount)
+                if not self.started:
+                    break
             
             if self.started:
                 # find medium point
