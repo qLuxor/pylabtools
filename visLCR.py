@@ -22,6 +22,7 @@ import instruments as ik
 qtCreatorFile = 'visLCR.ui'
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
+    
 
 class Vis(QMainWindow, Ui_MainWindow):
     """
@@ -70,12 +71,12 @@ class Vis(QMainWindow, Ui_MainWindow):
         Start a complete acquisition.
         """
         
-        # create the object for the power meter
         if not self.started:
             self.started = True
             
             self.btnStart.setStyleSheet("background-color: green")
             
+            # create the object for the power meter
             # open power meter
             pwm = pm100d()
             
@@ -93,29 +94,17 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             for pos in self.pos_arr:
                 self.con.goto(pos, wait=True)
-    
                 
                 for voltage in self.voltage_arr:
-                    #self.x = np.deg2rad(np.arange(minStage, maxStage, step))
-                    #self.count = np.zeros(self.x.size)
                     self.lcc.voltage1 = voltage
                     time.sleep(1.5)
                     qApp.processEvents()
-                    #con.goto(float(np.rad2deg(self.x[i])),  wait=True)
-                    # wait until the movement has finished
-                    #stat = con.status()
-                    #while stat.moving:
-                    #time.sleep(0.01)
-                    #stat = con.status
-                    #time.sleep(0.1)
                     singleMeasure = np.zeros(average)
                     for j in range(average):
                         time.sleep(0.05)
                         p = max(pwm.read()*1000, 0.)
                         singleMeasure[j] = p
                     self.count[i] = np.mean(singleMeasure)
-                    #print(self.x)
-                    #print(self.count)
                     self.axVis.plot(self.totvoltage_arr, self.count, '.')
                     self.plotVis.draw()
                     i += 1
