@@ -9,7 +9,6 @@ from pyThorPM100.pm100 import pm100d
 import aptlib
 
 import numpy as np
-from scipy.optimize import curve_fit
 
 from PyQt4.QtCore import pyqtSlot
 from PyQt4.QtGui import QMainWindow, qApp, QApplication
@@ -41,7 +40,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.oscilloscope = False
         self.started = False
         
-        self.isConnected = False
+        self.isRotatorConnected = False
+        self.isLCRConnected=False
         
         self.figOscilloscope = plt.figure()
         self.plotOscilloscope = FigureCanvas(self.figOscilloscope)
@@ -59,15 +59,14 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.axVis.set_xlabel('Position [mm]')
         self.axVis.set_ylabel('Power [mW]')
         
-        self.lcc = ik.thorlabs.LCC25.open_serial('/dev/ttyUSB1', 115200,timeout=1)
+        
         self.voltage_arr = np.array([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
                                      1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,
                                      2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,
                                      3.1,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,
                                      4.0,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,
                                      5,5.5,6,7,8,9,10,11,13,15,17.5,20,22.5,25])
-        self.lcc.mode = self.lcc.Mode.voltage1
-        self.lcc.enable = True
+        
         
     @pyqtSlot()
     def on_btnStart_clicked(self):
@@ -84,8 +83,11 @@ class Vis(QMainWindow, Ui_MainWindow):
             # open power meter
             pwm = pm100d()
             
-            if not self.isConnected:
-                self.connect()
+            if not self.isRotatorConnected:
+                self.connectRotator()
+            
+            if not self.isLCRConnected:
+                self.connectLCR()
                     
             average = int(self.txtAverage.text())
             pos1Stage = float(self.txtPos1.text())
@@ -177,19 +179,29 @@ class Vis(QMainWindow, Ui_MainWindow):
         
     @pyqtSlot()
     def on_btnConnect_clicked(self):
-       self.connect()
+       self.connectRotator()
        
-    def connect(self):
+    @pyqtSlot()
+    def on_btnConnectLCR_clicked(self):
+       self.connectLCR()
+       
+    def connectRotator(self):
         selLinear = str(self.cmbLinearStage.currentText())
         if selLinear == 'thorlabs':
             # open APT controller
             SN = int(self.txtSN.text())
             self.con = aptlib.PRM1(serial_number=SN)
             self.con.home()
-            self.isConnected = True
+            self.isRotatorConnected = True
         else:
-            self.isConnected = False
-        
+            self.isRotatorConnected = False
+      
+    def connectLCR(self):
+        port=self.txtPort.text()
+        self.lcc = ik.thorlabs.LCC25.open_serial(port, 115200,timeout=1)
+        self.lcc.mode = self.lcc.Mode.voltage1
+        self.lcc.enable = True
+        self.isLCRConnected = True
         
 
 if __name__ == "__main__":
