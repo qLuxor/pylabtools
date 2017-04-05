@@ -36,10 +36,21 @@ data = np.load(filename)
 voltage = data['voltage']
 power = data['count']
 
-voltage1=voltage[0:voltage.size//2]
-voltage2=voltage[voltage.size//2:]
-power1=power[0:power.size//2]
-power2=power[power.size//2:]
+posminimum = np.argmin(power)
+if posminimum < power.size/2:
+    voltage1=voltage[0:voltage.size//2]
+    voltage2=voltage[voltage.size//2:]
+    power1=power[0:power.size//2]
+    power2=power[power.size//2:]
+    label1='Pos1'
+    label2='Pos2'
+else:
+    voltage2=voltage[0:voltage.size//2]
+    voltage1=voltage[voltage.size//2:]
+    power2=power[0:power.size//2]
+    power1=power[power.size//2:]
+    label1='Pos2'
+    label2='Pos1'
 
 #raw max and min
 minimum=np.min(power1)
@@ -136,8 +147,8 @@ ax = fig.add_subplot(111)
 ax.set_xlabel('Applied Voltage (V)')
 ax.set_ylabel("Power")
 
-plot1,=ax.plot(voltage1, power1, 'bx-', label="P45")
-plot2,=ax.plot(voltage2, power2, 'rx-', label="P135")
+plot1,=ax.plot(voltage1, power1, 'bx-', label=label1)
+plot2,=ax.plot(voltage2, power2, 'rx-', label=label2)
 ax.legend(handles=[plot1, plot2])
 if isPiFoundWithFit:
     ax.plot(voltage1fit, parabola(voltage1fit, *popt1), 'red')
