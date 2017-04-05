@@ -77,7 +77,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         if not self.started:
             self.started = True
             
-            self.btnStart.setStyleSheet("background-color: green")
+            self.btnStart.setStyleSheet("background-color: red")
+            self.btnStart.setText('Stop')
             
             # create the object for the power meter
             # open power meter
@@ -104,7 +105,11 @@ class Vis(QMainWindow, Ui_MainWindow):
                 for voltage in self.voltage_arr:
                     self.lcc.voltage1 = voltage
                     time.sleep(1.5)
+                    #checks for stop command
                     qApp.processEvents()
+                    #breaks if stop has been called
+                    if not self.started:
+                        break
                     singleMeasure = np.zeros(average)
                     for j in range(average):
                         time.sleep(0.05)
@@ -114,21 +119,23 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.axVis.plot(self.totvoltage_arr, self.count, '.')
                     self.plotVis.draw()
                     i += 1
-                
-                
+
                 if not self.started:
                     break
                 
                 self.voltage_arr= np.flipud(self.voltage_arr)
-                    
-            filename = self.txtFileName.text()
-            np.savez(filename, voltage=self.totvoltage_arr, count=self.count)
+            
+            if self.started:
+                filename = self.txtFileName.text()
+                np.savez(filename, voltage=self.totvoltage_arr, count=self.count)
             
             self.btnStart.setStyleSheet("")
+            self.btnStart.setText('Start')
             self.started = False
             
         else:
             self.btnStart.setStyleSheet("")
+            self.btnStart.setText('Start')
             self.started = False
         
       
@@ -144,7 +151,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         if not self.oscilloscope:
             self.oscilloscope = True
             
-            self.btnOscilloscope.setStyleSheet("background-color: green")
+            self.btnOscilloscope.setStyleSheet("background-color: red")
+            self.btnOscilloscope.setText("Stop Oscilloscope")
             
             acqPause = float(self.txtPause.text())
             
@@ -167,6 +175,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             
         else:
             self.btnOscilloscope.setStyleSheet("")
+            self.btnOscilloscope.setText("Oscilloscope")
             self.oscilloscope = False
 
 
@@ -197,6 +206,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.con = aptlib.PRM1(serial_number=SN)
             self.con.home()
             self.btnConnect.setText('Disconnect Rotator')
+            self.btnConnect.setStyleSheet("background-color: red")
             self.isRotatorConnected = True
         else:
             self.isRotatorConnected = False
