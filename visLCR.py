@@ -175,7 +175,7 @@ class Vis(QMainWindow, Ui_MainWindow):
         """
         Save acquired data
         """
-        np.savez(self.txtFileName.text() + '_Tot', voltage=self.voltage_arr, TotCount=self.TotCount, pos=self.pos_arr)
+        np.savez(self.txtFileName.text() + '_Tot', voltage=self.voltage_arr, TotCount=self.count, pos=self.pos_arr)
         
     @pyqtSlot()
     def on_btnConnect_clicked(self):
