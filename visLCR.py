@@ -179,28 +179,41 @@ class Vis(QMainWindow, Ui_MainWindow):
         
     @pyqtSlot()
     def on_btnConnect_clicked(self):
-       self.connectRotator()
+        if not self.isRotatorConnected:
+            self.connectRotator()
+        else:
+            self.disconnectRotator()
        
     @pyqtSlot()
     def on_btnConnectLCR_clicked(self):
-       self.connectLCR()
+        self.connectLCR()
        
     def connectRotator(self):
         selLinear = str(self.cmbLinearStage.currentText())
         if selLinear == 'thorlabs':
             # open APT controller
             SN = int(self.txtSN.text())
+            self.btnConnect.setText('Connecting')
             self.con = aptlib.PRM1(serial_number=SN)
             self.con.home()
+            self.btnConnect.setText('Disconnect Rotator')
             self.isRotatorConnected = True
         else:
             self.isRotatorConnected = False
+            
+    def disconnectRotator(self):
+        if self.isRotatorConnected:
+            self.con.close()
+            self.isRotatorConnected = False
+            self.btnConnect.setText('Connect Rotator')
       
     def connectLCR(self):
         port=self.txtPort.text()
         self.lcc = ik.thorlabs.LCC25.open_serial(port, 115200,timeout=1)
         self.lcc.mode = self.lcc.Mode.voltage1
         self.lcc.enable = True
+        self.btnConnectLCR.setText('LCR Connected')
+        self.btnConnectLCR.setEnabled(False)
         self.isLCRConnected = True
         
 
