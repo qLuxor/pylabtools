@@ -195,7 +195,10 @@ class Vis(QMainWindow, Ui_MainWindow):
        
     @pyqtSlot()
     def on_btnConnectLCR_clicked(self):
-        self.connectLCR()
+        if not self.isLCRConnected:
+            self.connectLCR()
+        else:
+            self.disconnectLCR()
        
     def connectRotator(self):
         selLinear = str(self.cmbLinearStage.currentText())
@@ -223,9 +226,15 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.lcc = ik.thorlabs.LCC25.open_serial(port, 115200,timeout=1)
         self.lcc.mode = self.lcc.Mode.voltage1
         self.lcc.enable = True
-        self.btnConnectLCR.setText('LCR Connected')
-        self.btnConnectLCR.setEnabled(False)
+        self.btnConnectLCR.setText('Disconnect LCR')
+        self.btnConnectLCR.setStyleSheet("background-color: red")
         self.isLCRConnected = True
+    
+    def disconnectLCR(self):
+        self.lcc.enable = False
+        self.btnConnectLCR.setText('Connect LCR')
+        self.btnConnectLCR.setStyleSheet("")
+        self.isLCRConnected= False
         
 
 if __name__ == "__main__":
