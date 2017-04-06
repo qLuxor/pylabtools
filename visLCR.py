@@ -141,10 +141,6 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.started = False
             
         else:
-            self.btnStart.setStyleSheet("")
-            self.btnStart.setText('Start')
-            self.btnConnect.setEnabled(True)
-            self.btnConnectLCR.setEnabled(True)
             self.started = False
         
       
