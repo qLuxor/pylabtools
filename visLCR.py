@@ -79,6 +79,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             self.btnStart.setStyleSheet("background-color: red")
             self.btnStart.setText('Stop')
+            self.btnConnect.setEnabled(False)
+            self.btnConnectLCR.setEnabled(False)
             
             # create the object for the power meter
             # open power meter
@@ -134,11 +136,15 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             self.btnStart.setStyleSheet("")
             self.btnStart.setText('Start')
+            self.btnConnect.setEnabled(True)
+            self.btnConnectLCR.setEnabled(True)
             self.started = False
             
         else:
             self.btnStart.setStyleSheet("")
             self.btnStart.setText('Start')
+            self.btnConnect.setEnabled(True)
+            self.btnConnectLCR.setEnabled(True)
             self.started = False
         
       
