@@ -89,6 +89,9 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             if not self.isLCRConnected:
                 self.connectLCR()
+            else:
+                self.lcc.mode = self.lcc.Mode.voltage1
+                self.lcc.enable= True
                     
             average = int(self.txtAverage.text())
             pos1Stage = float(self.txtPos1.text())
