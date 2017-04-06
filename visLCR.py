@@ -216,6 +216,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.con.close()
             self.isRotatorConnected = False
             self.btnConnect.setText('Connect Rotator')
+            self.btnConnect.setStyleSheet("")
       
     def connectLCR(self):
         port=self.txtPort.text()
