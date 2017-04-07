@@ -262,19 +262,21 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
         if self.cmbSave.currentIndex() == 0:
             curtime = self.clock.elapsed()//1000
 
-            filename = 't_'+'{0:05d}'.format(curtime)+'.npz'
+            filename = 't_'+'{0:05d}'.format(curtime)
             fullname = self.maindir + filename
 
             lastIndex = self.ttagBuf.datapoints
             print('Save from '+str(self.saveCurIndex)+' to '+str(lastIndex))
             data = self.ttagBuf[self.saveCurIndex:lastIndex]
-            if self.chkSave.isChecked():
-                np.savetxt(fullname,np.transpose(data))
+            if self.chkSavetxt.isChecked():
+                extension = '.txt'
+                np.savetxt(fullname+extension,np.transpose(data))
             else:
-                np.savez(fullname,tags=data)
+                extension = '.npz'
+                np.savez(fullname+extension,tags=data)
             self.saveCurIndex = lastIndex
             
-            self.savedSize += os.path.getsize(fullname)
+            self.savedSize += os.path.getsize(fullname+extension)
             if not self.savedSize//2**10:
                 sizetxt = '{:<4.2f}'.format(self.savedSize)+' B'
             elif not self.savedSize//2**20:
