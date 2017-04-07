@@ -268,7 +268,10 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
             lastIndex = self.ttagBuf.datapoints
             print('Save from '+str(self.saveCurIndex)+' to '+str(lastIndex))
             data = self.ttagBuf[self.saveCurIndex:lastIndex]
-            np.savez(fullname,tags=data)
+            if self.chkSave.isChecked():
+                np.savetxt(fullname,np.transpose(data))
+            else:
+                np.savez(fullname,tags=data)
             self.saveCurIndex = lastIndex
             
             self.savedSize += os.path.getsize(fullname)
