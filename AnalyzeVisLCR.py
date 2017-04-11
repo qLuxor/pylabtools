@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from math import log10, floor
 import sys
+from prettytable import PrettyTable
 
 #function to format output of number
 def round_to_num(x, num):
@@ -61,6 +62,7 @@ else:
 #raw max and min
 minimum=np.min(power1)
 maximum=np.max(power2)
+rawvisibility= (maximum-minimum)/(maximum+minimum)
 
 #voltages corresponding to max and min
 voltminimum =voltage1[np.argmin(power1)]
@@ -88,18 +90,20 @@ isZeroFoundWithFit = False
 isPiFoundWithFit= False
 if voltage1fit.size>=3:
     popt1, pcov1 = curve_fit(parabola, voltage1fit, power1fit)
-    minimum = popt1[2]
+    fitminimum = popt1[2]
     isPiFoundWithFit=True
 if voltage2fit.size >=2:
     popt2, pcov2 = curve_fit(parabola, voltage2fit, power2fit)
-    maximum = popt2[2]
+    fitmaximum = popt2[2]
     isZeroFoundWithFit=True
-
-visibility= (maximum-minimum)/(maximum+minimum)
 
 #search for the other two useful points
 halfpoint= (maximum+minimum)/2
-
+isHalfpointFoundWithFit=False
+if isZeroFoundWithFit and isPiFoundWithFit:
+    halfpoint= (fitmaximum+fitminimum)/2
+    isHalfpointFoundWithFit=True
+    
 #halfwidth of the fit range, in positions
 datawindowsize=4
 
@@ -128,26 +132,45 @@ if voltage2fitr.size>=2:
 
 #Output of results
 numSignificantDigits=4
+print("\n\nRaw data")
+t= PrettyTable(["", "Voltage", "Power"])
+t.add_row(["Maximum (0)", round_to_num(voltmaximum, numSignificantDigits),round_to_num(maximum, numSignificantDigits)] )
+t.add_row(["Minumum (pi)",round_to_num(voltminimum, numSignificantDigits),round_to_num(minimum, numSignificantDigits)] )
+print(t)
+print("Raw visibility = "+ round_to_num(rawvisibility,numSignificantDigits))
+
+print("\n\nFitted data")
+tf= PrettyTable(["", "Voltage", "Power"])
 if isZeroFoundWithFit:
-    print("Phase 0 obtained for " + round_to_num(popt2[1],numSignificantDigits) + " V")
+    tf.add_row(["Maximum (0)", round_to_num(popt2[1], numSignificantDigits),round_to_num(fitmaximum, numSignificantDigits)] )
 else:
-    print("Could not fit around maximum power")
-print("Maximum power = " + round_to_num(maximum,numSignificantDigits)+" mW")
+    tf.add_row(["Maximum (0)", "N/A" ,"N/A"] )
+    print ("Could not fit around expected 0")
 if isPiFoundWithFit:
-    print("Phase pi obtained for " + round_to_num(popt1[1],numSignificantDigits)+ " V")
+    tf.add_row(["Minumum (pi)",round_to_num(popt1[1], numSignificantDigits),round_to_num(fitminimum, numSignificantDigits)] )
 else:
-    print("Could not fit around minumum power")
-print("Minimum power = " + round_to_num(minimum,numSignificantDigits)+" mW")
+    tf.add_row(["Minumum (pi)", "N/A" ,"N/A"] )
+    print ("Could not fit around expected pi")
 if isPi2FoundWithFit:
-    print("Phase pi/2 obtained for " + round_to_num(volthalfpi2,numSignificantDigits) + " V")
+    tf.add_row(["Half (pi/2)",round_to_num(volthalfpi2, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits)] )
 else: 
-    print("Could not fit around expected pi/2")
+    tf.add_row(["Half (pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits)] )
+    print ("Could not fit around expected pi/2")
 if is3Pi2FoundWithFit:
-    print("Phase 3pi/2 obtained for " + round_to_num(volthalfpi1,numSignificantDigits) + " V")
+    tf.add_row(["Half (3pi/2)",round_to_num(volthalfpi1, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits)] )
 else:
+    tf.add_row(["Half (3pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits)] )
     print ("Could not fit around expected 3pi/2")
-print("Expected pi/2 and 3pi/2 correspond to power " + round_to_num(halfpoint,numSignificantDigits)+ " mW")
-print("Visibility = "+ round_to_num(visibility,numSignificantDigits))
+print(tf)
+if isHalfpointFoundWithFit:
+    print("Expected value of power at pi/2 and 3pi/2 was found through fitted max and min")
+else:
+    print("Expected value of power at pi/2 and 3pi/2 was found through raw max and min")
+if isZeroFoundWithFit and isPiFoundWithFit:
+    visibility= (fitmaximum-fitminimum)/(fitmaximum+fitminimum)
+    print("Visibility = "+ round_to_num(visibility,numSignificantDigits))
+else:
+    print("Could not find visibility, refer to raw measure")
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
