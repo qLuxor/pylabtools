@@ -8,7 +8,13 @@ Created on Wed Mar 29 20:02:17 2017
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from math import log10, floor
 import sys
+
+#function to format output of number
+def round_to_num(x, num):
+    return str(round(x, -int(floor(log10(abs(x)))) +(num-1)))
+
 
 #function that returns the position of the value that preceeds the crossing 
 def find_crossing(array, value):
@@ -121,26 +127,27 @@ if voltage2fitr.size>=2:
     isPi2FoundWithFit = True
 
 #Output of results
+numSignificantDigits=4
 if isZeroFoundWithFit:
-    print("Phase 0 obtained for " + str(popt2[1]) + " V")
+    print("Phase 0 obtained for " + round_to_num(popt2[1],numSignificantDigits) + " V")
 else:
     print("Could not fit around maximum power")
-print("Maximum power = " + str(maximum)+" mW")
+print("Maximum power = " + round_to_num(maximum,numSignificantDigits)+" mW")
 if isPiFoundWithFit:
-    print("Phase pi obtained for " + str(popt1[1])+ " V")
+    print("Phase pi obtained for " + round_to_num(popt1[1],numSignificantDigits)+ " V")
 else:
     print("Could not fit around minumum power")
-print("Minimum power = " + str(minimum)+" mW")
+print("Minimum power = " + round_to_num(minimum,numSignificantDigits)+" mW")
 if isPi2FoundWithFit:
-    print("Phase pi/2 obtained for " + str(volthalfpi2) + " V")
+    print("Phase pi/2 obtained for " + round_to_num(volthalfpi2,numSignificantDigits) + " V")
 else: 
     print("Could not fit around expected pi/2")
 if is3Pi2FoundWithFit:
-    print("Phase 3pi/2 obtained for " + str(volthalfpi1) + " V")
+    print("Phase 3pi/2 obtained for " + round_to_num(volthalfpi1,numSignificantDigits) + " V")
 else:
     print ("Could not fit around expected 3pi/2")
-print("Expected pi/2 and 3pi/2 correspond to power " + str(halfpoint)+ " mW")
-print("Visibility = "+ str(visibility))
+print("Expected pi/2 and 3pi/2 correspond to power " + round_to_num(halfpoint,numSignificantDigits)+ " mW")
+print("Visibility = "+ round_to_num(visibility,numSignificantDigits))
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
