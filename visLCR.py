@@ -184,6 +184,15 @@ class Vis(QMainWindow, Ui_MainWindow):
         
         # create the object for the power meter
         if not self.oscilloscope:
+            if(self.isPWMConnected and not self.isSPADConnected):
+                # create the object for the power meter and open it
+                pwm = pm100d()
+            elif (self.isSPADConnected and not self.isPWMConnected):
+                #create object for the SPAD
+                self.ttagBuf = ttag.TTBuffer(self.bufNum) 
+            else:
+                print("Please connect a sensor")
+                return
             self.oscilloscope = True
             
             self.btnOscilloscope.setStyleSheet("background-color: red")
@@ -194,12 +203,16 @@ class Vis(QMainWindow, Ui_MainWindow):
             sampleIndex = 0
             sampleTot = 1000
             sample = np.arange(sampleTot)*acqPause/1000
-            pwm = pm100d()
             
             power = np.zeros((sampleTot, 1))
             while self.oscilloscope:
                 qApp.processEvents()
-                p = max(pwm.read()*1000, 0.)
+                if(self.isPWMConnected and not self.isSPADConnected):
+                    p = max(pwm.read()*1000, 0.)  
+                elif (self.isSPADConnected and not self.isPWMConnected):
+                    singles = self.ttagBuf.singles(self.exptime)
+                    coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                    p=coincidences[self.SPADChannel, self.SPADOtherChannel]
                 power[sampleIndex] = p
                 sampleIndex = (sampleIndex+1) % sampleTot
                 self.lblPower.setText("{:.3}".format(p))
