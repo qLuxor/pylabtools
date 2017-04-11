@@ -18,6 +18,9 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import instruments as ik
 
+sys.path.append('/home/sagnac/Quantum/ttag/python/')
+import ttag
+
 qtCreatorFile = 'visLCR.ui'
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -42,6 +45,17 @@ class Vis(QMainWindow, Ui_MainWindow):
         
         self.isRotatorConnected = False
         self.isLCRConnected=False
+        self.isPWMConnected = False
+        self.isSPADConnected = False
+        
+        self.bufNum=0
+        self.delay = np.array([0.0, 0.0,
+                               0.0,0.0])
+        self.delay = self.delay*1e-9
+        self.exptime = 500/1000
+        self.coincWindow = 2*1e-9
+        self.SPADChannel=0
+        self.SPADOtherChannel=1
         
         self.figOscilloscope = plt.figure()
         self.plotOscilloscope = FigureCanvas(self.figOscilloscope)
@@ -75,16 +89,15 @@ class Vis(QMainWindow, Ui_MainWindow):
         """
         
         if not self.started:
-            self.started = True
-            
-            self.btnStart.setStyleSheet("background-color: red")
-            self.btnStart.setText('Stop')
-            self.btnConnect.setEnabled(False)
-            self.btnConnectLCR.setEnabled(False)
-            
-            # create the object for the power meter
-            # open power meter
-            pwm = pm100d()
+            if(self.isPWMConnected and not self.isSPADConnected):
+                # create the object for the power meter and open it
+                pwm = pm100d()
+            elif (self.isSPADConnected and not self.isPWMConnected):
+                #create object for the SPAD
+                self.ttagBuf = ttag.TTBuffer(self.bufNum) 
+            else:
+                print("Please connect a sensor")
+                return
             
             if not self.isRotatorConnected:
                 self.connectRotator()
@@ -94,7 +107,16 @@ class Vis(QMainWindow, Ui_MainWindow):
             else:
                 self.lcc.mode = self.lcc.Mode.voltage1
                 self.lcc.enable= True
-                    
+            
+            self.started = True
+            
+            self.btnStart.setStyleSheet("background-color: red")
+            self.btnStart.setText('Stop')
+            self.btnConnect.setEnabled(False)
+            self.btnConnectLCR.setEnabled(False)
+            self.btnConnectPWM.setEnabled(False)
+            self.btnConnectSPAD.setEnabled(False)
+            
             average = int(self.txtAverage.text())
             pos1Stage = float(self.txtPos1.text())
             pos2Stage = float(self.txtPos2.text())
@@ -116,11 +138,16 @@ class Vis(QMainWindow, Ui_MainWindow):
                     if not self.started:
                         break
                     singleMeasure = np.zeros(average)
-                    for j in range(average):
-                        time.sleep(0.05)
-                        p = max(pwm.read()*1000, 0.)
-                        singleMeasure[j] = p
-                    self.count[i] = np.mean(singleMeasure)
+                    if(self.isPWMConnected and not self.isSPADConnected):
+                        for j in range(average):
+                            time.sleep(0.05)
+                            p = max(pwm.read()*1000, 0.)
+                            singleMeasure[j] = p
+                        self.count[i] = np.mean(singleMeasure)
+                    elif (self.isSPADConnected and not self.isPWMConnected):
+                        singles = self.ttagBuf.singles(self.exptime)
+                        coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                        self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
                     self.axVis.plot(self.totvoltage_arr, self.count, '.')
                     self.plotVis.draw()
                     i += 1
@@ -138,6 +165,9 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnStart.setText('Start')
             self.btnConnect.setEnabled(True)
             self.btnConnectLCR.setEnabled(True)
+            self.btnConnectPWM.setEnabled(True)
+            self.btnConnectSPAD.setEnabled(True)
+            
             self.started = False
             
         else:
@@ -204,7 +234,21 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.connectLCR()
         else:
             self.disconnectLCR()
-       
+   
+    @pyqtSlot()
+    def on_btnConnectPWM_clicked(self):
+        if not self.isPWMConnected:
+            self.connectPWM()
+        else:
+            self.disconnectPWM()
+            
+    @pyqtSlot()
+    def on_btnConnectSPAD_clicked(self):
+        if not self.isSPADConnected:
+            self.connectSPAD()
+        else:
+            self.disconnectSPAD()
+    
     def connectRotator(self):
         selLinear = str(self.cmbLinearStage.currentText())
         if selLinear == 'thorlabs':
@@ -241,6 +285,31 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.btnConnectLCR.setStyleSheet("")
         self.isLCRConnected= False
         
+    def connectPWM(self):
+        self.isPWMConnected=True
+        self.isSPADConnected = False
+        self.btnConnectPWM.setText('Disconnect PWM')
+        self.btnConnectPWM.setStyleSheet("background-color: red")
+        self.btnConnectSPAD.setEnabled(False)
+        
+    def disconnectPWW(self):
+        self.isPWMConnected=False
+        self.btnConnectPWM.setText('Connect PWM')
+        self.btnConnectPWM.setStyleSheet("")
+        self.btnConnectSPAD.setEnabled(True)
+        
+    def connectSPAD(self):
+        self.isSPADConnected=True
+        self.isPWMConnected = False
+        self.btnConnectSPAD.setText('Disconnect SPAD')
+        self.btnConnectSPAD.setStyleSheet("background-color: red")
+        self.btnConnectPWM.setEnabled(False)
+        
+    def disconnectSPAD(self):
+        self.isSPADConnected=False
+        self.btnConnectSPAD.setText('Connect SPAD')
+        self.btnConnectSPAD.setStyleSheet("")
+        self.btnConnectPWM.setEnabled(True)
 
 if __name__ == "__main__":
     app = QApplication.instance()
