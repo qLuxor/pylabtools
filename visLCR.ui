@@ -460,7 +460,7 @@
            </property>
            <widget class="QLabel" name="label_18">
             <property name="text">
-             <string>ms</string>
+             <string>Pause (ms)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -475,14 +475,6 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_17">
-            <property name="text">
-             <string>Pause</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </widget>

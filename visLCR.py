@@ -195,18 +195,20 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnOscilloscope.setStyleSheet("background-color: red")
             self.btnOscilloscope.setText("Stop Oscilloscope")
             
-            acqPause = float(self.txtPause.text())
+            acqPause = float(self.txtPause.text())/1000
             
             sampleIndex = 0
             sampleTot = 1000
-            sample = np.arange(sampleTot)*acqPause/1000
+            sample = np.arange(sampleTot)
             
             power = np.zeros((sampleTot, 1))
             while self.oscilloscope:
                 qApp.processEvents()
                 if(self.isPWMConnected and not self.isSPADConnected):
+                    time.sleep(acqPause)
                     p = max(pwm.read()*1000, 0.)  
                 elif (self.isSPADConnected and not self.isPWMConnected):
+                    time.sleep(self.exptime)
                     singles = self.ttagBuf.singles(self.exptime)
                     coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
                     p=coincidences[self.SPADChannel, self.SPADOtherChannel]
@@ -215,8 +217,6 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.lblPower.setText("{:.3}".format(float(p)))
                 self.axOscilloscope.plot(sample, power, '.')
                 self.plotOscilloscope.draw()
-                
-                time.sleep(acqPause/1000)
             
         else:
             self.btnOscilloscope.setStyleSheet("")
