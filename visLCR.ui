@@ -56,6 +56,19 @@
              <string>Filename</string>
             </property>
            </widget>
+           <widget class="QRadioButton" name="rbtnComplete">
+            <property name="text">
+             <string>Complete</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="rbtnFast">
+            <property name="text">
+             <string>Fast</string>
+            </property>
+           </widget>
           </widget>
           <widget class="QSplitter" name="splitter">
            <property name="orientation">
