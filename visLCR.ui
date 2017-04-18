@@ -303,6 +303,23 @@
                </property>
               </widget>
              </item>
+             <item row="16" column="1">
+              <widget class="QLabel" name="lblPowerStart">
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="16" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>Current Power</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
            <widget class="QWidget" name="layoutWidget">

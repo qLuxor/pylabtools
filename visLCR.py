@@ -148,6 +148,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                         self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
                     self.axVis.plot(self.totvoltage_arr, self.count, '.')
                     self.plotVis.draw()
+                    self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
                     i += 1
 
                 if not self.started:
