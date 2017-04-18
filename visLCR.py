@@ -112,6 +112,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnectLCR.setEnabled(False)
             self.btnConnectPWM.setEnabled(False)
             self.btnConnectSPAD.setEnabled(False)
+            self.btnOscilloscope.setEnabled(False)
             
             
             pos1Stage = float(self.txtPos1.text())
@@ -164,6 +165,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnectLCR.setEnabled(True)
             self.btnConnectPWM.setEnabled(True)
             self.btnConnectSPAD.setEnabled(True)
+            self.btnOscilloscope.setEnabled(True)
             
             self.started = False
             
@@ -194,6 +196,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             self.btnOscilloscope.setStyleSheet("background-color: red")
             self.btnOscilloscope.setText("Stop Oscilloscope")
+            self.btnStart.setEnabled(False)
             
             acqPause = float(self.txtPause.text())/1000
             
@@ -221,6 +224,7 @@ class Vis(QMainWindow, Ui_MainWindow):
         else:
             self.btnOscilloscope.setStyleSheet("")
             self.btnOscilloscope.setText("Oscilloscope")
+            self.btnStart.setEnabled(True)
             self.oscilloscope = False
 
 
