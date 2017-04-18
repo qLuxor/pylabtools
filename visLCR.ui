@@ -46,27 +46,6 @@
              <string>Start</string>
             </property>
            </widget>
-           <widget class="QWidget" name="layoutWidget">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Average</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="txtAverage">
-               <property name="text">
-                <string>10</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
            <widget class="QPushButton" name="btnSaveData">
             <property name="text">
              <string>Save Data</string>
@@ -96,7 +75,7 @@
              <property name="formAlignment">
               <set>Qt::AlignCenter</set>
              </property>
-             <item row="2" column="0" colspan="2">
+             <item row="4" column="0" colspan="2">
               <widget class="QLabel" name="label_4">
                <property name="font">
                 <font>
@@ -111,7 +90,7 @@
                </property>
               </widget>
              </item>
-             <item row="5" column="0" colspan="2">
+             <item row="7" column="0" colspan="2">
               <widget class="QLabel" name="label_14">
                <property name="font">
                 <font>
@@ -126,7 +105,7 @@
                </property>
               </widget>
              </item>
-             <item row="6" column="1">
+             <item row="8" column="1">
               <widget class="QComboBox" name="cmbLinearStage">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -144,7 +123,7 @@
                </item>
               </widget>
              </item>
-             <item row="7" column="0">
+             <item row="9" column="0">
               <widget class="QLabel" name="label_15">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -160,7 +139,7 @@
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
+             <item row="9" column="1">
               <widget class="QLineEdit" name="txtSN">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -176,14 +155,14 @@
                </property>
               </widget>
              </item>
-             <item row="8" column="1">
+             <item row="10" column="1">
               <widget class="QPushButton" name="btnConnect">
                <property name="text">
                 <string>Connect Rotator</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
+             <item row="5" column="1">
               <widget class="QLineEdit" name="txtPort">
                <property name="text">
                 <string>/dev/ttyUSB1</string>
@@ -193,31 +172,63 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="6" column="1">
               <widget class="QPushButton" name="btnConnectLCR">
                <property name="text">
                 <string>Connect LCR </string>
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="label_9">
                <property name="text">
                 <string>Port</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
+             <item row="3" column="1">
               <widget class="QPushButton" name="btnConnectSPAD">
                <property name="text">
                 <string>Connect SPAD</string>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
+             <item row="1" column="1">
               <widget class="QPushButton" name="btnConnectPWM">
                <property name="text">
                 <string>Connect PWM</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="label_7">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Detector</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Average</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="txtAverage">
+               <property name="text">
+                <string>10</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>
