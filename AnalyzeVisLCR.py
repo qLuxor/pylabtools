@@ -68,6 +68,15 @@ rawvisibility= (maximum-minimum)/(maximum+minimum)
 voltminimum =voltage1[np.argmin(power1)]
 voltmaximum =voltage2[np.argmax(power2)]
 
+#Output of raw results
+numSignificantDigits=4
+print("\n\nRaw data")
+t= PrettyTable(["", "Voltage", "Power"])
+t.add_row(["Maximum (0)", round_to_num(voltmaximum, numSignificantDigits),round_to_num(maximum, numSignificantDigits)] )
+t.add_row(["Minumum (pi)",round_to_num(voltminimum, numSignificantDigits),round_to_num(minimum, numSignificantDigits)] )
+print(t)
+print("Raw visibility = "+ round_to_num(rawvisibility,numSignificantDigits))
+
 #halfwidth of the fit range
 windowsize=0.5
 
@@ -130,15 +139,8 @@ if voltage2fitr.size>=2:
     volthalfpi2=interceptstline(halfpoint, popt2r[0], popt2r[1])
     isPi2FoundWithFit = True
 
-#Output of results
-numSignificantDigits=4
-print("\n\nRaw data")
-t= PrettyTable(["", "Voltage", "Power"])
-t.add_row(["Maximum (0)", round_to_num(voltmaximum, numSignificantDigits),round_to_num(maximum, numSignificantDigits)] )
-t.add_row(["Minumum (pi)",round_to_num(voltminimum, numSignificantDigits),round_to_num(minimum, numSignificantDigits)] )
-print(t)
-print("Raw visibility = "+ round_to_num(rawvisibility,numSignificantDigits))
 
+#Output of fitted results
 print("\n\nFitted data")
 tf= PrettyTable(["", "Voltage", "Power"])
 if isZeroFoundWithFit:
