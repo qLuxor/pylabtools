@@ -49,13 +49,9 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.isSPADConnected = False
         
         self.bufNum=0
-        self.delay = np.array([0.0, 0.0,
-                               0.0,0.0])
-        self.delay = self.delay*1e-9
-        self.exptime = 500/1000
+        
         self.coincWindow = 2*1e-9
-        self.SPADChannel=0
-        self.SPADOtherChannel=1
+        
         
         self.figOscilloscope = plt.figure()
         self.plotOscilloscope = FigureCanvas(self.figOscilloscope)
@@ -117,7 +113,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnectPWM.setEnabled(False)
             self.btnConnectSPAD.setEnabled(False)
             
-            average = int(self.txtAverage.text())
+            
             pos1Stage = float(self.txtPos1.text())
             pos2Stage = float(self.txtPos2.text())
             
@@ -137,14 +133,15 @@ class Vis(QMainWindow, Ui_MainWindow):
                     #breaks if stop has been called
                     if not self.started:
                         break
-                    singleMeasure = np.zeros(average)
+                    singleMeasure = np.zeros(self.average)
                     if(self.isPWMConnected and not self.isSPADConnected):
-                        for j in range(average):
+                        for j in range(self.average):
                             time.sleep(0.05)
                             p = max(pwm.read()*1000, 0.)
                             singleMeasure[j] = p
                         self.count[i] = np.mean(singleMeasure)
                     elif (self.isSPADConnected and not self.isPWMConnected):
+                        time.sleep(self.exptime)
                         singles = self.ttagBuf.singles(self.exptime)
                         coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
                         self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
@@ -215,7 +212,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                     p=coincidences[self.SPADChannel, self.SPADOtherChannel]
                 power[sampleIndex] = p
                 sampleIndex = (sampleIndex+1) % sampleTot
-                self.lblPower.setText("{:.3}".format(p))
+                self.lblPower.setText("{:.3}".format(float(p)))
                 self.axOscilloscope.plot(sample, power, '.')
                 self.plotOscilloscope.draw()
                 
@@ -303,6 +300,7 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.isSPADConnected = False
         self.btnConnectPWM.setText('Disconnect PWM')
         self.btnConnectPWM.setStyleSheet("background-color: red")
+        self.average = int(self.txtAverage.text())
         self.btnConnectSPAD.setEnabled(False)
         
     def disconnectPWW(self):
@@ -316,6 +314,21 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.isPWMConnected = False
         self.btnConnectSPAD.setText('Disconnect SPAD')
         self.btnConnectSPAD.setStyleSheet("background-color: red")
+        self.SPADChannel=int(self.txtSPADChannel.text())
+        if self.SPADChannel > 3 or self.SPADChannel <0:
+            self.SPADChannel =0
+        self.SPADOtherChannel=int(self.txtSPADOtherChannel.text())
+        if self.SPADOtherChannel > 3 or self.SPADOtherChannel <0:
+            self.SPADOtherChannel =0
+        delay=float(self.txtDelay.text())
+        otherdelay=float(self.txtOtherDelay.text())
+        self.delay = np.array([0.0, 0.0,
+                               0.0,0.0])
+        self.delay[self.SPADChannel]=delay
+        self.delay[self.SPADOtherChannel] = otherdelay
+        self.delay = self.delay*1e-9
+        self.exptime = float(self.txtExposure.text())
+        self.exptime = self.exptime*1e-3
         self.btnConnectPWM.setEnabled(False)
         
     def disconnectSPAD(self):
