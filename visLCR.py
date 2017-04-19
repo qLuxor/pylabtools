@@ -142,8 +142,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                     #breaks if stop has been called
                     if not self.started:
                         break
-                    singleMeasure = np.zeros(self.average)
                     if(self.isPWMConnected and not self.isSPADConnected):
+                        singleMeasure = np.zeros(self.average)
                         for j in range(self.average):
                             time.sleep(0.05)
                             p = max(pwm.read()*1000, 0.)
