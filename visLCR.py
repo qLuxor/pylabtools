@@ -116,6 +116,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnectPWM.setEnabled(False)
             self.btnConnectSPAD.setEnabled(False)
             self.btnOscilloscope.setEnabled(False)
+            self.txtPos1.setEnabled(False)
+            self.txtPos2.setEnabled(False)
             
             if self.rbtnComplete.isChecked():
                 self.voltage_arr=self.voltage_arr_complete
@@ -175,6 +177,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnectPWM.setEnabled(True)
             self.btnConnectSPAD.setEnabled(True)
             self.btnOscilloscope.setEnabled(True)
+            self.txtPos1.setEnabled(True)
+            self.txtPos2.setEnabled(True)
             
             self.started = False
             
@@ -287,6 +291,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnect.setText('Disconnect Rotator')
             self.btnConnect.setStyleSheet("background-color: red")
             self.isRotatorConnected = True
+            self.txtSN.setEnabled(False)
+            self.cmbLinearStage.setEnabled(False)
         else:
             self.isRotatorConnected = False
             
@@ -296,6 +302,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.isRotatorConnected = False
             self.btnConnect.setText('Connect Rotator')
             self.btnConnect.setStyleSheet("")
+            self.txtSN.setEnabled(True)
+            self.cmbLinearStage.setEnabled(True)
       
     def connectLCR(self):
         port=self.txtPort.text()
@@ -305,12 +313,14 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.btnConnectLCR.setText('Disconnect LCR')
         self.btnConnectLCR.setStyleSheet("background-color: red")
         self.isLCRConnected = True
+        self.txtPort.setEnabled(False)
     
     def disconnectLCR(self):
         self.lcc.enable = False
         self.btnConnectLCR.setText('Connect LCR')
         self.btnConnectLCR.setStyleSheet("")
         self.isLCRConnected= False
+        self.txtPort.setEnabled(True)
         
     def connectPWM(self):
         self.isPWMConnected=True
@@ -319,12 +329,14 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.btnConnectPWM.setStyleSheet("background-color: red")
         self.average = int(self.txtAverage.text())
         self.btnConnectSPAD.setEnabled(False)
+        self.txtAverage.setEnabled(False)
         
     def disconnectPWW(self):
         self.isPWMConnected=False
         self.btnConnectPWM.setText('Connect PWM')
         self.btnConnectPWM.setStyleSheet("")
         self.btnConnectSPAD.setEnabled(True)
+        self.txtAverage.setEnabled(True)
         
     def connectSPAD(self):
         self.isSPADConnected=True
@@ -347,12 +359,22 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.exptime = float(self.txtExposure.text())
         self.exptime = self.exptime*1e-3
         self.btnConnectPWM.setEnabled(False)
+        self.txtSPADChannel.setEnabled(False)
+        self.txtSPADOtherChannel.setEnabled(False)
+        self.txtDelay.setEnabled(False)
+        self.txtOtherDelay.setEnabled(False)
+        self.txtExposure.setEnabled(False)
         
     def disconnectSPAD(self):
         self.isSPADConnected=False
         self.btnConnectSPAD.setText('Connect SPAD')
         self.btnConnectSPAD.setStyleSheet("")
         self.btnConnectPWM.setEnabled(True)
+        self.txtSPADChannel.setEnabled(True)
+        self.txtSPADOtherChannel.setEnabled(True)
+        self.txtDelay.setEnabled(True)
+        self.txtOtherDelay.setEnabled(True)
+        self.txtExposure.setEnabled(True)
 
 if __name__ == "__main__":
     app = QApplication.instance()
