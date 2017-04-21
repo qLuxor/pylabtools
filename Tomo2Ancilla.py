@@ -249,13 +249,20 @@ print("Finished all measurements\n\n")
 #output of final results
 print("Final result")
 result=Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
-print("result = ", result)
+resquad=result**2
+purity= resquad.tr()
+print("Result = ", result)
+print("Resquad = ", resquad)
+print("Purity (as trace of resquad) = ", purity)
+
 
 with open("Output.txt", "w") as text_file:
     text_file.write("rhoHH = {0}".format(rhoHH))
-    text_file.write("rhoVV = {0}".format(rhoVV))
-    text_file.write("rerhoHV = {0}".format(rerhoHV))
-    text_file.write("imrhoHV = {0}".format(imrhoHV))
-    text_file.write("rerhoVH = {0}".format(rerhoVH))
-    text_file.write("imrhoVH = {0}".format(imrhoVH))
-    text_file.write("result = ", result)
+    text_file.write("\nrhoVV = {0}".format(rhoVV))
+    text_file.write("\nrerhoHV = {0}".format(rerhoHV))
+    text_file.write("\nimrhoHV = {0}".format(imrhoHV))
+    text_file.write("\nrerhoVH = {0}".format(rerhoVH))
+    text_file.write("\nimrhoVH = {0}".format(imrhoVH))
+    text_file.write("\nresult = ", result)
+    text_file.write("\nresquad = ", resquad)
+    text_file.write("\npurity = ", purity)
