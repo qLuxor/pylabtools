@@ -17,6 +17,9 @@ from qutip import *
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
 
+sys.path.append('..')
+from pyThorPM100.pm100 import pm100d
+
 #functions that set apparatus to specific settings
 def setangle(rotator, angle, angleErr):
     if abs(rotator.position()-angle)> angleErr:
@@ -31,6 +34,11 @@ allowtime=1.5
 angleErr=1e-2
 voltageErr = 1e-3
 
+#pwm configuration and initialization
+pwm = pm100d()
+average=10
+
+'''
 #SPAD configuration and initialization
 print("Initializing SPAD")
 bufNum =0
@@ -43,6 +51,7 @@ exptime = 1000
 exptime = exptime*1e-3
 coincWindow = 2*1e-9
 ttagBuf = ttag.TTBuffer(bufNum) 
+'''
 
 #LCC1 configuration and initialization
 print("Initializing LCC1")
@@ -112,8 +121,15 @@ def measure(rot1angle, rot2angle, rotHWPangle, lcc1voltage, lcc2voltage):
     setvoltage(lcc1, lcc1voltage, voltageErr)
     setvoltage(lcc2, lcc2voltage, voltageErr)
     time.sleep(allowtime)
-    time.sleep(exptime)
-    return ttagBuf.coincidences(exptime,coincWindow,-delayarray)
+    #time.sleep(exptime)
+    #coinc ttagBuf.coincidences(exptime,coincWindow,-delayarray)
+    #return coinc[channelA, channelB]
+    singleMeasure = np.zeros(average)
+    for j in range(average):
+        time.sleep(0.05)
+        p = max(pwm.read()*1000, 0.)
+        singleMeasure[j] = p
+    return np.mean(singleMeasure)
 
 #Measurement on diagonal H
 print("Measuring HH")
