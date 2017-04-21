@@ -127,6 +127,8 @@ countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, lcc1Voltage0, lcc2Voltage
 normconstant= countH+countV
 rhoHH=countH/normconstant
 rhoVV=countV/normconstant
+print("rhoHH = ", rhoHH)
+print("rhoVV = ", rhoVV)
 
 #measurement of Re(HV)
 #measurement of PLL
@@ -147,6 +149,7 @@ PRL= measure(rot1Angle270, rot2Angle90, rotHWPAngle0, lcc1Voltage270, lcc2Voltag
 
 #extraction of Re(HV)
 rerhoHV=(PRL+PLR-PRR-PLL)/normconstant
+print("rerhoHV = ", rerhoHV)
 
 #measurement of Im(HV)
 #measurement of PAL
@@ -167,6 +170,7 @@ PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle0, lcc1Voltage0, lcc2Voltage90)
 
 #extraction of Im(HV)
 imrhoHV=(PDL-PDR+PAR-PAL)/normconstant
+print("imrhoHV = ", imrhoHV)
         
 #measurement of Re(VH)
 #measurement of PRL
@@ -187,6 +191,7 @@ PLL = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, lcc1Voltage270, lcc2Volt
 
 #extraction of Re(VH)
 rerhoVH=(PRL+PLR-PRR-PLL)/normconstant
+print("rerhoVH = ", rerhoVH)
         
 #measurement of Im(VH)
 #measurement of PAL
@@ -206,10 +211,21 @@ print("Measuring PDL for Im(VH)")
 PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, lcc1Voltage0, lcc2Voltage90)
 
 #extraction of Im(VH)
-imrhoVH=(PDL-PDR+PAR-PAL)/normconstant   
+imrhoVH=(PDL-PDR+PAR-PAL)/normconstant 
+print("imrhoVH = ", imrhoVH)  
 
 print("Finished all measurements\n\n")
 
 #output of final results
 print("Final result")
 result=Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
+print("result = ", result)
+
+with open("Output.txt", "w") as text_file:
+    text_file.write("rhoHH = {0}".format(rhoHH))
+    text_file.write("rhoVV = {0}".format(rhoVV))
+    text_file.write("rerhoHV = {0}".format(rerhoHV))
+    text_file.write("imrhoHV = {0}".format(imrhoHV))
+    text_file.write("rerhoVH = {0}".format(rerhoVH))
+    text_file.write("imrhoVH = {0}".format(imrhoVH))
+    text_file.write("result = ", result)
