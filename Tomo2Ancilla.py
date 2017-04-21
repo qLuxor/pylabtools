@@ -83,7 +83,13 @@ rot2.home()
 print("Initializing ROTHWP")
 rotHWPSN= 83815359
 rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
-rotHWP.home()
+#rotHWP.home() #commented out due to bug in rotator
+
+#ROTQWP configuration and initialization
+print("Initializing ROTQWP")
+rotQWPSN= 83815359
+rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
+rotQWP.home()
 
 print("Finished initialization\n\n")
 #calibration values for ROT1
@@ -113,11 +119,16 @@ lcc2Voltage270=1.6
 rotHWPAngle0=130.2
 rotHWPAngle45=85.2
 
+#calibration values for ROTQWP
+rotQWPAngle0=91.6
+rotQWPAngle45=46.6
+
 #functions that implements settings
-def measure(rot1angle, rot2angle, rotHWPangle, lcc1voltage, lcc2voltage):
+def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2voltage):
     setangle(rot1, rot1angle, angleErr)
     setangle(rot2, rot2angle, angleErr)
     setangle(rotHWP, rotHWPangle, angleErr)
+    setangle(rotQWP, rotQWPangle, angleErr)
     setvoltage(lcc1, lcc1voltage, voltageErr)
     setvoltage(lcc2, lcc2voltage, voltageErr)
     time.sleep(allowtime)
@@ -133,11 +144,11 @@ def measure(rot1angle, rot2angle, rotHWPangle, lcc1voltage, lcc2voltage):
 
 #Measurement on diagonal H
 print("Measuring HH")
-countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle45, lcc1Voltage0, lcc2Voltage0)
+countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 
 #measurement on diagonal V
 print("Measuring VV")
-countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, lcc1Voltage0, lcc2Voltage0)
+countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 
 #normalization and extraction of diagonal elements
 normconstant= countH+countV
@@ -149,19 +160,19 @@ print("rhoVV = ", rhoVV)
 #measurement of Re(HV)
 #measurement of PLL
 print("Measuring PLL for Re(HV)")
-PLL = measure(rot1Angle90, rot2Angle90, rotHWPAngle0, lcc1Voltage90, lcc2Voltage90)
+PLL = measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
 
 #measurement of PLR
 print("Measuring PLR for Re(HV)")
-PLR= measure(rot1Angle90, rot2Angle270, rotHWPAngle0, lcc1Voltage90, lcc2Voltage270)
+PLR= measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
 
 #measurement of PRR
 print("Measuring PRR for Re(HV)")
-PRR= measure(rot1Angle270, rot2Angle270, rotHWPAngle0, lcc1Voltage270, lcc2Voltage270)
+PRR= measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
 
 #measurement of PRL
 print("Measuring PRL for Re(HV)")
-PRL= measure(rot1Angle270, rot2Angle90, rotHWPAngle0, lcc1Voltage270, lcc2Voltage90)
+PRL= measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
 
 #extraction of Re(HV)
 rerhoHV=(PRL+PLR-PRR-PLL)/normconstant
@@ -170,19 +181,19 @@ print("rerhoHV = ", rerhoHV)
 #measurement of Im(HV)
 #measurement of PAL
 print("Measuring PAL for Im(HV)")
-PAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle0, lcc1Voltage180, lcc2Voltage90)
+PAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
 
 #measurement of PAR
 print("Measuring PAR for Im(HV)")
-PAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle0, lcc1Voltage180, lcc2Voltage270)
+PAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
 
 #measurement of PDR
 print("Measuring PDR for Im(HV)")
-PDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle0, lcc1Voltage0, lcc2Voltage270)
+PDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
 
 #measurement of PDL
 print("Measuring PDL for Im(HV)")
-PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle0, lcc1Voltage0, lcc2Voltage90)
+PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
 
 #extraction of Im(HV)
 imrhoHV=(PDL-PDR+PAR-PAL)/normconstant
@@ -191,19 +202,19 @@ print("imrhoHV = ", imrhoHV)
 #measurement of Re(VH)
 #measurement of PRL
 print("Measuring PRL for Re(VH)")
-PRL= measure(rot1Angle90, rot2Angle90, rotHWPAngle45, lcc1Voltage90, lcc2Voltage90)
+PRL= measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
 
 #measurement of PRR
 print("Measuring PRR for Re(VH)")
-PRR= measure(rot1Angle90, rot2Angle270, rotHWPAngle45, lcc1Voltage90, lcc2Voltage270)
+PRR= measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
 
 #measurement of PLR
 print("Measuring PLR for Re(VH)")
-PLR= measure(rot1Angle270, rot2Angle270, rotHWPAngle45, lcc1Voltage270, lcc2Voltage270)
+PLR= measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
 
 #measurement of PLL
 print("Measuring PLL for Re(VH)")
-PLL = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, lcc1Voltage270, lcc2Voltage90)
+PLL = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
 
 #extraction of Re(VH)
 rerhoVH=(PRL+PLR-PRR-PLL)/normconstant
@@ -212,19 +223,19 @@ print("rerhoVH = ", rerhoVH)
 #measurement of Im(VH)
 #measurement of PAL
 print("Measuring PAL for Im(VH)")
-PAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, lcc1Voltage180, lcc2Voltage90)
+PAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
 
 #measurement of PAR
 print("Measuring PAR for Im(VH)")
-PAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle45, lcc1Voltage180, lcc2Voltage270)
+PAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
 
 #measurement of PDR
 print("Measuring PDR for Im(VH)")
-PDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle45, lcc1Voltage0, lcc2Voltage270)
+PDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
 
 #measurement of PDL
 print("Measuring PDL for Im(VH)")
-PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, lcc1Voltage0, lcc2Voltage90)
+PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
 
 #extraction of Im(VH)
 imrhoVH=(PDL-PDR+PAR-PAL)/normconstant 
