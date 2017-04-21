@@ -13,6 +13,7 @@ import aptlib
 import numpy as np
 import instruments as ik
 from qutip import *
+import json
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
@@ -29,99 +30,101 @@ def setvoltage(lcc, voltage, voltageErr):
     if abs(float(lcc.voltage1) - voltage) > voltageErr:
         lcc.voltage1=voltage
 
+with open('settings.json') as json_settings:
+    settings = json.load(json_settings)
+    json_settings.close()
+
 #useful values
-allowtime=1.5
-angleErr=1e-2
-voltageErr = 1e-3
+allowtime=settings["allowtime"]
+angleErr=settings["angleErr"]
+voltageErr = settings["voltageErr"]
 
 #pwm configuration and initialization
 pwm = pm100d()
-average=10
+pwmAverage=settings["pwmAverage"]
 
-'''
 #SPAD configuration and initialization
 print("Initializing SPAD")
-bufNum =0
-delay=0
+bufNum =settings["bufNum"]
+delay=settings["delay"]
 delay = delay*1e-9
-channelA=0
-channelB=0
+channelA=settings["channelA"]
+channelB=settings["channelB"]
 delayarray = np.array([delay, 0.0, 0.0,0.0])
-exptime = 1000
+exptime = settings["exptime"]
 exptime = exptime*1e-3
 coincWindow = 2*1e-9
 ttagBuf = ttag.TTBuffer(bufNum) 
-'''
 
 #LCC1 configuration and initialization
 print("Initializing LCC1")
-port1="/dev/ttyUSB1"
+port1=settings["port1"]
 lcc1 = ik.thorlabs.LCC25.open_serial(port1, 115200,timeout=1)
 lcc1.mode = lcc1.Mode.voltage1
 lcc1.enable = True
 
 #LLC2 configuration and initialization
 print("Initializing LCC2")
-port2="/dev/ttyUSB2"
+port2=settings["port2"]
 lcc2 = ik.thorlabs.LCC25.open_serial(port2, 115200,timeout=1)
 lcc2.mode = lcc2.Mode.voltage1
 lcc2.enable = True
 
 #ROT1 configuration and initialization
 print("Initializing ROT1")
-rot1SN = 83825706
+rot1SN = settings["rot1SN"]
 rot1 = aptlib.PRM1(serial_number=rot1SN)
 rot1.home()
 
 #ROT2 configuration and initialization
 print("Initializing ROT2")
-rot2SN = 838304445
+rot2SN = settings["rot2SN"]
 rot2 = aptlib.PRM1(serial_number=rot2SN)
 rot2.home()
 
 #ROTHWP configuration and initialization
 print("Initializing ROTHWP")
-rotHWPSN= 83815359
+rotHWPSN= settings["rotHWPSN"]
 rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
 #rotHWP.home() #commented out due to bug in rotator
 
 #ROTQWP configuration and initialization
 print("Initializing ROTQWP")
-rotQWPSN= 83815359
+rotQWPSN= settings["rotQWPSN"]
 rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
 rotQWP.home()
 
 print("Finished initialization\n\n")
 #calibration values for ROT1
-rot1Angle0=43.8
-rot1Angle90=43.8
-rot1Angle180=133.8
-rot1Angle270=133.8
+rot1Angle0=settings["rot1Angle0"]
+rot1Angle90=settings["rot1Angle90"]
+rot1Angle180=settings["rot1Angle180"]
+rot1Angle270=settings["rot1Angle270"]
 
 #calibration values for LCC1
-lcc1Voltage0=1.5
-lcc1Voltage90=10
-lcc1Voltage180=3.0
-lcc1Voltage270=1.0
+lcc1Voltage0=settings["lcc1Voltage0"]
+lcc1Voltage90=settings["lcc1Voltage90"]
+lcc1Voltage180=settings["lcc1Voltage180"]
+lcc1Voltage270=settings["lcc1Voltage270"]
 
 #calibration values for ROT2
-rot2Angle0=45.7
-rot2Angle90=45.7
-rot2Angle180=135.7
-rot2Angle270=135.7
+rot2Angle0=settings["rot2Angle0"]
+rot2Angle90=settings["rot2Angle90"]
+rot2Angle180=settings["rot2Angle180"]
+rot2Angle270=settings["rot2Angle270"]
 
 #calibration values for LCC2
-lcc2Voltage0=10
-lcc2Voltage90=1.5
-lcc2Voltage270=1.6
+lcc2Voltage0=settings["lcc2Voltage0"]
+lcc2Voltage90=settings["lcc2Voltage90"]
+lcc2Voltage270=settings["lcc2Voltage270"]
 
 #calibration values for ROTHWP
-rotHWPAngle0=130.2
-rotHWPAngle45=85.2
+rotHWPAngle0=settings["rotHWPAngle0"]
+rotHWPAngle45=settings["rotHWPAngle45"]
 
 #calibration values for ROTQWP
-rotQWPAngle0=91.6
-rotQWPAngle45=46.6
+rotQWPAngle0=settings["rotQWPAngle0"]
+rotQWPAngle45=settings["rotQWPAngle45"]
 
 #functions that implements settings
 def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2voltage):
@@ -135,8 +138,8 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     #time.sleep(exptime)
     #coinc ttagBuf.coincidences(exptime,coincWindow,-delayarray)
     #return coinc[channelA, channelB]
-    singleMeasure = np.zeros(average)
-    for j in range(average):
+    singleMeasure = np.zeros(pwmAverage)
+    for j in range(pwmAverage):
         time.sleep(0.05)
         p = max(pwm.read()*1000, 0.)
         singleMeasure[j] = p
