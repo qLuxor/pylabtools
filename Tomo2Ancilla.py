@@ -23,7 +23,7 @@ def setangle(rotator, angle, angleErr):
         rotator.goto(angle, wait=True)
 
 def setvoltage(lcc, voltage, voltageErr):
-    if abs(lcc.voltage1 - voltage) > voltageErr:
+    if abs(float(lcc.voltage1) - voltage) > voltageErr:
         lcc.voltage1=voltage
 
 #useful values
