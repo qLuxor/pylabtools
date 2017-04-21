@@ -42,6 +42,7 @@ voltageErr = settings["voltageErr"]
 #pwm configuration and initialization
 pwm = pm100d()
 pwmAverage=settings["pwmAverage"]
+pwmWait=settings["pwmWait"]
 
 #SPAD configuration and initialization
 print("Initializing SPAD")
@@ -140,7 +141,7 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     #return coinc[channelA, channelB]
     singleMeasure = np.zeros(pwmAverage)
     for j in range(pwmAverage):
-        time.sleep(0.05)
+        time.sleep(pwmWait)
         p = max(pwm.read()*1000, 0.)
         singleMeasure[j] = p
     return np.mean(singleMeasure)
