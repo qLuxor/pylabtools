@@ -20,7 +20,7 @@ def setvoltage(lcc, voltage, voltageErr):
     if abs(float(lcc.voltage1) - voltage) > voltageErr:
         lcc.voltage1=voltage
 
-with open('cal1settings.json') as json_settings:
+with open('calsettings.json') as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
 
@@ -63,6 +63,7 @@ rotQWP.home()
 rot1Angle180=settings["rot1Angle180"]
 rot2Angle0=settings["rot2Angle0"]
 rotHWPAngle675=settings["rotHWPAngle675"]
+rotHWPAngle0=settings["rotHWPAngle0"]
 rotQWPAngle45=settings["rotQWPAngle45"]
 
 print("Finished initialization\n\n")
@@ -76,4 +77,23 @@ setangle(rotQWP, rotQWPAngle45, angleErr)
 print("Setting LCC1 for faster tilting")
 setvoltage(lcc1, lcc1Voltage180, voltageErr)
 
-print("\n\nFinished all, please proceed with calibration of LCR2")
+print("Disconnecting rotators")
+rot1.close()
+rot2.close()
+rotHWP.close()
+rotQWP.close()
+
+print("\n\nFinished all preparation for LCR1, please proceed with tilting and calibration of LCR1. You don't have to close this script")
+
+input("If all rotators are ready to be controlled again, press Enter to prepare the setup for calibration of LCR2, enter with D, block deflected ray in int1")
+rot1 = aptlib.PRM1(serial_number=rot1SN)
+rot2 = aptlib.PRM1(serial_number=rot2SN)
+rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
+rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
+
+print("Moving rotators")
+setangle(rot1, rot1Angle180, angleErr)
+setangle(rotHWP, rotHWPAngle0, angleErr)
+setangle(rotQWP, rotQWPAngle45, angleErr)
+
+print("\n\nFinished all preparation for LCR2, please proceed with calibration of LCR2. This script ends here")
