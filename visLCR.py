@@ -194,6 +194,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.txtPos2.setEnabled(False)
             self.btnMove1.setEnabled(False)
             self.btnMove2.setEnabled(False)
+            self.btnLoad.setEnabled(False)
             
             if self.rbtnComplete.isChecked():
                 self.voltage_arr=self.voltage_arr_complete
@@ -259,6 +260,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.txtPos2.setEnabled(True)
             self.btnMove1.setEnabled(True)
             self.btnMove2.setEnabled(True)
+            self.btnLoad.setEnabled(True)
             
             self.started = False
             
@@ -292,6 +294,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnStart.setEnabled(False)
             self.btnConnectPWM.setEnabled(False)
             self.btnConnectSPAD.setEnabled(False)
+            self.btnLoad.setEnabled(False)
             
             sampleIndex = 0
             sampleTot = 1000
@@ -320,6 +323,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnStart.setEnabled(True)
             self.btnConnectPWM.setEnabled(True)
             self.btnConnectSPAD.setEnabled(True)
+            self.btnLoad.setEnabled(True)
             self.oscilloscope = False
 
         
