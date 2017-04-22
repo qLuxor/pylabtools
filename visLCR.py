@@ -145,6 +145,10 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.txtPos1.setText("{:10.5}".format(settings["Pos1"]))
             if "Pos2" in settings:
                 self.txtPos2.setText("{:10.5}".format(settings["Pos2"]))
+            self.disconnectPWM()
+            self.disconnectSPAD()
+            self.disconnectRotator()
+            self.disconnectLCR()
         except Exception as e:
             logging.error(traceback.format_exc())
             
@@ -403,11 +407,12 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.txtPort.setEnabled(False)
     
     def disconnectLCR(self):
-        self.lcc.enable = False
-        self.btnConnectLCR.setText('Connect LCR')
-        self.btnConnectLCR.setStyleSheet("")
-        self.isLCRConnected= False
-        self.txtPort.setEnabled(True)
+        if self.isLCRConnected:
+            self.lcc.enable = False
+            self.btnConnectLCR.setText('Connect LCR')
+            self.btnConnectLCR.setStyleSheet("")
+            self.isLCRConnected= False
+            self.txtPort.setEnabled(True)
         
     def connectPWM(self):
         self.isPWMConnected=True
@@ -419,11 +424,12 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.txtAverage.setEnabled(False)
         
     def disconnectPWW(self):
-        self.isPWMConnected=False
-        self.btnConnectPWM.setText('Connect PWM')
-        self.btnConnectPWM.setStyleSheet("")
-        self.btnConnectSPAD.setEnabled(True)
-        self.txtAverage.setEnabled(True)
+        if self.isPWMConnected:
+            self.isPWMConnected=False
+            self.btnConnectPWM.setText('Connect PWM')
+            self.btnConnectPWM.setStyleSheet("")
+            self.btnConnectSPAD.setEnabled(True)
+            self.txtAverage.setEnabled(True)
         
     def connectSPAD(self):
         self.isSPADConnected=True
@@ -453,15 +459,16 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.txtExposure.setEnabled(False)
         
     def disconnectSPAD(self):
-        self.isSPADConnected=False
-        self.btnConnectSPAD.setText('Connect SPAD')
-        self.btnConnectSPAD.setStyleSheet("")
-        self.btnConnectPWM.setEnabled(True)
-        self.txtSPADChannel.setEnabled(True)
-        self.txtSPADOtherChannel.setEnabled(True)
-        self.txtDelay.setEnabled(True)
-        self.txtOtherDelay.setEnabled(True)
-        self.txtExposure.setEnabled(True)
+        if self.isSPADConnected:
+            self.isSPADConnected=False
+            self.btnConnectSPAD.setText('Connect SPAD')
+            self.btnConnectSPAD.setStyleSheet("")
+            self.btnConnectPWM.setEnabled(True)
+            self.txtSPADChannel.setEnabled(True)
+            self.txtSPADOtherChannel.setEnabled(True)
+            self.txtDelay.setEnabled(True)
+            self.txtOtherDelay.setEnabled(True)
+            self.txtExposure.setEnabled(True)
         
     def setangle(self, rot, angle, angleErr):
         if abs(rot.position()-angle)> angleErr:
