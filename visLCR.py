@@ -70,15 +70,23 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.axVis.set_ylabel('Power [mW]')
         
         
-        self.voltage_arr_complete = np.array([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
+        self.voltage_arr_complete = np.array([[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
                                      1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,
                                      2.0,2.1,2.2,2.3,2.4,2.5,2.6,2.7,2.8,2.9,
                                      3.0,3.1,3.2,3.3,3.4,3.5,3.6,3.7,3.8,3.9,
                                      4.0,4.1,4.2,4.3,4.4,4.5,4.6,4.7,4.8,4.9,
-                                     5,5.5,6,7,8,9,10,11,13,15,17.5,20,22.5,25])
+                                     5,5.5,6,7,8,9,10,11,13,15,17.5,20,22.5,25], 
+                                    [25, 22.5, 20, 17.5, 15, 13,11,10,9,8,7,6,5.5,5,
+                                     4.9,4.8,4.7,4.6,4.5,4.4,4.3,4.2,4.1,4.0,
+                                     3.9,3.8,3.7,3.6,3.5,3.4,3.3,3.2,3.1,3.0,
+                                     2.9,2.8,2.7,2.6,2.5,2.4,2.3,2.2,2.1,2.0,
+                                     1.9,1.8,1.7,1.6,1.5,1.4,1.3,1.2,1.1,1.0,
+                                     0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1,0.0]])
     
-        self.voltage_arr_fast = np.array([0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,
-                                     5,5.5,6,7,8,9,10,11,13,15,17.5,20,22.5,25])
+        self.voltage_arr_fast = np.array([[0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,
+                                     5,6,7,10,15,20,25],
+                                    [25,20,15,10,7,6,5,4.5,4.0,3.5,3.0,2.5,2.0,
+                                     1.5,1.0,0.5,0]])
         
         
     @pyqtSlot()
@@ -130,13 +138,15 @@ class Vis(QMainWindow, Ui_MainWindow):
             
             self.pos_arr = [pos1Stage, pos2Stage]
             i = 0
-            self.count = np.zeros(2*self.voltage_arr.size)
-            self.totvoltage_arr=np.concatenate((self.voltage_arr, np.flipud(self.voltage_arr)), axis=0)
+            j = 0
+            
+            self.totvoltage_arr=self.voltage_arr.flatten()
+            self.count = np.zeros(self.totvoltage_arr.size)
             
             for pos in self.pos_arr:
                 self.con.goto(pos, wait=True)
                 
-                for voltage in self.voltage_arr:
+                for voltage in self.voltage_arr[j]:
                     self.lcc.voltage1 = voltage
                     time.sleep(1.5)
                     #checks for stop command
@@ -160,11 +170,9 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.plotVis.draw()
                     self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
                     i += 1
-
+                j+=1
                 if not self.started:
                     break
-                
-                self.voltage_arr= np.flipud(self.voltage_arr)
             
             if self.started:
                 filename = self.txtFileName.text()
