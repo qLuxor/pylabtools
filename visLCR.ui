@@ -64,6 +64,11 @@
              <string>Fast</string>
             </property>
            </widget>
+		<widget class="QRadioButton" name="rbtnAimed">
+            <property name="text">
+             <string>Aimed</string>
+            </property>
+           </widget>
           </widget>
           <widget class="QSplitter" name="splitter">
            <property name="orientation">
