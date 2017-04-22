@@ -64,7 +64,7 @@
              <string>Fast</string>
             </property>
            </widget>
-		<widget class="QRadioButton" name="rbtnAimed">
+           <widget class="QRadioButton" name="rbtnAimed">
             <property name="text">
              <string>Aimed</string>
             </property>
@@ -92,22 +92,6 @@
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="14" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtPos1">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
@@ -173,22 +157,6 @@
                </property>
                <property name="text">
                 <string>PWM</string>
-               </property>
-              </widget>
-             </item>
-             <item row="15" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtPos2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>90</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
@@ -439,6 +407,52 @@
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="1">
+              <widget class="QLineEdit" name="txtPos1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="15" column="1">
+              <widget class="QLineEdit" name="txtPos2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>90</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="2">
+              <widget class="QPushButton" name="btnMove1">
+               <property name="text">
+                <string>Move</string>
+               </property>
+              </widget>
+             </item>
+             <item row="15" column="2">
+              <widget class="QPushButton" name="btnMove2">
+               <property name="text">
+                <string>Move</string>
                </property>
               </widget>
              </item>

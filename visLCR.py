@@ -52,6 +52,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         
         self.coincWindow = 2*1e-9
         
+        self.angleErr=1e-3
+        
         
         self.figOscilloscope = plt.figure()
         self.plotOscilloscope = FigureCanvas(self.figOscilloscope)
@@ -69,6 +71,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.axVis.set_xlabel('Position [mm]')
         self.axVis.set_ylabel('Power [mW]')
         
+        self.btnMove1.setEnabled(False)
+        self.btnMove2.setEnabled(False)
         
         self.voltage_arr_complete = np.array([[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
                                      1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,
@@ -132,6 +136,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnOscilloscope.setEnabled(False)
             self.txtPos1.setEnabled(False)
             self.txtPos2.setEnabled(False)
+            self.btnMove1.setEnabled(False)
+            self.btnMove2.setEnabled(False)
             
             if self.rbtnComplete.isChecked():
                 self.voltage_arr=self.voltage_arr_complete
@@ -195,6 +201,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnOscilloscope.setEnabled(True)
             self.txtPos1.setEnabled(True)
             self.txtPos2.setEnabled(True)
+            self.btnMove1.setEnabled(True)
+            self.btnMove2.setEnabled(True)
             
             self.started = False
             
@@ -288,6 +296,22 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.connectSPAD()
         else:
             self.disconnectSPAD()
+            
+    @pyqtSlot()
+    def on_btnMove1_clicked(self):
+        if self.isRotatorConnected:
+            pos1Stage = float(self.txtPos1.text())
+            self.setangle(self.con, pos1Stage, self.angleErr)
+        else:
+            print("Please Connect Rotator")
+            
+    @pyqtSlot()
+    def on_btnMove2_clicked(self):
+        if self.isRotatorConnected:
+            pos2Stage = float(self.txtPos2.text())
+            self.setangle(self.con, pos2Stage, self.angleErr)
+        else:
+            print("Please Connect Rotator")
     
     def connectRotator(self):
         selLinear = str(self.cmbLinearStage.currentText())
@@ -302,6 +326,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.isRotatorConnected = True
             self.txtSN.setEnabled(False)
             self.cmbLinearStage.setEnabled(False)
+            self.btnMove1.setEnabled(True)
+            self.btnMove2.setEnabled(True)
         else:
             self.isRotatorConnected = False
             
@@ -313,6 +339,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnect.setStyleSheet("")
             self.txtSN.setEnabled(True)
             self.cmbLinearStage.setEnabled(True)
+            self.btnMove1.setEnabled(False)
+            self.btnMove2.setEnabled(False)
       
     def connectLCR(self):
         port=self.txtPort.text()
@@ -384,6 +412,10 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.txtDelay.setEnabled(True)
         self.txtOtherDelay.setEnabled(True)
         self.txtExposure.setEnabled(True)
+        
+    def setangle(self, rot, angle, angleErr):
+        if abs(rot.position()-angle)> angleErr:
+            rot.goto(angle, wait=True)
 
 if __name__ == "__main__":
     app = QApplication.instance()
