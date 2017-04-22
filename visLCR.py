@@ -127,6 +127,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.rbtnAimed.setChecked(True)
             if "PWMAverage" in settings:
                 self.txtAverage.setText("{0}".format(settings["PWMAverage"]))
+            if "PWMPause" in settings:
+                self.txtPause.setText("{0}".format(settings["PWMPause"]))
             if "Exposure" in settings:
                 self.txtExposure.setText("{0}".format(settings["Exposure"]))
             if "SPADChannel" in settings:
@@ -225,7 +227,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                     if(self.isPWMConnected and not self.isSPADConnected):
                         singleMeasure = np.zeros(self.average)
                         for j in range(self.average):
-                            time.sleep(0.05)
+                            time.sleep(self.pause)
                             p = max(pwm.read()*1000, 0.)
                             singleMeasure[j] = p
                         self.count[i] = np.mean(singleMeasure)
@@ -291,8 +293,6 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnectPWM.setEnabled(False)
             self.btnConnectSPAD.setEnabled(False)
             
-            acqPause = float(self.txtPause.text())/1000
-            
             sampleIndex = 0
             sampleTot = 1000
             sample = np.arange(sampleTot)
@@ -301,7 +301,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             while self.oscilloscope:
                 qApp.processEvents()
                 if(self.isPWMConnected and not self.isSPADConnected):
-                    time.sleep(acqPause)
+                    time.sleep(self.pause)
                     p = max(pwm.read()*1000, 0.)  
                 elif (self.isSPADConnected and not self.isPWMConnected):
                     time.sleep(self.exptime)
@@ -420,6 +420,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.btnConnectPWM.setText('Disconnect PWM')
         self.btnConnectPWM.setStyleSheet("background-color: red")
         self.average = int(self.txtAverage.text())
+        self.pause = float(self.txtPause.text())
+        self.pause = self.pause *1e-3
         self.btnConnectSPAD.setEnabled(False)
         self.txtAverage.setEnabled(False)
         
