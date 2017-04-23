@@ -101,60 +101,15 @@ class Vis(QMainWindow, Ui_MainWindow):
                                     [25,20,15,10,5,4.0,3.5,3.4,3.3,3.2,3.1,3.0,
                                      2.9,2.8,2.7,2.6,2.5,2.4,2.3,2.0,
                                     1.5,1.4,1.3,1.2,1.1,1.0,0.9,0.8,0.7,0.6,0]])
+        if len(sys.argv) >0:
+            self.txtLoadFileName.setText(str(sys.argv[1]))
+            self.loadsettings()
+        
         
     @pyqtSlot()
     def on_btnLoad_clicked(self):
-        try:
-            loadfilename=self.txtLoadFileName.text()
-            with open(loadfilename) as json_data:
-                settings = json.load(json_data)
-                json_data.close()
-            if "Filename" in settings:
-                self.txtFileName.setText(settings["FileName"])
-            if "ModeVoltage" in settings:
-                mode=settings["ModeVoltage"]
-                if mode=="Complete":
-                    self.rbtnComplete.setChecked(True)
-                    self.rbtnFast.setChecked(False)
-                    self.rbtnAimed.setChecked(False)
-                elif mode=="Fast":
-                    self.rbtnComplete.setChecked(False)
-                    self.rbtnFast.setChecked(True)
-                    self.rbtnAimed.setChecked(False)
-                elif mode=="Aimed":
-                    self.rbtnComplete.setChecked(False)
-                    self.rbtnFast.setChecked(False)
-                    self.rbtnAimed.setChecked(True)
-            if "PWMAverage" in settings:
-                self.txtAverage.setText("{0}".format(settings["PWMAverage"]))
-            if "PWMPause" in settings:
-                self.txtPause.setText("{0}".format(settings["PWMPause"]))
-            if "Exposure" in settings:
-                self.txtExposure.setText("{0}".format(settings["Exposure"]))
-            if "SPADChannel" in settings:
-                self.txtSPADChannel.setText("{0}".format(settings["SPADChannel"]))
-            if "SPADOtherChannel" in settings:
-                self.txtSPADOtherChannel.setText("{0}".format(settings["SPADOtherChannel"]))
-            if "Delay" in settings:
-                self.txtDelay.setText("{:8.3}".format(settings["Delay"]))
-            if "OtherDelay" in settings:
-                self.txtOtherDelay.setText("{:8.3}".format(settings["OtherDelay"]))
-            if "Port" in settings:
-                self.txtPort.setText(settings["Port"])
-            if "SN" in settings:
-                self.txtSN.setText("{0}".format(settings["SN"]))
-            if "Pos1" in settings:
-                self.txtPos1.setText("{:10.5}".format(settings["Pos1"]))
-            if "Pos2" in settings:
-                self.txtPos2.setText("{:10.5}".format(settings["Pos2"]))
-            self.disconnectPWM()
-            self.disconnectSPAD()
-            self.disconnectRotator()
-            self.disconnectLCR()
-        except Exception as e:
-            logging.error(traceback.format_exc())
-            
-          
+        self.loadsettings()
+                 
     @pyqtSlot()
     def on_btnStart_clicked(self):
         """
@@ -479,6 +434,57 @@ class Vis(QMainWindow, Ui_MainWindow):
     def setangle(self, rot, angle, angleErr):
         if abs(rot.position()-angle)> angleErr:
             rot.goto(angle, wait=True)
+    
+    def loadsettings(self):
+        try:
+            loadfilename=self.txtLoadFileName.text()
+            with open(loadfilename) as json_data:
+                settings = json.load(json_data)
+                json_data.close()
+            if "Filename" in settings:
+                self.txtFileName.setText(settings["FileName"])
+            if "ModeVoltage" in settings:
+                mode=settings["ModeVoltage"]
+                if mode=="Complete":
+                    self.rbtnComplete.setChecked(True)
+                    self.rbtnFast.setChecked(False)
+                    self.rbtnAimed.setChecked(False)
+                elif mode=="Fast":
+                    self.rbtnComplete.setChecked(False)
+                    self.rbtnFast.setChecked(True)
+                    self.rbtnAimed.setChecked(False)
+                elif mode=="Aimed":
+                    self.rbtnComplete.setChecked(False)
+                    self.rbtnFast.setChecked(False)
+                    self.rbtnAimed.setChecked(True)
+            if "PWMAverage" in settings:
+                self.txtAverage.setText("{0}".format(settings["PWMAverage"]))
+            if "PWMPause" in settings:
+                self.txtPause.setText("{0}".format(settings["PWMPause"]))
+            if "Exposure" in settings:
+                self.txtExposure.setText("{0}".format(settings["Exposure"]))
+            if "SPADChannel" in settings:
+                self.txtSPADChannel.setText("{0}".format(settings["SPADChannel"]))
+            if "SPADOtherChannel" in settings:
+                self.txtSPADOtherChannel.setText("{0}".format(settings["SPADOtherChannel"]))
+            if "Delay" in settings:
+                self.txtDelay.setText("{:8.3}".format(settings["Delay"]))
+            if "OtherDelay" in settings:
+                self.txtOtherDelay.setText("{:8.3}".format(settings["OtherDelay"]))
+            if "Port" in settings:
+                self.txtPort.setText(settings["Port"])
+            if "SN" in settings:
+                self.txtSN.setText("{0}".format(settings["SN"]))
+            if "Pos1" in settings:
+                self.txtPos1.setText("{:10.5}".format(settings["Pos1"]))
+            if "Pos2" in settings:
+                self.txtPos2.setText("{:10.5}".format(settings["Pos2"]))
+            self.disconnectPWM()
+            self.disconnectSPAD()
+            self.disconnectRotator()
+            self.disconnectLCR()
+        except Exception as e:
+            logging.error(traceback.format_exc())
 
 if __name__ == "__main__":
     app = QApplication.instance()
