@@ -25,8 +25,13 @@ from pyThorPM100.pm100 import pm100d
 def setangle(rotator, angle, angleErr):
     if abs(rotator.position()-angle)> angleErr:
         rotator.goto(angle, wait=True)
+        
+if len(sys.argv) >0:
+    filename = str(sys.argv[1])
+else:
+    filename ='QSTsettings.json'
 
-with open('QSTsettings.json') as json_settings:
+with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
 

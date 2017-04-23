@@ -10,6 +10,7 @@ Created on Fri Apr 21 22:40:37 2017
 import aptlib
 import instruments as ik
 import json
+import sys
 
 #functions that set apparatus to specific settings
 def setangle(rotator, angle, angleErr):
@@ -20,7 +21,12 @@ def setvoltage(lcc, voltage, voltageErr):
     if abs(float(lcc.voltage1) - voltage) > voltageErr:
         lcc.voltage1=voltage
 
-with open('calsettings.json') as json_settings:
+if len(sys.argv) >0:
+    filename = str(sys.argv[1])
+else:
+    filename ='calsettings.json'
+
+with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
 
