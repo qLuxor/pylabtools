@@ -163,6 +163,7 @@ countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltag
 normconstant= countH+countV
 rhoHH=countH/normconstant
 rhoVV=countV/normconstant
+normconstant = 4*normconstant
 print("rhoHH = ", rhoHH)
 print("rhoVV = ", rhoVV)
 
