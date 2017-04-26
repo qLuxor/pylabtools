@@ -157,6 +157,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.voltage_arr=self.voltage_arr_fast
             elif self.rbtnAimed.isChecked():
                 self.voltage_arr=self.voltage_arr_aimed
+                
+            self.allowtime=float(self.txtAllowTime.text())
             
             
             pos1Stage = float(self.txtPos1.text())
@@ -174,7 +176,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                 
                 for voltage in self.voltage_arr[j]:
                     self.lcc.voltage1 = voltage
-                    time.sleep(1.5)
+                    time.sleep(self.allowtime)
                     #checks for stop command
                     qApp.processEvents()
                     #breaks if stop has been called
@@ -459,6 +461,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.rbtnComplete.setChecked(False)
                     self.rbtnFast.setChecked(False)
                     self.rbtnAimed.setChecked(True)
+            if "AllowTime" in settings:
+                self.txtAllowTime.setText(settings["AllowTime"])
             if "PWMAverage" in settings:
                 self.txtAverage.setText("{0}".format(settings["PWMAverage"]))
             if "PWMPause" in settings:
