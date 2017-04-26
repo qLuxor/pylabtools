@@ -182,10 +182,10 @@ class Vis(QMainWindow, Ui_MainWindow):
                         break
                     if(self.isPWMConnected and not self.isSPADConnected):
                         singleMeasure = np.zeros(self.average)
-                        for j in range(self.average):
+                        for k in range(self.average):
                             time.sleep(self.pause)
                             p = max(pwm.read()*1000, 0.)
-                            singleMeasure[j] = p
+                            singleMeasure[k] = p
                         self.count[i] = np.mean(singleMeasure)
                     elif (self.isSPADConnected and not self.isPWMConnected):
                         time.sleep(self.exptime)
@@ -383,14 +383,16 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.pause = self.pause *1e-3
         self.btnConnectSPAD.setEnabled(False)
         self.txtAverage.setEnabled(False)
+        self.txtPause.setEnabled(False)
         
-    def disconnectPWW(self):
+    def disconnectPWM(self):
         if self.isPWMConnected:
             self.isPWMConnected=False
             self.btnConnectPWM.setText('Connect PWM')
             self.btnConnectPWM.setStyleSheet("")
             self.btnConnectSPAD.setEnabled(True)
             self.txtAverage.setEnabled(True)
+            self.txtPause.setEnabled(True)
         
     def connectSPAD(self):
         self.isSPADConnected=True
@@ -441,7 +443,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             with open(loadfilename) as json_data:
                 settings = json.load(json_data)
                 json_data.close()
-            if "Filename" in settings:
+            if "FileName" in settings:
                 self.txtFileName.setText(settings["FileName"])
             if "ModeVoltage" in settings:
                 mode=settings["ModeVoltage"]
