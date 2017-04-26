@@ -262,8 +262,8 @@ print("Result = ", result)
 print("Resquad = ", resquad)
 print("Purity (as trace of resquad) = ", purity)
 
-
-with open("Output.txt", "w") as text_file:
+outputfilename=settings["outputfilename"]
+with open(outputfilename, "w") as text_file:
     text_file.write("rhoHH = {0}".format(rhoHH))
     text_file.write("\nrhoVV = {0}".format(rhoVV))
     text_file.write("\nrerhoHV = {0}".format(rerhoHV))
