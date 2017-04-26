@@ -151,21 +151,74 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
         singleMeasure[j] = p
     return np.mean(singleMeasure)
 
-#Measurement on diagonal H
-print("Measuring HH")
-countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+#measurement of diagonal H via scheme
+input("Please block V path, unblock H, then press enter")
+countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+
+#measurement of diagonal V via scheme
+input("Please block H path, unblock V, then press enter")
+countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+input("Please unblock all paths, then press enter")
 
 #measurement on diagonal V
 print("Measuring VV")
-countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+countVId = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+
+#Measurement on diagonal H
+print("Measuring HH")
+countHId = measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 
 #normalization and extraction of diagonal elements
-normconstant= countH+countV
-rhoHH=countH/normconstant
-rhoVV=countV/normconstant
+normconstant= countHId+countVId
+#the following 4 factor is due to the scheme, both V and Id are measured with 22.5, so their ratio is not affected
+rhoHH=4*countH/normconstant
+rhoVV=4*countV/normconstant
+#the following 4 factor is due to the fact that Id is measured with 22.5
 normconstant = 4*normconstant
 print("rhoHH = ", rhoHH)
 print("rhoVV = ", rhoVV)
+
+#measurement of Re(VH)
+#measurement of PRL
+print("Measuring PRL for Re(VH)")
+PRL= measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+
+#measurement of PRR
+print("Measuring PRR for Re(VH)")
+PRR= measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+
+#measurement of PLR
+print("Measuring PLR for Re(VH)")
+PLR= measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+
+#measurement of PLL
+print("Measuring PLL for Re(VH)")
+PLL = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+
+#extraction of Re(VH)
+rerhoVH=(PRL+PLR-PRR-PLL)/normconstant
+print("rerhoVH = ", rerhoVH)
+        
+#measurement of Im(VH)
+#measurement of PAL
+print("Measuring PAL for Im(VH)")
+PAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+
+#measurement of PAR
+print("Measuring PAR for Im(VH)")
+PAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+
+#measurement of PDR
+print("Measuring PDR for Im(VH)")
+PDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+
+#measurement of PDL
+print("Measuring PDL for Im(VH)")
+PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+
+#extraction of Im(VH)
+imrhoVH=(PDL-PDR+PAR-PAL)/normconstant 
+print("imrhoVH = ", imrhoVH)  
 
 #measurement of Re(HV)
 #measurement of PLL
@@ -209,48 +262,6 @@ PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, 
 imrhoHV=(PDL-PDR+PAR-PAL)/normconstant
 print("imrhoHV = ", imrhoHV)
         
-#measurement of Re(VH)
-#measurement of PRL
-print("Measuring PRL for Re(VH)")
-PRL= measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-
-#measurement of PRR
-print("Measuring PRR for Re(VH)")
-PRR= measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-
-#measurement of PLR
-print("Measuring PLR for Re(VH)")
-PLR= measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-
-#measurement of PLL
-print("Measuring PLL for Re(VH)")
-PLL = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-
-#extraction of Re(VH)
-rerhoVH=(PRL+PLR-PRR-PLL)/normconstant
-print("rerhoVH = ", rerhoVH)
-        
-#measurement of Im(VH)
-#measurement of PAL
-print("Measuring PAL for Im(VH)")
-PAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-
-#measurement of PAR
-print("Measuring PAR for Im(VH)")
-PAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-
-#measurement of PDR
-print("Measuring PDR for Im(VH)")
-PDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-
-#measurement of PDL
-print("Measuring PDL for Im(VH)")
-PDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-
-#extraction of Im(VH)
-imrhoVH=(PDL-PDR+PAR-PAL)/normconstant 
-print("imrhoVH = ", imrhoVH)  
-
 print("Finished all measurements\n\n")
 
 #output of final results
