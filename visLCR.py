@@ -462,7 +462,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.rbtnFast.setChecked(False)
                     self.rbtnAimed.setChecked(True)
             if "AllowTime" in settings:
-                self.txtAllowTime.setText(settings["AllowTime"])
+                self.txtAllowTime.setText("{:5.2}".format(settings["AllowTime"]))
             if "PWMAverage" in settings:
                 self.txtAverage.setText("{0}".format(settings["PWMAverage"]))
             if "PWMPause" in settings:
