@@ -124,6 +124,6 @@ imrhoVH=-imrhoHV
 result=Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
 print("\n\nMeasured Result")
 print(result)
-corrresult=Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
+corresult=Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
 print("\n\nIntial state")
 print(corresult)

@@ -101,7 +101,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                                     [25,20,15,10,5,4.0,3.5,3.4,3.3,3.2,3.1,3.0,
                                      2.9,2.8,2.7,2.6,2.5,2.4,2.3,2.0,
                                     1.5,1.4,1.3,1.2,1.1,1.0,0.9,0.8,0.7,0.6,0]])
-        if len(sys.argv) >0:
+        if len(sys.argv) >1:
             self.txtLoadFileName.setText(str(sys.argv[1]))
             self.loadsettings()
         

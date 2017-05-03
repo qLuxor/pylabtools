@@ -127,6 +127,8 @@ lcc2Voltage270=settings["lcc2Voltage270"]
 #calibration values for ROTHWP
 rotHWPAngle0=settings["rotHWPAngle0"]
 rotHWPAngle45=settings["rotHWPAngle45"]
+rotHWPAngle225=settings["rotHWPAngle225"]
+rotHWPAngle675=settings["rotHWPAngle675"]
 
 #calibration values for ROTQWP
 rotQWPAngle0=settings["rotQWPAngle0"]
@@ -151,25 +153,28 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
         singleMeasure[j] = p
     return np.mean(singleMeasure)
 
+input("Please unblock all paths, then press enter")
+#measurement on D for normalization
+print("Measuring D for normalization")
+countDId = measure(rot1Angle0, rot2Angle270, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
+
+#Measurement on diagonal H
+print("Measuring A for normalization")
+countAId = measure(rot1Angle0, rot2Angle270, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
+
 #measurement of diagonal H via scheme
 input("Please block V path, unblock H, then press enter")
-countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 
 #measurement of diagonal V via scheme
 input("Please block H path, unblock V, then press enter")
-countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 input("Please unblock all paths, then press enter")
 
-#measurement on diagonal V
-print("Measuring VV")
-countVId = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 
-#Measurement on diagonal H
-print("Measuring HH")
-countHId = measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 
 #normalization and extraction of diagonal elements
-normconstant= countHId+countVId
+normconstant= countDId+countAId
 #the following 4 factor is due to the scheme, both V and Id are measured with 22.5, so their ratio is not affected
 rhoHH=4*countH/normconstant
 rhoVV=4*countV/normconstant
