@@ -34,6 +34,9 @@ else:
 with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
+    
+outputfilename=settings["outputFileName"] 
+outputFile=open(outputfilename, "w")
 
 #useful values
 angleErr=settings["angleErr"]
@@ -97,20 +100,30 @@ def measure(rotHWPangle, rotQWPangle):
 #Measurement on H
 print("Measuring H")
 countH = measure(rotHWPAngle0, rotQWPAngle0)
+print("Counts for H = ", countH)
+print("Counts for H = ", countH, file = outputFile)
 
 #measurement on V
 print("Measuring V")
 countV = measure(rotHWPAngle45, rotQWPAngle0)
+print("Counts for V = ", countV)
+print("Counts for V = ", countV, file = outputFile)
 
 #Measurement on R
 print("Measuring R")
 countR = measure(rotHWPAngle225, rotQWPAngle0)
+print("Counts for R = ", countR)
+print("Counts for R = ", countR, file = outputFile)
 
 #Measurement on D
 print("Measuring D")
 countD = measure(rotHWPAngle225, rotQWPAngle45)
+print("Counts for D = ", countD)
+print("Counts for D = ", countD, file = outputFile)
 
 normconstant=countH+countV
+print("Normalization constant = ", normconstant)
+print("Normalization constant = ", normconstant, file = outputFile)
 
 rhoHH=countH/normconstant
 rhoVV=countV/normconstant
@@ -122,8 +135,14 @@ rerhoVH=rerhoHV
 imrhoVH=-imrhoHV
 
 result=Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
+corresult=Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
+
 print("\n\nMeasured Result")
 print(result)
-corresult=Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
 print("\n\nIntial state")
 print(corresult)
+
+print("\n\nMeasured Result", file = outputFile)
+print(result, file = outputFile)
+print("\n\nIntial state", file = outputFile)
+print(corresult, file = outputFile)
