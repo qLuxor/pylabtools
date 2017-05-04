@@ -40,11 +40,13 @@ outputFile=open(outputfilename, "w")
 
 #useful values
 angleErr=settings["angleErr"]
+sensor = settings["sensor"]
 
 #pwm configuration and initialization
-pwm = pm100d()
 pwmAverage=settings["pwmAverage"]
 pwmWait=settings["pwmWait"]
+if sensor == "pwm" or sensor == "PWM":
+    pwm = pm100d()
 
 #SPAD configuration and initialization
 print("Initializing SPAD")
@@ -57,7 +59,8 @@ delayarray = np.array([spadDelay, 0.0, 0.0,0.0])
 spadExpTime = settings["spadExpTime"]
 spadExpTime = spadExpTime*1e-3
 coincWindow = 2*1e-9
-ttagBuf = ttag.TTBuffer(spadBufNum) 
+if sensor == "spad" or sensor == "SPAD":
+    ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 
 #ROTHWP configuration and initialization
@@ -87,15 +90,18 @@ rotQWPAngle45=settings["rotQWPAngle45"]
 def measure(rotHWPangle, rotQWPangle):
     setangle(rotHWP, rotHWPangle, angleErr)
     setangle(rotQWP, rotQWPangle, angleErr)
-    #time.sleep(spadExpTime)
-    #coinc ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
-    #return coinc[spadChannelA, spadChannelB]
-    singleMeasure = np.zeros(pwmAverage)
-    for j in range(pwmAverage):
-        time.sleep(pwmWait)
-        p = max(pwm.read()*1000, 0.)
-        singleMeasure[j] = p
-    return np.mean(singleMeasure)
+    if sensor == "spad" or sensor == "SPAD":
+        time.sleep(spadExpTime)
+        coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+        result= coinc[spadChannelA, spadChannelB]
+    elif sensor == "pwm" or sensor == "PWM":
+        singleMeasure = np.zeros(pwmAverage)
+        for j in range(pwmAverage):
+            time.sleep(pwmWait)
+            p = max(pwm.read()*1000, 0.)
+            singleMeasure[j] = p
+        result = np.mean(singleMeasure)
+    return result
 
 #Measurement on H
 print("Measuring H")

@@ -46,11 +46,13 @@ allowTime=settings["allowTime"]
 angleErr=settings["angleErr"]
 voltageErr = settings["voltageErr"]
 home = settings["home"]
+sensor = settings["sensor"]
 
 #pwm configuration and initialization
-pwm = pm100d()
 pwmAverage=settings["pwmAverage"]
 pwmWait=settings["pwmWait"]
+if sensor == "pwm" or sensor == "PWM":
+    pwm = pm100d()
 
 #SPAD configuration and initialization
 print("Initializing SPAD")
@@ -60,10 +62,11 @@ spadDelay = spadDelay*1e-9
 spadChannelA=settings["spadChannelA"]
 spadChannelB=settings["spadChannelB"]
 delayarray = np.array([spadDelay, 0.0, 0.0,0.0])
-exptime = settings["exptime"]
-exptime = exptime*1e-3
+spadExpTime = settings["spadExpTime"]
+spadExpTime = spadExpTime*1e-3
 coincWindow = 2*1e-9
-ttagBuf = ttag.TTBuffer(spadBufNum) 
+if sensor == "spad" or sensor == "SPAD":
+    ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 #LCC1 configuration and initialization
 print("Initializing LCC1")
@@ -149,15 +152,18 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     setvoltage(lcc1, lcc1voltage, voltageErr)
     setvoltage(lcc2, lcc2voltage, voltageErr)
     time.sleep(allowTime)
-    #time.sleep(spadExpTime)
-    #coinc ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
-    #return coinc[spadChannelB, spadChannelA]
-    singleMeasure = np.zeros(pwmAverage)
-    for j in range(pwmAverage):
-        time.sleep(pwmWait)
-        p = max(pwm.read()*1000, 0.)
-        singleMeasure[j] = p
-    return np.mean(singleMeasure)
+    if sensor == "spad" or sensor == "SPAD":
+        time.sleep(spadExpTime)
+        coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+        result= coinc[spadChannelB, spadChannelA]
+    elif sensor == "pwm" or sensor == "PWM":
+        singleMeasure = np.zeros(pwmAverage)
+        for j in range(pwmAverage):
+            time.sleep(pwmWait)
+            p = max(pwm.read()*1000, 0.)
+            singleMeasure[j] = p
+        result= np.mean(singleMeasure)
+    return result
 
 #measurement on D for normalization
 print("Measuring D for normalization")
