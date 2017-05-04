@@ -39,7 +39,11 @@ with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
 
-outputfilename=settings["outputFileName"] 
+if len(sys.argv) >2:
+    outputfilename = str(sys.argv[2])
+else:
+    outputfilename=settings["outputFileName"]
+    
 outputFile=open(outputfilename, "w")
 
 #useful values
