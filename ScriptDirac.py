@@ -37,6 +37,9 @@ else:
 with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
+    
+outputfilename=settings["outputFileName"] 
+outputFile=open(outputfilename, "w")
 
 #useful values
 allowTime=settings["allowTime"]
@@ -154,21 +157,41 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
 #measurement on D for normalization
 print("Measuring D for normalization")
 countDId = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+print("Counts for D = ", countDId)
+print("Counts for D = ", countDId, file = outputFile)
 
 #Measurement on A for normalization
 print("Measuring A for normalization")
 countAId = measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+print("Counts for A = ", countAId)
+print("Counts for A = ", countAId, file = outputFile)
+
+normconstant=countDId+countAId
 
 #Measurement on srhoHD
 input("Please block deflected (A) ray in second int. Then press Enter")
-print("Measuring PD for HD")
-HDPD = 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
-print("Measuring PA for HD")
-HDPA = 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
-print("Measuring PL for HD")
-HDPL = 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
-print("Measuring PR for HD")
-HDPR = 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
+print("Measuring D for HD")
+HDPD = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+print("Counts for D for HD = ", HDPD)
+print("Counts for D for HD = ", HDPD, file = outputFile)
+print("Measuring A for HD")
+HDPA = measure(rot1Angle180, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
+print("Counts for A for HD = ", HDPA)
+print("Counts for A for HD = ", HDPA, file = outputFile)
+print("Measuring L for HD")
+HDPL = measure(rot1Angle90, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
+print("Counts for L for HD = ", HDPL)
+print("Counts for L for HD = ", HDPL, file = outputFile)
+print("Measuring R for HD")
+HDPR = measure(rot1Angle270, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
+print("Counts for R for HD = ", HDPR)
+print("Counts for R for HD = ", HDPR, file = outputFile)
+
+#to compensate for normconstant
+HDPD = 0.5*HDPD
+HDPA = 0.5*HDPA
+HDPL = 0.5*HDPL
+HDPR = 0.5*HDPR
 
 #For simplicity measurements are not repeated
 VDPD=HDPD
@@ -177,16 +200,20 @@ VDPL=HDPR
 VDPR=HDPL
 
 #useful values
-rho10HD = 0.5* (HDPD-HDPA+1.0j*(HDPL-HDPR))
-rho10VD = 0.5* (VDPD-VDPA+1.0j*(VDPL-VDPR))
+rho10HD = 0.5* (HDPD-HDPA+1.0j*(HDPL-HDPR))/normconstant
+rho10VD = 0.5* (VDPD-VDPA+1.0j*(VDPL-VDPR))/normconstant
 
 input("Please block deflected (H) ray in first int. Then press Enter")
-print("Measuring PV for VD")
+print("Measuring V for VD")
 VDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+print("Counts for V for VD = ", VDPV)
+print("Counts for V for VD = ", VDPV, file = outputFile)
 
 input("Please block transmitted (V) ray in first int. Then press Enter")
-print("Measuring PV for HD")
+print("Measuring V for HD")
 HDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+print("Counts for V for HD = ", HDPV)
+print("Counts for V for HD = ", HDPV, file = outputFile)
 
 #useful values
 rho11VD = VDPV
@@ -194,14 +221,28 @@ rho11HD = HDPV
 
 #Measurement on srhoHA
 input("Please unblock all rays, then block transmitted (D) ray in second int. Then press Enter")
-print("Measuring PD for HA")
-HAPD = 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
-print("Measuring PA for HA")
-HAPA = 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
-print("Measuring PL for HA")
-HAPL = 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
-print("Measuring PR for HA")
-HAPR = 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
+print("Measuring D for HA")
+HAPD = measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+print("Counts for D for HA = ", HAPD)
+print("Counts for D for HA = ", HAPD, file = outputFile)
+print("Measuring A for HA")
+HAPA = measure(rot1Angle180, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
+print("Counts for A for HA = ", HAPA)
+print("Counts for A for HA = ", HAPA, file = outputFile)
+print("Measuring L for HA")
+HAPL = measure(rot1Angle90, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
+print("Counts for L for HA = ", HAPL)
+print("Counts for L for HA = ", HAPL, file = outputFile)
+print("Measuring R for HA")
+HAPR = measure(rot1Angle270, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
+print("Counts for R for HA = ", HAPR)
+print("Counts for R for HA = ", HAPR, file = outputFile)
+
+#to compensate for normconstant
+HAPD=0.5*HAPD
+HAPA=0.5*HAPA
+HAPL=0.5*HAPL
+HAPR=0.5*HAPR
 
 #For simplicity measurements are not repeated
 VAPD=HAPD
@@ -210,8 +251,8 @@ VAPL=HAPR
 VAPR=HAPL
 
 #useful values
-rho10HA = 0.5* (HAPD-HAPA+1.0j*(HAPL-HAPR))
-rho10VA = 0.5* (VAPD-VAPA+1.0j*(VAPL-VAPR))
+rho10HA = 0.5* (HAPD-HAPA+1.0j*(HAPL-HAPR))/normconstant
+rho10VA = 0.5* (VAPD-VAPA+1.0j*(VAPL-VAPR))/normconstant
 
 d=2
 rhoHH=(d*rho11HD+ rho10HA+rho10HD )
@@ -219,21 +260,20 @@ rhoHV=(rho10HD-rho10HA )
 rhoVH=(rho10VD-rho10VA )
 rhoVV=(d*rho11VD+ rho10VA+rho10VD )
 
-#output of final results
-print("Final result")
 result=Qobj([[rhoHH , rhoHV],[rhoVH, rhoVV]])
 resquad=result**2
 purity= resquad.tr()
+
+#output of final results
+print("Final result")
 print("Result = ", result)
 print("Resquad = ", resquad)
 print("Purity (as trace of resquad) = ", purity)
 
-outputfilename=settings["outputFileName"]
-with open(outputfilename, "w") as text_file:
-    text_file.write("rhoHH = {0}".format(rhoHH))
-    text_file.write("\nrhoHV = {0}".format(rhoHV))
-    text_file.write("\nrhoVH = {0}".format(rhoVH))
-    text_file.write("\nrhoVV = {0}".format(rhoVV))
-    text_file.write("\nresult = ", result)
-    text_file.write("\nresquad = ", resquad)
-    text_file.write("\npurity = ", purity)
+print("rhoHH = {0}".format(rhoHH), file = outputFile)
+print("\nrhoHV = {0}".format(rhoHV), file = outputFile)
+print("\nrhoVH = {0}".format(rhoVH), file = outputFile)
+print("\nrhoVV = {0}".format(rhoVV), file = outputFile)
+print("\nresult = ", result, file = outputFile)
+print("\nresquad = ", resquad, file = outputFile)
+print("\npurity = ", purity, file = outputFile)
