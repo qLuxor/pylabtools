@@ -32,14 +32,14 @@ def setvoltage(lcc, voltage, voltageErr):
 if len(sys.argv) >0:
     filename = str(sys.argv[1])
 else:
-    filename ='Diracsettings.json'
+    filename ='settings.json'
 
 with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
 
 #useful values
-allowtime=settings["allowtime"]
+allowTime=settings["allowTime"]
 angleErr=settings["angleErr"]
 voltageErr = settings["voltageErr"]
 
@@ -50,16 +50,16 @@ pwmWait=settings["pwmWait"]
 
 #SPAD configuration and initialization
 print("Initializing SPAD")
-bufNum =settings["bufNum"]
-delay=settings["delay"]
-delay = delay*1e-9
-channelA=settings["channelA"]
-channelB=settings["channelB"]
-delayarray = np.array([delay, 0.0, 0.0,0.0])
+spadBufNum =settings["spadBufNum"]
+spadDelay=settings["spadDelay"]
+spadDelay = spadDelay*1e-9
+spadChannelA=settings["spadChannelA"]
+spadChannelB=settings["spadChannelB"]
+delayarray = np.array([spadDelay, 0.0, 0.0,0.0])
 exptime = settings["exptime"]
 exptime = exptime*1e-3
 coincWindow = 2*1e-9
-ttagBuf = ttag.TTBuffer(bufNum) 
+ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 #LCC1 configuration and initialization
 print("Initializing LCC1")
@@ -140,10 +140,10 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     setangle(rotQWP, rotQWPangle, angleErr)
     setvoltage(lcc1, lcc1voltage, voltageErr)
     setvoltage(lcc2, lcc2voltage, voltageErr)
-    time.sleep(allowtime)
-    #time.sleep(exptime)
-    #coinc ttagBuf.coincidences(exptime,coincWindow,-delayarray)
-    #return coinc[channelA, channelB]
+    time.sleep(allowTime)
+    #time.sleep(spadExpTime)
+    #coinc ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+    #return coinc[spadChannelB, spadChannelA]
     singleMeasure = np.zeros(pwmAverage)
     for j in range(pwmAverage):
         time.sleep(pwmWait)
@@ -228,7 +228,7 @@ print("Result = ", result)
 print("Resquad = ", resquad)
 print("Purity (as trace of resquad) = ", purity)
 
-outputfilename=settings["outputfilename"]
+outputfilename=settings["outputFileName"]
 with open(outputfilename, "w") as text_file:
     text_file.write("rhoHH = {0}".format(rhoHH))
     text_file.write("\nrhoHV = {0}".format(rhoHV))

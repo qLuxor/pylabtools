@@ -24,7 +24,7 @@ def setvoltage(lcc, voltage, voltageErr):
 if len(sys.argv) >0:
     filename = str(sys.argv[1])
 else:
-    filename ='calsettings.json'
+    filename ='settings.json'
 
 with open(filename) as json_settings:
     settings = json.load(json_settings)

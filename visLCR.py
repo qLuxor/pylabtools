@@ -445,10 +445,10 @@ class Vis(QMainWindow, Ui_MainWindow):
             with open(loadfilename) as json_data:
                 settings = json.load(json_data)
                 json_data.close()
-            if "FileName" in settings:
-                self.txtFileName.setText(settings["FileName"])
-            if "ModeVoltage" in settings:
-                mode=settings["ModeVoltage"]
+            if "outputFileName" in settings:
+                self.txtFileName.setText(settings["outputFileName"])
+            if "modeVoltage" in settings:
+                mode=settings["modeVoltage"]
                 if mode=="Complete":
                     self.rbtnComplete.setChecked(True)
                     self.rbtnFast.setChecked(False)
@@ -461,30 +461,30 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.rbtnComplete.setChecked(False)
                     self.rbtnFast.setChecked(False)
                     self.rbtnAimed.setChecked(True)
-            if "AllowTime" in settings:
-                self.txtAllowTime.setText("{:5.2}".format(settings["AllowTime"]))
-            if "PWMAverage" in settings:
-                self.txtAverage.setText("{0}".format(settings["PWMAverage"]))
-            if "PWMPause" in settings:
-                self.txtPause.setText("{0}".format(settings["PWMPause"]))
-            if "Exposure" in settings:
-                self.txtExposure.setText("{0}".format(settings["Exposure"]))
-            if "SPADChannel" in settings:
-                self.txtSPADChannel.setText("{0}".format(settings["SPADChannel"]))
-            if "SPADOtherChannel" in settings:
-                self.txtSPADOtherChannel.setText("{0}".format(settings["SPADOtherChannel"]))
-            if "Delay" in settings:
-                self.txtDelay.setText("{:8.3}".format(settings["Delay"]))
-            if "OtherDelay" in settings:
-                self.txtOtherDelay.setText("{:8.3}".format(settings["OtherDelay"]))
-            if "Port" in settings:
-                self.txtPort.setText(settings["Port"])
-            if "SN" in settings:
-                self.txtSN.setText("{0}".format(settings["SN"]))
-            if "Pos1" in settings:
-                self.txtPos1.setText("{:10.5}".format(settings["Pos1"]))
-            if "Pos2" in settings:
-                self.txtPos2.setText("{:10.5}".format(settings["Pos2"]))
+            if "allowTime" in settings:
+                self.txtAllowTime.setText("{:5.2}".format(settings["allowTime"]))
+            if "pwmAverage" in settings:
+                self.txtAverage.setText("{0}".format(settings["pwmAverage"]))
+            if "pwmWait" in settings:
+                self.txtPause.setText("{0}".format(settings["pwmWait"]))
+            if "spadExposure" in settings:
+                self.txtExposure.setText("{0}".format(settings["spadExposure"]))
+            if "spadChannel" in settings:
+                self.txtSPADChannel.setText("{0}".format(settings["spadChannel"]))
+            if "spadOtherChannel" in settings:
+                self.txtSPADOtherChannel.setText("{0}".format(settings["spadOtherChannel"]))
+            if "spadDelay" in settings:
+                self.txtDelay.setText("{:8.3}".format(settings["spadDelay"]))
+            if "spadOtherDelay" in settings:
+                self.txtOtherDelay.setText("{:8.3}".format(settings["spadOtherDelay"]))
+            if "port" in settings:
+                self.txtPort.setText(settings["port"])
+            if "sn" in settings:
+                self.txtSN.setText("{0}".format(settings["sn"]))
+            if "pos1" in settings:
+                self.txtPos1.setText("{:10.5}".format(settings["pos1"]))
+            if "pos2" in settings:
+                self.txtPos2.setText("{:10.5}".format(settings["pos2"]))
             self.disconnectPWM()
             self.disconnectSPAD()
             self.disconnectRotator()

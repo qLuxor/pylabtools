@@ -29,7 +29,7 @@ def setangle(rotator, angle, angleErr):
 if len(sys.argv) >0:
     filename = str(sys.argv[1])
 else:
-    filename ='QSTsettings.json'
+    filename ='settings.json'
 
 with open(filename) as json_settings:
     settings = json.load(json_settings)
@@ -45,16 +45,16 @@ pwmWait=settings["pwmWait"]
 
 #SPAD configuration and initialization
 print("Initializing SPAD")
-bufNum =settings["bufNum"]
-delay=settings["delay"]
-delay = delay*1e-9
-channelA=settings["channelA"]
-channelB=settings["channelB"]
-delayarray = np.array([delay, 0.0, 0.0,0.0])
-exptime = settings["exptime"]
-exptime = exptime*1e-3
+spadBufNum =settings["spadBufNum"]
+spadDelay=settings["spadDelay"]
+spadDelay = spadDelay*1e-9
+spadChannelA=settings["spadChannelA"]
+spadChannelB=settings["spadChannelB"]
+delayarray = np.array([spadDelay, 0.0, 0.0,0.0])
+spadExpTime = settings["spadExpTime"]
+spadExpTime = spadExpTime*1e-3
 coincWindow = 2*1e-9
-ttagBuf = ttag.TTBuffer(bufNum) 
+ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 
 #ROTHWP configuration and initialization
@@ -84,9 +84,9 @@ rotQWPAngle45=settings["rotQWPAngle45"]
 def measure(rotHWPangle, rotQWPangle):
     setangle(rotHWP, rotHWPangle, angleErr)
     setangle(rotQWP, rotQWPangle, angleErr)
-    #time.sleep(exptime)
-    #coinc ttagBuf.coincidences(exptime,coincWindow,-delayarray)
-    #return coinc[channelA, channelB]
+    #time.sleep(spadExpTime)
+    #coinc ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+    #return coinc[spadChannelA, spadChannelB]
     singleMeasure = np.zeros(pwmAverage)
     for j in range(pwmAverage):
         time.sleep(pwmWait)
