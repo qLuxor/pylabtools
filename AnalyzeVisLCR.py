@@ -11,6 +11,8 @@ from scipy.optimize import curve_fit
 from math import log10, floor
 import sys
 from prettytable import PrettyTable
+import logging
+import traceback
 
 #function to format output of number
 def round_to_num(x, num):
@@ -97,14 +99,20 @@ power2fit=power2[lbound2:ubound2]
 #actual fit
 isZeroFoundWithFit = False
 isPiFoundWithFit= False
-if voltage1fit.size>=3:
-    popt1, pcov1 = curve_fit(parabola, voltage1fit, power1fit)
-    fitminimum = popt1[2]
-    isPiFoundWithFit=True
-if voltage2fit.size >=2:
-    popt2, pcov2 = curve_fit(parabola, voltage2fit, power2fit)
-    fitmaximum = popt2[2]
-    isZeroFoundWithFit=True
+try:
+    if voltage1fit.size>=3:
+        popt1, pcov1 = curve_fit(parabola, voltage1fit, power1fit)
+        fitminimum = popt1[2]
+        isPiFoundWithFit=True
+except Exception as e:
+    logging.error(traceback.format_exc())
+try:
+    if voltage2fit.size >=2:
+        popt2, pcov2 = curve_fit(parabola, voltage2fit, power2fit)
+        fitmaximum = popt2[2]
+        isZeroFoundWithFit=True
+except Exception as e:
+        logging.error(traceback.format_exc())
 
 #search for the other two useful points
 halfpoint= (maximum+minimum)/2
@@ -130,14 +138,20 @@ power2fitr=power2[lbound2r:ubound2r]
 #actual fit
 isPi2FoundWithFit = False
 is3Pi2FoundWithFit= False
-if voltage1fitr.size>=2:
-    popt1r, pcov1r = curve_fit(stline, voltage1fitr, power1fitr)
-    volthalfpi1=interceptstline(halfpoint, popt1r[0], popt1r[1])
-    is3Pi2FoundWithFit=True
-if voltage2fitr.size>=2:
-    popt2r, pcov2r = curve_fit(stline, voltage2fitr, power2fitr)
-    volthalfpi2=interceptstline(halfpoint, popt2r[0], popt2r[1])
-    isPi2FoundWithFit = True
+try:
+    if voltage1fitr.size>=2:
+        popt1r, pcov1r = curve_fit(stline, voltage1fitr, power1fitr)
+        volthalfpi1=interceptstline(halfpoint, popt1r[0], popt1r[1])
+        is3Pi2FoundWithFit=True
+except Exception as e:
+    logging.error(traceback.format_exc())
+try:
+    if voltage2fitr.size>=2:
+        popt2r, pcov2r = curve_fit(stline, voltage2fitr, power2fitr)
+        volthalfpi2=interceptstline(halfpoint, popt2r[0], popt2r[1])
+        isPi2FoundWithFit = True
+except Exception as e:
+    logging.error(traceback.format_exc())
 
 
 #Output of fitted results
