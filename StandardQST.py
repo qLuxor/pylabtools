@@ -26,7 +26,7 @@ def setangle(rotator, angle, angleErr):
     if abs(rotator.position()-angle)> angleErr:
         rotator.goto(angle, wait=True)
         
-if len(sys.argv) >0:
+if len(sys.argv) >1:
     filename = str(sys.argv[1])
 else:
     filename ='settings.json'

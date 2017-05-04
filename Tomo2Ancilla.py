@@ -30,7 +30,7 @@ def setvoltage(lcc, voltage, voltageErr):
     if abs(float(lcc.voltage1) - voltage) > voltageErr:
         lcc.voltage1=voltage
 
-if len(sys.argv) >0:
+if len(sys.argv) >1:
     filename = str(sys.argv[1])
 else:
     filename ='settings.json'
