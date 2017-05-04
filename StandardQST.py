@@ -25,6 +25,10 @@ from pyThorPM100.pm100 import pm100d
 def setangle(rotator, angle, angleErr):
     if abs(rotator.position()-angle)> angleErr:
         rotator.goto(angle, wait=True)
+
+def setvoltage(lcc, voltage, voltageErr):
+    if abs(float(lcc.voltage1) - voltage) > voltageErr:
+        lcc.voltage1=voltage
         
 if len(sys.argv) >1:
     filename = str(sys.argv[1])
@@ -44,6 +48,7 @@ outputFile=open(outputfilename, "w")
 
 #useful values
 angleErr=settings["angleErr"]
+voltageErr = settings["voltageErr"]
 home = settings["home"]
 sensor = settings["sensor"]
 
@@ -67,6 +72,33 @@ coincWindow = 2*1e-9
 if sensor == "spad" or sensor == "SPAD":
     ttagBuf = ttag.TTBuffer(spadBufNum) 
 
+#LCC1 configuration and initialization
+print("Initializing LCC1")
+port1=settings["port1"]
+lcc1 = ik.thorlabs.LCC25.open_serial(port1, 115200,timeout=1)
+lcc1.mode = lcc1.Mode.voltage1
+lcc1.enable = True
+
+#LLC2 configuration and initialization
+print("Initializing LCC2")
+port2=settings["port2"]
+lcc2 = ik.thorlabs.LCC25.open_serial(port2, 115200,timeout=1)
+lcc2.mode = lcc2.Mode.voltage1
+lcc2.enable = True
+
+#ROT1 configuration and initialization
+print("Initializing ROT1")
+rot1SN = settings["rot1SN"]
+rot1 = aptlib.PRM1(serial_number=rot1SN)
+if home:
+    rot1.home()
+
+#ROT2 configuration and initialization
+print("Initializing ROT2")
+rot2SN = settings["rot2SN"]
+rot2 = aptlib.PRM1(serial_number=rot2SN)
+if home:
+    rot2.home()
 
 #ROTHWP configuration and initialization
 print("Initializing ROTHWP")
@@ -83,6 +115,18 @@ if home:
     rotQWP.home()
 
 print("Finished initialization\n\n")
+
+#calibration values for ROT1
+rot1Angle0=settings["rot1Angle0"]
+
+#calibration values for LCC1
+lcc1Voltage0=settings["lcc1Voltage0"]
+
+#calibration values for ROT2
+rot2Angle0=settings["rot2Angle0"]
+
+#calibration values for LCC2
+lcc2Voltage0=settings["lcc2Voltage0"]
 
 #calibration values for ROTHWP
 rotHWPAngle0=settings["rotHWPAngle0"]
@@ -109,6 +153,14 @@ def measure(rotHWPangle, rotQWPangle):
             singleMeasure[j] = p
         result = np.mean(singleMeasure)
     return result
+
+#set interferometers
+print("Setting the interferometers")
+setangle(rot1, rot1Angle0, angleErr)
+setvoltage(lcc1, lcc1Voltage0, voltageErr)
+setangle(rot2, rot2Angle0, angleErr)
+setvoltage(lcc2, lcc2Voltage0, voltageErr)
+print("Finished setting the interferometers")
 
 #Measurement on H
 print("Measuring H")
