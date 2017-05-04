@@ -30,8 +30,11 @@ with open(filename) as json_settings:
     settings = json.load(json_settings)
     json_settings.close()
 
+#useful values
 angleErr=settings["angleErr"]
 voltageErr = settings["voltageErr"]
+home = settings["home"]
+
 print("Setting everything for tilting adjustement phase and calibration of LCR1, please send D polarzation, close off deflected ray in int2\n\n")
 
 #LCC1 configuration and initialization
@@ -46,25 +49,29 @@ lcc1Voltage180=settings["lcc1Voltage180"]
 print("Initializing ROT1")
 rot1SN = settings["rot1SN"]
 rot1 = aptlib.PRM1(serial_number=rot1SN)
-rot1.home()
+if home:
+    rot1.home()
 
 #ROT2 configuration and initialization
 print("Initializing ROT2")
 rot2SN = settings["rot2SN"]
 rot2 = aptlib.PRM1(serial_number=rot2SN)
-rot2.home()
+if home:
+    rot2.home()
 
 #ROTHWP configuration and initialization
 print("Initializing ROTHWP")
 rotHWPSN= settings["rotHWPSN"]
 rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
-#rotHWP.home() #commented out due to bug in rotator
+if home:
+    rotHWP.home() #beware of bug in rotator
 
 #ROTQWP configuration and initialization
 print("Initializing ROTQWP")
 rotQWPSN= settings["rotQWPSN"]
 rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
-rotQWP.home()
+if home:
+    rotQWP.home()
 
 rot1Angle180=settings["rot1Angle180"]
 rot2Angle0=settings["rot2Angle0"]

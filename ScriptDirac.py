@@ -45,6 +45,7 @@ outputFile=open(outputfilename, "w")
 allowTime=settings["allowTime"]
 angleErr=settings["angleErr"]
 voltageErr = settings["voltageErr"]
+home = settings["home"]
 
 #pwm configuration and initialization
 pwm = pm100d()
@@ -82,25 +83,29 @@ lcc2.enable = True
 print("Initializing ROT1")
 rot1SN = settings["rot1SN"]
 rot1 = aptlib.PRM1(serial_number=rot1SN)
-rot1.home()
+if home:
+    rot1.home()
 
 #ROT2 configuration and initialization
 print("Initializing ROT2")
 rot2SN = settings["rot2SN"]
 rot2 = aptlib.PRM1(serial_number=rot2SN)
-rot2.home()
+if home:
+    rot2.home()
 
 #ROTHWP configuration and initialization
 print("Initializing ROTHWP")
 rotHWPSN= settings["rotHWPSN"]
 rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
-#rotHWP.home() #commented out due to bug in rotator
+if home:
+    rotHWP.home() #beware of bug in rotator
 
 #ROTQWP configuration and initialization
 print("Initializing ROTQWP")
 rotQWPSN= settings["rotQWPSN"]
 rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
-rotQWP.home()
+if home:
+    rotQWP.home()
 
 print("Finished initialization\n\n")
 
