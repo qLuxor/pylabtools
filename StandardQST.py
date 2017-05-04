@@ -44,6 +44,7 @@ outputFile=open(outputfilename, "w")
 
 #useful values
 angleErr=settings["angleErr"]
+home = settings["home"]
 sensor = settings["sensor"]
 
 #pwm configuration and initialization
@@ -71,13 +72,15 @@ if sensor == "spad" or sensor == "SPAD":
 print("Initializing ROTHWP")
 rotHWPSN= settings["rotHWPSN"]
 rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
-#rotHWP.home() #commented out due to bug in rotator
+if home:
+    rotHWP.home() #beware of bug in rotator
 
 #ROTQWP configuration and initialization
 print("Initializing ROTQWP")
 rotQWPSN= settings["rotQWPSN"]
 rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
-rotQWP.home()
+if home:
+    rotQWP.home()
 
 print("Finished initialization\n\n")
 
