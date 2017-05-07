@@ -11,7 +11,7 @@ import time
 import aptlib
 import numpy as np
 import instruments as ik
-from qutip import *
+import qutip
 import json
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
@@ -279,9 +279,12 @@ rhoHV=(rho10HD-rho10HA )
 rhoVH=(rho10VD-rho10VA )
 rhoVV=(d*rho11VD+ rho10VA+rho10VD )
 
-result=Qobj([[rhoHH , rhoHV],[rhoVH, rhoVV]])
+result=qutip.Qobj([[rhoHH , rhoHV],[rhoVH, rhoVV]])
 resquad=result**2
 purity= resquad.tr()
+
+#save qobjs
+qutip.qsave([result, resquad], outputfilename[:-4])
 
 #output of final results
 print("Final result")

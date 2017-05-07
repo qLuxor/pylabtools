@@ -12,7 +12,7 @@ import time
 import aptlib
 import numpy as np
 import instruments as ik
-from qutip import *
+import qutip
 import json
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
@@ -361,13 +361,16 @@ print("Finished all measurements\n\n")
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
 
-result=Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
+result=qutip.Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
 resquad=result**2
 purity= resquad.tr()
 
-resultscheme=Qobj([[rhoHHscheme , rerhoHVscheme+imrhoHVscheme*1j],[rerhoVHscheme+imrhoVHscheme*1j, rhoVVscheme]])
+resultscheme=qutip.Qobj([[rhoHHscheme , rerhoHVscheme+imrhoHVscheme*1j],[rerhoVHscheme+imrhoVHscheme*1j, rhoVVscheme]])
 resquadscheme=resultscheme**2
 purityscheme= resquadscheme.tr()
+
+#save qobjs
+qutip.qsave([result, resquad, resultscheme, resquadscheme], outputfilename[:-4])
 
 #output of final results
 print("Final result")

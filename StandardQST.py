@@ -12,7 +12,7 @@ import time
 import aptlib
 import numpy as np
 import instruments as ik
-from qutip import *
+import qutip
 import json
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
@@ -203,8 +203,11 @@ imrhoHV=countR/normconstant-0.5
 rerhoVH=rerhoHV
 imrhoVH=-imrhoHV
 
-result=Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
-corresult=Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
+result=qutip.Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
+corresult=qutip.Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
+
+#save qobjs
+qutip.qsave([result, corresult], outputfilename[:-4])
 
 print("\n\nMeasured Result")
 print(result)
