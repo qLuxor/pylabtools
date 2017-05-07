@@ -25,6 +25,8 @@ if len(sys.argv) >1:
     filename = str(sys.argv[1])
 else:
     filename ='settings.json'
+if filename[-5:]!=".json":
+    filename +=".json"
 
 with open(filename) as json_settings:
     settings = json.load(json_settings)

@@ -33,6 +33,8 @@ if len(sys.argv) >1:
     filename = str(sys.argv[1])
 else:
     filename ='settings.json'
+if filename[-5:]!=".json":
+    filename +=".json"
 
 with open(filename) as json_settings:
     settings = json.load(json_settings)
@@ -42,6 +44,8 @@ if len(sys.argv) >2:
     outputfilename = str(sys.argv[2])
 else:
     outputfilename=settings["outputFileName"]
+if outputfilename[-4:]!=".txt":
+    outputfilename +=".txt"
     
 outputFile=open(outputfilename, "w")
 
