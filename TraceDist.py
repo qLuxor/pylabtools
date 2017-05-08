@@ -13,6 +13,10 @@ if len(sys.argv) ==5:
     indexA = int(sys.argv[2])
     inputfilenameB = str(sys.argv[3])
     indexB = int(sys.argv[4])
+    if inputfilenameA[-3:]==".qu":
+        inputfilenameA = inputfilenameA[:-3]
+    if inputfilenameB[-3:]==".qu":
+        inputfilenameB = inputfilenameB[:-3]
     
     listA=qutip.qload(inputfilenameA)
     A=listA[indexA]
@@ -22,6 +26,8 @@ elif len(sys.argv) ==4:
     inputfilename = str(sys.argv[1])
     indexA = int(sys.argv[2])
     indexB = int(sys.argv[3])
+    if inputfilename[-3:]==".qu":
+        inputfilename = inputfilename[:-3]
     
     mylist=qutip.qload(inputfilename)
     A=mylist[indexA]
