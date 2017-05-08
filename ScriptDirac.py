@@ -44,10 +44,14 @@ if len(sys.argv) >2:
     outputfilename = str(sys.argv[2])
 else:
     outputfilename=settings["outputFileName"]
-if outputfilename[-4:]!=".txt":
-    outputfilename +=".txt"
+if outputfilename[-4:]==".txt":
+    outputfilename =outputfilename[:-4]
+
+outputfilename+="Dirac"
+outputfilename+=".txt"
     
 outputFile=open(outputfilename, "w")
+print("Results for Dirac protocol", file = outputFile)
 
 #useful values
 allowTime=settings["allowTime"]

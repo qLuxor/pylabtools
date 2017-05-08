@@ -45,10 +45,14 @@ if len(sys.argv) >2:
     outputfilename = str(sys.argv[2])
 else:
     outputfilename=settings["outputFileName"]
-if outputfilename[-4:]!=".txt":
-    outputfilename +=".txt"
+if outputfilename[-4:]==".txt":
+    outputfilename =outputfilename[:-4]
+
+outputfilename+="QST"
+outputfilename+=".txt"
     
 outputFile=open(outputfilename, "w")
+print("Results for QST protocol", file = outputFile)
 
 #useful values
 angleErr=settings["angleErr"]
