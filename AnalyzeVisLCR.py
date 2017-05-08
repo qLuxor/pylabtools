@@ -13,6 +13,7 @@ import sys
 from prettytable import PrettyTable
 import logging
 import traceback
+import json
 
 #function to format output of number
 def round_to_num(x, num):
@@ -73,9 +74,9 @@ voltmaximum =voltage2[np.argmax(power2)]
 #Output of raw results
 numSignificantDigits=4
 print("\n\nRaw data")
-t= PrettyTable(["", "Voltage", "Power"])
-t.add_row(["Maximum (0)", round_to_num(voltmaximum, numSignificantDigits),round_to_num(maximum, numSignificantDigits)] )
-t.add_row(["Minumum (pi)",round_to_num(voltminimum, numSignificantDigits),round_to_num(minimum, numSignificantDigits)] )
+t= PrettyTable(["", "Voltage", "Power", "Pos"])
+t.add_row(["Maximum (0)", round_to_num(voltmaximum, numSignificantDigits),round_to_num(maximum, numSignificantDigits), label2] )
+t.add_row(["Minumum (pi)",round_to_num(voltminimum, numSignificantDigits),round_to_num(minimum, numSignificantDigits), label1] )
 print(t)
 print("Raw visibility = "+ round_to_num(rawvisibility,numSignificantDigits))
 
@@ -153,29 +154,37 @@ try:
 except Exception as e:
     logging.error(traceback.format_exc())
 
-
+resultdata={}
 #Output of fitted results
 print("\n\nFitted data")
-tf= PrettyTable(["", "Voltage", "Power"])
+tf= PrettyTable(["", "Voltage", "Power", "Pos"])
 if isZeroFoundWithFit:
-    tf.add_row(["Maximum (0)", round_to_num(popt2[1], numSignificantDigits),round_to_num(fitmaximum, numSignificantDigits)] )
+    tf.add_row(["Maximum (0)", round_to_num(popt2[1], numSignificantDigits),round_to_num(fitmaximum, numSignificantDigits), label2] )
+    resultdata.update({"MaxVolt":popt2[1], "MaxPos": label2, "MaxFound":True})
 else:
-    tf.add_row(["Maximum (0)", "N/A" ,"N/A"] )
+    tf.add_row(["Maximum (0)", "N/A" ,"N/A", "N/A"] )
+    resultdata.update({"MaxFound":False})
     print ("Could not fit around expected 0")
 if isPiFoundWithFit:
-    tf.add_row(["Minumum (pi)",round_to_num(popt1[1], numSignificantDigits),round_to_num(fitminimum, numSignificantDigits)] )
+    tf.add_row(["Minumum (pi)",round_to_num(popt1[1], numSignificantDigits),round_to_num(fitminimum, numSignificantDigits), label1] )
+    resultdata.update({"MinVolt":popt1[1], "MinPos": label1, "MinFound":True})
 else:
-    tf.add_row(["Minumum (pi)", "N/A" ,"N/A"] )
+    tf.add_row(["Minumum (pi)", "N/A" ,"N/A", "N/A"] )
+    resultdata.update({"MinFound":False})
     print ("Could not fit around expected pi")
 if isPi2FoundWithFit:
-    tf.add_row(["Half (pi/2)",round_to_num(volthalfpi2, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits)] )
+    tf.add_row(["Half (pi/2)",round_to_num(volthalfpi2, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits), label2] )
+    resultdata.update({"Half2Volt":volthalfpi2, "Half2Pos": label2, "Half2Found":True})
 else: 
-    tf.add_row(["Half (pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits)] )
+    tf.add_row(["Half (pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits), "N/A"] )
+    resultdata.update({"Half2Found":False})
     print ("Could not fit around expected pi/2")
 if is3Pi2FoundWithFit:
-    tf.add_row(["Half (3pi/2)",round_to_num(volthalfpi1, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits)] )
+    tf.add_row(["Half (3pi/2)",round_to_num(volthalfpi1, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits), label1] )
+    resultdata.update({"Half1Volt":volthalfpi1, "Half1Pos": label1,  "Half1Found":True})
 else:
-    tf.add_row(["Half (3pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits)] )
+    tf.add_row(["Half (3pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits),"N/A"] )
+    resultdata.update({"Half1Found":False})
     print ("Could not fit around expected 3pi/2")
 print(tf)
 if isHalfpointFoundWithFit:
@@ -187,6 +196,10 @@ if isZeroFoundWithFit and isPiFoundWithFit:
     print("Visibility = "+ round_to_num(visibility,numSignificantDigits))
 else:
     print("Could not find visibility, refer to raw measure")
+
+outfilename=filename[:-4]+".json"
+with open(outfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
