@@ -208,14 +208,16 @@ print("Counts for V = ", countV, file = outputFile)
 
 #normalization and extraction of diagonal elements
 normconstant= countDId+countAId
-normscheme= countH+countV
+#the following 4 factor is due to the scheme, counts are 4 times too small
+normscheme= 4*(countH+countV)
 
 #the following 4 factor is due to the scheme, both V and Id are measured with 22.5, so their ratio is not affected
 rhoHH=4*countH/normconstant
 rhoVV=4*countV/normconstant
+#the following 4 factor is circular with the one above, but it is coherent with the scheme
 rhoHHscheme=4*countH/normscheme
 rhoVVscheme=4*countV/normscheme
-#the following 4 factor is due to the fact that Id is measured with 22.5
+#the following 4 factor is due to the fact that Id and V are measured with 22.5
 normconstant = 4*normconstant
 normscheme = 4* normscheme
 print("rhoHH = ", rhoHH)

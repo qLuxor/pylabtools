@@ -235,8 +235,8 @@ print("Counts for V for HD = ", HDPV)
 print("Counts for V for HD = ", HDPV, file = outputFile)
 
 #useful values
-rho11VD = VDPV
-rho11HD = HDPV
+rho11VD = VDPV/normconstant
+rho11HD = HDPV/normconstant
 
 #Measurement on srhoHA
 input("Please unblock all rays, then block transmitted (D) ray in second int. Then press Enter")
