@@ -186,7 +186,7 @@ countDId = measure(rot1Angle0, rot2Angle270, rotHWPAngle675, rotQWPAngle45, lcc1
 print("Counts for D = ", countDId)
 print("Counts for D = ", countDId, file = outputFile)
 
-#Measurement on diagonal H
+#Measurement on A for normalization
 print("Measuring A for normalization")
 countAId = measure(rot1Angle0, rot2Angle270, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
 print("Counts for A = ", countAId)
