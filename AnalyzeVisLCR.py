@@ -38,7 +38,7 @@ def interceptstline(y,m,q):
     return (y-q)/m
 
 #inizialization of data
-if len(sys.argv) >0:
+if len(sys.argv) >1:
     filename = str(sys.argv[1])
 else:
     filename =""
@@ -46,6 +46,19 @@ data = np.load(filename)
 voltage = data['voltage']
 power = data['count']
 
+if len(sys.argv) >2:
+    if str(sys.argv[2]):
+        subtract = True
+    else:
+        subtract = False
+else:
+    subtract = False
+
+if subtract:
+    minimum= np.min(power)
+    for i in range(power.size):
+        power[i]-=0.9999*minimum
+ 
 posminimum = np.argmin(power)
 if posminimum < power.size/2:
     voltage1=voltage[0:voltage.size//2]
