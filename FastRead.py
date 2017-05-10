@@ -53,13 +53,15 @@ coincWindow = 2*1e-9
 if sensor == "spad" or sensor == "SPAD":
     print("Initializing SPAD")
     ttagBuf = ttag.TTBuffer(spadBufNum) 
-    
+
+cont=0 
 print("Starting Measurements")
 while(1):
+    cont +=1
     if sensor == "spad" or sensor == "SPAD":
         time.sleep(spadExpTime)
         coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
-        print("Counts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
+        print(cont,"\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
         "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
         "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
     elif sensor == "pwm" or sensor == "PWM":
@@ -68,4 +70,4 @@ while(1):
             time.sleep(pwmWait)
             p = max(pwm.read()*1000, 0.)
             singleMeasure[j] = p
-        print("PWM measured = ", np.mean(singleMeasure), " mW")
+        print(cont,"\tPWM measured = ", np.mean(singleMeasure), " mW")
