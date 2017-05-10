@@ -65,10 +65,10 @@ sensor = settings["sensor"]
 pwmAverage=settings["pwmAverage"]
 pwmWait=settings["pwmWait"]
 if sensor == "pwm" or sensor == "PWM":
+    print("Initializing PWM")
     pwm = pm100d()
 
 #SPAD configuration and initialization
-print("Initializing SPAD")
 spadBufNum =settings["spadBufNum"]
 spadDelay=settings["spadDelay"]
 spadDelay = spadDelay*1e-9
@@ -79,6 +79,7 @@ spadExpTime = settings["spadExpTime"]
 spadExpTime = spadExpTime*1e-3
 coincWindow = 2*1e-9
 if sensor == "spad" or sensor == "SPAD":
+    print("Initializing SPAD")
     ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 #LCC1 configuration and initialization
