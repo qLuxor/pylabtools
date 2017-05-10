@@ -176,7 +176,7 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     if sensor == "spad" or sensor == "SPAD":
         time.sleep(spadExpTime)
         coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
-        result= coinc[spadChannelA, spadChannelB]
+        result= float(coinc[spadChannelA, spadChannelB])
     elif sensor == "pwm" or sensor == "PWM":
         singleMeasure = np.zeros(pwmAverage)
         for j in range(pwmAverage):

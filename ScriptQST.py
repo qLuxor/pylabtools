@@ -64,20 +64,25 @@ sensor = settings["sensor"]
 pwmAverage=settings["pwmAverage"]
 pwmWait=settings["pwmWait"]
 if sensor == "pwm" or sensor == "PWM":
+    print("Initializing PWM")
     pwm = pm100d()
 
 #SPAD configuration and initialization
-print("Initializing SPAD")
 spadBufNum =settings["spadBufNum"]
-spadDelay=settings["spadDelay"]
-spadDelay = spadDelay*1e-9
+spadDelayA=settings["spadDelayA"]
+spadDelayB=settings["spadDelayB"]
+spadDelayA = spadDelayA*1e-9
+spadDelayB = spadDelayB*1e-9
 spadChannelA=settings["spadChannelA"]
 spadChannelB=settings["spadChannelB"]
-delayarray = np.array([spadDelay, 0.0, 0.0,0.0])
+delayarray = np.array([0.0, 0.0, 0.0,0.0])
+delayarray[spadChannelA]=spadDelayA
+delayarray[spadChannelB]=spadDelayB
 spadExpTime = settings["spadExpTime"]
 spadExpTime = spadExpTime*1e-3
 coincWindow = 2*1e-9
 if sensor == "spad" or sensor == "SPAD":
+    print("Initializing SPAD")
     ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 #LCC1 configuration and initialization
@@ -152,7 +157,7 @@ def measure(rotHWPangle, rotQWPangle):
     if sensor == "spad" or sensor == "SPAD":
         time.sleep(spadExpTime)
         coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
-        result= coinc[spadChannelA, spadChannelB]
+        result= float(coinc[spadChannelA, spadChannelB])
     elif sensor == "pwm" or sensor == "PWM":
         singleMeasure = np.zeros(pwmAverage)
         for j in range(pwmAverage):
