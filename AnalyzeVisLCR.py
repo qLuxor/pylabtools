@@ -115,14 +115,16 @@ isZeroFoundWithFit = False
 isPiFoundWithFit= False
 try:
     if voltage1fit.size>=3:
-        popt1, pcov1 = curve_fit(parabola, voltage1fit, power1fit)
+        exppar=[1,voltminimum, minimum]
+        popt1, pcov1 = curve_fit(parabola, voltage1fit, power1fit, p0=exppar)
         fitminimum = popt1[2]
         isPiFoundWithFit=True
 except Exception as e:
     logging.error(traceback.format_exc())
 try:
     if voltage2fit.size >=2:
-        popt2, pcov2 = curve_fit(parabola, voltage2fit, power2fit)
+        exppar=[-1,voltmaximum, maximum]
+        popt2, pcov2 = curve_fit(parabola, voltage2fit, power2fit, p0=exppar)
         fitmaximum = popt2[2]
         isZeroFoundWithFit=True
 except Exception as e:
