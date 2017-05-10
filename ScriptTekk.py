@@ -207,616 +207,616 @@ print("\n\n\n", file = outputFile)
 #measurement of Re(HH)
 #measurement of DD
 print("Measuring DD for Re(HH)")
-CDD= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DD for Re(HH) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant)
-print("Counts for DD for Re(HH) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant, file = outputFile)
+CDDHH= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DD for Re(HH) = ", CDDHH, "\tNormalized to diagonal = ", CDDHH/normconstant)
+print("Counts for DD for Re(HH) = ", CDDHH, "\tNormalized to diagonal = ", CDDHH/normconstant, file = outputFile)
 
 #measurement of DA
 print("Measuring DA for Re(HH)")
-CDA= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(HH) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant)
-print("Counts for DA for Re(HH) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant, file = outputFile)
+CDAHH= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(HH) = ", CDAHH, "\tNormalized to diagonal = ", CDAHH/normconstant)
+print("Counts for DA for Re(HH) = ", CDAHH, "\tNormalized to diagonal = ", CDAHH/normconstant, file = outputFile)
 
 #measurement of AD
 print("Measuring AD for Re(HH)")
-CAD= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AD for Re(HH) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant)
-print("Counts for AD for Re(HH) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant, file = outputFile)
+CADHH= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AD for Re(HH) = ", CADHH, "\tNormalized to diagonal = ", CADHH/normconstant)
+print("Counts for AD for Re(HH) = ", CADHH, "\tNormalized to diagonal = ", CADHH/normconstant, file = outputFile)
 
 #measurement of AA
 print("Measuring AA for Re(HH)")
-CAA= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(HH) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant)
-print("Counts for AA for Re(HH) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant, file = outputFile)
+CAAHH= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(HH) = ", CAAHH, "\tNormalized to diagonal = ", CAAHH/normconstant)
+print("Counts for AA for Re(HH) = ", CAAHH, "\tNormalized to diagonal = ", CAAHH/normconstant, file = outputFile)
 
 #measurement of RL
 print("Measuring RL for Re(HH)")
-CRL= 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-print("Counts for RL for Re(HH) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant)
-print("Counts for RL for Re(HH) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, file = outputFile)
+CRLHH= 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+print("Counts for RL for Re(HH) = ", CRLHH, "\tNormalized to diagonal = ", CRLHH/normconstant)
+print("Counts for RL for Re(HH) = ", CRLHH, "\tNormalized to diagonal = ", CRLHH/normconstant, file = outputFile)
 
 #measurement of RR
 print("Measuring RR for Re(HH)")
-CRR= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-print("Counts for RR for Re(HH) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant)
-print("Counts for RR for Re(HH) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, file = outputFile)
+CRRHH= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+print("Counts for RR for Re(HH) = ", CRRHH, "\tNormalized to diagonal = ", CRRHH/normconstant)
+print("Counts for RR for Re(HH) = ", CRRHH, "\tNormalized to diagonal = ", CRRHH/normconstant, file = outputFile)
 
 #measurement of LR
 print("Measuring LR for Re(HH)")
-CLR= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-print("Counts for LR for Re(HH) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant)
-print("Counts for LR for Re(HH) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, file = outputFile)
+CLRHH= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+print("Counts for LR for Re(HH) = ", CLRHH, "\tNormalized to diagonal = ", CLRHH/normconstant)
+print("Counts for LR for Re(HH) = ", CLRHH, "\tNormalized to diagonal = ", CLRHH/normconstant, file = outputFile)
 
 #measurement of LL
 print("Measuring LL for Re(HH)")
-CLL = 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-print("Counts for LL for Re(HH) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant)
-print("Counts for LL for Re(HH) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, file = outputFile)
+CLLHH = 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+print("Counts for LL for Re(HH) = ", CLLHH, "\tNormalized to diagonal = ", CLLHH/normconstant)
+print("Counts for LL for Re(HH) = ", CLLHH, "\tNormalized to diagonal = ", CLLHH/normconstant, file = outputFile)
 
 #measurement of DV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring DV for Re(HH)")
-CDV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DV for Re(HH) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant)
-print("Counts for DV for Re(HH) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant, file = outputFile)
+CDVHH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(HH) = ", CDVHH, "\tNormalized to diagonal = ", CDVHH/normconstant)
+print("Counts for DV for Re(HH) = ", CDVHH, "\tNormalized to diagonal = ", CDVHH/normconstant, file = outputFile)
 
 #measurement of AV
 print("Measuring AV for Re(HH)")
-CAV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AV for Re(HH) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant)
-print("Counts for AV for Re(HH) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant, file = outputFile)
+CAVHH= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(HH) = ", CAVHH, "\tNormalized to diagonal = ", CAVHH/normconstant)
+print("Counts for AV for Re(HH) = ", CAVHH, "\tNormalized to diagonal = ", CAVHH/normconstant, file = outputFile)
 
 #measurement of VD
 input("Please block V path, unblock H, A, D, then press enter")
 print("Measuring VD for Re(HH)")
-CVD= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VD for Re(HH) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant)
-print("Counts for VD for Re(HH) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant, file = outputFile)
+CVDHH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(HH) = ", CVDHH, "\tNormalized to diagonal = ", CVDHH/normconstant)
+print("Counts for VD for Re(HH) = ", CVDHH, "\tNormalized to diagonal = ", CVDHH/normconstant, file = outputFile)
 
 #measurement of VA
 print("Measuring VA for Re(HH)")
-CVA= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for AV for Re(HH) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant)
-print("Counts for AV for Re(HH) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant, file = outputFile)
+CVAHH= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", CVAHH/normconstant)
+print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", CVAHH/normconstant, file = outputFile)
 
 #measurement of VV
-input("Please block V, A pathS, unblock H, D, then press enter")
+input("Please block V, A paths, unblock H, D, then press enter")
 print("Measuring VV for Re(HH)")
-CVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VV for Re(HH) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant)
-print("Counts for VV for Re(HH) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant, file = outputFile)
+CVVHH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(HH) = ", CVVHH, "\tNormalized to diagonal = ", CVVHH/normconstant)
+print("Counts for VV for Re(HH) = ", CVVHH, "\tNormalized to diagonal = ", CVVHH/normconstant, file = outputFile)
 
 #extraction of result
-rerhoHH=0.5*((CDD-CDA-CAD+CAA)-(CLL-CLR-CRL+CRR)+2*(CDV-CAV)+2*(CVD-CVA)+4*CVV)/normconstant
+rerhoHH=0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH)+2*(CDVHH-CAVHH)+2*(CVDHH-CVAHH)+4*CVVHH)/normconstant
 
 
 #measurement of Im(HH)
 input("Please unblock all paths, then press enter")
 #measurement of LD
 print("Measuring LD for Im(HH)")
-CLD= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for LD for Im(HH) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant)
-print("Counts for LD for Im(HH) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant, file = outputFile)
+CLDHH= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for LD for Im(HH) = ", CLDHH, "\tNormalized to diagonal = ", CLDHH/normconstant)
+print("Counts for LD for Im(HH) = ", CLDHH, "\tNormalized to diagonal = ", CLDHH/normconstant, file = outputFile)
 
 #measurement of LA
 print("Measuring LA for Im(HH)")
-CLA= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for LA for Im(HH) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant)
-print("Counts for LA for Im(HH) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant, file = outputFile)
+CLAHH= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
+print("Counts for LA for Im(HH) = ", CLAHH, "\tNormalized to diagonal = ", CLAHH/normconstant)
+print("Counts for LA for Im(HH) = ", CLAHH, "\tNormalized to diagonal = ", CLAHH/normconstant, file = outputFile)
 
 #measurement of RD
 print("Measuring RD for Im(HH)")
-CRD= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for RD for Im(HH) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant)
-print("Counts for RD for Im(HH) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant, file = outputFile)
+CRDHH= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for RD for Im(HH) = ", CRDHH, "\tNormalized to diagonal = ", CRDHH/normconstant)
+print("Counts for RD for Im(HH) = ", CRDHH, "\tNormalized to diagonal = ", CRDHH/normconstant, file = outputFile)
 
 #measurement of RA
 print("Measuring RA for Im(HH)")
-CRA= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for RA for Im(HH) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant)
-print("Counts for RA for Im(HH) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant, file = outputFile)
+CRAHH= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
+print("Counts for RA for Im(HH) = ", CRAHH, "\tNormalized to diagonal = ", CRAHH/normconstant)
+print("Counts for RA for Im(HH) = ", CRAHH, "\tNormalized to diagonal = ", CRAHH/normconstant, file = outputFile)
 
 #measurement of DL
 print("Measuring DL for Im(HH)")
-CDL= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-print("Counts for DL for Im(HH) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant)
-print("Counts for DL for Im(HH) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, file = outputFile)
+CDLHH= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+print("Counts for DL for Im(HH) = ", CDLHH, "\tNormalized to diagonal = ", CDLHH/normconstant)
+print("Counts for DL for Im(HH) = ", CDLHH, "\tNormalized to diagonal = ", CDLHH/normconstant, file = outputFile)
 
 #measurement of DR
 print("Measuring DR for Im(HH)")
-CDR= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-print("Counts for DR for Im(HH) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant)
-print("Counts for DR for Im(HH) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, file = outputFile)
+CDRHH= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+print("Counts for DR for Im(HH) = ", CDRHH, "\tNormalized to diagonal = ", CDRHH/normconstant)
+print("Counts for DR for Im(HH) = ", CDRHH, "\tNormalized to diagonal = ", CDRHH/normconstant, file = outputFile)
 
 #measurement of AR
 print("Measuring AR for Im(HH)")
-CAR= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-print("Counts for AR for Im(HH) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant)
-print("Counts for AR for Im(HH) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, file = outputFile)
+CARHH= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+print("Counts for AR for Im(HH) = ", CARHH, "\tNormalized to diagonal = ", CARHH/normconstant)
+print("Counts for AR for Im(HH) = ", CARHH, "\tNormalized to diagonal = ", CARHH/normconstant, file = outputFile)
 
 #measurement of AL
 print("Measuring AL for Im(HH)")
-CAL = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for AL for Im(HH) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant)
-print("Counts for AL for Im(HH) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, file = outputFile)
+CALHH = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+print("Counts for AL for Im(HH) = ", CALHH, "\tNormalized to diagonal = ", CALHH/normconstant)
+print("Counts for AL for Im(HH) = ", CALHH, "\tNormalized to diagonal = ", CALHH/normconstant, file = outputFile)
 
 #measurement of LV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring LV for Im(HH)")
-CLV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for LV for Im(HH) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant)
-print("Counts for LV for Im(HH) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant, file = outputFile)
+CLVHH= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for LV for Im(HH) = ", CLVHH, "\tNormalized to diagonal = ", CLVHH/normconstant)
+print("Counts for LV for Im(HH) = ", CLVHH, "\tNormalized to diagonal = ", CLVHH/normconstant, file = outputFile)
 
 #measurement of RV
 print("Measuring RV for Im(HH)")
-CRV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for RV for Im(HH) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant)
-print("Counts for RV for Im(HH) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant, file = outputFile)
+CRVHH= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for RV for Im(HH) = ", CRVHH, "\tNormalized to diagonal = ", CRVHH/normconstant)
+print("Counts for RV for Im(HH) = ", CRVHH, "\tNormalized to diagonal = ", CRVHH/normconstant, file = outputFile)
 
 #extraction of result
-imrhoHH=0.5*((CLD-CLA-CRD+CRA)+(CDL-CDR-CAL+CAR)+2*(CLV-CRV))/normconstant
+imrhoHH=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH)+2*(CLVHH-CRVHH))/normconstant
             
 
 #measurement of Re(HV)
 input("Please unblock all paths, then press enter")
 #measurement of DD
 print("Measuring DD for Re(HV)")
-CDD= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DD for Re(HV) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant)
-print("Counts for DD for Re(HV) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant, file = outputFile)
+CDDHV= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DD for Re(HV) = ", CDDHV, "\tNormalized to diagonal = ", CDDHV/normconstant)
+print("Counts for DD for Re(HV) = ", CDDHV, "\tNormalized to diagonal = ", CDDHV/normconstant, file = outputFile)
 
 #measurement of DA
 print("Measuring DA for Re(HV)")
-CDA= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(HV) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant)
-print("Counts for DA for Re(HV) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant, file = outputFile)
+CDAHV= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(HV) = ", CDAHV, "\tNormalized to diagonal = ", CDAHV/normconstant)
+print("Counts for DA for Re(HV) = ", CDAHV, "\tNormalized to diagonal = ", CDAHV/normconstant, file = outputFile)
 
 #measurement of AD
 print("Measuring AD for Re(HV)")
-CAD= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AD for Re(HV) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant)
-print("Counts for AD for Re(HV) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant, file = outputFile)
+CADHV= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AD for Re(HV) = ", CADHV, "\tNormalized to diagonal = ", CADHV/normconstant)
+print("Counts for AD for Re(HV) = ", CADHV, "\tNormalized to diagonal = ", CADHV/normconstant, file = outputFile)
 
 #measurement of AA
 print("Measuring AA for Re(HV)")
-CAA= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(HV) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant)
-print("Counts for AA for Re(HV) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant, file = outputFile)
+CAAHV= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(HV) = ", CAAHV, "\tNormalized to diagonal = ", CAAHV/normconstant)
+print("Counts for AA for Re(HV) = ", CAAHV, "\tNormalized to diagonal = ", CAAHV/normconstant, file = outputFile)
 
 #measurement of RL
 print("Measuring RL for Re(HV)")
-CRL= 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-print("Counts for RL for Re(HV) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant)
-print("Counts for RL for Re(HV) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, file = outputFile)
+CRLHV= 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+print("Counts for RL for Re(HV) = ", CRLHV, "\tNormalized to diagonal = ", CRLHV/normconstant)
+print("Counts for RL for Re(HV) = ", CRLHV, "\tNormalized to diagonal = ", CRLHV/normconstant, file = outputFile)
 
 #measurement of RR
 print("Measuring RR for Re(HV)")
-CRR= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-print("Counts for RR for Re(HV) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant)
-print("Counts for RR for Re(HV) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, file = outputFile)
+CRRHV= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+print("Counts for RR for Re(HV) = ", CRRHV, "\tNormalized to diagonal = ", CRRHV/normconstant)
+print("Counts for RR for Re(HV) = ", CRRHV, "\tNormalized to diagonal = ", CRRHV/normconstant, file = outputFile)
 
 #measurement of LR
 print("Measuring LR for Re(HV)")
-CLR= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-print("Counts for LR for Re(HV) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant)
-print("Counts for LR for Re(HV) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, file = outputFile)
+CLRHV= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+print("Counts for LR for Re(HV) = ", CLRHV, "\tNormalized to diagonal = ", CLRHV/normconstant)
+print("Counts for LR for Re(HV) = ", CLRHV, "\tNormalized to diagonal = ", CLRHV/normconstant, file = outputFile)
 
 #measurement of LL
 print("Measuring LL for Re(HV)")
-CLL = 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-print("Counts for LL for Re(HV) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant)
-print("Counts for LL for Re(HV) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, file = outputFile)
+CLLHV = 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV/normconstant)
+print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV/normconstant, file = outputFile)
 
 #measurement of DV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring DV for Re(HV)")
-CDV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DV for Re(HV) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant)
-print("Counts for DV for Re(HV) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant, file = outputFile)
+CDVHV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(HV) = ", CDVHV, "\tNormalized to diagonal = ", CDVHV/normconstant)
+print("Counts for DV for Re(HV) = ", CDVHV, "\tNormalized to diagonal = ", CDVHV/normconstant, file = outputFile)
 
 #measurement of AV
 print("Measuring AV for Re(HV)")
-CAV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AV for Re(HV) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant)
-print("Counts for AV for Re(HV) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant, file = outputFile)
+CAVHV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(HV) = ", CAVHV, "\tNormalized to diagonal = ", CAVHV/normconstant)
+print("Counts for AV for Re(HV) = ", CAVHV, "\tNormalized to diagonal = ", CAVHV/normconstant, file = outputFile)
 
 #measurement of VD
 input("Please block V path, unblock H, A, D, then press enter")
 print("Measuring VD for Re(HV)")
-CVD= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VD for Re(HV) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant)
-print("Counts for VD for Re(HV) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant, file = outputFile)
+CVDHV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(HV) = ", CVDHV, "\tNormalized to diagonal = ", CVDHV/normconstant)
+print("Counts for VD for Re(HV) = ", CVDHV, "\tNormalized to diagonal = ", CVDHV/normconstant, file = outputFile)
 
 #measurement of VA
 print("Measuring VA for Re(HV)")
-CVA= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for AV for Re(HV) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant)
-print("Counts for AV for Re(HV) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant, file = outputFile)
+CVAHV= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(HV) = ", CVAHV, "\tNormalized to diagonal = ", CVAHV/normconstant)
+print("Counts for AV for Re(HV) = ", CVAHV, "\tNormalized to diagonal = ", CVAHV/normconstant, file = outputFile)
 
 #measurement of VV
 input("Please block V, A paths, unblock H, D, then press enter")
 print("Measuring VV for Re(HV)")
-CVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VV for Re(HV) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant)
-print("Counts for VV for Re(HV) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant, file = outputFile)
+CVVHV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(HV) = ", CVVHV, "\tNormalized to diagonal = ", CVVHV/normconstant)
+print("Counts for VV for Re(HV) = ", CVVHV, "\tNormalized to diagonal = ", CVVHV/normconstant, file = outputFile)
 
 #extraction of result
-rerhoHV=0.5*((CDD-CDA-CAD+CAA)-(CLL-CLR-CRL+CRR)+2*(CDV-CAV)+2*(CVD-CVA)+4*CVV)/normconstant
+rerhoHV=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV)+2*(CDVHV-CAVHV)+2*(CVDHV-CVAHV)+4*CVVHV)/normconstant
 
 
 #measurement of Im(HV)
 input("Please unblock all paths, then press enter")
 #measurement of LD
 print("Measuring LD for Im(HV)")
-CLD= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for LD for Im(HV) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant)
-print("Counts for LD for Im(HV) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant, file = outputFile)
+CLDHV= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for LD for Im(HV) = ", CLDHV, "\tNormalized to diagonal = ", CLDHV/normconstant)
+print("Counts for LD for Im(HV) = ", CLDHV, "\tNormalized to diagonal = ", CLDHV/normconstant, file = outputFile)
 
 #measurement of LA
 print("Measuring LA for Im(HV)")
-CLA= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for LA for Im(HV) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant)
-print("Counts for LA for Im(HV) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant, file = outputFile)
+CLAHV= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
+print("Counts for LA for Im(HV) = ", CLAHV, "\tNormalized to diagonal = ", CLAHV/normconstant)
+print("Counts for LA for Im(HV) = ", CLAHV, "\tNormalized to diagonal = ", CLAHV/normconstant, file = outputFile)
 
 #measurement of RD
 print("Measuring RD for Im(HV)")
-CRD= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for RD for Im(HV) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant)
-print("Counts for RD for Im(HV) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant, file = outputFile)
+CRDHV= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for RD for Im(HV) = ", CRDHV, "\tNormalized to diagonal = ", CRDHV/normconstant)
+print("Counts for RD for Im(HV) = ", CRDHV, "\tNormalized to diagonal = ", CRDHV/normconstant, file = outputFile)
 
 #measurement of RA
 print("Measuring RA for Im(HV)")
-CRA= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for RA for Im(HV) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant)
-print("Counts for RA for Im(HV) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant, file = outputFile)
+CRAHV= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
+print("Counts for RA for Im(HV) = ", CRAHV, "\tNormalized to diagonal = ", CRAHV/normconstant)
+print("Counts for RA for Im(HV) = ", CRAHV, "\tNormalized to diagonal = ", CRAHV/normconstant, file = outputFile)
 
 #measurement of DL
 print("Measuring DL for Im(HV)")
-CDL= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-print("Counts for DL for Im(HV) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant)
-print("Counts for DL for Im(HV) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, file = outputFile)
+CDLHV= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+print("Counts for DL for Im(HV) = ", CDLHV, "\tNormalized to diagonal = ", CDLHV/normconstant)
+print("Counts for DL for Im(HV) = ", CDLHV, "\tNormalized to diagonal = ", CDLHV/normconstant, file = outputFile)
 
 #measurement of DR
 print("Measuring DR for Im(HV)")
-CDR= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-print("Counts for DR for Im(HV) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant)
-print("Counts for DR for Im(HV) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, file = outputFile)
+CDRHV= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+print("Counts for DR for Im(HV) = ", CDRHV, "\tNormalized to diagonal = ", CDRHV/normconstant)
+print("Counts for DR for Im(HV) = ", CDRHV, "\tNormalized to diagonal = ", CDRHV/normconstant, file = outputFile)
 
 #measurement of AR
 print("Measuring AR for Im(HV)")
-CAR= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-print("Counts for AR for Im(HV) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant)
-print("Counts for AR for Im(HV) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, file = outputFile)
+CARHV= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+print("Counts for AR for Im(HV) = ", CARHV, "\tNormalized to diagonal = ", CARHV/normconstant)
+print("Counts for AR for Im(HV) = ", CARHV, "\tNormalized to diagonal = ", CARHV/normconstant, file = outputFile)
 
 #measurement of AL
 print("Measuring AL for Im(HV)")
-CAL = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for AL for Im(HV) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant)
-print("Counts for AL for Im(HV) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, file = outputFile)
+CALHV = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV/normconstant)
+print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV/normconstant, file = outputFile)
 
 #measurement of LV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring LV for Im(HV)")
-CLV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for LV for Im(HV) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant)
-print("Counts for LV for Im(HV) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant, file = outputFile)
+CLVHV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for LV for Im(HV) = ", CLVHV, "\tNormalized to diagonal = ", CLVHV/normconstant)
+print("Counts for LV for Im(HV) = ", CLVHV, "\tNormalized to diagonal = ", CLVHV/normconstant, file = outputFile)
 
 #measurement of RV
 print("Measuring RV for Im(HV)")
-CRV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for RV for Im(HV) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant)
-print("Counts for RV for Im(HV) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant, file = outputFile)
+CRVHV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for RV for Im(HV) = ", CRVHV, "\tNormalized to diagonal = ", CRVHV/normconstant)
+print("Counts for RV for Im(HV) = ", CRVHV, "\tNormalized to diagonal = ", CRVHV/normconstant, file = outputFile)
 
 #extraction of result
-imrhoHV=0.5*((CLD-CLA-CRD+CRA)+(CDL-CDR-CAL+CAR)+2*(CLV-CRV))/normconstant
+imrhoHV=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV)+2*(CLVHV-CRVHV))/normconstant
     
             
 #measurement of Re(VH)
 input("Please unblock all paths, then press enter")
 #measurement of DD
 print("Measuring DD for Re(VH)")
-CDD= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DD for Re(VH) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant)
-print("Counts for DD for Re(VH) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant, file = outputFile)
+CDDVH= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DD for Re(VH) = ", CDDVH, "\tNormalized to diagonal = ", CDDVH/normconstant)
+print("Counts for DD for Re(VH) = ", CDDVH, "\tNormalized to diagonal = ", CDDVH/normconstant, file = outputFile)
 
 #measurement of DA
 print("Measuring DA for Re(VH)")
-CDA= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(VH) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant)
-print("Counts for DA for Re(VH) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant, file = outputFile)
+CDAVH= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(VH) = ", CDAVH, "\tNormalized to diagonal = ", CDAVH/normconstant)
+print("Counts for DA for Re(VH) = ", CDAVH, "\tNormalized to diagonal = ", CDAVH/normconstant, file = outputFile)
 
 #measurement of AD
 print("Measuring AD for Re(VH)")
-CAD= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AD for Re(VH) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant)
-print("Counts for AD for Re(VH) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant, file = outputFile)
+CADVH= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AD for Re(VH) = ", CADVH, "\tNormalized to diagonal = ", CADVH/normconstant)
+print("Counts for AD for Re(VH) = ", CADVH, "\tNormalized to diagonal = ", CADVH/normconstant, file = outputFile)
 
 #measurement of AA
 print("Measuring AA for Re(VH)")
-CAA= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(VH) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant)
-print("Counts for AA for Re(VH) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant, file = outputFile)
+CAAVH= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(VH) = ", CAAVH, "\tNormalized to diagonal = ", CAAVH/normconstant)
+print("Counts for AA for Re(VH) = ", CAAVH, "\tNormalized to diagonal = ", CAAVH/normconstant, file = outputFile)
 
 #measurement of RL
 print("Measuring RL for Re(VH)")
-CRL= 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-print("Counts for RL for Re(VH) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant)
-print("Counts for RL for Re(VH) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, file = outputFile)
+CRLVH= 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+print("Counts for RL for Re(VH) = ", CRLVH, "\tNormalized to diagonal = ", CRLVH/normconstant)
+print("Counts for RL for Re(VH) = ", CRLVH, "\tNormalized to diagonal = ", CRLVH/normconstant, file = outputFile)
 
 #measurement of RR
 print("Measuring RR for Re(VH)")
-CRR= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-print("Counts for RR for Re(VH) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant)
-print("Counts for RR for Re(VH) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, file = outputFile)
+CRRVH= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+print("Counts for RR for Re(VH) = ", CRRVH, "\tNormalized to diagonal = ", CRRVH/normconstant)
+print("Counts for RR for Re(VH) = ", CRRVH, "\tNormalized to diagonal = ", CRRVH/normconstant, file = outputFile)
 
 #measurement of LR
 print("Measuring LR for Re(VH)")
-CLR= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-print("Counts for LR for Re(VH) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant)
-print("Counts for LR for Re(VH) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, file = outputFile)
+CLRVH= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+print("Counts for LR for Re(VH) = ", CLRVH, "\tNormalized to diagonal = ", CLRVH/normconstant)
+print("Counts for LR for Re(VH) = ", CLRVH, "\tNormalized to diagonal = ", CLRVH/normconstant, file = outputFile)
 
 #measurement of LL
 print("Measuring LL for Re(VH)")
-CLL = 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-print("Counts for LL for Re(VH) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant)
-print("Counts for LL for Re(VH) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, file = outputFile)
+CLLVH = 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH/normconstant)
+print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH/normconstant, file = outputFile)
 
 #measurement of DV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring DV for Re(VH)")
-CDV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DV for Re(VH) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant)
-print("Counts for DV for Re(VH) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant, file = outputFile)
+CDVVH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(VH) = ", CDVVH, "\tNormalized to diagonal = ", CDVVH/normconstant)
+print("Counts for DV for Re(VH) = ", CDVVH, "\tNormalized to diagonal = ", CDVVH/normconstant, file = outputFile)
 
 #measurement of AV
 print("Measuring AV for Re(VH)")
-CAV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AV for Re(VH) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant)
-print("Counts for AV for Re(VH) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant, file = outputFile)
+CAVVH= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(VH) = ", CAVVH, "\tNormalized to diagonal = ", CAVVH/normconstant)
+print("Counts for AV for Re(VH) = ", CAVVH, "\tNormalized to diagonal = ", CAVVH/normconstant, file = outputFile)
 
 #measurement of VD
 input("Please block H path, unblock V, A, D, then press enter")
 print("Measuring VD for Re(VH)")
-CVD= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VD for Re(VH) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant)
-print("Counts for VD for Re(VH) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant, file = outputFile)
+CVDVH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(VH) = ", CVDVH, "\tNormalized to diagonal = ", CVDVH/normconstant)
+print("Counts for VD for Re(VH) = ", CVDVH, "\tNormalized to diagonal = ", CVDVH/normconstant, file = outputFile)
 
 #measurement of VA
 print("Measuring VA for Re(VH)")
-CVA= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for AV for Re(VH) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant)
-print("Counts for AV for Re(VH) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant, file = outputFile)
+CVAVH= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(VH) = ", CVAVH, "\tNormalized to diagonal = ", CVAVH/normconstant)
+print("Counts for AV for Re(VH) = ", CVAVH, "\tNormalized to diagonal = ", CVAVH/normconstant, file = outputFile)
 
 #measurement of VV
 input("Please block H, A paths, unblock V, D, then press enter")
 print("Measuring VV for Re(VH)")
-CVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VV for Re(VH) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant)
-print("Counts for VV for Re(VH) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant, file = outputFile)
+CVVVH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(VH) = ", CVVVH, "\tNormalized to diagonal = ", CVVVH/normconstant)
+print("Counts for VV for Re(VH) = ", CVVVH, "\tNormalized to diagonal = ", CVVVH/normconstant, file = outputFile)
 
 #extraction of result
-rerhoVH=0.5*((CDD-CDA-CAD+CAA)-(CLL-CLR-CRL+CRR)+2*(CDV-CAV)+2*(CVD-CVA)+4*CVV)/normconstant
+rerhoVH=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH)+2*(CDVVH-CAVVH)+2*(CVDVH-CVAVH)+4*CVVVH)/normconstant
 
 
 #measurement of Im(VH)
 input("Please unblock all paths, then press enter")
 #measurement of LD
 print("Measuring LD for Im(VH)")
-CLD= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for LD for Im(VH) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant)
-print("Counts for LD for Im(VH) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant, file = outputFile)
+CLDVH= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for LD for Im(VH) = ", CLDVH, "\tNormalized to diagonal = ", CLDVH/normconstant)
+print("Counts for LD for Im(VH) = ", CLDVH, "\tNormalized to diagonal = ", CLDVH/normconstant, file = outputFile)
 
 #measurement of LA
 print("Measuring LA for Im(VH)")
-CLA= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for LA for Im(VH) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant)
-print("Counts for LA for Im(VH) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant, file = outputFile)
+CLAVH= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
+print("Counts for LA for Im(VH) = ", CLAVH, "\tNormalized to diagonal = ", CLAVH/normconstant)
+print("Counts for LA for Im(VH) = ", CLAVH, "\tNormalized to diagonal = ", CLAVH/normconstant, file = outputFile)
 
 #measurement of RD
 print("Measuring RD for Im(VH)")
-CRD= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for RD for Im(VH) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant)
-print("Counts for RD for Im(VH) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant, file = outputFile)
+CRDVH= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for RD for Im(VH) = ", CRDVH, "\tNormalized to diagonal = ", CRDVH/normconstant)
+print("Counts for RD for Im(VH) = ", CRDVH, "\tNormalized to diagonal = ", CRDVH/normconstant, file = outputFile)
 
 #measurement of RA
 print("Measuring RA for Im(VH)")
-CRA= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for RA for Im(VH) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant)
-print("Counts for RA for Im(VH) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant, file = outputFile)
+CRAVH= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
+print("Counts for RA for Im(VH) = ", CRAVH, "\tNormalized to diagonal = ", CRAVH/normconstant)
+print("Counts for RA for Im(VH) = ", CRAVH, "\tNormalized to diagonal = ", CRAVH/normconstant, file = outputFile)
 
 #measurement of DL
 print("Measuring DL for Im(VH)")
-CDL= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-print("Counts for DL for Im(VH) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant)
-print("Counts for DL for Im(VH) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, file = outputFile)
+CDLVH= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+print("Counts for DL for Im(VH) = ", CDLVH, "\tNormalized to diagonal = ", CDLVH/normconstant)
+print("Counts for DL for Im(VH) = ", CDLVH, "\tNormalized to diagonal = ", CDLVH/normconstant, file = outputFile)
 
 #measurement of DR
 print("Measuring DR for Im(VH)")
-CDR= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-print("Counts for DR for Im(VH) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant)
-print("Counts for DR for Im(VH) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, file = outputFile)
+CDRVH= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+print("Counts for DR for Im(VH) = ", CDRVH, "\tNormalized to diagonal = ", CDRVH/normconstant)
+print("Counts for DR for Im(VH) = ", CDRVH, "\tNormalized to diagonal = ", CDRVH/normconstant, file = outputFile)
 
 #measurement of AR
 print("Measuring AR for Im(VH)")
-CAR= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-print("Counts for AR for Im(VH) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant)
-print("Counts for AR for Im(VH) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, file = outputFile)
+CARVH= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+print("Counts for AR for Im(VH) = ", CARVH, "\tNormalized to diagonal = ", CARVH/normconstant)
+print("Counts for AR for Im(VH) = ", CARVH, "\tNormalized to diagonal = ", CARVH/normconstant, file = outputFile)
 
 #measurement of AL
 print("Measuring AL for Im(VH)")
-CAL = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for AL for Im(VH) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant)
-print("Counts for AL for Im(VH) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, file = outputFile)
+CALVH = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH/normconstant)
+print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH/normconstant, file = outputFile)
 
 #measurement of LV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring LV for Im(VH)")
-CLV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for LV for Im(VH) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant)
-print("Counts for LV for Im(VH) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant, file = outputFile)
+CLVVH= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for LV for Im(VH) = ", CLVVH, "\tNormalized to diagonal = ", CLVVH/normconstant)
+print("Counts for LV for Im(VH) = ", CLVVH, "\tNormalized to diagonal = ", CLVVH/normconstant, file = outputFile)
 
 #measurement of RV
 print("Measuring RV for Im(VH)")
-CRV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for RV for Im(VH) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant)
-print("Counts for RV for Im(VH) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant, file = outputFile)
+CRVVH= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for RV for Im(VH) = ", CRVVH, "\tNormalized to diagonal = ", CRVVH/normconstant)
+print("Counts for RV for Im(VH) = ", CRVVH, "\tNormalized to diagonal = ", CRVVH/normconstant, file = outputFile)
 
 #extraction of result
-imrhoVH=0.5*((CLD-CLA-CRD+CRA)+(CDL-CDR-CAL+CAR)+2*(CLV-CRV))/normconstant
+imrhoVH=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH)+2*(CLVVH-CRVVH))/normconstant
             
             
 #measurement of Re(VV)
 input("Please unblock all paths, then press enter")
 #measurement of DD
 print("Measuring DD for Re(VV)")
-CDD= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DD for Re(VV) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant)
-print("Counts for DD for Re(VV) = ", CDD, "\tNormalized to diagonal = ", CDD/normconstant, file = outputFile)
+CDDVV= 0.25*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DD for Re(VV) = ", CDDVV, "\tNormalized to diagonal = ", CDDVV/normconstant)
+print("Counts for DD for Re(VV) = ", CDDVV, "\tNormalized to diagonal = ", CDDVV/normconstant, file = outputFile)
 
 #measurement of DA
 print("Measuring DA for Re(VV)")
-CDA= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(VV) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant)
-print("Counts for DA for Re(VV) = ", CDA, "\tNormalized to diagonal = ", CDA/normconstant, file = outputFile)
+CDAVV= 0.25*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(VV) = ", CDAVV, "\tNormalized to diagonal = ", CDAVV/normconstant)
+print("Counts for DA for Re(VV) = ", CDAVV, "\tNormalized to diagonal = ", CDAVV/normconstant, file = outputFile)
 
 #measurement of AD
 print("Measuring AD for Re(VV)")
-CAD= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AD for Re(VV) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant)
-print("Counts for AD for Re(VV) = ", CAD, "\tNormalized to diagonal = ", CAD/normconstant, file = outputFile)
+CADVV= 0.25*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AD for Re(VV) = ", CADVV, "\tNormalized to diagonal = ", CADVV/normconstant)
+print("Counts for AD for Re(VV) = ", CADVV, "\tNormalized to diagonal = ", CADVV/normconstant, file = outputFile)
 
 #measurement of AA
 print("Measuring AA for Re(VV)")
-CAA= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(VV) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant)
-print("Counts for AA for Re(VV) = ", CAA, "\tNormalized to diagonal = ", CAA/normconstant, file = outputFile)
+CAAVV= 0.25*measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(VV) = ", CAAVV, "\tNormalized to diagonal = ", CAAVV/normconstant)
+print("Counts for AA for Re(VV) = ", CAAVV, "\tNormalized to diagonal = ", CAAVV/normconstant, file = outputFile)
 
 #measurement of RL
 print("Measuring RL for Re(VV)")
-CRL= 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-print("Counts for RL for Re(VV) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant)
-print("Counts for RL for Re(VV) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, file = outputFile)
+CRLVV= 0.25*measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+print("Counts for RL for Re(VV) = ", CRLVV, "\tNormalized to diagonal = ", CRLVV/normconstant)
+print("Counts for RL for Re(VV) = ", CRLVV, "\tNormalized to diagonal = ", CRLVV/normconstant, file = outputFile)
 
 #measurement of RR
 print("Measuring RR for Re(VV)")
-CRR= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-print("Counts for RR for Re(VV) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant)
-print("Counts for RR for Re(VV) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, file = outputFile)
+CRRVV= 0.25*measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+print("Counts for RR for Re(VV) = ", CRRVV, "\tNormalized to diagonal = ", CRRVV/normconstant)
+print("Counts for RR for Re(VV) = ", CRRVV, "\tNormalized to diagonal = ", CRRVV/normconstant, file = outputFile)
 
 #measurement of LR
 print("Measuring LR for Re(VV)")
-CLR= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-print("Counts for LR for Re(VV) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant)
-print("Counts for LR for Re(VV) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, file = outputFile)
+CLRVV= 0.25*measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+print("Counts for LR for Re(VV) = ", CLRVV, "\tNormalized to diagonal = ", CLRVV/normconstant)
+print("Counts for LR for Re(VV) = ", CLRVV, "\tNormalized to diagonal = ", CLRVV/normconstant, file = outputFile)
 
 #measurement of LL
 print("Measuring LL for Re(VV)")
-CLL = 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-print("Counts for LL for Re(VV) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant)
-print("Counts for LL for Re(VV) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, file = outputFile)
+CLLVV = 0.25*measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+print("Counts for LL for Re(VV) = ", CLLVV, "\tNormalized to diagonal = ", CLLVV/normconstant)
+print("Counts for LL for Re(VV) = ", CLLVV, "\tNormalized to diagonal = ", CLLVV/normconstant, file = outputFile)
 
 #measurement of DV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring DV for Re(VV)")
-CDV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for DV for Re(VV) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant)
-print("Counts for DV for Re(VV) = ", CDV, "\tNormalized to diagonal = ", CDV/normconstant, file = outputFile)
+CDVVV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(VV) = ", CDVVV, "\tNormalized to diagonal = ", CDVVV/normconstant)
+print("Counts for DV for Re(VV) = ", CDVVV, "\tNormalized to diagonal = ", CDVVV/normconstant, file = outputFile)
 
 #measurement of AV
 print("Measuring AV for Re(VV)")
-CAV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
-print("Counts for AV for Re(VV) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant)
-print("Counts for AV for Re(VV) = ", CAV, "\tNormalized to diagonal = ", CAV/normconstant, file = outputFile)
+CAVVV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(VV) = ", CAVVV, "\tNormalized to diagonal = ", CAVVV/normconstant)
+print("Counts for AV for Re(VV) = ", CAVVV, "\tNormalized to diagonal = ", CAVVV/normconstant, file = outputFile)
 
 #measurement of VD
 input("Please block H path, unblock V, A, D, then press enter")
 print("Measuring VD for Re(VV)")
-CVD= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VD for Re(VV) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant)
-print("Counts for VD for Re(VV) = ", CVD, "\tNormalized to diagonal = ", CVD/normconstant, file = outputFile)
+CVDVV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(VV) = ", CVDVV, "\tNormalized to diagonal = ", CVDVV/normconstant)
+print("Counts for VD for Re(VV) = ", CVDVV, "\tNormalized to diagonal = ", CVDVV/normconstant, file = outputFile)
 
 #measurement of VA
 print("Measuring VA for Re(VV)")
-CVA= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for AV for Re(VV) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant)
-print("Counts for AV for Re(VV) = ", CVA, "\tNormalized to diagonal = ", CVA/normconstant, file = outputFile)
+CVAVV= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", CVAVV/normconstant)
+print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", CVAVV/normconstant, file = outputFile)
 
 #measurement of VV
 input("Please block H, A paths, unblock V, D, then press enter")
 print("Measuring VV for Re(VV)")
-CVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-print("Counts for VV for Re(VV) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant)
-print("Counts for VV for Re(VV) = ", CVV, "\tNormalized to diagonal = ", CVV/normconstant, file = outputFile)
+CVVVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(VV) = ", CVVVV, "\tNormalized to diagonal = ", CVVVV/normconstant)
+print("Counts for VV for Re(VV) = ", CVVVV, "\tNormalized to diagonal = ", CVVVV/normconstant, file = outputFile)
 
 #extraction of result
-rerhoVV=0.5*((CDD-CDA-CAD+CAA)-(CLL-CLR-CRL+CRR)+2*(CDV-CAV)+2*(CVD-CVA)+4*CVV)/normconstant
+rerhoVV=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV)+2*(CDVVV-CAVVV)+2*(CVDVV-CVAVV)+4*CVVVV)/normconstant
 
 
 #measurement of Im(VV)
 input("Please unblock all paths, then press enter")
 #measurement of LD
 print("Measuring LD for Im(VV)")
-CLD= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for LD for Im(VV) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant)
-print("Counts for LD for Im(VV) = ", CLD, "\tNormalized to diagonal = ", CLD/normconstant, file = outputFile)
+CLDVV= 0.25*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for LD for Im(VV) = ", CLDVV, "\tNormalized to diagonal = ", CLDVV/normconstant)
+print("Counts for LD for Im(VV) = ", CLDVV, "\tNormalized to diagonal = ", CLDVV/normconstant, file = outputFile)
 
 #measurement of LA
 print("Measuring LA for Im(VV)")
-CLA= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for LA for Im(VV) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant)
-print("Counts for LA for Im(VV) = ", CLA, "\tNormalized to diagonal = ", CLA/normconstant, file = outputFile)
+CLAVV= 0.25*measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
+print("Counts for LA for Im(VV) = ", CLAVV, "\tNormalized to diagonal = ", CLAVV/normconstant)
+print("Counts for LA for Im(VV) = ", CLAVV, "\tNormalized to diagonal = ", CLAVV/normconstant, file = outputFile)
 
 #measurement of RD
 print("Measuring RD for Im(VV)")
-CRD= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for RD for Im(VV) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant)
-print("Counts for RD for Im(VV) = ", CRD, "\tNormalized to diagonal = ", CRD/normconstant, file = outputFile)
+CRDVV= 0.25*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for RD for Im(VV) = ", CRDVV, "\tNormalized to diagonal = ", CRDVV/normconstant)
+print("Counts for RD for Im(VV) = ", CRDVV, "\tNormalized to diagonal = ", CRDVV/normconstant, file = outputFile)
 
 #measurement of RA
 print("Measuring RA for Im(VV)")
-CRA= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for RA for Im(VV) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant)
-print("Counts for RA for Im(VV) = ", CRA, "\tNormalized to diagonal = ", CRA/normconstant, file = outputFile)
+CRAVV= 0.25*measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
+print("Counts for RA for Im(VV) = ", CRAVV, "\tNormalized to diagonal = ", CRAVV/normconstant)
+print("Counts for RA for Im(VV) = ", CRAVV, "\tNormalized to diagonal = ", CRAVV/normconstant, file = outputFile)
 
 #measurement of DL
 print("Measuring DL for Im(VV)")
-CDL= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-print("Counts for DL for Im(VV) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant)
-print("Counts for DL for Im(VV) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, file = outputFile)
+CDLVV= 0.25*measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+print("Counts for DL for Im(VV) = ", CDLVV, "\tNormalized to diagonal = ", CDLVV/normconstant)
+print("Counts for DL for Im(VV) = ", CDLVV, "\tNormalized to diagonal = ", CDLVV/normconstant, file = outputFile)
 
 #measurement of DR
 print("Measuring DR for Im(VV)")
-CDR= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-print("Counts for DR for Im(VV) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant)
-print("Counts for DR for Im(VV) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, file = outputFile)
+CDRVV= 0.25*measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+print("Counts for DR for Im(VV) = ", CDRVV, "\tNormalized to diagonal = ", CDRVV/normconstant)
+print("Counts for DR for Im(VV) = ", CDRVV, "\tNormalized to diagonal = ", CDRVV/normconstant, file = outputFile)
 
 #measurement of AR
 print("Measuring AR for Im(VV)")
-CAR= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-print("Counts for AR for Im(VV) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant)
-print("Counts for AR for Im(VV) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, file = outputFile)
+CARVV= 0.25*measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+print("Counts for AR for Im(VV) = ", CARVV, "\tNormalized to diagonal = ", CARVV/normconstant)
+print("Counts for AR for Im(VV) = ", CARVV, "\tNormalized to diagonal = ", CARVV/normconstant, file = outputFile)
 
 #measurement of AL
 print("Measuring AL for Im(VV)")
-CAL = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for AL for Im(VV) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant)
-print("Counts for AL for Im(VV) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, file = outputFile)
+CALVV = 0.25*measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+print("Counts for AL for Im(VV) = ", CALVV, "\tNormalized to diagonal = ", CALVV/normconstant)
+print("Counts for AL for Im(VV) = ", CALVV, "\tNormalized to diagonal = ", CALVV/normconstant, file = outputFile)
 
 #measurement of LV
 input("Please block A path, unblock H, V, D, then press enter")
 print("Measuring LV for Im(VV)")
-CLV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
-print("Counts for LV for Im(VV) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant)
-print("Counts for LV for Im(VV) = ", CLV, "\tNormalized to diagonal = ", CLV/normconstant, file = outputFile)
+CLVVV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for LV for Im(VV) = ", CLVVV, "\tNormalized to diagonal = ", CLVVV/normconstant)
+print("Counts for LV for Im(VV) = ", CLVVV, "\tNormalized to diagonal = ", CLVVV/normconstant, file = outputFile)
 
 #measurement of RV
 print("Measuring RV for Im(VV)")
-CRV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
-print("Counts for RV for Im(VV) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant)
-print("Counts for RV for Im(VV) = ", CRV, "\tNormalized to diagonal = ", CRV/normconstant, file = outputFile)
+CRVVV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for RV for Im(VV) = ", CRVVV, "\tNormalized to diagonal = ", CRVVV/normconstant)
+print("Counts for RV for Im(VV) = ", CRVVV, "\tNormalized to diagonal = ", CRVVV/normconstant, file = outputFile)
 
 #extraction of result
-imrhoVV=0.5*((CLD-CLA-CRD+CRA)+(CDL-CDR-CAL+CAR)+2*(CLV-CRV))/normconstant
+imrhoVV=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV)+2*(CLVVV-CRVVV))/normconstant
             
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
