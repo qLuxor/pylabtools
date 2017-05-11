@@ -203,6 +203,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                         self.axVis.plot(self.totvoltage_arr, self.count, '.')
                         self.plotVis.draw()
                         self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
+                        self.lblVoltageStart.setText("{:.3}".format(float(voltage)))
                         i += 1
                     j+=1
                     if not self.started:

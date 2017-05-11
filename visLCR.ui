@@ -39,10 +39,27 @@
              <property name="sizeConstraint">
               <enum>QLayout::SetMinimumSize</enum>
              </property>
-             <item row="13" column="1" colspan="2">
-              <widget class="QPushButton" name="btnConnectSPAD">
+             <item row="8" column="0" colspan="4">
+              <widget class="Line" name="line_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="2">
+              <widget class="QLabel" name="label_17">
                <property name="text">
-                <string>Connect SPAD</string>
+                <string>Pause (ms)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="1">
+              <widget class="QLineEdit" name="txtAverage">
+               <property name="text">
+                <string>10</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>
@@ -50,73 +67,6 @@
               <widget class="QLabel" name="label_16">
                <property name="text">
                 <string>Save File</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="txtLoadFileName">
-               <property name="text">
-                <string>visLCRsettings.json</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QPushButton" name="btnLoad">
-               <property name="text">
-                <string>Load</string>
-               </property>
-              </widget>
-             </item>
-             <item row="11" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtPause">
-               <property name="text">
-                <string>330</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="14" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtExposure">
-               <property name="text">
-                <string>500</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="13" column="0">
-              <widget class="QLabel" name="label_6">
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>SPAD</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>Settings File (opt)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="0" colspan="3">
-              <widget class="Line" name="line_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0" colspan="3">
-              <widget class="Line" name="line_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
@@ -135,54 +85,29 @@
                </property>
               </widget>
              </item>
-             <item row="11" column="0">
-              <widget class="QLabel" name="label_17">
+             <item row="13" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
                <property name="text">
-                <string>Pause (ms)</string>
+                <string>SPAD</string>
                </property>
               </widget>
              </item>
-             <item row="19" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtPort">
-               <property name="text">
-                <string>/dev/ttyUSB1</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtAverage">
-               <property name="text">
-                <string>10</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="15" column="2">
-              <widget class="QLineEdit" name="txtSPADOtherChannel">
-               <property name="text">
-                <string>1</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="1" colspan="2">
-              <widget class="QPushButton" name="btnConnectPWM">
-               <property name="text">
-                <string>Connect PWM</string>
-               </property>
-              </widget>
-             </item>
-             <item row="12" column="0" colspan="3">
-              <widget class="Line" name="line">
+             <item row="2" column="0" colspan="4">
+              <widget class="Line" name="line_5">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>Port</string>
                </property>
               </widget>
              </item>
@@ -198,20 +123,17 @@
                </property>
               </widget>
              </item>
-             <item row="19" column="0">
-              <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>Port</string>
+             <item row="12" column="0" colspan="4">
+              <widget class="Line" name="line">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
-             <item row="16" column="1">
-              <widget class="QLineEdit" name="txtDelay">
+             <item row="9" column="1" colspan="3">
+              <widget class="QPushButton" name="btnConnectPWM">
                <property name="text">
-                <string>0</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
+                <string>Connect PWM</string>
                </property>
               </widget>
              </item>
@@ -222,27 +144,10 @@
                </property>
               </widget>
              </item>
-             <item row="18" column="1" colspan="2">
-              <widget class="QPushButton" name="btnConnectLCR">
+             <item row="10" column="0">
+              <widget class="QLabel" name="label_8">
                <property name="text">
-                <string>Connect LCR </string>
-               </property>
-              </widget>
-             </item>
-             <item row="16" column="2">
-              <widget class="QLineEdit" name="txtOtherDelay">
-               <property name="text">
-                <string>0</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="15" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>Channels</string>
+                <string>Average</string>
                </property>
               </widget>
              </item>
@@ -253,105 +158,6 @@
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="17" column="0" colspan="3">
-              <widget class="Line" name="line_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="22" column="1" colspan="2">
-              <widget class="QComboBox" name="cmbLinearStage">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <item>
-                <property name="text">
-                 <string>thorlabs</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="23" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtSN">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>83825706</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="16" column="0">
-              <widget class="QLabel" name="label_11">
-               <property name="text">
-                <string>Delay (ns)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="10" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>Average</string>
-               </property>
-              </widget>
-             </item>
-             <item row="27" column="0">
-              <widget class="QLabel" name="label_12">
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Current Power</string>
-               </property>
-              </widget>
-             </item>
-             <item row="24" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Pos1</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="24" column="1">
-              <widget class="QLineEdit" name="txtPos1">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
@@ -371,55 +177,26 @@
                </property>
               </widget>
              </item>
-             <item row="25" column="1">
-              <widget class="QLineEdit" name="txtPos2">
+             <item row="24" column="0">
+              <widget class="QLabel" name="label_2">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>90</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="26" column="0" colspan="3">
-              <widget class="Line" name="line_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="20" column="0" colspan="3">
-              <widget class="Line" name="line_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="27" column="1" colspan="2">
-              <widget class="QLabel" name="lblPowerStart">
-               <property name="font">
-                <font>
-                 <pointsize>11</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>0</string>
+                <string>Pos1</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>
-             <item row="25" column="2">
-              <widget class="QPushButton" name="btnMove2">
+             <item row="22" column="0">
+              <widget class="QLabel" name="label_7">
                <property name="text">
-                <string>Move</string>
+                <string>Type</string>
                </property>
               </widget>
              </item>
@@ -439,13 +216,6 @@
                </property>
               </widget>
              </item>
-             <item row="24" column="2">
-              <widget class="QPushButton" name="btnMove1">
-               <property name="text">
-                <string>Move</string>
-               </property>
-              </widget>
-             </item>
              <item row="21" column="0">
               <widget class="QLabel" name="label_14">
                <property name="font">
@@ -461,28 +231,45 @@
                </property>
               </widget>
              </item>
-             <item row="22" column="0">
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>Type</string>
-               </property>
-              </widget>
-             </item>
-             <item row="21" column="1" colspan="2">
-              <widget class="QPushButton" name="btnConnect">
-               <property name="text">
-                <string>Connect Rotator</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1" colspan="2">
+             <item row="3" column="1" colspan="3">
               <widget class="QLineEdit" name="txtFileName">
                <property name="text">
                 <string>Filename</string>
                </property>
               </widget>
              </item>
-             <item row="6" column="0" colspan="3">
+             <item row="13" column="1" colspan="3">
+              <widget class="QPushButton" name="btnConnectSPAD">
+               <property name="text">
+                <string>Connect SPAD</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>Settings File (opt)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" colspan="2">
+              <widget class="QLineEdit" name="txtLoadFileName">
+               <property name="text">
+                <string>visLCRsettings.json</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1" colspan="3">
+              <widget class="QLineEdit" name="txtAllowTime">
+               <property name="text">
+                <string>1.0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0" colspan="4">
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <property name="sizeConstraint">
                 <enum>QLayout::SetMinimumSize</enum>
@@ -513,16 +300,6 @@
                </item>
               </layout>
              </item>
-             <item row="7" column="1" colspan="2">
-              <widget class="QLineEdit" name="txtAllowTime">
-               <property name="text">
-                <string>1.0</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
              <item row="7" column="0">
               <widget class="QLabel" name="label_18">
                <property name="text">
@@ -530,7 +307,7 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="0" colspan="3">
+             <item row="0" column="0" colspan="4">
               <widget class="QPushButton" name="btnStart">
                <property name="text">
                 <string>Start</string>
@@ -544,7 +321,7 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="1" colspan="2">
+             <item row="4" column="1">
               <widget class="QLineEdit" name="txtRepetitions">
                <property name="text">
                 <string>1</string>
@@ -554,15 +331,265 @@
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
+             <item row="4" column="2">
               <widget class="QLabel" name="label_21">
                <property name="text">
                 <string>Hibernation (s)</string>
                </property>
               </widget>
              </item>
-             <item row="5" column="1" colspan="2">
+             <item row="1" column="3">
+              <widget class="QPushButton" name="btnLoad">
+               <property name="text">
+                <string>Load</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="3">
+              <widget class="QLineEdit" name="txtPause">
+               <property name="text">
+                <string>330</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="3">
               <widget class="QLineEdit" name="txtHibernation">
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="15" column="3">
+              <widget class="QLineEdit" name="txtDelay">
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="16" column="3">
+              <widget class="QLineEdit" name="txtOtherDelay">
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="16" column="1">
+              <widget class="QLineEdit" name="txtSPADOtherChannel">
+               <property name="text">
+                <string>1</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="15" column="2" rowspan="2">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>Delay (ns)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="15" column="0" rowspan="2">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Channels</string>
+               </property>
+              </widget>
+             </item>
+             <item row="17" column="0" colspan="4">
+              <widget class="Line" name="line_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="18" column="1" colspan="3">
+              <widget class="QPushButton" name="btnConnectLCR">
+               <property name="text">
+                <string>Connect LCR </string>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="1" colspan="3">
+              <widget class="QLineEdit" name="txtPort">
+               <property name="text">
+                <string>/dev/ttyUSB1</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="21" column="1" colspan="3">
+              <widget class="QPushButton" name="btnConnect">
+               <property name="text">
+                <string>Connect Rotator</string>
+               </property>
+              </widget>
+             </item>
+             <item row="20" column="0" colspan="4">
+              <widget class="Line" name="line_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="22" column="1" colspan="3">
+              <widget class="QComboBox" name="cmbLinearStage">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <item>
+                <property name="text">
+                 <string>thorlabs</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="23" column="1" colspan="3">
+              <widget class="QLineEdit" name="txtSN">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>83825706</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="24" column="3">
+              <widget class="QPushButton" name="btnMove1">
+               <property name="text">
+                <string>Move</string>
+               </property>
+              </widget>
+             </item>
+             <item row="25" column="3">
+              <widget class="QPushButton" name="btnMove2">
+               <property name="text">
+                <string>Move</string>
+               </property>
+              </widget>
+             </item>
+             <item row="24" column="1" colspan="2">
+              <widget class="QLineEdit" name="txtPos1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="14" column="1" colspan="3">
+              <widget class="QLineEdit" name="txtExposure">
+               <property name="text">
+                <string>500</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="25" column="1" colspan="2">
+              <widget class="QLineEdit" name="txtPos2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>90</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="26" column="0" colspan="4">
+              <widget class="Line" name="line_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="27" column="3">
+              <widget class="QLabel" name="lblPowerStart">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="27" column="2">
+              <widget class="QLabel" name="label_12">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Current Power</string>
+               </property>
+              </widget>
+             </item>
+             <item row="27" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>Current Voltage</string>
+               </property>
+              </widget>
+             </item>
+             <item row="27" column="1">
+              <widget class="QLabel" name="lblVoltageStart">
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>0</string>
                </property>
