@@ -160,51 +160,62 @@ class Vis(QMainWindow, Ui_MainWindow):
                 
             self.allowtime=float(self.txtAllowTime.text())
             
+            self.repetitions= int(self.txtRepetitions.text())
+            if self.repetitions <1:
+                self.repetitions=1    
+                
+            self.hibernation =float(self.txtHibernation.text())
             
             pos1Stage = float(self.txtPos1.text())
             pos2Stage = float(self.txtPos2.text())
             
             self.pos_arr = [pos1Stage, pos2Stage]
-            i = 0
-            j = 0
-            
-            self.totvoltage_arr=self.voltage_arr.flatten()
-            self.count = np.zeros(self.totvoltage_arr.size)
-            
-            for pos in self.pos_arr:
-                self.con.goto(pos, wait=True)
+            for cont in range(self.repetitions):
+                i = 0
+                j = 0
                 
-                for voltage in self.voltage_arr[j]:
-                    self.lcc.voltage1 = voltage
-                    time.sleep(self.allowtime)
-                    #checks for stop command
-                    qApp.processEvents()
-                    #breaks if stop has been called
+                self.totvoltage_arr=self.voltage_arr.flatten()
+                self.count = np.zeros(self.totvoltage_arr.size)
+                
+                for pos in self.pos_arr:
+                    self.con.goto(pos, wait=True)
+                    
+                    for voltage in self.voltage_arr[j]:
+                        self.lcc.voltage1 = voltage
+                        time.sleep(self.allowtime)
+                        #checks for stop command
+                        qApp.processEvents()
+                        #breaks if stop has been called
+                        if not self.started:
+                            break
+                        if(self.isPWMConnected and not self.isSPADConnected):
+                            singleMeasure = np.zeros(self.average)
+                            for k in range(self.average):
+                                time.sleep(self.pause)
+                                p = max(pwm.read()*1000, 0.)
+                                singleMeasure[k] = p
+                            self.count[i] = np.mean(singleMeasure)
+                        elif (self.isSPADConnected and not self.isPWMConnected):
+                            time.sleep(self.exptime)
+                            singles = self.ttagBuf.singles(self.exptime)
+                            coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                            self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
+                        self.axVis.plot(self.totvoltage_arr, self.count, '.')
+                        self.plotVis.draw()
+                        self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
+                        i += 1
+                    j+=1
                     if not self.started:
                         break
-                    if(self.isPWMConnected and not self.isSPADConnected):
-                        singleMeasure = np.zeros(self.average)
-                        for k in range(self.average):
-                            time.sleep(self.pause)
-                            p = max(pwm.read()*1000, 0.)
-                            singleMeasure[k] = p
-                        self.count[i] = np.mean(singleMeasure)
-                    elif (self.isSPADConnected and not self.isPWMConnected):
-                        time.sleep(self.exptime)
-                        singles = self.ttagBuf.singles(self.exptime)
-                        coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
-                        self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
-                    self.axVis.plot(self.totvoltage_arr, self.count, '.')
-                    self.plotVis.draw()
-                    self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
-                    i += 1
-                j+=1
-                if not self.started:
+                
+                if self.started:
+                    filename = self.txtFileName.text()
+                    if self.repetitions>1:
+                        filename = filename+"_"+str(cont+1)
+                    np.savez(filename, voltage=self.totvoltage_arr, count=self.count)
+                    time.sleep(self.hibernation)
+                else:
                     break
-            
-            if self.started:
-                filename = self.txtFileName.text()
-                np.savez(filename, voltage=self.totvoltage_arr, count=self.count)
             
             self.btnStart.setStyleSheet("")
             self.btnStart.setText('Start')
@@ -463,6 +474,10 @@ class Vis(QMainWindow, Ui_MainWindow):
                     self.rbtnAimed.setChecked(True)
             if "allowTime" in settings:
                 self.txtAllowTime.setText("{:5.2}".format(settings["allowTime"]))
+            if "repetitions" in settings:
+                self.txtRepetitions.setText("{0}".format(settings["repetitions"]))
+            if "hibernation" in settings:
+                self.txtHibernation.setText("{0}".format(settings["hibernation"]))
             if "pwmAverage" in settings:
                 self.txtAverage.setText("{0}".format(settings["pwmAverage"]))
             if "pwmWait" in settings:
