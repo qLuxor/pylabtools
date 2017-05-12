@@ -67,7 +67,8 @@ def Analyzefile(filename):
         power1=power[power.size//2:]
         label1='Pos2'
         label2='Pos1'
-    
+        
+    resultdata={}
     #raw max and min
     minimum=np.min(power1)
     maximum=np.max(power2)
@@ -76,6 +77,8 @@ def Analyzefile(filename):
     #voltages corresponding to max and min
     voltminimum =voltage1[np.argmin(power1)]
     voltmaximum =voltage2[np.argmax(power2)]
+    
+    resultdata.update({"RawMaxVolt":voltmaximum, "RawMinVolt": voltminimum, "RawMaxPower":maximum, "RawMinPower": minimum, "RawVisibility":rawvisibility})
     
     #Output of raw results
     numSignificantDigits=4
@@ -162,27 +165,27 @@ def Analyzefile(filename):
     except Exception as e:
         logging.error(traceback.format_exc())
     
-    resultdata={}
+    
     #Output of fitted results
     print("\n\nFitted data")
     tf= PrettyTable(["", "Voltage", "Power", "Pos"])
     if isZeroFoundWithFit:
         tf.add_row(["Maximum (0)", round_to_num(popt2[1], numSignificantDigits),round_to_num(fitmaximum, numSignificantDigits), label2] )
-        resultdata.update({"MaxVolt":popt2[1], "MaxPos": label2, "MaxFound":True})
+        resultdata.update({"MaxVolt":popt2[1], "MaxPos": label2, "MaxFound":True, "MaxPower": fitmaximum})
     else:
         tf.add_row(["Maximum (0)", "N/A" ,"N/A", "N/A"] )
         resultdata.update({"MaxFound":False})
         print ("Could not fit around expected 0")
     if isPiFoundWithFit:
         tf.add_row(["Minumum (pi)",round_to_num(popt1[1], numSignificantDigits),round_to_num(fitminimum, numSignificantDigits), label1] )
-        resultdata.update({"MinVolt":popt1[1], "MinPos": label1, "MinFound":True})
+        resultdata.update({"MinVolt":popt1[1], "MinPos": label1, "MinFound":True, "MinPower": fitminimum})
     else:
         tf.add_row(["Minumum (pi)", "N/A" ,"N/A", "N/A"] )
         resultdata.update({"MinFound":False})
         print ("Could not fit around expected pi")
     if isPi2FoundWithFit:
         tf.add_row(["Half (pi/2)",round_to_num(volthalfpi2, numSignificantDigits),round_to_num(halfpoint, numSignificantDigits), label2] )
-        resultdata.update({"Half2Volt":volthalfpi2, "Half2Pos": label2, "Half2Found":True})
+        resultdata.update({"Half2Volt":volthalfpi2, "Half2Pos": label2, "Half2Found":True, "HalfPower":halfpoint})
     else: 
         tf.add_row(["Half (pi/2)","N/A",round_to_num(halfpoint, numSignificantDigits), "N/A"] )
         resultdata.update({"Half2Found":False})
@@ -201,6 +204,7 @@ def Analyzefile(filename):
         print("Expected value of power at pi/2 and 3pi/2 was found through raw max and min")
     if isZeroFoundWithFit and isPiFoundWithFit:
         visibility= (fitmaximum-fitminimum)/(fitmaximum+fitminimum)
+        resultdata.update({"Visibility":visibility})
         print("Visibility = "+ round_to_num(visibility,numSignificantDigits))
     else:
         print("Could not find visibility, refer to raw measure")
