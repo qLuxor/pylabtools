@@ -50,7 +50,7 @@ def Analyzefile(filename):
     if subtract:
         minimum= np.min(power)
         for i in range(power.size):
-            power[i]-=0.9999*minimum
+            power[i]-=minimum
      
     posminimum = np.argmin(power)
     if posminimum < power.size/2:
@@ -99,12 +99,32 @@ def Analyzefile(filename):
     #subarrays that will be used in the fit
     voltage1fit=voltage1[lbound1:ubound1]
     power1fit=power1[lbound1:ubound1]
-    
+    if skim and voltage1fit.size>3:
+        tanarray=np.zeros(voltage1fit.size-1)
+        removedindexes=[]
+        for index in range(voltage1fit.size-1):
+            tanarray[index]=(power1fit[index+1]-power1fit[index])/(voltage1fit[index+1]-voltage1fit[index])
+        for index in range(voltage1fit.size-2):
+            if tanarray[index]*tanarray[index+1]<-0.0003:
+                removedindexes.append(index+1)
+        voltage1fit=np.delete(voltage1fit, removedindexes)
+        power1fit=np.delete(power1fit, removedindexes)
+  
     #same as above 
     lbound2=min(find_crossing(voltage2, voltmaximum-windowsize),find_crossing(voltage2, voltmaximum+windowsize))
     ubound2=max(find_crossing(voltage2, voltmaximum-windowsize),find_crossing(voltage2, voltmaximum+windowsize))
     voltage2fit=voltage2[lbound2:ubound2]
     power2fit=power2[lbound2:ubound2]
+    if skim and voltage2fit.size>3:
+        tanarray=np.zeros(voltage2fit.size-1)
+        removedindexes=[]
+        for index in range(voltage2fit.size-1):
+            tanarray[index]=(power2fit[index+1]-power2fit[index])/(voltage2fit[index+1]-voltage2fit[index])
+        for index in range(voltage2fit.size-2):
+            if tanarray[index]*tanarray[index+1]<-0.0003:
+                removedindexes.append(index+1)
+        voltage2fit=np.delete(voltage2fit, removedindexes)
+        power2fit=np.delete(power2fit, removedindexes)
     
     #actual fit
     isZeroFoundWithFit = False
@@ -247,6 +267,11 @@ if "folder" in sys.argv:
     mode = "folder"
 else:
     mode="file"
+    
+if "skim" in sys.argv:
+    skim = True
+else:
+    skim=False 
 
 if mode == "file":
     #inizialization of data
