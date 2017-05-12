@@ -80,7 +80,7 @@ delayarray[spadChannelA]=spadDelayA
 delayarray[spadChannelB]=spadDelayB
 spadExpTime = settings["spadExpTime"]
 spadExpTime = spadExpTime*1e-3
-coincWindow = 2*1e-9
+coincWindow = 1*1e-9
 if sensor == "spad" or sensor == "SPAD":
     print("Initializing SPAD")
     ttagBuf = ttag.TTBuffer(spadBufNum) 

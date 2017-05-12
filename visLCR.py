@@ -54,7 +54,7 @@ class Vis(QMainWindow, Ui_MainWindow):
         
         self.bufNum=0
         
-        self.coincWindow = 2*1e-9
+        self.coincWindow = 1*1e-9
         
         self.angleErr=1e-3
         
