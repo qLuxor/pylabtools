@@ -182,6 +182,7 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
         result= np.mean(singleMeasure)
     return result
 
+input("Please unblock all paths, then press Enter")
 #measurement on D for normalization
 print("Measuring D for normalization")
 countDId = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
@@ -197,7 +198,7 @@ print("Counts for A = ", countAId, file = outputFile)
 normconstant=countDId+countAId
 
 #Measurement on srhoHD
-input("Please block deflected (A) ray in second int. Then press Enter")
+input("Please block A path, unblock all others, then press Enter")
 print("Measuring D for HD")
 HDPD = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 print("Counts for D for HD = ", HDPD)
@@ -231,7 +232,7 @@ VDPR=HDPL
 rho10HD = 0.5* (HDPD-HDPA+1.0j*(HDPL-HDPR))/normconstant
 rho10VD = 0.5* (VDPD-VDPA+1.0j*(VDPL-VDPR))/normconstant
 
-input("Please block deflected (H) ray in first int. Then press Enter")
+input("Please block H path, unblock all others, then press Enter")
 print("Measuring V for VD")
 VDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 print("Counts for V for VD = ", VDPV)
@@ -248,7 +249,7 @@ rho11VD = VDPV/normconstant
 rho11HD = HDPV/normconstant
 
 #Measurement on srhoHA
-input("Please unblock all rays, then block transmitted (D) ray in second int. Then press Enter")
+input("Please block D path, unblock all others, then press Enter")
 print("Measuring D for HA")
 HAPD = measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 print("Counts for D for HA = ", HAPD)
@@ -294,6 +295,14 @@ purity= resquad.tr()
 
 #save qobjs
 qutip.qsave([result, resquad], outputfilename[:-4])
+
+print("\n\n\n")
+print("\n\n\n", file = outputFile)
+        
+print("Finished all measurements\n\n")
+
+print("\n\n\n")
+print("\n\n\n", file = outputFile)
 
 #output of final results
 print("Final result")

@@ -212,18 +212,20 @@ imrhoHV=countR/normconstant-0.5
 rerhoVH=rerhoHV
 imrhoVH=-imrhoHV
 
-result=qutip.Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
-corresult=qutip.Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
+rawresult=qutip.Qobj([[rhoHH , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rhoVV]])
+result=qutip.Qobj([[rhoVV , -rerhoHV+imrhoHV*1j],[-rerhoVH+imrhoVH*1j, rhoHH]])
+resquad=result**2
+purity= resquad.tr()
 
 #save qobjs
-qutip.qsave([result, corresult], outputfilename[:-4])
+qutip.qsave([result, resquad, rawresult], outputfilename[:-4])
 
 print("\n\nMeasured Result")
-print(result)
+print(rawresult)
 print("\n\nIntial state")
-print(corresult)
+print(result)
 
-print("\n\nMeasured Result", file = outputFile)
-print(result, file = outputFile)
-print("\n\nIntial state", file = outputFile)
-print(corresult, file = outputFile)
+print("\nRaw result = ", rawresult, file = outputFile)
+print("\nCorrected result = ", result, file = outputFile)
+print("\nresquad = ", resquad, file = outputFile)
+print("\npurity = ", purity, file = outputFile)
