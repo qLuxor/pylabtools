@@ -45,6 +45,8 @@ def Analyzefile(filename):
     voltage = data['voltage']
     power = data['count']
     
+    print("Analyzing ", filename)
+    
     if subtract:
         minimum= np.min(power)
         for i in range(power.size):
@@ -242,7 +244,6 @@ if "folder" in sys.argv:
 else:
     mode="file"
 
-print(mode)
 if mode == "file":
     #inizialization of data
     if len(sys.argv) >1:
@@ -253,11 +254,8 @@ if mode == "file":
     Analyzefile(filename)
     
 elif mode == "folder":
-    print("here")
     path = str(sys.argv[sys.argv.index("folder")+1])
-    print(path)
     allFiles = glob.glob(path + "/*.npz")  # List of files' name
-    print(allFiles)
     plot = False
     for file in allFiles:
         Analyzefile(file)
