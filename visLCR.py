@@ -222,7 +222,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                     maxvolt=self.totvoltage_arr[np.argmax(self.count)]
                     rawvisibility=(maxpower-minpower)/(maxpower+minpower)
                     stoptime=datetime.datetime.now()
-                    self.resultdata.update({"RawMaxVolt":maxvolt, "RawMinVolt": minvolt, "RawMaxPower":maxpower, "RawMinPower": minpower, "RawVisibility":rawvisibility, "StartTime":starttime, "StopTime":stoptime})
+                    self.resultdata.update({"RawMaxVolt":maxvolt, "RawMinVolt": minvolt, "RawMaxPower":maxpower, "RawMinPower": minpower, "RawVisibility":rawvisibility, "StartTime":str(starttime), "StopTime":str(stoptime)})
                     with open(filename+".json", 'w') as outfile:
                         json.dump(self.resultdata, outfile)
                     time.sleep(self.hibernation)

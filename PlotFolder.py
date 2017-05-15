@@ -50,7 +50,7 @@ for file in allFiles:
     rawvisibility= data["RawVisibility"]
     rawvisarray[cont]=rawvisibility
     if "StartTime" in data:
-        timearray[cont]= data["StartTime"]
+        timearray[cont]= datetime.datetime.strptime(data["StartTime"],"%Y-%m-%d %H:%M:%S.%f")
         hastime = hastime and True
     else:
         hastime = False
