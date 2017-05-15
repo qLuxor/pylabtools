@@ -31,7 +31,7 @@ minvoltarray=np.zeros(len(allFiles))
 maxpowerarray=np.zeros(len(allFiles))
 minpowerarray=np.zeros(len(allFiles))
 visarray=np.zeros(len(allFiles))
-timearray=np.zeros(len(allFiles))
+timelist=[]
 
 cont=0
 hastime= True
@@ -50,7 +50,7 @@ for file in allFiles:
     rawvisibility= data["RawVisibility"]
     rawvisarray[cont]=rawvisibility
     if "StartTime" in data:
-        timearray[cont]= datetime.datetime.strptime(data["StartTime"],"%Y-%m-%d %H:%M:%S.%f")
+        timelist.insert(cont, datetime.datetime.strptime(data["StartTime"],"%Y-%m-%d %H:%M:%S.%f"))
         hastime = hastime and True
     else:
         hastime = False
@@ -74,23 +74,20 @@ for file in allFiles:
         half2volt=data["Half2Volt"]    
     cont +=1
     
-fig = plt.figure()
-#ax = fig.add_subplot(111)
-#ax.set_ylabel("Voltage")
+fig, ax = plt.subplots()
 
-#plot1,=ax.plot(np.arange(len(allFiles)), maxvoltarray, 'bx-', label="Max")
-#plot2,=ax.plot(np.arange(len(allFiles)), minvoltarray, 'rx-', label="Min")
 if hastime:
-    plottabletimes = matplotlib.dates.date2num(timearray)
-    plt.plot_date(plottabletimes, maxvoltarray, 'bx-', label="Max")
-    plt.plot_date(plottabletimes, minvoltarray, 'rx-', label="Min")
-    plt.plot_date(plottabletimes, rawmaxvoltarray, 'gx-', label="RawMax")
-    plt.plot_date(plottabletimes, rawminvoltarray, 'yx-', label="RawMin")
+    plottabletimes = matplotlib.dates.date2num(timelist)
+    ax.plot_date(plottabletimes, maxvoltarray, 'bx-', label="Max")
+    ax.plot_date(plottabletimes, minvoltarray, 'rx-', label="Min")
+    ax.plot_date(plottabletimes, rawmaxvoltarray, 'gx-', label="RawMax")
+    ax.plot_date(plottabletimes, rawminvoltarray, 'yx-', label="RawMin")
+    ax.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
 else:
-    plt.plot(np.arange(len(allFiles))*0.1, maxvoltarray, 'bx-', label="Max")
-    plt.plot(np.arange(len(allFiles))*0.1, minvoltarray, 'rx-', label="Min")
-    plt.plot(np.arange(len(allFiles))*0.1, rawmaxvoltarray, 'gx-', label="RawMax")
-    plt.plot(np.arange(len(allFiles))*0.1, rawminvoltarray, 'yx-', label="RawMin")
+    ax.plot(np.arange(len(allFiles))*0.1, maxvoltarray, 'bx-', label="Max")
+    ax.plot(np.arange(len(allFiles))*0.1, minvoltarray, 'rx-', label="Min")
+    ax.plot(np.arange(len(allFiles))*0.1, rawmaxvoltarray, 'gx-', label="RawMax")
+    ax.plot(np.arange(len(allFiles))*0.1, rawminvoltarray, 'yx-', label="RawMin")
     
-plt.grid()
+ax.grid()
 plt.show()
