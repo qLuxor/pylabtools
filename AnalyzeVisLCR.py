@@ -69,6 +69,12 @@ def Analyzefile(filename):
         label2='Pos1'
         
     resultdata={}
+    try:
+        with open(filename[:-4]+".json") as json_data:
+            resultdata = json.load(json_data)
+            json_data.close()
+    except Exception as e:
+        logging.error(traceback.format_exc())
     #raw max and min
     minimum=np.min(power1)
     maximum=np.max(power2)
@@ -90,7 +96,7 @@ def Analyzefile(filename):
     print("Raw visibility = "+ round_to_num(rawvisibility,numSignificantDigits))
     
     #halfwidth of the fit range
-    windowsize=0.5
+    windowsize=0.3
     
     #definition of the range in terms of position
     lbound1= min(find_crossing(voltage1, voltminimum-windowsize),find_crossing(voltage1, voltminimum+windowsize) )

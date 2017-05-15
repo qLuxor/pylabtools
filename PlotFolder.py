@@ -10,6 +10,8 @@ import json
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+import datetime
+import matplotlib
 
 if len(sys.argv) >1:
         path = str(sys.argv[1])
@@ -29,8 +31,10 @@ minvoltarray=np.zeros(len(allFiles))
 maxpowerarray=np.zeros(len(allFiles))
 minpowerarray=np.zeros(len(allFiles))
 visarray=np.zeros(len(allFiles))
+timearray=np.zeros(len(allFiles))
 
 cont=0
+hastime= True
 for file in allFiles:
     with open(file) as json_settings:
         data = json.load(json_settings)
@@ -45,6 +49,11 @@ for file in allFiles:
     rawminpowerarray[cont]=rawminpower
     rawvisibility= data["RawVisibility"]
     rawvisarray[cont]=rawvisibility
+    if "StartTime" in data:
+        timearray[cont]= data["StartTime"]
+        hastime = hastime and True
+    else:
+        hastime = False
     
     if data["MaxFound"]:
         maxvolt = data["MaxVolt"]
@@ -71,10 +80,17 @@ fig = plt.figure()
 
 #plot1,=ax.plot(np.arange(len(allFiles)), maxvoltarray, 'bx-', label="Max")
 #plot2,=ax.plot(np.arange(len(allFiles)), minvoltarray, 'rx-', label="Min")
-plt.plot(np.arange(len(allFiles))*0.1, maxvoltarray, 'bx-', label="Max")
-plt.plot(np.arange(len(allFiles))*0.1, minvoltarray, 'rx-', label="Min")
-plt.plot(np.arange(len(allFiles))*0.1, rawmaxvoltarray, 'gx-', label="RawMax")
-plt.plot(np.arange(len(allFiles))*0.1, rawminvoltarray, 'yx-', label="RawMin")
+if hastime:
+    plottabletimes = matplotlib.dates.date2num(timearray)
+    plt.plot_date(plottabletimes, maxvoltarray, 'bx-', label="Max")
+    plt.plot_date(plottabletimes, minvoltarray, 'rx-', label="Min")
+    plt.plot_date(plottabletimes, rawmaxvoltarray, 'gx-', label="RawMax")
+    plt.plot_date(plottabletimes, rawminvoltarray, 'yx-', label="RawMin")
+else:
+    plt.plot(np.arange(len(allFiles))*0.1, maxvoltarray, 'bx-', label="Max")
+    plt.plot(np.arange(len(allFiles))*0.1, minvoltarray, 'rx-', label="Min")
+    plt.plot(np.arange(len(allFiles))*0.1, rawmaxvoltarray, 'gx-', label="RawMax")
+    plt.plot(np.arange(len(allFiles))*0.1, rawminvoltarray, 'yx-', label="RawMin")
+    
 plt.grid()
-
 plt.show()

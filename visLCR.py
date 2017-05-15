@@ -24,6 +24,7 @@ import ttag
 import json
 import logging
 import traceback
+import datetime
 
 qtCreatorFile = 'visLCR.ui'
 
@@ -176,7 +177,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                 
                 self.totvoltage_arr=self.voltage_arr.flatten()
                 self.count = np.zeros(self.totvoltage_arr.size)
-                
+                self.resultdata={}
+                starttime=datetime.datetime.now()
                 for pos in self.pos_arr:
                     self.con.goto(pos, wait=True)
                     
@@ -214,6 +216,15 @@ class Vis(QMainWindow, Ui_MainWindow):
                     if self.repetitions>1:
                         filename = filename+"_"+str(cont+1)
                     np.savez(filename, voltage=self.totvoltage_arr, count=self.count)
+                    minpower=np.min(self.count)
+                    maxpower=np.max(self.count)
+                    minvolt=self.totvoltage_arr[np.argmin(self.count)]
+                    maxvolt=self.totvoltage_arr[np.argmax(self.count)]
+                    rawvisibility=(maxpower-minpower)/(maxpower+minpower)
+                    stoptime=datetime.datetime.now()
+                    self.resultdata.update({"RawMaxVolt":maxvolt, "RawMinVolt": minvolt, "RawMaxPower":maxpower, "RawMinPower": minpower, "RawVisibility":rawvisibility, "StartTime":starttime, "StopTime":stoptime})
+                    with open(filename+".json", 'w') as outfile:
+                        json.dump(self.resultdata, outfile)
                     time.sleep(self.hibernation)
                 else:
                     break
