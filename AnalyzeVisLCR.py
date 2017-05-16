@@ -15,6 +15,8 @@ import logging
 import traceback
 import json
 import glob
+import os
+import datetime
 
 #function to format output of number
 def round_to_num(x, num):
@@ -235,6 +237,7 @@ def Analyzefile(filename):
     else:
         print("Could not find visibility, refer to raw measure")
     
+    resultdata.update({"ModifiedTime": str(datetime.datetime.fromtimestamp(os.path.getmtime(file)))})
     outfilename=filename[:-4]+".json"
     with open(outfilename, 'w') as outfile:
         json.dump(resultdata, outfile)

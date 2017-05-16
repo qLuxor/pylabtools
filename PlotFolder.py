@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import matplotlib
+import os
 
 if len(sys.argv) >1:
         path = str(sys.argv[1])
@@ -52,8 +53,11 @@ for file in allFiles:
     if "StartTime" in data:
         timelist.insert(cont, datetime.datetime.strptime(data["StartTime"],"%Y-%m-%d %H:%M:%S.%f"))
         hastime = hastime and True
+    elif "ModifiedTime" in data:
+        timelist.insert(cont, datetime.datetime.strptime(data["ModifiedTime"],"%Y-%m-%d %H:%M:%S"))
+        hastime = hastime and True
     else:
-        hastime = False
+        hastime= False
     
     if data["MaxFound"]:
         maxvolt = data["MaxVolt"]
@@ -78,10 +82,10 @@ fig, ax = plt.subplots()
 
 if hastime:
     plottabletimes = matplotlib.dates.date2num(timelist)
-    ax.plot_date(plottabletimes, maxvoltarray, 'bx-', label="Max")
-    ax.plot_date(plottabletimes, minvoltarray, 'rx-', label="Min")
-    ax.plot_date(plottabletimes, rawmaxvoltarray, 'gx-', label="RawMax")
-    ax.plot_date(plottabletimes, rawminvoltarray, 'yx-', label="RawMin")
+    ax.plot_date(plottabletimes, maxvoltarray, 'bx', label="Max")
+    ax.plot_date(plottabletimes, minvoltarray, 'rx', label="Min")
+    ax.plot_date(plottabletimes, rawmaxvoltarray, 'gx', label="RawMax")
+    ax.plot_date(plottabletimes, rawminvoltarray, 'yx', label="RawMin")
     ax.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
 else:
     ax.plot(np.arange(len(allFiles))*0.1, maxvoltarray, 'bx-', label="Max")
