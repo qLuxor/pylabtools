@@ -43,6 +43,8 @@ def interceptstline(y,m,q):
     return (y-q)/m
 
 def Analyzefile(filename):
+    if filename[-4:]!=".npz":
+        filename +=".npz"
     data = np.load(filename)
     voltage = data['voltage']
     power = data['count']
@@ -98,7 +100,7 @@ def Analyzefile(filename):
     print("Raw visibility = "+ round_to_num(rawvisibility,numSignificantDigits))
     
     #halfwidth of the fit range
-    windowsize=0.3
+    #windowsize=0.3
     
     #definition of the range in terms of position
     lbound1= min(find_crossing(voltage1, voltminimum-windowsize),find_crossing(voltage1, voltminimum+windowsize) )
@@ -281,6 +283,11 @@ if "skim" in sys.argv:
     skim = True
 else:
     skim=False 
+    
+if "windowsize" in sys.argv:
+    windowsize = float(sys.argv[sys.argv.index("windowsize")+1])
+else:
+    windowsize=0.5 
 
 if mode == "file":
     #inizialization of data
