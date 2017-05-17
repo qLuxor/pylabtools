@@ -199,9 +199,12 @@ class Vis(QMainWindow, Ui_MainWindow):
                             self.count[i] = np.mean(singleMeasure)
                         elif (self.isSPADConnected and not self.isPWMConnected):
                             time.sleep(self.exptime)
-                            singles = self.ttagBuf.singles(self.exptime)
-                            coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
-                            self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
+                            if self.SPADChannel == self.SPADOtherChannel:
+                                singles = self.ttagBuf.singles(self.exptime)
+                                self.count[i]=singles[self.SPADChannel]
+                            else:
+                                coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                                self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
                         self.axVis.plot(self.totvoltage_arr, self.count, '.')
                         self.plotVis.draw()
                         self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
