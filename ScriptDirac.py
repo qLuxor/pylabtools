@@ -242,7 +242,7 @@ VDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0
 print("Counts for V for VD = ", VDPV)
 print("Counts for V for VD = ", VDPV, file = outputFile)
 
-input("Please block transmitted (V) ray in first int. Then press Enter")
+input("Please block V path, unblock all others, then press Enter")
 print("Measuring V for HD")
 HDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 print("Counts for V for HD = ", HDPV)
