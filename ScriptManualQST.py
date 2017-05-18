@@ -136,7 +136,7 @@ input("Please block V and A paths, then press enter")
 
 #Measurement on H
 print("Measuring H")
-instruction = "Please set HWP to "+ "{0}".format(manualHWPAngle0)+ "\tandQWP to ", "{0}".format(manualQWPAngle0)+ "\tthen press enter"
+instruction = "Please set HWP to "+ "{0}".format(manualHWPAngle0)+ " andQWP to "+ "{0}".format(manualQWPAngle0)+ ", then press enter"
 input(instruction)
 countH = measure()
 print("Counts for H = ", countH)
@@ -144,7 +144,7 @@ print("Counts for H = ", countH, file = outputFile)
 
 #measurement on V
 print("Measuring V")
-instruction ="Please set HWP to "+ "{0}".format(manualHWPAngle45)+ "\tandQWP to "+"{0}".format(manualQWPAngle0)+ "\tthen press enter"
+instruction ="Please set HWP to "+ "{0}".format(manualHWPAngle45)+ " andQWP to "+"{0}".format(manualQWPAngle0)+ ", then press enter"
 input(instruction)
 countV = measure()
 print("Counts for V = ", countV)
@@ -152,7 +152,7 @@ print("Counts for V = ", countV, file = outputFile)
 
 #Measurement on R
 print("Measuring R")
-instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ "\tandQWP to "+"{0}".format(manualQWPAngle0)+"\tthen press enter"
+instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " andQWP to "+"{0}".format(manualQWPAngle0)+", then press enter"
 input(instruction)
 countR = measure()
 print("Counts for R = ", countR)
@@ -160,7 +160,7 @@ print("Counts for R = ", countR, file = outputFile)
 
 #Measurement on D
 print("Measuring D")
-instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ "\tandQWP to "+ "{0}".format(manualQWPAngle45)+ "\tthen press enter"
+instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " andQWP to "+ "{0}".format(manualQWPAngle45)+ ", then press enter"
 input(instruction)
 countD = measure()
 print("Counts for D = ", countD)
