@@ -171,6 +171,7 @@ def measure(rotHWPangle, rotQWPangle):
         result = np.mean(singleMeasure)
     return result
 
+resultdata={}
 #set interferometers
 print("Setting the interferometers")
 setangle(rot1, rot1Angle0, angleErr)
@@ -182,28 +183,33 @@ print("Finished setting the interferometers")
 #Measurement on H
 print("Measuring H")
 countH = measure(rotHWPAngle0, rotQWPAngle0)
+resultdata.update({"CH":countH})
 print("Counts for H = ", countH)
 print("Counts for H = ", countH, file = outputFile)
 
 #measurement on V
 print("Measuring V")
 countV = measure(rotHWPAngle45, rotQWPAngle0)
+resultdata.update({"CV":countV})
 print("Counts for V = ", countV)
 print("Counts for V = ", countV, file = outputFile)
 
 #Measurement on R
 print("Measuring R")
 countR = measure(rotHWPAngle225, rotQWPAngle0)
+resultdata.update({"CR":countR})
 print("Counts for R = ", countR)
 print("Counts for R = ", countR, file = outputFile)
 
 #Measurement on D
 print("Measuring D")
 countD = measure(rotHWPAngle225, rotQWPAngle45)
+resultdata.update({"CD":countD})
 print("Counts for D = ", countD)
 print("Counts for D = ", countD, file = outputFile)
 
 normconstant=countH+countV
+resultdata.update({"NormConstant": normconstant})
 print("Normalization constant = ", normconstant)
 print("Normalization constant = ", normconstant, file = outputFile)
 
@@ -223,6 +229,10 @@ purity= resquad.tr()
 
 #save qobjs
 qutip.qsave([result, resquad, rawresult], outputfilename[:-4])
+
+jsonfilename=outputfilename[:-4]+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
 
 print("\n\nMeasured Result")
 print(rawresult)

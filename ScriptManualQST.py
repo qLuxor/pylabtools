@@ -126,6 +126,7 @@ def measure():
         result = np.mean(singleMeasure)
     return result
 
+resultdata={}
 #setting plates
 print("Setting plates")
 setangle(rotHWP, rotHWPAngle675, angleErr)
@@ -139,6 +140,7 @@ print("Measuring H")
 instruction = "Please set HWP to "+ "{0}".format(manualHWPAngle0)+ " andQWP to "+ "{0}".format(manualQWPAngle0)+ ", then press enter"
 input(instruction)
 countH = measure()
+resultdata.update({"CH":countH})
 print("Counts for H = ", countH)
 print("Counts for H = ", countH, file = outputFile)
 
@@ -147,6 +149,7 @@ print("Measuring V")
 instruction ="Please set HWP to "+ "{0}".format(manualHWPAngle45)+ " andQWP to "+"{0}".format(manualQWPAngle0)+ ", then press enter"
 input(instruction)
 countV = measure()
+resultdata.update({"CV":countV})
 print("Counts for V = ", countV)
 print("Counts for V = ", countV, file = outputFile)
 
@@ -155,6 +158,7 @@ print("Measuring R")
 instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " andQWP to "+"{0}".format(manualQWPAngle0)+", then press enter"
 input(instruction)
 countR = measure()
+resultdata.update({"CR":countR})
 print("Counts for R = ", countR)
 print("Counts for R = ", countR, file = outputFile)
 
@@ -163,10 +167,12 @@ print("Measuring D")
 instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " andQWP to "+ "{0}".format(manualQWPAngle45)+ ", then press enter"
 input(instruction)
 countD = measure()
+resultdata.update({"CD":countD})
 print("Counts for D = ", countD)
 print("Counts for D = ", countD, file = outputFile)
 
 normconstant=countH+countV
+resultdata.update({"NormConstant": normconstant})
 print("Normalization constant = ", normconstant)
 print("Normalization constant = ", normconstant, file = outputFile)
 
@@ -193,6 +199,10 @@ purity= resquad.tr()
 
 #save qobjs
 qutip.qsave([result, resquad], outputfilename[:-4])
+
+jsonfilename=outputfilename[:-4]+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
 
 #output of final results
 print("Final result")

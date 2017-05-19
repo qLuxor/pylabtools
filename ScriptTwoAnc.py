@@ -188,16 +188,19 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
         result = np.mean(singleMeasure)
     return result
 
+resultdata={}
 input("Please unblock all paths, then press enter")
 #measurement on D for normalization
 print("Measuring D for normalization")
 countDId = measure(rot1Angle0, rot2Angle270, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
+resultdata.update({"CDRaw": countDId, "CD": 4*countDId})
 print("Counts for D = ", countDId)
 print("Counts for D = ", countDId, file = outputFile)
 
 #Measurement on A for normalization
 print("Measuring A for normalization")
 countAId = measure(rot1Angle0, rot2Angle270, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
+resultdata.update({"CARaw": countAId, "CA": 4*countAId})
 print("Counts for A = ", countAId)
 print("Counts for A = ", countAId, file = outputFile)
 
@@ -208,6 +211,7 @@ print("\n\n\n", file = outputFile)
 input("Please block V and A paths, unblock H, then press enter")
 print("Measuring H")
 countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CHRaw": countH, "CH": 16*countH})
 print("Counts for H = ", countH)
 print("Counts for H = ", countH, file = outputFile)
 
@@ -215,6 +219,7 @@ print("Counts for H = ", countH, file = outputFile)
 input("Please block H and A paths, unblock V, then press enter")
 print("Measuring V")
 countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CVRaw": countV, "CV": 16*countV})
 input("Please unblock all paths, then press enter")
 print("Counts for V = ", countV)
 print("Counts for V = ", countV, file = outputFile)
@@ -233,6 +238,7 @@ rhoVVscheme=4*countV/normscheme
 #the following 4 factor is due to the fact that Id and V are measured with 22.5
 normconstant = 4*normconstant
 normscheme = 4* normscheme
+resultdata.update({"NormConstant": normconstant, "NormScheme": normscheme})
 print("rhoHH = ", rhoHH)
 print("rhoVV = ", rhoVV)
 
@@ -242,31 +248,35 @@ print("\n\n\n", file = outputFile)
 #measurement of Re(VH)
 #measurement of RL
 print("Measuring RL for Re(VH)")
-CRL= measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-print("Counts for RL for Re(VH) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, "\tNormalized to scheme = ", CRL/normscheme)
-print("Counts for RL for Re(VH) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, "\tNormalized to scheme = ", CRL/normscheme, file = outputFile)
+CRLVH= measure(rot1Angle90, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+resultdata.update({"CRLVH": CRLVH})
+print("Counts for RL for Re(VH) = ", CRLVH, "\tNormalized to diagonal = ", CRLVH/normconstant, "\tNormalized to scheme = ", CRLVH/normscheme)
+print("Counts for RL for Re(VH) = ", CRLVH, "\tNormalized to diagonal = ", CRLVH/normconstant, "\tNormalized to scheme = ", CRLVH/normscheme, file = outputFile)
 
 #measurement of RR
 print("Measuring RR for Re(VH)")
-CRR= measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-print("Counts for RR for Re(VH) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, "\tNormalized to scheme = ", CRR/normscheme)
-print("Counts for RR for Re(VH) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, "\tNormalized to scheme = ", CRR/normscheme, file = outputFile)
+CRRVH= measure(rot1Angle90, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+resultdata.update({"CRRVH": CRRVH})
+print("Counts for RR for Re(VH) = ", CRRVH, "\tNormalized to diagonal = ", CRRVH/normconstant, "\tNormalized to scheme = ", CRRVH/normscheme)
+print("Counts for RR for Re(VH) = ", CRRVH, "\tNormalized to diagonal = ", CRRVH/normconstant, "\tNormalized to scheme = ", CRRVH/normscheme, file = outputFile)
 
 #measurement of LR
 print("Measuring LR for Re(VH)")
-CLR= measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-print("Counts for LR for Re(VH) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, "\tNormalized to scheme = ", CLR/normscheme)
-print("Counts for LR for Re(VH) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, "\tNormalized to scheme = ", CLR/normscheme, file = outputFile)
+CLRVH= measure(rot1Angle270, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+resultdata.update({"CLRVH": CLRVH})
+print("Counts for LR for Re(VH) = ", CLRVH, "\tNormalized to diagonal = ", CLRVH/normconstant, "\tNormalized to scheme = ", CLRVH/normscheme)
+print("Counts for LR for Re(VH) = ", CLRVH, "\tNormalized to diagonal = ", CLRVH/normconstant, "\tNormalized to scheme = ", CLRVH/normscheme, file = outputFile)
 
 #measurement of LL
 print("Measuring LL for Re(VH)")
-CLL = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-print("Counts for LL for Re(VH) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, "\tNormalized to scheme = ", CLL/normscheme)
-print("Counts for LL for Re(VH) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, "\tNormalized to scheme = ", CLL/normscheme, file = outputFile)
+CLLVH = measure(rot1Angle270, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+resultdata.update({"CLLVH": CLLVH})
+print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH/normconstant, "\tNormalized to scheme = ", CLLVH/normscheme)
+print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH/normconstant, "\tNormalized to scheme = ", CLLVH/normscheme, file = outputFile)
 
 #extraction of Re(VH)
-rerhoVH=(CRL+CLR-CRR-CLL)/normconstant
-rerhoVHscheme = (CRL+CLR-CRR-CLL)/normscheme
+rerhoVH=(CRLVH+CLRVH-CRRVH-CLLVH)/normconstant
+rerhoVHscheme = (CRLVH+CLRVH-CRRVH-CLLVH)/normscheme
 print("rerhoVH = ", rerhoVH)
 
 print("\n\n\n")
@@ -275,31 +285,35 @@ print("\n\n\n", file = outputFile)
 #measurement of Im(VH)
 #measurement of AL
 print("Measuring AL for Im(VH)")
-CAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for AL for Im(VH) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, "\tNormalized to scheme = ", CAL/normscheme)
-print("Counts for AL for Im(VH) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, "\tNormalized to scheme = ", CAL/normscheme, file = outputFile)
+CALVH = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+resultdata.update({"CALVH": CALVH})
+print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH/normconstant, "\tNormalized to scheme = ", CALVH/normscheme)
+print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH/normconstant, "\tNormalized to scheme = ", CALVH/normscheme, file = outputFile)
 
 #measurement of AR
 print("Measuring AR for Im(VH)")
-CAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-print("Counts for AR for Im(VH) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, "\tNormalized to scheme = ", CAR/normscheme)
-print("Counts for AR for Im(VH) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, "\tNormalized to scheme = ", CAR/normscheme, file = outputFile)
+CARVH= measure(rot1Angle180, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+resultdata.update({"CARVH": CARVH})
+print("Counts for AR for Im(VH) = ", CARVH, "\tNormalized to diagonal = ", CARVH/normconstant, "\tNormalized to scheme = ", CARVH/normscheme)
+print("Counts for AR for Im(VH) = ", CARVH, "\tNormalized to diagonal = ", CARVH/normconstant, "\tNormalized to scheme = ", CARVH/normscheme, file = outputFile)
 
 #measurement of DR
 print("Measuring DR for Im(VH)")
-CDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-print("Counts for DR for Im(VH) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, "\tNormalized to scheme = ", CDR/normscheme)
-print("Counts for DR for Im(VH) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, "\tNormalized to scheme = ", CDR/normscheme, file = outputFile)
+CDRVH= measure(rot1Angle0, rot2Angle270, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+resultdata.update({"CDRVH": CDRVH})
+print("Counts for DR for Im(VH) = ", CDRVH, "\tNormalized to diagonal = ", CDRVH/normconstant, "\tNormalized to scheme = ", CDRVH/normscheme)
+print("Counts for DR for Im(VH) = ", CDRVH, "\tNormalized to diagonal = ", CDRVH/normconstant, "\tNormalized to scheme = ", CDRVH/normscheme, file = outputFile)
 
 #measurement of DL
 print("Measuring DL for Im(VH)")
-CDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-print("Counts for DL for Im(VH) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, "\tNormalized to scheme = ", CDL/normscheme)
-print("Counts for DL for Im(VH) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, "\tNormalized to scheme = ", CDL/normscheme, file = outputFile)
+CDLVH= measure(rot1Angle0, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+resultdata.update({"CDLVH": CDLVH})
+print("Counts for DL for Im(VH) = ", CDLVH, "\tNormalized to diagonal = ", CDLVH/normconstant, "\tNormalized to scheme = ", CDLVH/normscheme)
+print("Counts for DL for Im(VH) = ", CDLVH, "\tNormalized to diagonal = ", CDLVH/normconstant, "\tNormalized to scheme = ", CDLVH/normscheme, file = outputFile)
 
 #extraction of Im(VH)
-imrhoVH=(CDL-CDR+CAR-CAL)/normconstant 
-imrhoVHscheme=(CDL-CDR+CAR-CAL)/normscheme 
+imrhoVH=(CDLVH-CDRVH+CARVH-CALVH)/normconstant 
+imrhoVHscheme=(CDLVH-CDRVH+CARVH-CALVH)/normscheme 
 print("imrhoVH = ", imrhoVH)  
 
 print("\n\n\n")
@@ -308,31 +322,35 @@ print("\n\n\n", file = outputFile)
 #measurement of Re(HV)
 #measurement of LL
 print("Measuring LL for Re(HV)")
-CLL = measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
-print("Counts for LL for Re(HV) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, "\tNormalized to scheme = ", CLL/normscheme)
-print("Counts for LL for Re(HV) = ", CLL, "\tNormalized to diagonal = ", CLL/normconstant, "\tNormalized to scheme = ", CLL/normscheme, file = outputFile)
+CLLHV = measure(rot1Angle90, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage90)
+resultdata.update({"CLLHV": CLLHV})
+print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV/normconstant, "\tNormalized to scheme = ", CLLHV/normscheme)
+print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV/normconstant, "\tNormalized to scheme = ", CLLHV/normscheme, file = outputFile)
 
 #measurement of LR
 print("Measuring LR for Re(HV)")
-CLR= measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
-print("Counts for LR for Re(HV) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, "\tNormalized to scheme = ", CLR/normscheme)
-print("Counts for LR for Re(HV) = ", CLR, "\tNormalized to diagonal = ", CLR/normconstant, "\tNormalized to scheme = ", CLR/normscheme, file = outputFile)
+CLRHV= measure(rot1Angle90, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage270)
+resultdata.update({"CLRHV": CLRHV})
+print("Counts for LR for Re(HV) = ", CLRHV, "\tNormalized to diagonal = ", CLRHV/normconstant, "\tNormalized to scheme = ", CLRHV/normscheme)
+print("Counts for LR for Re(HV) = ", CLRHV, "\tNormalized to diagonal = ", CLRHV/normconstant, "\tNormalized to scheme = ", CLRHV/normscheme, file = outputFile)
 
 #measurement of RR
 print("Measuring RR for Re(HV)")
-CRR= measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
-print("Counts for RR for Re(HV) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, "\tNormalized to scheme = ", CRR/normscheme)
-print("Counts for RR for Re(HV) = ", CRR, "\tNormalized to diagonal = ", CRR/normconstant, "\tNormalized to scheme = ", CRR/normscheme, file = outputFile)
+CRRHV= measure(rot1Angle270, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage270)
+resultdata.update({"CRRHV": CRRHV})
+print("Counts for RR for Re(HV) = ", CRRHV, "\tNormalized to diagonal = ", CRRHV/normconstant, "\tNormalized to scheme = ", CRRHV/normscheme)
+print("Counts for RR for Re(HV) = ", CRRHV, "\tNormalized to diagonal = ", CRRHV/normconstant, "\tNormalized to scheme = ", CRRHV/normscheme, file = outputFile)
 
 #measurement of RL
 print("Measuring RL for Re(HV)")
-CRL= measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
-print("Counts for RL for Re(HV) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, "\tNormalized to scheme = ", CRL/normscheme)
-print("Counts for RL for Re(HV) = ", CRL, "\tNormalized to diagonal = ", CRL/normconstant, "\tNormalized to scheme = ", CRL/normscheme, file = outputFile)
+CRLHV= measure(rot1Angle270, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage90)
+resultdata.update({"CRLHV": CRLHV})
+print("Counts for RL for Re(HV) = ", CRLHV, "\tNormalized to diagonal = ", CRLHV/normconstant, "\tNormalized to scheme = ", CRLHV/normscheme)
+print("Counts for RL for Re(HV) = ", CRLHV, "\tNormalized to diagonal = ", CRLHV/normconstant, "\tNormalized to scheme = ", CRLHV/normscheme, file = outputFile)
 
 #extraction of Re(HV)
-rerhoHV=(CRL+CLR-CRR-CLL)/normconstant
-rerhoHVscheme=(CRL+CLR-CRR-CLL)/normscheme
+rerhoHV=(CRLHV+CLRHV-CRRHV-CLLHV)/normconstant
+rerhoHVscheme=(CRLHV+CLRHV-CRRHV-CLLHV)/normscheme
 print("rerhoHV = ", rerhoHV)
 
 print("\n\n\n")
@@ -341,31 +359,35 @@ print("\n\n\n", file = outputFile)
 #measurement of Im(HV)
 #measurement of AL
 print("Measuring AL for Im(HV)")
-CAL = measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for AL for Im(HV) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, "\tNormalized to scheme = ", CAL/normscheme)
-print("Counts for AL for Im(HV) = ", CAL, "\tNormalized to diagonal = ", CAL/normconstant, "\tNormalized to scheme = ", CAL/normscheme, file = outputFile)
+CALHV = measure(rot1Angle180, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage90)
+resultdata.update({"CALHV": CALHV})
+print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV/normconstant, "\tNormalized to scheme = ", CALHV/normscheme)
+print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV/normconstant, "\tNormalized to scheme = ", CALHV/normscheme, file = outputFile)
 
 #measurement of AR
 print("Measuring AR for Im(HV)")
-CAR= measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
-print("Counts for AR for Im(HV) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, "\tNormalized to scheme = ", CAR/normscheme)
-print("Counts for AR for Im(HV) = ", CAR, "\tNormalized to diagonal = ", CAR/normconstant, "\tNormalized to scheme = ", CAR/normscheme, file = outputFile)
+CARHV= measure(rot1Angle180, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage270)
+resultdata.update({"CARHV": CARHV})
+print("Counts for AR for Im(HV) = ", CARHV, "\tNormalized to diagonal = ", CARHV/normconstant, "\tNormalized to scheme = ", CARHV/normscheme)
+print("Counts for AR for Im(HV) = ", CARHV, "\tNormalized to diagonal = ", CARHV/normconstant, "\tNormalized to scheme = ", CARHV/normscheme, file = outputFile)
 
 #measurement of DR
 print("Measuring DR for Im(HV)")
-CDR= measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
-print("Counts for DR for Im(HV) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, "\tNormalized to scheme = ", CDR/normscheme)
-print("Counts for DR for Im(HV) = ", CDR, "\tNormalized to diagonal = ", CDR/normconstant, "\tNormalized to scheme = ", CDR/normscheme, file = outputFile)
+CDRHV= measure(rot1Angle0, rot2Angle270, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage270)
+resultdata.update({"CDRHV": CDRHV})
+print("Counts for DR for Im(HV) = ", CDRHV, "\tNormalized to diagonal = ", CDRHV/normconstant, "\tNormalized to scheme = ", CDRHV/normscheme)
+print("Counts for DR for Im(HV) = ", CDRHV, "\tNormalized to diagonal = ", CDRHV/normconstant, "\tNormalized to scheme = ", CDRHV/normscheme, file = outputFile)
 
 #measurement of DL
 print("Measuring DL for Im(HV)")
-CDL= measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
-print("Counts for DL for Im(HV) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, "\tNormalized to scheme = ", CDL/normscheme)
-print("Counts for DL for Im(HV) = ", CDL, "\tNormalized to diagonal = ", CDL/normconstant, "\tNormalized to scheme = ", CDL/normscheme, file = outputFile)
+CDLHV= measure(rot1Angle0, rot2Angle90, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage90)
+resultdata.update({"CDLHV": CDLHV})
+print("Counts for DL for Im(HV) = ", CDLHV, "\tNormalized to diagonal = ", CDLHV/normconstant, "\tNormalized to scheme = ", CDLHV/normscheme)
+print("Counts for DL for Im(HV) = ", CDLHV, "\tNormalized to diagonal = ", CDLHV/normconstant, "\tNormalized to scheme = ", CDLHV/normscheme, file = outputFile)
 
 #extraction of Im(HV)
-imrhoHV=(CDL-CDR+CAR-CAL)/normconstant
-imrhoHVscheme=(CDL-CDR+CAR-CAL)/normscheme
+imrhoHV=(CDLHV-CDRHV+CARHV-CALHV)/normconstant
+imrhoHVscheme=(CDLHV-CDRHV+CARHV-CALHV)/normscheme
 print("imrhoHV = ", imrhoHV)
 
 print("\n\n\n")
@@ -386,6 +408,10 @@ purityscheme= resquadscheme.tr()
 
 #save qobjs
 qutip.qsave([result, resquad, resultscheme, resquadscheme], outputfilename[:-4])
+
+jsonfilename=outputfilename[:-4]+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
 
 #output of final results
 print("Final result")

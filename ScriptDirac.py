@@ -186,106 +186,141 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
         result= np.mean(singleMeasure)
     return result
 
+resultdata={}
 input("Please unblock all paths, then press Enter")
 #measurement on D for normalization
 print("Measuring D for normalization")
 countDId = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CDRaw": countDId, "CD": 4*countDId})
 print("Counts for D = ", countDId)
 print("Counts for D = ", countDId, file = outputFile)
 
 #Measurement on A for normalization
 print("Measuring A for normalization")
 countAId = measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CARaw": countAId, "CA": 4*countAId})
 print("Counts for A = ", countAId)
 print("Counts for A = ", countAId, file = outputFile)
 
-normconstant=countDId+countAId
+normconstant=4*(countDId+countAId)
+resultdata.update({"NormConstant": normconstant})
 
 #Measurement on srhoHD
 input("Please block A path, unblock all others, then press Enter")
 print("Measuring D for HD")
-HDPD = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
-print("Counts for D for HD = ", HDPD)
-print("Counts for D for HD = ", HDPD, file = outputFile)
+CDHD = measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CDHDRaw": CDHD})
+print("Counts for D for HD = ", CDHD)
+print("Counts for D for HD = ", CDHD, file = outputFile)
 print("Measuring A for HD")
-HDPA = measure(rot1Angle180, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
-print("Counts for A for HD = ", HDPA)
-print("Counts for A for HD = ", HDPA, file = outputFile)
+CAHD = measure(rot1Angle180, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
+resultdata.update({"CAHDRaw": CAHD})
+print("Counts for A for HD = ", CAHD)
+print("Counts for A for HD = ", CAHD, file = outputFile)
 print("Measuring L for HD")
-HDPL = measure(rot1Angle90, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
-print("Counts for L for HD = ", HDPL)
-print("Counts for L for HD = ", HDPL, file = outputFile)
+CLHD = measure(rot1Angle90, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
+resultdata.update({"CLHDRaw": CLHD})
+print("Counts for L for HD = ", CLHD)
+print("Counts for L for HD = ", CLHD, file = outputFile)
 print("Measuring R for HD")
-HDPR = measure(rot1Angle270, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
-print("Counts for R for HD = ", HDPR)
-print("Counts for R for HD = ", HDPR, file = outputFile)
+CRHD = measure(rot1Angle270, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
+resultdata.update({"CRHDRaw": CRHD})
+print("Counts for R for HD = ", CRHD)
+print("Counts for R for HD = ", CRHD, file = outputFile)
 
 #to compensate for normconstant
-HDPD = 0.5*HDPD
-HDPA = 0.5*HDPA
-HDPL = 0.5*HDPL
-HDPR = 0.5*HDPR
+CDHD = 2*CDHD
+CAHD = 2*CAHD
+CLHD = 2*CLHD
+CRHD = 2*CRHD
+resultdata.update({"CDHD": CDHD})
+resultdata.update({"CAHD": CAHD})
+resultdata.update({"CLHD": CLHD})
+resultdata.update({"CRHD": CRHD})
 
 #For simplicity measurements are not repeated
-VDPD=HDPD
-VDPA=HDPA
-VDPL=HDPR
-VDPR=HDPL
+CDVD=CDHD
+CAVD=CAHD
+CLVD=CRHD
+CRVD=CLHD
+resultdata.update({"CDVD": CDVD})
+resultdata.update({"CAVD": CAVD})
+resultdata.update({"CLVD": CLVD})
+resultdata.update({"CRVD": CRVD})
 
 #useful values
-rho10HD = 0.5* (HDPD-HDPA+1.0j*(HDPL-HDPR))/normconstant
-rho10VD = 0.5* (VDPD-VDPA+1.0j*(VDPL-VDPR))/normconstant
+rho10HD = 0.5* (CDHD-CAHD+1.0j*(CLHD-CRHD))/normconstant
+rho10VD = 0.5* (CDVD-CAVD+1.0j*(CLVD-CRVD))/normconstant
 
 input("Please block H path, unblock all others, then press Enter")
 print("Measuring V for VD")
-VDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
-print("Counts for V for VD = ", VDPV)
-print("Counts for V for VD = ", VDPV, file = outputFile)
+CVVD=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CVVDRaw": CVVD})
+print("Counts for V for VD = ", CVVD)
+print("Counts for V for VD = ", CVVD, file = outputFile)
 
 input("Please block V path, unblock all others, then press Enter")
 print("Measuring V for HD")
-HDPV=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
-print("Counts for V for HD = ", HDPV)
-print("Counts for V for HD = ", HDPV, file = outputFile)
+CVHD=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CVHDRaw": CVHD})
+print("Counts for V for HD = ", CVHD)
+print("Counts for V for HD = ", CVHD, file = outputFile)
+
+CVVD = 4*CVVD
+CVHD = 4*CVHD
+resultdata.update({"CVVD": CVVD})
+resultdata.update({"CVHD": CVHD})
 
 #useful values
-rho11VD = VDPV/normconstant
-rho11HD = HDPV/normconstant
+rho11VD = CVVD/normconstant
+rho11HD = CVHD/normconstant
 
 #Measurement on srhoHA
 input("Please block D path, unblock all others, then press Enter")
 print("Measuring D for HA")
-HAPD = measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
-print("Counts for D for HA = ", HAPD)
-print("Counts for D for HA = ", HAPD, file = outputFile)
+CDHA = measure(rot1Angle0, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CDHARaw": CDHA})
+print("Counts for D for HA = ", CDHA)
+print("Counts for D for HA = ", CDHA, file = outputFile)
 print("Measuring A for HA")
-HAPA = measure(rot1Angle180, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
-print("Counts for A for HA = ", HAPA)
-print("Counts for A for HA = ", HAPA, file = outputFile)
+CAHA = measure(rot1Angle180, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage180, lcc2Voltage0)
+resultdata.update({"CAHARaw": CAHA})
+print("Counts for A for HA = ", CAHA)
+print("Counts for A for HA = ", CAHA, file = outputFile)
 print("Measuring L for HA")
-HAPL = measure(rot1Angle90, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
-print("Counts for L for HA = ", HAPL)
-print("Counts for L for HA = ", HAPL, file = outputFile)
+CLHA = measure(rot1Angle90, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage90, lcc2Voltage0)
+resultdata.update({"CLHARaw": CLHA})
+print("Counts for L for HA = ", CLHA)
+print("Counts for L for HA = ", CLHA, file = outputFile)
 print("Measuring R for HA")
-HAPR = measure(rot1Angle270, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
-print("Counts for R for HA = ", HAPR)
-print("Counts for R for HA = ", HAPR, file = outputFile)
+CRHA = measure(rot1Angle270, rot2Angle0, rotHWPAngle225, rotQWPAngle45, lcc1Voltage270, lcc2Voltage0)
+resultdata.update({"CRHARaw": CRHA})
+print("Counts for R for HA = ", CRHA)
+print("Counts for R for HA = ", CRHA, file = outputFile)
 
 #to compensate for normconstant
-HAPD=0.5*HAPD
-HAPA=0.5*HAPA
-HAPL=0.5*HAPL
-HAPR=0.5*HAPR
+CDHA=2*CDHA
+CAHA=2*CAHA
+CLHA=2*CLHA
+CRHA=2*CRHA
+resultdata.update({"CDHA": CDHA})
+resultdata.update({"CAHA": CAHA})
+resultdata.update({"CLHA": CLHA})
+resultdata.update({"CRHA": CRHA})
 
 #For simplicity measurements are not repeated
-VAPD=HAPD
-VAPA=HAPA
-VAPL=HAPR
-VAPR=HAPL
+CDVA=CDHA
+CAVA=CAHA
+CLVA=CRHA
+CRVA=CLHA
+resultdata.update({"CDVA": CDVA})
+resultdata.update({"CAVA": CAVA})
+resultdata.update({"CLVA": CLVA})
+resultdata.update({"CRVA": CRVA})
 
 #useful values
-rho10HA = 0.5* (HAPD-HAPA+1.0j*(HAPL-HAPR))/normconstant
-rho10VA = 0.5* (VAPD-VAPA+1.0j*(VAPL-VAPR))/normconstant
+rho10HA = 0.5* (CDHA-CAHA+1.0j*(CLHA-CRHA))/normconstant
+rho10VA = 0.5* (CDVA-CAVA+1.0j*(CLVA-CRVA))/normconstant
 
 d=2
 rhoHH=(d*rho11HD+ rho10HA+rho10HD )
@@ -299,6 +334,10 @@ purity= resquad.tr()
 
 #save qobjs
 qutip.qsave([result, resquad], outputfilename[:-4])
+
+jsonfilename=outputfilename[:-4]+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
 
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
