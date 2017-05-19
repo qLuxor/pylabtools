@@ -12,7 +12,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import matplotlib
-import os
 
 if len(sys.argv) >1:
         path = str(sys.argv[1])

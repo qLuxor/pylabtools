@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri May 19 21:23:41 2017
+Created on Tue May  9 10:15:16 2017
 
-@author: Giulio Foletto 2
+@author: Giulio Foletto
 """
 
 #necessary imports
@@ -48,11 +48,11 @@ else:
 if outputfilename[-4:]==".txt":
     outputfilename =outputfilename[:-4]
 
-outputfilename+="Tekk"
+outputfilename+="TekkComplete"
 outputfilename+=".txt"
 
 outputFile=open(outputfilename, "w")
-print("Results for Tekk protocol", file = outputFile)
+print("Results for TekkComplete protocol", file = outputFile)
 
 #useful values
 allowTime=settings["allowTime"]
@@ -208,6 +208,192 @@ normconstant= countDId+countAId
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
 
+#measurement of DV
+input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring DV for Re(HH)")
+CDVHH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(HH) = ", CDVHH, "\tNormalized to diagonal = ", CDVHH/normconstant)
+print("Counts for DV for Re(HH) = ", CDVHH, "\tNormalized to diagonal = ", CDVHH/normconstant, file = outputFile)
+
+#measurement of AV
+print("Measuring AV for Re(HH)")
+CAVHH= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(HH) = ", CAVHH, "\tNormalized to diagonal = ", CAVHH/normconstant)
+print("Counts for AV for Re(HH) = ", CAVHH, "\tNormalized to diagonal = ", CAVHH/normconstant, file = outputFile)
+
+#measurement of LV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring LV for Im(HH)")
+CLVHH= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for LV for Im(HH) = ", CLVHH, "\tNormalized to diagonal = ", CLVHH/normconstant)
+print("Counts for LV for Im(HH) = ", CLVHH, "\tNormalized to diagonal = ", CLVHH/normconstant, file = outputFile)
+
+#measurement of RV
+print("Measuring RV for Im(HH)")
+CRVHH= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for RV for Im(HH) = ", CRVHH, "\tNormalized to diagonal = ", CRVHH/normconstant)
+print("Counts for RV for Im(HH) = ", CRVHH, "\tNormalized to diagonal = ", CRVHH/normconstant, file = outputFile)
+
+#measurement of DV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring DV for Re(HV)")
+CDVHV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(HV) = ", CDVHV, "\tNormalized to diagonal = ", CDVHV/normconstant)
+print("Counts for DV for Re(HV) = ", CDVHV, "\tNormalized to diagonal = ", CDVHV/normconstant, file = outputFile)
+
+#measurement of AV
+print("Measuring AV for Re(HV)")
+CAVHV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(HV) = ", CAVHV, "\tNormalized to diagonal = ", CAVHV/normconstant)
+print("Counts for AV for Re(HV) = ", CAVHV, "\tNormalized to diagonal = ", CAVHV/normconstant, file = outputFile)
+
+#measurement of LV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring LV for Im(HV)")
+CLVHV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for LV for Im(HV) = ", CLVHV, "\tNormalized to diagonal = ", CLVHV/normconstant)
+print("Counts for LV for Im(HV) = ", CLVHV, "\tNormalized to diagonal = ", CLVHV/normconstant, file = outputFile)
+
+#measurement of RV
+print("Measuring RV for Im(HV)")
+CRVHV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for RV for Im(HV) = ", CRVHV, "\tNormalized to diagonal = ", CRVHV/normconstant)
+print("Counts for RV for Im(HV) = ", CRVHV, "\tNormalized to diagonal = ", CRVHV/normconstant, file = outputFile)
+
+#measurement of DV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring DV for Re(VH)")
+CDVVH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(VH) = ", CDVVH, "\tNormalized to diagonal = ", CDVVH/normconstant)
+print("Counts for DV for Re(VH) = ", CDVVH, "\tNormalized to diagonal = ", CDVVH/normconstant, file = outputFile)
+
+#measurement of AV
+print("Measuring AV for Re(VH)")
+CAVVH= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(VH) = ", CAVVH, "\tNormalized to diagonal = ", CAVVH/normconstant)
+print("Counts for AV for Re(VH) = ", CAVVH, "\tNormalized to diagonal = ", CAVVH/normconstant, file = outputFile)
+
+#measurement of LV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring LV for Im(VH)")
+CLVVH= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for LV for Im(VH) = ", CLVVH, "\tNormalized to diagonal = ", CLVVH/normconstant)
+print("Counts for LV for Im(VH) = ", CLVVH, "\tNormalized to diagonal = ", CLVVH/normconstant, file = outputFile)
+
+#measurement of RV
+print("Measuring RV for Im(VH)")
+CRVVH= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for RV for Im(VH) = ", CRVVH, "\tNormalized to diagonal = ", CRVVH/normconstant)
+print("Counts for RV for Im(VH) = ", CRVVH, "\tNormalized to diagonal = ", CRVVH/normconstant, file = outputFile)
+
+#measurement of DV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring DV for Re(VV)")
+CDVVV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for DV for Re(VV) = ", CDVVV, "\tNormalized to diagonal = ", CDVVV/normconstant)
+print("Counts for DV for Re(VV) = ", CDVVV, "\tNormalized to diagonal = ", CDVVV/normconstant, file = outputFile)
+
+#measurement of AV
+print("Measuring AV for Re(VV)")
+CAVVV= 0.5*measure(rot1Angle180, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage0)
+print("Counts for AV for Re(VV) = ", CAVVV, "\tNormalized to diagonal = ", CAVVV/normconstant)
+print("Counts for AV for Re(VV) = ", CAVVV, "\tNormalized to diagonal = ", CAVVV/normconstant, file = outputFile)
+
+#measurement of LV
+#input("Please block A path, unblock H, V, D, then press enter")
+print("Measuring LV for Im(VV)")
+CLVVV= 0.5*measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
+print("Counts for LV for Im(VV) = ", CLVVV, "\tNormalized to diagonal = ", CLVVV/normconstant)
+print("Counts for LV for Im(VV) = ", CLVVV, "\tNormalized to diagonal = ", CLVVV/normconstant, file = outputFile)
+
+#measurement of RV
+print("Measuring RV for Im(VV)")
+CRVVV= 0.5*measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
+print("Counts for RV for Im(VV) = ", CRVVV, "\tNormalized to diagonal = ", CRVVV/normconstant)
+print("Counts for RV for Im(VV) = ", CRVVV, "\tNormalized to diagonal = ", CRVVV/normconstant, file = outputFile)
+
+#measurement of VV
+input("Please block V, A paths, unblock H, D, then press enter")
+print("Measuring VV for Re(HH)")
+CVVHH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(HH) = ", CVVHH, "\tNormalized to diagonal = ", CVVHH/normconstant)
+print("Counts for VV for Re(HH) = ", CVVHH, "\tNormalized to diagonal = ", CVVHH/normconstant, file = outputFile)
+
+#measurement of VV
+#input("Please block V, A paths, unblock H, D, then press enter")
+print("Measuring VV for Re(HV)")
+CVVHV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(HV) = ", CVVHV, "\tNormalized to diagonal = ", CVVHV/normconstant)
+print("Counts for VV for Re(HV) = ", CVVHV, "\tNormalized to diagonal = ", CVVHV/normconstant, file = outputFile)
+
+#measurement of VV
+input("Please block H, A paths, unblock V, D, then press enter")
+print("Measuring VV for Re(VH)")
+CVVVH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(VH) = ", CVVVH, "\tNormalized to diagonal = ", CVVVH/normconstant)
+print("Counts for VV for Re(VH) = ", CVVVH, "\tNormalized to diagonal = ", CVVVH/normconstant, file = outputFile)
+
+#measurement of VV
+#input("Please block H, A paths, unblock V, D, then press enter")
+print("Measuring VV for Re(VV)")
+CVVVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VV for Re(VV) = ", CVVVV, "\tNormalized to diagonal = ", CVVVV/normconstant)
+print("Counts for VV for Re(VV) = ", CVVVV, "\tNormalized to diagonal = ", CVVVV/normconstant, file = outputFile)
+
+#measurement of VD
+input("Please block H path, unblock V, A, D, then press enter")
+print("Measuring VD for Re(VH)")
+CVDVH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(VH) = ", CVDVH, "\tNormalized to diagonal = ", CVDVH/normconstant)
+print("Counts for VD for Re(VH) = ", CVDVH, "\tNormalized to diagonal = ", CVDVH/normconstant, file = outputFile)
+
+#measurement of VA
+print("Measuring VA for Re(VH)")
+CVAVH= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(VH) = ", CVAVH, "\tNormalized to diagonal = ", CVAVH/normconstant)
+print("Counts for AV for Re(VH) = ", CVAVH, "\tNormalized to diagonal = ", CVAVH/normconstant, file = outputFile)
+
+#measurement of VD
+#input("Please block H path, unblock V, A, D, then press enter")
+print("Measuring VD for Re(VV)")
+CVDVV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(VV) = ", CVDVV, "\tNormalized to diagonal = ", CVDVV/normconstant)
+print("Counts for VD for Re(VV) = ", CVDVV, "\tNormalized to diagonal = ", CVDVV/normconstant, file = outputFile)
+
+#measurement of VA
+print("Measuring VA for Re(VV)")
+CVAVV= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", CVAVV/normconstant)
+print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", CVAVV/normconstant, file = outputFile)
+
+#measurement of VD
+input("Please block V path, unblock H, A, D, then press enter")
+print("Measuring VD for Re(HH)")
+CVDHH= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(HH) = ", CVDHH, "\tNormalized to diagonal = ", CVDHH/normconstant)
+print("Counts for VD for Re(HH) = ", CVDHH, "\tNormalized to diagonal = ", CVDHH/normconstant, file = outputFile)
+
+#measurement of VA
+print("Measuring VA for Re(HH)")
+CVAHH= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", CVAHH/normconstant)
+print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", CVAHH/normconstant, file = outputFile)
+
+#measurement of VD
+#input("Please block V path, unblock H, A, D, then press enter")
+print("Measuring VD for Re(HV)")
+CVDHV= 0.5*measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+print("Counts for VD for Re(HV) = ", CVDHV, "\tNormalized to diagonal = ", CVDHV/normconstant)
+print("Counts for VD for Re(HV) = ", CVDHV, "\tNormalized to diagonal = ", CVDHV/normconstant, file = outputFile)
+
+#measurement of VA
+print("Measuring VA for Re(HV)")
+CVAHV= 0.5*measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(HV) = ", CVAHV, "\tNormalized to diagonal = ", CVAHV/normconstant)
+print("Counts for AV for Re(HV) = ", CVAHV, "\tNormalized to diagonal = ", CVAHV/normconstant, file = outputFile)
+
+
+
 #measurement of Re(HH)
 input("Please unblock all paths, then press enter")
 #measurement of DD
@@ -259,8 +445,9 @@ print("Counts for LL for Re(HH) = ", CLLHH, "\tNormalized to diagonal = ", CLLHH
 print("Counts for LL for Re(HH) = ", CLLHH, "\tNormalized to diagonal = ", CLLHH/normconstant, file = outputFile)
 
 #extraction of result
-rerhoHH=0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH))/normconstant
-
+rerhoHH=0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH)+2*(CDVHH-CAVHH)+2*(CVDHH-CVAHH)+4*CVVHH)/normconstant
+rerhoHHTekk= 0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH))/normconstant
+rerhoHHCorrection = rerhoHH-rerhoHHTekk
 
 #measurement of Im(HH)
 #input("Please unblock all paths, then press enter")
@@ -313,8 +500,9 @@ print("Counts for AL for Im(HH) = ", CALHH, "\tNormalized to diagonal = ", CALHH
 print("Counts for AL for Im(HH) = ", CALHH, "\tNormalized to diagonal = ", CALHH/normconstant, file = outputFile)
 
 #extraction of result
-imrhoHH=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH))/normconstant
-            
+imrhoHH=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH)+2*(CLVHH-CRVHH))/normconstant
+imrhoHHTekk=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH))/normconstant
+imrhoHHCorrection=imrhoHH-imrhoHHTekk          
 
 #measurement of Re(HV)
 #input("Please unblock all paths, then press enter")
@@ -368,9 +556,10 @@ print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV
 
 
 #extraction of result
-rerhoHV=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV))/normconstant
-
-
+rerhoHV=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV)+2*(CDVHV-CAVHV)+2*(CVDHV-CVAHV)+4*CVVHV)/normconstant
+rerhoHVTekk=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV))/normconstant
+rerhoHVCorrection=rerhoHV-rerhoHVTekk
+                
 #measurement of Im(HV)
 #input("Please unblock all paths, then press enter")
 #measurement of LD
@@ -422,8 +611,9 @@ print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV
 print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV/normconstant, file = outputFile)
 
 #extraction of result
-imrhoHV=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV))/normconstant
-    
+imrhoHV=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV)+2*(CLVHV-CRVHV))/normconstant
+imrhoHVTekk=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV))/normconstant    
+imrhoHVCorrection = imrhoHV-imrhoHVTekk
             
 #measurement of Re(VH)
 #input("Please unblock all paths, then press enter")
@@ -476,8 +666,9 @@ print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH
 print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH/normconstant, file = outputFile)
 
 #extraction of result
-rerhoVH=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH))/normconstant
-
+rerhoVH=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH)+2*(CDVVH-CAVVH)+2*(CVDVH-CVAVH)+4*CVVVH)/normconstant
+rerhoVHTekk=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH))/normconstant
+rerhoVHCorrection = rerhoVH-rerhoVHTekk
 
 #measurement of Im(VH)
 #input("Please unblock all paths, then press enter")
@@ -530,8 +721,9 @@ print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH
 print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH/normconstant, file = outputFile)
 
 #extraction of result
-imrhoVH=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH))/normconstant
-            
+imrhoVH=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH)+2*(CLVVH-CRVVH))/normconstant
+imrhoVHTekk=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH))/normconstant           
+imrhoVHCorrection=imrhoVH-imrhoVHTekk
             
 #measurement of Re(VV)
 #input("Please unblock all paths, then press enter")
@@ -584,8 +776,10 @@ print("Counts for LL for Re(VV) = ", CLLVV, "\tNormalized to diagonal = ", CLLVV
 print("Counts for LL for Re(VV) = ", CLLVV, "\tNormalized to diagonal = ", CLLVV/normconstant, file = outputFile)
 
 #extraction of result
-rerhoVV=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV))/normconstant
-
+rerhoVV=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV)+2*(CDVVV-CAVVV)+2*(CVDVV-CVAVV)+4*CVVVV)/normconstant
+rerhoVVTekk=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV))/normconstant
+rerhoVVCorrection = rerhoVV-rerhoVVTekk
+               
 
 #measurement of Im(VV)
 #input("Please unblock all paths, then press enter")
@@ -638,7 +832,9 @@ print("Counts for AL for Im(VV) = ", CALVV, "\tNormalized to diagonal = ", CALVV
 print("Counts for AL for Im(VV) = ", CALVV, "\tNormalized to diagonal = ", CALVV/normconstant, file = outputFile)
 
 #extraction of result
-imrhoVV=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV))/normconstant
+imrhoVV=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV)+2*(CLVVV-CRVVV))/normconstant
+imrhoVVTekk=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV))/normconstant  
+imrhoVVCorrection = imrhoVV-imrhoVVTekk
             
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
@@ -651,15 +847,24 @@ print("\n\n\n", file = outputFile)
 result=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
 resquad=result**2
 purity= resquad.tr()
+resultTekk=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
+resquadTekk=result**2
+purityTekk= resquad.tr()
+resultCorrection=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
+
 
 #save qobjs
-qutip.qsave([result, resquad], outputfilename[:-4])
+qutip.qsave([result, resquad, resultTekk, resquadTekk, resultCorrection], outputfilename[:-4])
 
 #output of final results
 print("Final result")
 print("Result = ", result)
 print("Resquad = ", resquad)
 print("Purity (as trace of resquad) = ", purity)
+print("ResultTekk = ", resultTekk)
+print("ResquadTekk = ", resquadTekk)
+print("Purity (as trace of resquad) = ", purityTekk)
+print("Correction = ", resultCorrection)
 
 print("The following results are obtained using the diagonal measurements for normalization", file = outputFile)
 print("Corrected normalization constant = {0}".format(normconstant), file = outputFile)
