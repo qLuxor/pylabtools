@@ -540,10 +540,6 @@ print("Counts for LL for Re(HH) = ", CLLHH, "\tNormalized to diagonal = ", CLLHH
 print("Counts for LL for Re(HH) = ", CLLHH, "\tNormalized to diagonal = ", CLLHH/normconstant, file = outputFile)
 resultdata.update({"CLLHH": CLLHH})
 
-#extraction of result
-rerhoHH=0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH)+2*(CDVHH-CAVHH)+2*(CVDHH-CVAHH)+4*CVVHH)/normconstant
-rerhoHHTekk= 0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH))/normconstant
-rerhoHHCorrection = rerhoHH-rerhoHHTekk
 
 #measurement of Im(HH)
 #input("Please unblock all paths, then press enter")
@@ -602,11 +598,7 @@ CALHH = measure(rot1Angle180, rot2Angle90, rotHWPAngle45, rotQWPAngle0, lcc1Volt
 print("Counts for AL for Im(HH) = ", CALHH, "\tNormalized to diagonal = ", CALHH/normconstant)
 print("Counts for AL for Im(HH) = ", CALHH, "\tNormalized to diagonal = ", CALHH/normconstant, file = outputFile)
 resultdata.update({"CALHH": CALHH})
-
-#extraction of result
-imrhoHH=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH)+2*(CLVHH-CRVHH))/normconstant
-imrhoHHTekk=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH))/normconstant
-imrhoHHCorrection=imrhoHH-imrhoHHTekk          
+     
 
 #measurement of Re(HV)
 #input("Please unblock all paths, then press enter")
@@ -666,11 +658,6 @@ print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV
 print("Counts for LL for Re(HV) = ", CLLHV, "\tNormalized to diagonal = ", CLLHV/normconstant, file = outputFile)
 resultdata.update({"CLLHV": CLLHV})
 
-
-#extraction of result
-rerhoHV=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV)+2*(CDVHV-CAVHV)+2*(CVDHV-CVAHV)+4*CVVHV)/normconstant
-rerhoHVTekk=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV))/normconstant
-rerhoHVCorrection=rerhoHV-rerhoHVTekk
                 
 #measurement of Im(HV)
 #input("Please unblock all paths, then press enter")
@@ -730,10 +717,6 @@ print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV
 print("Counts for AL for Im(HV) = ", CALHV, "\tNormalized to diagonal = ", CALHV/normconstant, file = outputFile)
 resultdata.update({"CALHV": CALHV})
 
-#extraction of result
-imrhoHV=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV)+2*(CLVHV-CRVHV))/normconstant
-imrhoHVTekk=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV))/normconstant    
-imrhoHVCorrection = imrhoHV-imrhoHVTekk
             
 #measurement of Re(VH)
 #input("Please unblock all paths, then press enter")
@@ -793,10 +776,6 @@ print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH
 print("Counts for LL for Re(VH) = ", CLLVH, "\tNormalized to diagonal = ", CLLVH/normconstant, file = outputFile)
 resultdata.update({"CLLVH": CLLVH})
 
-#extraction of result
-rerhoVH=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH)+2*(CDVVH-CAVVH)+2*(CVDVH-CVAVH)+4*CVVVH)/normconstant
-rerhoVHTekk=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH))/normconstant
-rerhoVHCorrection = rerhoVH-rerhoVHTekk
 
 #measurement of Im(VH)
 #input("Please unblock all paths, then press enter")
@@ -856,10 +835,6 @@ print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH
 print("Counts for AL for Im(VH) = ", CALVH, "\tNormalized to diagonal = ", CALVH/normconstant, file = outputFile)
 resultdata.update({"CALVH": CALVH})
 
-#extraction of result
-imrhoVH=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH)+2*(CLVVH-CRVVH))/normconstant
-imrhoVHTekk=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH))/normconstant           
-imrhoVHCorrection=imrhoVH-imrhoVHTekk
             
 #measurement of Re(VV)
 #input("Please unblock all paths, then press enter")
@@ -919,11 +894,6 @@ print("Counts for LL for Re(VV) = ", CLLVV, "\tNormalized to diagonal = ", CLLVV
 print("Counts for LL for Re(VV) = ", CLLVV, "\tNormalized to diagonal = ", CLLVV/normconstant, file = outputFile)
 resultdata.update({"CLLVV": CLLVV})
 
-#extraction of result
-rerhoVV=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV)+2*(CDVVV-CAVVV)+2*(CVDVV-CVAVV)+4*CVVVV)/normconstant
-rerhoVVTekk=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV))/normconstant
-rerhoVVCorrection = rerhoVV-rerhoVVTekk
-               
 
 #measurement of Im(VV)
 #input("Please unblock all paths, then press enter")
@@ -983,10 +953,6 @@ print("Counts for AL for Im(VV) = ", CALVV, "\tNormalized to diagonal = ", CALVV
 print("Counts for AL for Im(VV) = ", CALVV, "\tNormalized to diagonal = ", CALVV/normconstant, file = outputFile)
 resultdata.update({"CALVV": CALVV})
 
-#extraction of result
-imrhoVV=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV)+2*(CLVVV-CRVVV))/normconstant
-imrhoVVTekk=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV))/normconstant  
-imrhoVVCorrection = imrhoVV-imrhoVVTekk
             
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
@@ -995,6 +961,39 @@ print("Finished all measurements\n\n")
 
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
+
+#extraction of result
+rerhoHH=0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH)+2*(CDVHH-CAVHH)+2*(CVDHH-CVAHH)+4*CVVHH)/normconstant
+rerhoHHTekk= 0.5*((CDDHH-CDAHH-CADHH+CAAHH)-(CLLHH-CLRHH-CRLHH+CRRHH))/normconstant
+rerhoHHCorrection = rerhoHH-rerhoHHTekk
+
+imrhoHH=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH)+2*(CLVHH-CRVHH))/normconstant
+imrhoHHTekk=0.5*((CLDHH-CLAHH-CRDHH+CRAHH)+(CDLHH-CDRHH-CALHH+CARHH))/normconstant
+imrhoHHCorrection=imrhoHH-imrhoHHTekk 
+
+rerhoHV=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV)+2*(CDVHV-CAVHV)+2*(CVDHV-CVAHV)+4*CVVHV)/normconstant
+rerhoHVTekk=0.5*((CDDHV-CDAHV-CADHV+CAAHV)-(CLLHV-CLRHV-CRLHV+CRRHV))/normconstant
+rerhoHVCorrection=rerhoHV-rerhoHVTekk
+
+imrhoHV=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV)+2*(CLVHV-CRVHV))/normconstant
+imrhoHVTekk=0.5*((CLDHV-CLAHV-CRDHV+CRAHV)+(CDLHV-CDRHV-CALHV+CARHV))/normconstant    
+imrhoHVCorrection = imrhoHV-imrhoHVTekk
+
+rerhoVH=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH)+2*(CDVVH-CAVVH)+2*(CVDVH-CVAVH)+4*CVVVH)/normconstant
+rerhoVHTekk=0.5*((CDDVH-CDAVH-CADVH+CAAVH)-(CLLVH-CLRVH-CRLVH+CRRVH))/normconstant
+rerhoVHCorrection = rerhoVH-rerhoVHTekk
+
+imrhoVH=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH)+2*(CLVVH-CRVVH))/normconstant
+imrhoVHTekk=0.5*((CLDVH-CLAVH-CRDVH+CRAVH)+(CDLVH-CDRVH-CALVH+CARVH))/normconstant           
+imrhoVHCorrection=imrhoVH-imrhoVHTekk
+
+rerhoVV=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV)+2*(CDVVV-CAVVV)+2*(CVDVV-CVAVV)+4*CVVVV)/normconstant
+rerhoVVTekk=0.5*((CDDVV-CDAVV-CADVV+CAAVV)-(CLLVV-CLRVV-CRLVV+CRRVV))/normconstant
+rerhoVVCorrection = rerhoVV-rerhoVVTekk
+
+imrhoVV=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV)+2*(CLVVV-CRVVV))/normconstant
+imrhoVVTekk=0.5*((CLDVV-CLAVV-CRDVV+CRAVV)+(CDLVV-CDRVV-CALVV+CARVV))/normconstant  
+imrhoVVCorrection = imrhoVV-imrhoVVTekk
 
 result=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
 resquad=result**2
