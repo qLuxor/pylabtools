@@ -53,6 +53,8 @@ def Analyzefile(filename):
     
     if subtract:
         minimum= np.min(power)
+        if background > 1e-10:
+            minimum = min(minimum, background)
         for i in range(power.size):
             power[i]-=minimum
      
@@ -239,7 +241,7 @@ def Analyzefile(filename):
     else:
         print("Could not find visibility, refer to raw measure")
     
-    resultdata.update({"ModifiedTime": str(datetime.datetime.fromtimestamp(os.path.getmtime(file)))})
+    resultdata.update({"ModifiedTime": str(datetime.datetime.fromtimestamp(os.path.getmtime(filename)))})
     outfilename=filename[:-4]+".json"
     with open(outfilename, 'w') as outfile:
         json.dump(resultdata, outfile)
@@ -266,6 +268,7 @@ def Analyzefile(filename):
 
 if "subtract" in sys.argv:
     subtract = True
+    background = float(sys.argv[sys.argv.index("subtract")+1])
 else:
     subtract = False
     
