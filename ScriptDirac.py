@@ -252,14 +252,14 @@ resultdata.update({"CRVD": CRVD})
 rho10HD = 0.5* (CDHD-CAHD+1.0j*(CLHD-CRHD))/normconstant
 rho10VD = 0.5* (CDVD-CAVD+1.0j*(CLVD-CRVD))/normconstant
 
-input("Please block H path, unblock all others, then press Enter")
+input("Please block H and A paths, unblock all others, then press Enter")
 print("Measuring V for VD")
 CVVD=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 resultdata.update({"CVVDRaw": CVVD})
 print("Counts for V for VD = ", CVVD)
 print("Counts for V for VD = ", CVVD, file = outputFile)
 
-input("Please block V path, unblock all others, then press Enter")
+input("Please block V and A paths, unblock all others, then press Enter")
 print("Measuring V for HD")
 CVHD=measure(rot1Angle0, rot2Angle0, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage0)
 resultdata.update({"CVHDRaw": CVHD})

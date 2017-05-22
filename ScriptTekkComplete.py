@@ -998,10 +998,10 @@ imrhoVVCorrection = imrhoVV-imrhoVVTekk
 result=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
 resquad=result**2
 purity= resquad.tr()
-resultTekk=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
+resultTekk=qutip.Qobj([[rerhoHHTekk+imrhoHHTekk*1j , rerhoHVTekk+imrhoHVTekk*1j],[rerhoVHTekk+imrhoVHTekk*1j, rerhoVVTekk+imrhoVVTekk*1j]])
 resquadTekk=result**2
 purityTekk= resquad.tr()
-resultCorrection=qutip.Qobj([[rerhoHH+imrhoHH*1j , rerhoHV+imrhoHV*1j],[rerhoVH+imrhoVH*1j, rerhoVV+imrhoVV*1j]])
+resultCorrection=qutip.Qobj([[rerhoHHCorrection+imrhoHHCorrection*1j , rerhoHVCorrection+imrhoHVCorrection*1j],[rerhoVHCorrection+imrhoVHCorrection*1j, rerhoVVCorrection+imrhoVVCorrection*1j]])
 
 #save qobjs
 qutip.qsave([result, resquad, resultTekk, resquadTekk, resultCorrection], outputfilename[:-4])
