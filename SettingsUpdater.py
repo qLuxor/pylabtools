@@ -94,6 +94,7 @@ if data2["Half1Found"] and not data2["Half2Found"]:
     elif data2["Half1Pos"]=="Pos2":
         int2Half1Pos=rot2Pos2
     settings.update({"rot2Angle0": int2Half1Pos, "lcc2Voltage0": int2Half1V})
+    settings.update({"rot2Angle180": int2Half1Pos, "lcc2Voltage180": int2Half1V})
     print("Successfully updated Half1 in Int2")
     
 if data2["Half2Found"] and not data2["Half1Found"]:
@@ -103,6 +104,7 @@ if data2["Half2Found"] and not data2["Half1Found"]:
     elif data2["Half2Pos"]=="Pos2":
         int2Half2Pos=rot2Pos2
     settings.update({"rot2Angle0": int2Half2Pos, "lcc2Voltage0": int2Half2V})
+    settings.update({"rot2Angle180": int2Half2Pos, "lcc2Voltage180": int2Half2V})
     print("Successfully updated Half2 in Int2")
     
 with open(settingsfilename, 'w') as jsonsettings:
