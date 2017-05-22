@@ -291,9 +291,12 @@ class Vis(QMainWindow, Ui_MainWindow):
                     p = max(pwm.read()*1000, 0.)  
                 elif (self.isSPADConnected and not self.isPWMConnected):
                     time.sleep(self.exptime)
-                    singles = self.ttagBuf.singles(self.exptime)
-                    coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
-                    p=coincidences[self.SPADChannel, self.SPADOtherChannel]
+                    if self.SPADChannel == self.SPADOtherChannel:
+                        singles = self.ttagBuf.singles(self.exptime)
+                        p = singles[self.SPADChannel]
+                    else:
+                        coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                        p=coincidences[self.SPADChannel, self.SPADOtherChannel]
                 power[sampleIndex] = p
                 sampleIndex = (sampleIndex+1) % sampleTot
                 self.lblPower.setText("{:.3}".format(float(p)))
