@@ -350,9 +350,9 @@ print("Measuring RV for Im(HV)")
 CRVHV= measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
 print("Counts for RV for Im(HV) = ", CRVHV, "\tNormalized to diagonal = ", 2*CRVHV/normconstant)
 print("Counts for RV for Im(HV) = ", CRVHV, "\tNormalized to diagonal = ", 2*CRVHV/normconstant, file = outputFile)
-resultdata.update({"CLVHVRaw": CLVHV})
-CLVHV *=2
-resultdata.update({"CLVHV": CLVHV})
+resultdata.update({"CRVHVRaw": CRVHV})
+CRVHV *=2
+resultdata.update({"CRVHV": CRVHV})
 
 #measurement of LV
 #input("Please block A path, unblock H, V, D, then press enter")
