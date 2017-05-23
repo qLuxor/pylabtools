@@ -60,10 +60,14 @@ while(1):
     cont +=1
     if sensor == "spad" or sensor == "SPAD":
         time.sleep(spadExpTime)
-        coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
-        print(cont,"\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
-        "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
-        "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
+        if spadChannelA == spadChannelB:
+            singles = ttagBuf.singles(spadExpTime)
+            print(cont,"\tCounts on Channel ", spadChannelA, " = ", singles[spadChannelA])
+        else:
+            coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+            print(cont,"\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
+                   "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
+                   "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
     elif sensor == "pwm" or sensor == "PWM":
         singleMeasure = np.zeros(pwmAverage)
         for j in range(pwmAverage):
