@@ -418,22 +418,22 @@ CVDVV *=2
 resultdata.update({"CVDVV": CVDVV})
 
 #measurement of VA
-print("Measuring VA for Re(VV)")
-CVAVV= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", 2*CVAVV/normconstant)
-print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", 2*CVAVV/normconstant, file = outputFile)
-resultdata.update({"CVAVVRaw": CVAVV})
-CVAVV *=2
-resultdata.update({"CVAVV": CVAVV})
-
-#measurement of VA
 print("Measuring VA for Re(VH)")
-CVAVH= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+CVAVH= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
 print("Counts for AV for Re(VH) = ", CVAVH, "\tNormalized to diagonal = ", 2*CVAVH/normconstant)
 print("Counts for AV for Re(VH) = ", CVAVH, "\tNormalized to diagonal = ", 2*CVAVH/normconstant, file = outputFile)
 resultdata.update({"CVAVHRaw": CVAVH})
 CVAVH *=2
 resultdata.update({"CVAVH": CVAVH})
+
+#measurement of VA
+print("Measuring VA for Re(VV)")
+CVAVV= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", 2*CVAVV/normconstant)
+print("Counts for AV for Re(VV) = ", CVAVV, "\tNormalized to diagonal = ", 2*CVAVV/normconstant, file = outputFile)
+resultdata.update({"CVAVVRaw": CVAVV})
+CVAVV *=2
+resultdata.update({"CVAVV": CVAVV})
 
 #measurement of VD
 #input("Please block H path, unblock V, A, D, then press enter")
@@ -457,22 +457,22 @@ CVDHH *=2
 resultdata.update({"CVDHH": CVDHH})
 
 #measurement of VA
-print("Measuring VA for Re(HH)")
-CVAHH= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", 2*CVAHH/normconstant)
-print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", 2*CVAHH/normconstant, file = outputFile)
-resultdata.update({"CVAHHRaw": CVAHH})
-CVAHH *=2
-resultdata.update({"CVAHH": CVAHH})
-
-#measurement of VA
 print("Measuring VA for Re(HV)")
-CVAHV= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
+CVAHV= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
 print("Counts for AV for Re(HV) = ", CVAHV, "\tNormalized to diagonal = ", 2*CVAHV/normconstant)
 print("Counts for AV for Re(HV) = ", CVAHV, "\tNormalized to diagonal = ", 2*CVAHV/normconstant, file = outputFile)
 resultdata.update({"CVAHVRaw": CVAHV})
 CVAHV *=2
 resultdata.update({"CVAHV": CVAHV})
+
+#measurement of VA
+print("Measuring VA for Re(HH)")
+CVAHH= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
+print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", 2*CVAHH/normconstant)
+print("Counts for AV for Re(HH) = ", CVAHH, "\tNormalized to diagonal = ", 2*CVAHH/normconstant, file = outputFile)
+resultdata.update({"CVAHHRaw": CVAHH})
+CVAHH *=2
+resultdata.update({"CVAHH": CVAHH})
 
 #measurement of VD
 #input("Please block V path, unblock H, A, D, then press enter")

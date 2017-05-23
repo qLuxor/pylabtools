@@ -298,62 +298,60 @@ print("Counts for RL for Re(VH) = ", CRLVH, "\tNormalized to diagonal = ", CRLVH
 resultdata.update({"CRLVH": CRLVH})
 
 #measurement of AA
-print("Measuring AA for Re(HH)")
-CAAHH= measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(HH) = ", CAAHH, "\tNormalized to diagonal = ", CAAHH/normconstant)
-print("Counts for AA for Re(HH) = ", CAAHH, "\tNormalized to diagonal = ", CAAHH/normconstant, file = outputFile)
-resultdata.update({"CAAHH": CAAHH})
+print("Measuring AA for Re(HV)")
+CAAHV= measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(HV) = ", CAAHV, "\tNormalized to diagonal = ", CAAHV/normconstant)
+print("Counts for AA for Re(HV) = ", CAAHV, "\tNormalized to diagonal = ", CAAHV/normconstant, file = outputFile)
+resultdata.update({"CAAHV": CAAHV})
 
 #measurement of AA
-print("Measuring AA for Re(VH)")
-CAAVH= measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(VH) = ", CAAVH, "\tNormalized to diagonal = ", CAAVH/normconstant)
-print("Counts for AA for Re(VH) = ", CAAVH, "\tNormalized to diagonal = ", CAAVH/normconstant, file = outputFile)
-resultdata.update({"CAAVH": CAAVH})
+print("Measuring AA for Re(VV)")
+CAAVV= measure(rot1Angle180, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(VV) = ", CAAVV, "\tNormalized to diagonal = ", CAAVV/normconstant)
+print("Counts for AA for Re(VV) = ", CAAVV, "\tNormalized to diagonal = ", CAAVV/normconstant, file = outputFile)
+resultdata.update({"CAAVV": CAAVV})
 
 #measurement of DA
-print("Measuring DA for Re(HH)")
-CDAHH= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(HH) = ", CDAHH, "\tNormalized to diagonal = ", CDAHH/normconstant)
-print("Counts for DA for Re(HH) = ", CDAHH, "\tNormalized to diagonal = ", CDAHH/normconstant, file = outputFile)
-resultdata.update({"CDAHH": CDAHH})
+print("Measuring DA for Re(HV)")
+CDAHV= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(HV) = ", CDAHV, "\tNormalized to diagonal = ", CDAHV/normconstant)
+print("Counts for DA for Re(HV) = ", CDAHV, "\tNormalized to diagonal = ", CDAHV/normconstant, file = outputFile)
+resultdata.update({"CDAHV": CDAHV})
 
 #measurement of DA
-print("Measuring DA for Re(VH)")
-CDAVH= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(VH) = ", CDAVH, "\tNormalized to diagonal = ", CDAVH/normconstant)
-print("Counts for DA for Re(VH) = ", CDAVH, "\tNormalized to diagonal = ", CDAVH/normconstant, file = outputFile)
-resultdata.update({"CDAVH": CDAVH})
-
-
-#measurement of Im(HH)
-#measurement of RA
-print("Measuring RA for Im(HH)")
-CRAHH= measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for RA for Im(HH) = ", CRAHH, "\tNormalized to diagonal = ", CRAHH/normconstant)
-print("Counts for RA for Im(HH) = ", CRAHH, "\tNormalized to diagonal = ", CRAHH/normconstant, file = outputFile)
-resultdata.update({"CRAHH": CRAHH})
-
-#measurement of LA
-print("Measuring LA for Im(VH)")
-CLAVH= measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for LA for Im(VH) = ", CLAVH, "\tNormalized to diagonal = ", CLAVH/normconstant)
-print("Counts for LA for Im(VH) = ", CLAVH, "\tNormalized to diagonal = ", CLAVH/normconstant, file = outputFile)
-resultdata.update({"CLAVH": CLAVH})
-
-#measurement of LA
-print("Measuring LA for Im(HH)")
-CLAHH= measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for LA for Im(HH) = ", CLAHH, "\tNormalized to diagonal = ", CLAHH/normconstant)
-print("Counts for LA for Im(HH) = ", CLAHH, "\tNormalized to diagonal = ", CLAHH/normconstant, file = outputFile)
-resultdata.update({"CLAHH": CLAHH})
+print("Measuring DA for Re(VV)")
+CDAVV= measure(rot1Angle0, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(VV) = ", CDAVV, "\tNormalized to diagonal = ", CDAVV/normconstant)
+print("Counts for DA for Re(VV) = ", CDAVV, "\tNormalized to diagonal = ", CDAVV/normconstant, file = outputFile)
+resultdata.update({"CDAVV": CDAVV})
 
 #measurement of RA
-print("Measuring RA for Im(VH)")
-CRAVH= measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for RA for Im(VH) = ", CRAVH, "\tNormalized to diagonal = ", CRAVH/normconstant)
-print("Counts for RA for Im(VH) = ", CRAVH, "\tNormalized to diagonal = ", CRAVH/normconstant, file = outputFile)
-resultdata.update({"CRAVH": CRAVH})
+print("Measuring RA for Im(HV)")
+CRAHV= measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage180)
+print("Counts for RA for Im(HV) = ", CRAHV, "\tNormalized to diagonal = ", CRAHV/normconstant)
+print("Counts for RA for Im(HV) = ", CRAHV, "\tNormalized to diagonal = ", CRAHV/normconstant, file = outputFile)
+resultdata.update({"CRAHV": CRAHV})
+
+#measurement of LA
+print("Measuring LA for Im(VV)")
+CLAVV= measure(rot1Angle270, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage180)
+print("Counts for LA for Im(VV) = ", CLAVV, "\tNormalized to diagonal = ", CLAVV/normconstant)
+print("Counts for LA for Im(VV) = ", CLAVV, "\tNormalized to diagonal = ", CLAVV/normconstant, file = outputFile)
+resultdata.update({"CLAVV": CLAVV})
+
+#measurement of LA
+print("Measuring LA for Im(HV)")
+CLAHV= measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage180)
+print("Counts for LA for Im(HV) = ", CLAHV, "\tNormalized to diagonal = ", CLAHV/normconstant)
+print("Counts for LA for Im(HV) = ", CLAHV, "\tNormalized to diagonal = ", CLAHV/normconstant, file = outputFile)
+resultdata.update({"CLAHV": CLAHV})
+
+#measurement of RA
+print("Measuring RA for Im(VV)")
+CRAVV= measure(rot1Angle90, rot2Angle180, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage180)
+print("Counts for RA for Im(VV) = ", CRAVV, "\tNormalized to diagonal = ", CRAVV/normconstant)
+print("Counts for RA for Im(VV) = ", CRAVV, "\tNormalized to diagonal = ", CRAVV/normconstant, file = outputFile)
+resultdata.update({"CRAVV": CRAVV})
 
 #measurement of LD
 print("Measuring LD for Im(HH)")
@@ -438,7 +436,6 @@ CLDVH= measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltag
 print("Counts for LD for Im(VH) = ", CLDVH, "\tNormalized to diagonal = ", CLDVH/normconstant)
 print("Counts for LD for Im(VH) = ", CLDVH, "\tNormalized to diagonal = ", CLDVH/normconstant, file = outputFile)
 resultdata.update({"CLDVH": CLDVH})
-
 
 #measurement of DD
 print("Measuring DD for Re(HV)")
@@ -525,61 +522,60 @@ print("Counts for RL for Re(VV) = ", CRLVV, "\tNormalized to diagonal = ", CRLVV
 resultdata.update({"CRLVV": CRLVV})
 
 #measurement of AA
-print("Measuring AA for Re(HV)")
-CAAHV= measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(HV) = ", CAAHV, "\tNormalized to diagonal = ", CAAHV/normconstant)
-print("Counts for AA for Re(HV) = ", CAAHV, "\tNormalized to diagonal = ", CAAHV/normconstant, file = outputFile)
-resultdata.update({"CAAHV": CAAHV})
+print("Measuring AA for Re(HH)")
+CAAHH= measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(HH) = ", CAAHH, "\tNormalized to diagonal = ", CAAHH/normconstant)
+print("Counts for AA for Re(HH) = ", CAAHH, "\tNormalized to diagonal = ", CAAHH/normconstant, file = outputFile)
+resultdata.update({"CAAHH": CAAHH})
 
 #measurement of AA
-print("Measuring AA for Re(VV)")
-CAAVV= measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage180, lcc2Voltage180)
-print("Counts for AA for Re(VV) = ", CAAVV, "\tNormalized to diagonal = ", CAAVV/normconstant)
-print("Counts for AA for Re(VV) = ", CAAVV, "\tNormalized to diagonal = ", CAAVV/normconstant, file = outputFile)
-resultdata.update({"CAAVV": CAAVV})
+print("Measuring AA for Re(VH)")
+CAAVH= measure(rot1Angle180, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage180, lcc2Voltage180)
+print("Counts for AA for Re(VH) = ", CAAVH, "\tNormalized to diagonal = ", CAAVH/normconstant)
+print("Counts for AA for Re(VH) = ", CAAVH, "\tNormalized to diagonal = ", CAAVH/normconstant, file = outputFile)
+resultdata.update({"CAAVH": CAAVH})
 
 #measurement of DA
-print("Measuring DA for Re(HV)")
-CDAHV= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(HV) = ", CDAHV, "\tNormalized to diagonal = ", CDAHV/normconstant)
-print("Counts for DA for Re(HV) = ", CDAHV, "\tNormalized to diagonal = ", CDAHV/normconstant, file = outputFile)
-resultdata.update({"CDAHV": CDAHV})
+print("Measuring DA for Re(HH)")
+CDAHH= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(HH) = ", CDAHH, "\tNormalized to diagonal = ", CDAHH/normconstant)
+print("Counts for DA for Re(HH) = ", CDAHH, "\tNormalized to diagonal = ", CDAHH/normconstant, file = outputFile)
+resultdata.update({"CDAHH": CDAHH})
 
 #measurement of DA
-print("Measuring DA for Re(VV)")
-CDAVV= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage0, lcc2Voltage180)
-print("Counts for DA for Re(VV) = ", CDAVV, "\tNormalized to diagonal = ", CDAVV/normconstant)
-print("Counts for DA for Re(VV) = ", CDAVV, "\tNormalized to diagonal = ", CDAVV/normconstant, file = outputFile)
-resultdata.update({"CDAVV": CDAVV})
-
-
-#measurement of RA
-print("Measuring RA for Im(HV)")
-CRAHV= measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for RA for Im(HV) = ", CRAHV, "\tNormalized to diagonal = ", CRAHV/normconstant)
-print("Counts for RA for Im(HV) = ", CRAHV, "\tNormalized to diagonal = ", CRAHV/normconstant, file = outputFile)
-resultdata.update({"CRAHV": CRAHV})
-
-#measurement of LA
-print("Measuring LA for Im(VV)")
-CLAVV= measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage270, lcc2Voltage180)
-print("Counts for LA for Im(VV) = ", CLAVV, "\tNormalized to diagonal = ", CLAVV/normconstant)
-print("Counts for LA for Im(VV) = ", CLAVV, "\tNormalized to diagonal = ", CLAVV/normconstant, file = outputFile)
-resultdata.update({"CLAVV": CLAVV})
-
-#measurement of LA
-print("Measuring LA for Im(HV)")
-CLAHV= measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for LA for Im(HV) = ", CLAHV, "\tNormalized to diagonal = ", CLAHV/normconstant)
-print("Counts for LA for Im(HV) = ", CLAHV, "\tNormalized to diagonal = ", CLAHV/normconstant, file = outputFile)
-resultdata.update({"CLAHV": CLAHV})
+print("Measuring DA for Re(VH)")
+CDAVH= measure(rot1Angle0, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage180)
+print("Counts for DA for Re(VH) = ", CDAVH, "\tNormalized to diagonal = ", CDAVH/normconstant)
+print("Counts for DA for Re(VH) = ", CDAVH, "\tNormalized to diagonal = ", CDAVH/normconstant, file = outputFile)
+resultdata.update({"CDAVH": CDAVH})
 
 #measurement of RA
-print("Measuring RA for Im(VV)")
-CRAVV= measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle90, lcc1Voltage90, lcc2Voltage180)
-print("Counts for RA for Im(VV) = ", CRAVV, "\tNormalized to diagonal = ", CRAVV/normconstant)
-print("Counts for RA for Im(VV) = ", CRAVV, "\tNormalized to diagonal = ", CRAVV/normconstant, file = outputFile)
-resultdata.update({"CRAVV": CRAVV})
+print("Measuring RA for Im(HH)")
+CRAHH= measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage180)
+print("Counts for RA for Im(HH) = ", CRAHH, "\tNormalized to diagonal = ", CRAHH/normconstant)
+print("Counts for RA for Im(HH) = ", CRAHH, "\tNormalized to diagonal = ", CRAHH/normconstant, file = outputFile)
+resultdata.update({"CRAHH": CRAHH})
+
+#measurement of LA
+print("Measuring LA for Im(VH)")
+CLAVH= measure(rot1Angle270, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage180)
+print("Counts for LA for Im(VH) = ", CLAVH, "\tNormalized to diagonal = ", CLAVH/normconstant)
+print("Counts for LA for Im(VH) = ", CLAVH, "\tNormalized to diagonal = ", CLAVH/normconstant, file = outputFile)
+resultdata.update({"CLAVH": CLAVH})
+
+#measurement of LA
+print("Measuring LA for Im(HH)")
+CLAHH= measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage180)
+print("Counts for LA for Im(HH) = ", CLAHH, "\tNormalized to diagonal = ", CLAHH/normconstant)
+print("Counts for LA for Im(HH) = ", CLAHH, "\tNormalized to diagonal = ", CLAHH/normconstant, file = outputFile)
+resultdata.update({"CLAHH": CLAHH})
+
+#measurement of RA
+print("Measuring RA for Im(VH)")
+CRAVH= measure(rot1Angle90, rot2Angle180, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage180)
+print("Counts for RA for Im(VH) = ", CRAVH, "\tNormalized to diagonal = ", CRAVH/normconstant)
+print("Counts for RA for Im(VH) = ", CRAVH, "\tNormalized to diagonal = ", CRAVH/normconstant, file = outputFile)
+resultdata.update({"CRAVH": CRAVH})
 
 #measurement of LD
 print("Measuring LD for Im(HV)")
