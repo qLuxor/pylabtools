@@ -133,10 +133,10 @@ setangle(rotHWP, rotHWPAngle675, angleErr)
 setangle(rotQWP, rotQWPAngle45, angleErr)
 print("Finished setting plates")
 
-input("Please block V and A paths, then press enter")
+input("Please block V and A paths, then press Enter")
 
 #Measurement on H
-instruction = "Please set HWP to "+ "{0}".format(manualHWPAngle0)+ " and QWP to "+ "{0}".format(manualQWPAngle0)+ ", then press enter"
+instruction = "Please set HWP to "+ "{0}".format(manualHWPAngle0)+ " and QWP to "+ "{0}".format(manualQWPAngle0)+ ", then press Enter"
 input(instruction)
 print("Measuring H")
 countH = measure()
@@ -145,7 +145,7 @@ print("Counts for H = ", countH)
 print("Counts for H = ", countH, file = outputFile)
 
 #measurement on V
-instruction ="Please set HWP to "+ "{0}".format(manualHWPAngle45)+ " and QWP to "+"{0}".format(manualQWPAngle0)+ ", then press enter"
+instruction ="Please set HWP to "+ "{0}".format(manualHWPAngle45)+ " and QWP to "+"{0}".format(manualQWPAngle0)+ ", then press Enter"
 input(instruction)
 print("Measuring V")
 countV = measure()
@@ -154,7 +154,7 @@ print("Counts for V = ", countV)
 print("Counts for V = ", countV, file = outputFile)
 
 #Measurement on R
-instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " and QWP to "+"{0}".format(manualQWPAngle0)+", then press enter"
+instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " and QWP to "+"{0}".format(manualQWPAngle0)+", then press Enter"
 input(instruction)
 print("Measuring R")
 countR = measure()
@@ -163,7 +163,7 @@ print("Counts for R = ", countR)
 print("Counts for R = ", countR, file = outputFile)
 
 #Measurement on D
-instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " and QWP to "+ "{0}".format(manualQWPAngle45)+ ", then press enter"
+instruction="Please set HWP to "+ "{0}".format(manualHWPAngle225)+ " and QWP to "+ "{0}".format(manualQWPAngle45)+ ", then press Enter"
 input(instruction)
 print("Measuring D")
 countD = measure()

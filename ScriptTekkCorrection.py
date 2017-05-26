@@ -191,7 +191,7 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     return result
 
 resultdata={}
-input("Please unblock all paths, then press enter")
+input("Please unblock all paths, then press Enter")
 #measurement on D for normalization
 print("Measuring D for normalization")
 countDId = measure(rot1Angle0, rot2Angle270, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
@@ -213,7 +213,7 @@ print("\n\n\n")
 print("\n\n\n", file = outputFile)
 
 #measurement of DV
-input("Please block A path, unblock H, V, D, then press enter")
+input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring DV for Re(HH)")
 CDVHH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for DV for Re(HH) = ", CDVHH, "\tNormalized to diagonal = ", 2*CDVHH/normconstant)
@@ -223,7 +223,7 @@ CDVHH *=2
 resultdata.update({"CDVHH": CDVHH})
 
 #measurement of DV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring DV for Re(VH)")
 CDVVH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for DV for Re(VH) = ", CDVVH, "\tNormalized to diagonal = ", 2*CDVVH/normconstant)
@@ -242,7 +242,7 @@ CRVHH *=2
 resultdata.update({"CRVHH": CRVHH})
 
 #measurement of LV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring LV for Im(VH)")
 CLVVH= measure(rot1Angle270, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
 print("Counts for LV for Im(VH) = ", CLVVH, "\tNormalized to diagonal = ", 2*CLVVH/normconstant)
@@ -270,7 +270,7 @@ CAVVH *=2
 resultdata.update({"CAVVH": CAVVH})
 
 #measurement of LV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring LV for Im(HH)")
 CLVHH= measure(rot1Angle90, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
 print("Counts for LV for Im(HH) = ", CLVHH, "\tNormalized to diagonal = ", 2*CLVHH/normconstant)
@@ -289,7 +289,7 @@ CRVVH *=2
 resultdata.update({"CRVVH": CRVVH})
 
 #measurement of LV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring LV for Im(HV)")
 CLVHV= measure(rot1Angle90, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage90, lcc2Voltage0)
 print("Counts for LV for Im(HV) = ", CLVHV, "\tNormalized to diagonal = ", 2*CLVHV/normconstant)
@@ -326,7 +326,7 @@ CAVVV *=2
 resultdata.update({"CAVVV": CAVVV})
 
 #measurement of DV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring DV for Re(HV)")
 CDVHV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for DV for Re(HV) = ", CDVHV, "\tNormalized to diagonal = ", 2*CDVHV/normconstant)
@@ -336,7 +336,7 @@ CDVHV *=2
 resultdata.update({"CDVHV": CDVHV})
 
 #measurement of DV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring DV for Re(VV)")
 CDVVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for DV for Re(VV) = ", CDVVV, "\tNormalized to diagonal = ", 2*CDVVV/normconstant)
@@ -355,7 +355,7 @@ CRVHV *=2
 resultdata.update({"CRVHV": CRVHV})
 
 #measurement of LV
-#input("Please block A path, unblock H, V, D, then press enter")
+#input("Please block A path, unblock H, V, D, then press Enter")
 print("Measuring LV for Im(VV)")
 CLVVV= measure(rot1Angle270, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage270, lcc2Voltage0)
 print("Counts for LV for Im(VV) = ", CLVVV, "\tNormalized to diagonal = ", 2*CLVVV/normconstant)
@@ -366,7 +366,7 @@ resultdata.update({"CLVVV": CLVVV})
 
 
 #measurement of VV
-input("Please block V, A paths, unblock H, D, then press enter")
+input("Please block V, A paths, unblock H, D, then press Enter")
 print("Measuring VV for Re(HV)")
 CVVHV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VV for Re(HV) = ", CVVHV, "\tNormalized to diagonal = ", 4*CVVHV/normconstant)
@@ -376,7 +376,7 @@ CVVHV *=4
 resultdata.update({"CVVHV": CVVHV})
 
 #measurement of VV
-#input("Please block V, A paths, unblock H, D, then press enter")
+#input("Please block V, A paths, unblock H, D, then press Enter")
 print("Measuring VV for Re(HH)")
 CVVHH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VV for Re(HH) = ", CVVHH, "\tNormalized to diagonal = ", 4*CVVHH/normconstant)
@@ -387,7 +387,7 @@ resultdata.update({"CVVHH": CVVHH})
 
 
 #measurement of VV
-input("Please block H, A paths, unblock V, D, then press enter")
+input("Please block H, A paths, unblock V, D, then press Enter")
 print("Measuring VV for Re(VH)")
 CVVVH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VV for Re(VH) = ", CVVVH, "\tNormalized to diagonal = ", 4*CVVVH/normconstant)
@@ -397,7 +397,7 @@ CVVVH *=4
 resultdata.update({"CVVVH": CVVVH})
 
 #measurement of VV
-#input("Please block H, A paths, unblock V, D, then press enter")
+#input("Please block H, A paths, unblock V, D, then press Enter")
 print("Measuring VV for Re(VV)")
 CVVVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VV for Re(VV) = ", CVVVV, "\tNormalized to diagonal = ", CVVVV/normconstant)
@@ -408,7 +408,7 @@ resultdata.update({"CVVVV": CVVVV})
 
 
 #measurement of VD
-input("Please block H path, unblock V, A, D, then press enter")
+input("Please block H path, unblock V, A, D, then press Enter")
 print("Measuring VD for Re(VV)")
 CVDVV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VD for Re(VV) = ", CVDVV, "\tNormalized to diagonal = ", 2*CVDVV/normconstant)
@@ -436,7 +436,7 @@ CVAVV *=2
 resultdata.update({"CVAVV": CVAVV})
 
 #measurement of VD
-#input("Please block H path, unblock V, A, D, then press enter")
+#input("Please block H path, unblock V, A, D, then press Enter")
 print("Measuring VD for Re(VH)")
 CVDVH=measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VD for Re(VH) = ", CVDVH, "\tNormalized to diagonal = ", 2*CVDVH/normconstant)
@@ -447,7 +447,7 @@ resultdata.update({"CVDVH": CVDVH})
 
 
 #measurement of VD
-input("Please block V path, unblock H, A, D, then press enter")
+input("Please block V path, unblock H, A, D, then press Enter")
 print("Measuring VD for Re(HH)")
 CVDHH= measure(rot1Angle0, rot2Angle0, rotHWPAngle45, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VD for Re(HH) = ", CVDHH, "\tNormalized to diagonal = ", 2*CVDHH/normconstant)
@@ -475,7 +475,7 @@ CVAHH *=2
 resultdata.update({"CVAHH": CVAHH})
 
 #measurement of VD
-#input("Please block V path, unblock H, A, D, then press enter")
+#input("Please block V path, unblock H, A, D, then press Enter")
 print("Measuring VD for Re(HV)")
 CVDHV= measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 print("Counts for VD for Re(HV) = ", CVDHV, "\tNormalized to diagonal = ", 2*CVDHV/normconstant)

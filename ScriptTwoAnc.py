@@ -189,7 +189,7 @@ def measure(rot1angle, rot2angle, rotHWPangle, rotQWPangle, lcc1voltage, lcc2vol
     return result
 
 resultdata={}
-input("Please unblock all paths, then press enter")
+input("Please unblock all paths, then press Enter")
 #measurement on D for normalization
 print("Measuring D for normalization")
 countDId = measure(rot1Angle0, rot2Angle270, rotHWPAngle675, rotQWPAngle45, lcc1Voltage0, lcc2Voltage270)
@@ -207,22 +207,22 @@ print("Counts for A = ", countAId, file = outputFile)
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
 
+#measurement of diagonal V via scheme
+input("Please block H and A paths, unblock V, then press Enter")
+print("Measuring V")
+countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
+resultdata.update({"CVRaw": countV, "CV": 16*countV})
+
+print("Counts for V = ", countV)
+print("Counts for V = ", countV, file = outputFile)
+
 #measurement of diagonal H via scheme
-input("Please block V and A paths, unblock H, then press enter")
+input("Please block V and A paths, unblock H, then press Enter")
 print("Measuring H")
 countH = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
 resultdata.update({"CHRaw": countH, "CH": 16*countH})
 print("Counts for H = ", countH)
 print("Counts for H = ", countH, file = outputFile)
-
-#measurement of diagonal V via scheme
-input("Please block H and A paths, unblock V, then press enter")
-print("Measuring V")
-countV = measure(rot1Angle0, rot2Angle0, rotHWPAngle0, rotQWPAngle0, lcc1Voltage0, lcc2Voltage0)
-resultdata.update({"CVRaw": countV, "CV": 16*countV})
-input("Please unblock all paths, then press enter")
-print("Counts for V = ", countV)
-print("Counts for V = ", countV, file = outputFile)
 
 #normalization and extraction of diagonal elements
 normconstant= countDId+countAId
@@ -239,12 +239,15 @@ rhoVVscheme=4*countV/normscheme
 normconstant = 4*normconstant
 normscheme = 4* normscheme
 resultdata.update({"NormConstant": normconstant, "NormScheme": normscheme})
+print("\n\n\n")
+print("\n\n\n", file = outputFile)
 print("rhoHH = ", rhoHH)
 print("rhoVV = ", rhoVV)
 
 print("\n\n\n")
 print("\n\n\n", file = outputFile)
 
+input("Please unblock all paths, then press Enter")
 #measurement of Re(VH)
 #measurement of RL
 print("Measuring RL for Re(VH)")
