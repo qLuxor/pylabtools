@@ -172,6 +172,7 @@ def measure(rotHWPangle, rotQWPangle):
     return result
 
 resultdata={}
+input("Please unblock all paths, then press Enter")
 #set interferometers
 print("Setting the interferometers")
 setangle(rot1, rot1Angle0, angleErr)
@@ -236,7 +237,7 @@ with open(jsonfilename, 'w') as outfile:
 
 print("\n\nMeasured Result")
 print(rawresult)
-print("\n\nIntial state")
+print("\n\nInitial state")
 print(result)
 
 print("\nRaw result = ", rawresult, file = outputFile)

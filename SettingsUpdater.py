@@ -57,7 +57,7 @@ if data1["Half1Found"]:
         int1Half1Pos=rot1Pos1
     elif data1["Half1Pos"]=="Pos2":
         int1Half1Pos=rot1Pos2
-    settings.update({"rot1Angle90": int1Half1Pos, "lcc1Voltage90": int1Half1V})
+    settings.update({"rot1Angle270": int1Half1Pos, "lcc1Voltage270": int1Half1V}) #changed because QST is prioritized, change back to 90 if trust is given to scheme
     print("Successfully updated Half1 in Int1")
     
 if data1["Half2Found"]:
@@ -66,7 +66,7 @@ if data1["Half2Found"]:
         int1Half2Pos=rot1Pos1
     elif data1["Half2Pos"]=="Pos2":
         int1Half2Pos=rot1Pos2
-    settings.update({"rot1Angle270": int1Half2Pos, "lcc1Voltage270": int1Half2V})
+    settings.update({"rot1Angle90": int1Half2Pos, "lcc1Voltage90": int1Half2V}) #changed because QST is prioritized, change back to 270 if trust is given to scheme
     print("Successfully updated Half2 in Int1")
     
 if data2["MaxFound"]:
@@ -75,7 +75,7 @@ if data2["MaxFound"]:
         int2MaxPos=rot2Pos1
     elif data2["MaxPos"]=="Pos2":
         int2MaxPos=rot2Pos2
-    settings.update({"rot2Angle270": int2MaxPos, "lcc2Voltage270": int2MaxV})
+    settings.update({"rot2Angle90": int2MaxPos, "lcc2Voltage90": int2MaxV}) #changed because QST is prioritized, change back to 270 if trust is given to scheme
     print("Successfully updated Max in Int2")
     
 if data2["MinFound"]:
@@ -84,7 +84,7 @@ if data2["MinFound"]:
         int2MinPos=rot2Pos1
     elif data2["MinPos"]=="Pos2":
         int2MinPos=rot2Pos2
-    settings.update({"rot2Angle90": int2MinPos, "lcc2Voltage90": int2MinV})
+    settings.update({"rot2Angle270": int2MinPos, "lcc2Voltage270": int2MinV}) #changed because QST is prioritized, change back to 90 if trust is given to scheme
     print("Successfully updated Min in Int2")
     
 if data2["Half1Found"] and not data2["Half2Found"]:
