@@ -358,22 +358,19 @@ class Vis(QMainWindow, Ui_MainWindow):
             print("Please Connect Rotator")
     
     def connectRotator(self):
-        selLinear = str(self.cmbLinearStage.currentText())
-        if selLinear == 'thorlabs':
-            # open APT controller
-            SN = int(self.txtSN.text())
-            self.btnConnect.setText('Connecting')
-            self.con = aptlib.PRM1(serial_number=SN)
+        # open APT controller
+        SN = int(self.txtSN.text())
+        self.btnConnect.setText('Connecting')
+        self.con = aptlib.PRM1(serial_number=SN)
+        home = self.cbHome.isChecked()
+        if home:
             self.con.home()
-            self.btnConnect.setText('Disconnect Rotator')
-            self.btnConnect.setStyleSheet("background-color: red")
-            self.isRotatorConnected = True
-            self.txtSN.setEnabled(False)
-            self.cmbLinearStage.setEnabled(False)
-            self.btnMove1.setEnabled(True)
-            self.btnMove2.setEnabled(True)
-        else:
-            self.isRotatorConnected = False
+        self.btnConnect.setText('Disconnect Rotator')
+        self.btnConnect.setStyleSheet("background-color: red")
+        self.isRotatorConnected = True
+        self.txtSN.setEnabled(False)
+        self.btnMove1.setEnabled(True)
+        self.btnMove2.setEnabled(True)
             
     def disconnectRotator(self):
         if self.isRotatorConnected:
@@ -382,7 +379,6 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnConnect.setText('Connect Rotator')
             self.btnConnect.setStyleSheet("")
             self.txtSN.setEnabled(True)
-            self.cmbLinearStage.setEnabled(True)
             self.btnMove1.setEnabled(False)
             self.btnMove2.setEnabled(False)
       
@@ -514,6 +510,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.txtPort.setText(settings["port"])
             if "sn" in settings:
                 self.txtSN.setText("{0}".format(settings["sn"]))
+            if "home" in settings:
+                self.cbHome.setChecked(settings["home"])
             if "pos1" in settings:
                 self.txtPos1.setText("{:10.5}".format(settings["pos1"]))
             if "pos2" in settings:
