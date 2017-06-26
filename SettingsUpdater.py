@@ -57,7 +57,7 @@ if data1["Half1Found"]:
         int1Half1Pos=rot1Pos1
     elif data1["Half1Pos"]=="Pos2":
         int1Half1Pos=rot1Pos2
-    settings.update({"rot1Angle270": int1Half1Pos, "lcc1Voltage270": int1Half1V}) #changed because QST is prioritized, change back to 90 if trust is given to scheme
+    settings.update({"rot1Angle90": int1Half1Pos, "lcc1Voltage90": int1Half1V}) #changed because of Luca's trick. 270 is the correct value if trust is given to QST, 90 if it is given to scheme
     print("Successfully updated Half1 in Int1")
     
 if data1["Half2Found"]:
