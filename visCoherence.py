@@ -75,6 +75,8 @@ class Vis(QMainWindow, Ui_MainWindow):
         
         self.btnMoveMin.setEnabled(False)
         self.btnMoveMax.setEnabled(False)
+        self.btnMoveUp.setEnabled(False)
+        self.btnMoveDown.setEnabled(False)
         
         if len(sys.argv) >1:
             self.txtLoadFileName.setText(str(sys.argv[1]))
@@ -300,7 +302,7 @@ class Vis(QMainWindow, Ui_MainWindow):
     def on_btnMoveMin_clicked(self):
         if self.isLinStageConnected:
             posMinStage = float(self.txtPosMin.text())
-            self.setPos(self.con, posMinStage, self.angleErr)
+            self.setPos(self.con, posMinStage, self.posErr)
         else:
             print("Please Connect LinStage")
             
@@ -308,7 +310,7 @@ class Vis(QMainWindow, Ui_MainWindow):
     def on_btnMoveMax_clicked(self):
         if self.isLinStageConnected:
             posMaxStage = float(self.txtPosMax.text())
-            self.setPos(self.con, posMaxStage, self.angleErr)
+            self.setPos(self.con, posMaxStage, self.posErr)
         else:
             print("Please Connect LinStage")
             
@@ -316,7 +318,7 @@ class Vis(QMainWindow, Ui_MainWindow):
     def on_btnMoveUp_clicked(self):
         if self.isLinStageConnected:
             step = float(self.txtStep.text())
-            self.MoveUp(step)
+            self.MoveUp(step, self.posErr)
         else:
             print("Please Connect LinStage")
             
@@ -324,7 +326,7 @@ class Vis(QMainWindow, Ui_MainWindow):
     def on_btnMoveDown_clicked(self):
         if self.isLinStageConnected:
             step = float(self.txtStep.text())
-            self.MoveDown(step)
+            self.MoveDown(step, self.posErr)
         else:
             print("Please Connect LinStage")
     
@@ -342,6 +344,10 @@ class Vis(QMainWindow, Ui_MainWindow):
         self.txtSN.setEnabled(False)
         self.btnMoveMin.setEnabled(True)
         self.btnMoveMax.setEnabled(True)
+        self.btnMoveUp.setEnabled(True)
+        self.btnMoveDown.setEnabled(True)
+        pos=self.con.position()
+        self.lblPosStart.setText("{:.3}".format(float(pos)))
             
     def disconnectLinStage(self):
         if self.isLinStageConnected:
@@ -352,6 +358,8 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.txtSN.setEnabled(True)
             self.btnMoveMin.setEnabled(False)
             self.btnMoveMax.setEnabled(False)
+            self.btnMoveUp.setEnabled(False)
+            self.btnMoveDown.setEnabled(False)
         
     def connectPWM(self):
         self.isPWMConnected=True
@@ -418,11 +426,17 @@ class Vis(QMainWindow, Ui_MainWindow):
             stage.goto(pos, wait=True)
             self.lblPosStart.setText("{:.3}".format(float(pos)))
             
-    def MoveUp(self, step):
-        self.con.move(step)
+    def MoveUp(self, step, posErr):
+        if step >= posErr:
+            self.con.move(step)
+        pos=self.con.position()
+        self.lblPosStart.setText("{:.3}".format(float(pos)))
     
-    def MoveDown(self, step):
-        self.con.move(-step)
+    def MoveDown(self, step, posErr):
+        if step >= posErr:
+            self.con.move(-step)
+        pos=self.con.position()
+        self.lblPosStart.setText("{:.3}".format(float(pos)))
     
     def loadsettings(self):
         try:
