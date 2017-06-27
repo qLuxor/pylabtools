@@ -123,13 +123,6 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.btnMoveUp.setEnabled(False)
             self.btnMoveDown.setEnabled(False)
             self.btnLoad.setEnabled(False)
-            
-            if self.rbtnComplete.isChecked():
-                self.voltage_arr=self.voltage_arr_complete
-            elif self.rbtnFast.isChecked():
-                self.voltage_arr=self.voltage_arr_fast
-            elif self.rbtnAimed.isChecked():
-                self.voltage_arr=self.voltage_arr_aimed
                 
             self.allowtime=float(self.txtAllowTime.text())
             
@@ -446,20 +439,6 @@ class Vis(QMainWindow, Ui_MainWindow):
                 json_data.close()
             if "outputFileName" in settings:
                 self.txtFileName.setText(settings["outputFileName"])
-            if "modeVoltage" in settings:
-                mode=settings["modeVoltage"]
-                if mode=="Complete":
-                    self.rbtnComplete.setChecked(True)
-                    self.rbtnFast.setChecked(False)
-                    self.rbtnAimed.setChecked(False)
-                elif mode=="Fast":
-                    self.rbtnComplete.setChecked(False)
-                    self.rbtnFast.setChecked(True)
-                    self.rbtnAimed.setChecked(False)
-                elif mode=="Aimed":
-                    self.rbtnComplete.setChecked(False)
-                    self.rbtnFast.setChecked(False)
-                    self.rbtnAimed.setChecked(True)
             if "allowTime" in settings:
                 self.txtAllowTime.setText("{:5.2}".format(settings["allowTime"]))
             if "repetitions" in settings:
