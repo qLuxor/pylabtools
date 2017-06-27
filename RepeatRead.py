@@ -67,6 +67,8 @@ if sensor == "spad" or sensor == "SPAD":
     ttagBuf = ttag.TTBuffer(spadBufNum) 
 
 results = np.zeros(repetitions)
+resultsA = np.zeros(repetitions)
+resultsB = np.zeros(repetitions)
 cont=0 
 print("Starting Measurements")
 for cont in range(repetitions):
@@ -75,10 +77,14 @@ for cont in range(repetitions):
         if spadChannelA == spadChannelB:
             singles = ttagBuf.singles(spadExpTime)
             results[cont]=singles[spadChannelA]
+            resultsA[cont]=singles[spadChannelA]
+            resultsB[cont]=singles[spadChannelB]
             print(cont,"\tCounts on Channel ", spadChannelA, " = ", singles[spadChannelA])
         else:
             coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
             results[cont]=coinc[spadChannelA, spadChannelB]
+            resultsA[cont]=coinc[spadChannelA, spadChannelA]
+            resultsB[cont]=coinc[spadChannelB, spadChannelB]
             print(cont,"\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
                    "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
                    "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
@@ -89,6 +95,8 @@ for cont in range(repetitions):
             p = max(pwm.read()*1000, 0.)
             singleMeasure[j] = p
         results[cont]=np.mean(singleMeasure)
+        resultsA[cont]=np.mean(singleMeasure)
+        resultsB[cont]=np.mean(singleMeasure)
         print(cont,"\tPWM measured = ", np.mean(singleMeasure), " mW")
         
-np.savez(outputfilename, results=results)
+np.savez(outputfilename, results=results, resultsA=resultsA, resultsB=resultsB)
