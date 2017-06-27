@@ -415,6 +415,7 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.txtExposure.setEnabled(True)
         
     def setPos(self, stage, pos, posErr):
+        pos = float(pos)
         if abs(stage.position()-pos)> posErr:
             stage.goto(pos, wait=True)
             self.lblPosStart.setText("{:.3}".format(float(pos)))
