@@ -142,6 +142,8 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.count = np.zeros(self.pos_arr.size)
                 self.resultdata={}
                 starttime=datetime.datetime.now()
+                self.setPos(self.con, 0.9*posMinStage, self.posErr)
+                time.sleep(self.allowtime)
                 for pos in self.pos_arr:
                     self.setPos(self.con, pos, self.posErr)
                     
