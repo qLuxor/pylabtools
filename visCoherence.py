@@ -140,10 +140,13 @@ class Vis(QMainWindow, Ui_MainWindow):
             for cont in range(self.repetitions):
                 i = 0                
                 self.count = np.zeros(self.pos_arr.size)
+                self.countA = np.zeros(self.pos_arr.size)
+                self.countB = np.zeros(self.pos_arr.size)
                 self.resultdata={}
                 starttime=datetime.datetime.now()
-                self.setPos(self.con, 0.9*posMinStage, self.posErr)
-                time.sleep(self.allowtime)
+                if posMinStage > 0.02:
+                    self.setPos(self.con, posMinStage-0.02, self.posErr)
+                    time.sleep(self.allowtime)
                 for pos in self.pos_arr:
                     self.setPos(self.con, pos, self.posErr)
                     
@@ -165,9 +168,13 @@ class Vis(QMainWindow, Ui_MainWindow):
                         if self.SPADChannel == self.SPADOtherChannel:
                             singles = self.ttagBuf.singles(self.exptime)
                             self.count[i]=singles[self.SPADChannel]
+                            self.countA[i]=self.count[i]
+                            self.countB[i]=self.count[i]
                         else:
                             coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
                             self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
+                            self.countA[i]=coincidences[self.SPADChannel, self.SPADChannel]
+                            self.countB[i]=coincidences[self.SPADOtherChannel, self.SPADOtherChannel]
                     self.axVis.plot(self.pos_arr, self.count, '.')
                     self.plotVis.draw()
                     self.lblPowerStart.setText("{:.3}".format(float(self.count[i])))
@@ -178,7 +185,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                     filename = self.txtFileName.text()
                     if self.repetitions>1:
                         filename = filename+"_"+str(cont+1)
-                    np.savez(filename, pos=self.pos_arr, count=self.count)
+                    np.savez(filename, pos=self.pos_arr, count=self.count, countA=self.countA, countB=self.countB)
                     minpower=np.min(self.count)
                     maxpower=np.max(self.count)
                     stoptime=datetime.datetime.now()
