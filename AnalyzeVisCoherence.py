@@ -50,6 +50,8 @@ def Analyzefile(filename, filenamemobile ="", fixedpower=0, mode = ""):
     position = data['pos']
     power = data['count'+mode]
     datasize= power.size
+    reducedsize=datasize//10
+    posreduced=np.zeros(reducedsize)
     hasmobile=False
     if filenamemobile !="":
         hasmobile=True
@@ -57,6 +59,8 @@ def Analyzefile(filename, filenamemobile ="", fixedpower=0, mode = ""):
             filenamemobile +=".npz"
         data = np.load(filenamemobile)
         mobilepower = data['count'+mode]
+        while mobilepower.size>reducedsize:
+            mobilepower=mobilepower[:-1]
          
     if hasmobile:
         print("Analyzing ", filename, " with mobile power ", filenamemobile, " and fixed power ", fixedpower)
@@ -71,8 +75,7 @@ def Analyzefile(filename, filenamemobile ="", fixedpower=0, mode = ""):
             power[i]-=minimum
      
     
-    reducedsize=datasize//10
-    posreduced=np.zeros(reducedsize)
+    
     vis=np.zeros(reducedsize)
     for i in range(0, reducedsize):
         posreduced[i]=position[i*10]
