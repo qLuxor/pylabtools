@@ -13,8 +13,13 @@ import matplotlib.pyplot as plt
 import datetime
 import matplotlib
 
-if len(sys.argv) >1:
-        path = str(sys.argv[1])
+hastemperature=False
+if len(sys.argv) ==2:
+    path = str(sys.argv[1])
+elif len(sys.argv) ==3:
+    path = str(sys.argv[1])
+    temperaturesFile=str(sys.argv[2])
+    hastemperatures=True
 else:
     print("Please insert folder")
 
@@ -76,6 +81,12 @@ for file in allFiles:
     if data["Half2Found"]:
         half2volt=data["Half2Volt"]    
     cont +=1
+
+if hastemperatures:
+    temperatures=np.load(temperaturesFile)
+    templist=temperatures["temp"]
+    temptimelist=temperatures["time"]
+    plottabletemptimes = matplotlib.dates.date2num(temptimelist)
     
 fig, ax = plt.subplots()
 
@@ -86,11 +97,18 @@ if hastime:
     ax.plot_date(plottabletimes, rawmaxvoltarray, 'gx', label="RawMax")
     ax.plot_date(plottabletimes, rawminvoltarray, 'yx', label="RawMin")
     ax.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
+    ax.set_xlabel("Time")
+    if hastemperatures:
+        ax2=ax.twinx()
+        ax2.plot_date(plottabletemptimes, templist, "k-", label="Temp")
+        ax2.set_ylabel("Temperature (°C)")
 else:
-    ax.plot(np.arange(len(allFiles))*0.1, maxvoltarray, 'bx-', label="Max")
-    ax.plot(np.arange(len(allFiles))*0.1, minvoltarray, 'rx-', label="Min")
-    ax.plot(np.arange(len(allFiles))*0.1, rawmaxvoltarray, 'gx-', label="RawMax")
-    ax.plot(np.arange(len(allFiles))*0.1, rawminvoltarray, 'yx-', label="RawMin")
+    ax.plot(np.arange(len(allFiles)), maxvoltarray, 'bx-', label="Max")
+    ax.plot(np.arange(len(allFiles)), minvoltarray, 'rx-', label="Min")
+    ax.plot(np.arange(len(allFiles)), rawmaxvoltarray, 'gx-', label="RawMax")
+    ax.plot(np.arange(len(allFiles)), rawminvoltarray, 'yx-', label="RawMin")
+    ax.set_xlabel("File index")
     
+ax.set_ylabel("Voltage (V)")
 ax.grid()
 plt.show()
