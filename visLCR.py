@@ -11,7 +11,7 @@ import aptlib
 import numpy as np
 
 from PyQt4.QtCore import pyqtSlot
-from PyQt4.QtGui import QMainWindow, qApp, QApplication
+from PyQt4.QtGui import QMainWindow, qApp, QApplication, QMessageBox
 from PyQt4 import uic
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
@@ -125,11 +125,29 @@ class Vis(QMainWindow, Ui_MainWindow):
                 #create object for the SPAD
                 self.ttagBuf = ttag.TTBuffer(self.bufNum) 
             else:
-                print("Please connect a sensor")
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setText("No sensor connected")
+                msg.setInformativeText("Please connect a sensor before proceeding")
+                msg.setWindowTitle("Warning")
+                msg.setStandardButtons(QMessageBox.Ok)
+                retval = msg.exec_()
                 return
             
+            manualmode=False
             if not self.isRotatorConnected:
-                self.connectRotator()
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setText("No rotator connected")
+                msg.setInformativeText("Do you want to use a manual rotator?")
+                msg.setWindowTitle("Warning")
+                msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+                retval = msg.exec_()
+                if retval ==65536:
+                    self.connectRotator()
+                    manualmode=False
+                elif retval ==16384:
+                    manualmode=True
             
             if not self.isLCRConnected:
                 self.connectLCR()
@@ -180,7 +198,16 @@ class Vis(QMainWindow, Ui_MainWindow):
                 self.resultdata={}
                 starttime=datetime.datetime.now()
                 for pos in self.pos_arr:
-                    self.con.goto(pos, wait=True)
+                    if not manualmode:
+                        self.con.goto(pos, wait=True)
+                    else:
+                        msg = QMessageBox()
+                        msg.setIcon(QMessageBox.Warning)
+                        msg.setText("Manual rotation")
+                        msg.setInformativeText("Please move rotator to "+ str(pos) +"\nClick Ok when ready")
+                        msg.setWindowTitle("Warning")
+                        msg.setStandardButtons(QMessageBox.Ok)
+                        retval = msg.exec_()
                     
                     for voltage in self.voltage_arr[j]:
                         self.lcc.voltage1 = voltage
@@ -356,6 +383,11 @@ class Vis(QMainWindow, Ui_MainWindow):
             self.setangle(self.con, pos2Stage, self.angleErr)
         else:
             print("Please Connect Rotator")
+    
+    @pyqtSlot()        
+    def msgbtn(self,i):
+        print ("Button pressed is:",i.text())
+	
     
     def connectRotator(self):
         # open APT controller
