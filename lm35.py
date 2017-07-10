@@ -11,7 +11,7 @@ import datetime
 import time
 import numpy as np
 
-port='/dev/ttyACM0'
+port='/dev/ttyACM1'
 baud=9600
 
 #initialize serial
@@ -26,6 +26,10 @@ serialobj.open()
 time.sleep(2)
 serialobj.flush()
 
+Filename = 'Temperatures'
+Filename += str(datetime.datetime.now())[0:19]
+Filename += '.npz'
+
 list_T = []
 list_time = []
 while(True):
@@ -33,6 +37,6 @@ while(True):
     tempC=serialobj.readline()
     tempC=float(tempC[0:5])
     list_T.append(tempC)
-    np.savez('Temperatures.npz', temp=list_T, time=list_time)
+    np.savez(Filename, temp=list_T, time=list_time)
     print(tempC)
-    time.sleep(1)
+    time.sleep(30)
