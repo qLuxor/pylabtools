@@ -304,6 +304,9 @@ if mode == "file":
 elif mode == "folder":
     path = str(sys.argv[sys.argv.index("folder")+1])
     allFiles = glob.glob(path + "/*.npz")  # List of files' name
+    for file in allFiles:
+        if file.find("Temperatures") != -1:
+            allFiles.remove(file)
     plot = False
     for file in allFiles:
         Analyzefile(file)

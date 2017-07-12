@@ -84,8 +84,15 @@ for file in allFiles:
 
 if hastemperatures:
     temperatures=np.load(temperaturesFile)
-    templist=temperatures["temp"]
-    temptimelist=temperatures["time"]
+    rawtemplist=temperatures["temp"]
+    rawtemptimelist=temperatures["time"]
+    meantemp=np.mean(rawtemplist)
+    stdtemp=np.std(rawtemplist)
+    templist=np.copy(rawtemplist)
+    temptimelist=np.copy(rawtemptimelist)
+    for i in range(0, len(rawtemplist)):
+        if np.abs(rawtemplist[i]-meantemp)>2*stdtemp:
+            templist[i]=meantemp
     plottabletemptimes = matplotlib.dates.date2num(temptimelist)
     
 fig, ax = plt.subplots()
