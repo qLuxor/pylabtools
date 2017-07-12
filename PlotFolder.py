@@ -86,13 +86,22 @@ if hastemperatures:
     temperatures=np.load(temperaturesFile)
     rawtemplist=temperatures["temp"]
     rawtemptimelist=temperatures["time"]
-    meantemp=np.mean(rawtemplist)
-    stdtemp=np.std(rawtemplist)
+    
     templist=np.copy(rawtemplist)
     temptimelist=np.copy(rawtemptimelist)
+    
+    meantemp=np.mean(rawtemplist)
+    stdtemp=np.std(rawtemplist)
     for i in range(0, len(rawtemplist)):
-        if np.abs(rawtemplist[i]-meantemp)>2*stdtemp:
+        if np.abs(rawtemplist[i]-meantemp)>5*stdtemp:
             templist[i]=meantemp
+    for i in range(5, len(templist)):
+        lastmean = np.mean(templist[i-5:i])
+        thstd = np.std(templist[0:5])
+        if np.abs(templist[i]-lastmean)>5*thstd:
+            corrfactor=templist[i-1]/templist[i]
+            for j in range(i, len(templist)):
+                templist[j]=templist[j]*corrfactor
     plottabletemptimes = matplotlib.dates.date2num(temptimelist)
     
 fig, ax = plt.subplots()
@@ -107,7 +116,7 @@ if hastime:
     ax.set_xlabel("Time")
     if hastemperatures:
         ax2=ax.twinx()
-        ax2.plot_date(plottabletemptimes, templist, "k-", label="Temp")
+        ax2.plot_date(plottabletemptimes, templist, "k.", label="Temp")
         ax2.set_ylabel("Temperature (°C)")
 else:
     ax.plot(np.arange(len(allFiles)), maxvoltarray, 'bx-', label="Max")
