@@ -40,27 +40,46 @@ def stline(x, m, q):
 def interceptstline(y,m,q):
     return (y-q)/m
 
-def Analyzefile(filename, filenamemobile ="", fixedpower=0, mode = ""):
-    mode.lower()
-    if (mode !="a" and mode!="b"):
-        mode = ""
+def align_yaxis(ax1, v1, ax2, v2, y2min, y2max):
+    """adjust ax2 ylimit so that v2 in ax2 is aligned to v1 in ax1."""
+
+    """where y2max is the maximum value in your secondary plot. I haven't
+     had a problem with minimum values being cut, so haven't set this. This
+     approach doesn't necessarily make for axis limits at nice near units,
+     but does optimist plot space"""
+
+    _, y1 = ax1.transData.transform((0, v1))
+    _, y2 = ax2.transData.transform((0, v2))
+    inv = ax2.transData.inverted()
+    _, dy = inv.transform((0, 0)) - inv.transform((0, y1-y2))
+    miny, maxy = ax2.get_ylim()
+    scale = 1
+    while scale*(maxy+dy) < y2max:
+        scale += 0.05
+    ax2.set_ylim(scale*(miny+dy), scale*(maxy+dy))
+
+def Analyzefile(filename, hasmobile=False, filenamemobile ="", fixedpower=0, dataset = "", coefficient=1):
+    dataset.lower()
+    if (dataset !="a" and dataset!="b"):
+        dataset = ""
     if filename[-4:]!=".npz":
         filename +=".npz"
     data = np.load(filename)
     position = data['pos']
-    power = data['count'+mode]
+    power = data['count'+dataset]
+    power *=coefficient
     datasize= power.size
     reducedsize=datasize//10
     posreduced=np.zeros(reducedsize)
-    hasmobile=False
     if filenamemobile !="":
-        hasmobile=True
         if filenamemobile[-4:]!=".npz":
             filenamemobile +=".npz"
         data = np.load(filenamemobile)
-        mobilepower = data['count'+mode]
+        mobilepower = data['count'+dataset]
+        mobilepower *=coefficient
         while mobilepower.size>reducedsize:
             mobilepower=mobilepower[:-1]
+        fixedpower*=coefficient
          
     if hasmobile:
         print("Analyzing ", filename, " with mobile power ", filenamemobile, " and fixed power ", fixedpower)
@@ -77,8 +96,9 @@ def Analyzefile(filename, filenamemobile ="", fixedpower=0, mode = ""):
     
     
     vis=np.zeros(reducedsize)
+    deltastep=position[10]-position[0]
     for i in range(0, reducedsize):
-        posreduced[i]=position[i*10]
+        posreduced[i]=position[i*10]+deltastep
         vis[i]=visibility(power[i*10:(i+1)*10])
         
     if hasmobile:
@@ -88,46 +108,60 @@ def Analyzefile(filename, filenamemobile ="", fixedpower=0, mode = ""):
     
     posmaxvis=posreduced[np.argmax(vis)]
     print("Max raw visibility = ",np.max(vis), " at ", posreduced[np.argmax(vis)] )
-    print("Max corr visibility = ",np.max(viscorrected), " at ", posreduced[np.argmax(viscorrected)] )
-    posdiff=np.zeros(reducedsize)
+    if hasmobile:
+        print("Max corr visibility = ",np.max(viscorrected), " at ", posreduced[np.argmax(viscorrected)] )
+    posdiff=np.zeros(datasize)
+    for i in range(0, datasize):
+        posdiff[i]=2*(position[i]-posmaxvis)
+    posdiffreduced=np.zeros(reducedsize)
     for i in range(0, reducedsize):
-        posdiff[i]=2*(posreduced[i]-posmaxvis)
+        posdiffreduced[i]=2*(posreduced[i]-posmaxvis)
         
     if plot:
         fig=plt.figure(1)
         fig2=plt.figure(2)
+        fig3=plt.figure(3)
         if hasmobile:
             ax=fig.add_subplot(121)
-            ax.plot(posdiff, vis, "r.")
+            ax.plot(posdiffreduced, vis, "r.")
             ax.set_xlabel("OPL (mm)")
             ax.set_ylabel("Visibility")
             ax.set_title("Raw Visibility")
             ax2=fig.add_subplot(122)
-            ax2.plot(posdiff, viscorrected, "b.")
+            ax2.plot(posdiffreduced, viscorrected, "b.")
             ax2.set_xlabel("OPL (mm)")
             ax2.set_ylabel("Visibility")
             ax2.set_title("Corrected Visibility")
             ax3=fig2.add_subplot(121)
             ax3.plot(position, power, "r.")
             ax3.set_xlabel("LinStage position (mm)")
-            ax3.set_ylabel("Power")
+            ax3.set_ylabel("Counts per second")
             ax3.set_title("Interference")
             ax4=fig2.add_subplot(122)
             ax4.plot(posreduced, mobilepower, "b.")
             ax4.set_xlabel("LinStage position (mm)")
-            ax4.set_ylabel("Power")
+            ax4.set_ylabel("Counts per second")
             ax4.set_title("Mobile arm")
         else:
             ax=fig.add_subplot(111)
-            ax.plot(posdiff, vis, "r.")
+            ax.plot(posdiffreduced, vis, "r.")
             ax.set_xlabel("OPL (mm)")
             ax.set_ylabel("Visibility")
             ax.set_title("Raw Visibility")
             ax3=fig2.add_subplot(111)
             ax3.plot(position, power, "r.")
             ax3.set_xlabel("LinStage position (mm)")
-            ax3.set_ylabel("Power")
+            ax3.set_ylabel("Counts per second")
             ax3.set_title("Interference")
+        ax5=fig3.add_subplot(111)
+        ax5.plot(posdiff, power, "b.")
+        ax5.set_xlabel("OPL (mm)")
+        ax5.set_ylabel("Counts per second")
+        ax6=ax5.twinx()
+        ax6.plot(posdiffreduced, viscorrected, "r-")
+        ax6.axhline(np.exp(-1), color="0.80")
+        ax6.set_ylabel(r'Coefficient $\gamma$')
+        align_yaxis(ax5, np.mean(power), ax6, 0,-1,1)
         plt.show()
 
 if "subtract" in sys.argv:
@@ -145,38 +179,31 @@ if "folder" in sys.argv:
     mode = "folder"
 else:
     mode="file"
-    
-if "skim" in sys.argv:
-    skim = True
+
+if "multiply" in sys.argv:
+    coefficient=float(sys.argv[sys.argv.index("multiply")+1])
 else:
-    skim=False 
+    coefficient=1
     
-if "windowsize" in sys.argv:
-    windowsize = float(sys.argv[sys.argv.index("windowsize")+1])
+if "mobile" in sys.argv and "fixed" in sys.argv:
+    hasmobile = True
+    filenamemobile=str(sys.argv[sys.argv.index("mobile")+1])
+    fixedpower=float(sys.argv[sys.argv.index("fixed")+1])
 else:
-    windowsize=0.5 
+    hasmobile=False 
+    filenamemobile =""
+    fixedpower=0
+    
+if "dataset" in sys.argv:
+    dataset=str(sys.argv[sys.argv.index("mobile")+1])
+else:
+    dataset =""
 
 if mode == "file":
-    hasmobile=False
     #inizialization of data
-    if len(sys.argv) ==2:
+    if len(sys.argv) >1:
         filename = str(sys.argv[1])
-        Analyzefile(filename)
-    elif len(sys.argv) ==3:
-        filename = str(sys.argv[1])
-        mode = str(sys.argv[2])
-        Analyzefile(filename, mode =mode)
-    elif len(sys.argv) ==4:
-        filename = str(sys.argv[1])
-        filenamemobile = str(sys.argv[2])
-        fixedpower = sys.argv[3]
-        Analyzefile(filename, filenamemobile, float(fixedpower))
-    elif len(sys.argv) ==5:
-        filename = str(sys.argv[1])
-        filenamemobile = str(sys.argv[2])
-        fixedpower = sys.argv[3]
-        mode = str(sys.argv[4])
-        Analyzefile(filename, filenamemobile, float(fixedpower), mode=mode)
+        Analyzefile(filename, hasmobile=hasmobile, filenamemobile=filenamemobile, fixedpower=float(fixedpower), dataset=dataset, coefficient=coefficient)
     else:
         print("wrong input")
         filename=""
