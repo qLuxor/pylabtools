@@ -9,7 +9,7 @@ Created on Tue Jul 11 20:49:26 2017
 import sys
 sys.path.append('..')
 import time
-import aptlib
+from ThorCon import ThorCon
 import numpy as np
 import instruments as ik
 import qutip
@@ -100,38 +100,38 @@ lcc2 = ik.thorlabs.LCC25.open_serial(port2, 115200,timeout=1)
 lcc2.mode = lcc2.Mode.voltage1
 lcc2.enable = True
 
+#rotQWP1 configuration and initialization
+print("Initializing rotQWP1")
+rotQWP1SN= settings["rotQWP1SN"]
+rotQWP1 = ThorCon(serial_number=rotQWP1SN)
+if home:
+    rotQWP1.home() 
+
 #rotHWP1 configuration and initialization
 print("Initializing rotHWP1")
 rotHWP1SN = settings["rotHWP1SN"]
-rotHWP1 = aptlib.PRM1(serial_number=rotHWP1SN)
+rotHWP1 = ThorCon(serial_number=rotHWP1SN)
 if home:
     rotHWP1.home()
+    
+#rotQWP2 configuration and initialization
+print("Initializing rotQWP2")
+rotQWP2SN= settings["rotQWP2SN"]
+rotQWP2 = ThorCon(serial_number=rotQWP2SN)
+if home:
+    rotQWP2.home()
 
 #rotHWP2 configuration and initialization
 print("Initializing rotHWP2")
 rotHWP2SN = settings["rotHWP2SN"]
-rotHWP2 = aptlib.PRM1(serial_number=rotHWP2SN)
+rotHWP2 = ThorCon(serial_number=rotHWP2SN)
 if home:
     rotHWP2.home()
-
-#rotQWP1 configuration and initialization
-print("Initializing rotQWP1")
-rotQWP1SN= settings["rotQWP1SN"]
-rotQWP1 = aptlib.PRM1(serial_number=rotQWP1SN)
-if home:
-    rotQWP1.home() #beware of bug in rotator
-
-#rotQWP2 configuration and initialization
-print("Initializing rotQWP2")
-rotQWP2SN= settings["rotQWP2SN"]
-rotQWP2 = aptlib.PRM1(serial_number=rotQWP2SN)
-if home:
-    rotQWP2.home()
 
 #rotHWPFin configuration and initialization
 print("Initializing rotHWPFin")
 rotHWPFinSN = settings["rotHWPFinSN"]
-rotHWPFin = aptlib.PRM1(serial_number=rotHWPFinSN)
+rotHWPFin = ThorCon(serial_number=rotHWPFinSN)
 if home:
     rotHWPFin.home()
     
@@ -195,7 +195,7 @@ strengthB=settings["strengthB"]
 def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangle, lcc1voltage, lcc2voltage):
     setangle(rotQWP1, rotQWP1angle, angleErr)
     setangle(rotHWP1, rotHWP1angle, angleErr)
-    setangle(rotQWP1, rotQWP2angle, angleErr)
+    setangle(rotQWP2, rotQWP2angle, angleErr)
     setangle(rotHWP2, rotHWP2angle, angleErr)
     setangle(rotHWPFin, rotHWPFinangle, angleErr)
     setvoltage(lcc1, lcc1voltage, voltageErr)
@@ -221,9 +221,9 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
 resultdata={}
 instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strengthB/2)  +" then press Enter"
 input(instruction)
-instruction = "Please rotate LCR1 to " + rotLCR1Angle0 + " and LCR2 to " + rotLCR2Angle315 + ", then press Enter"
+instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
 input(instruction)
-instruction = "Please rotate the initial HWP to "+rotHWPInizAngle0 + ", then press Enter"
+instruction = "Please rotate the initial HWP to "+str(rotHWPInizAngle0) + ", then press Enter"
 input(instruction)
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
@@ -509,7 +509,7 @@ print("Counts for LDHV = ", LDHV)
 print("Counts for LDHV = ", LDHV, file = outputFile)
 resultdata.update({"LDHV": LDHV})
 
-instruction = "Please rotate the initial HWP to "+rotHWPInizAngle45 + ", then press Enter"
+instruction = "Please rotate the initial HWP to "+str(rotHWPInizAngle45) + ", then press Enter"
 input(instruction)
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
@@ -881,7 +881,7 @@ print("Counts for DVA = ", DVA)
 print("Counts for DVA = ", DVA, file = outputFile)
 resultdata.update({"DVA": DVA})
 
-instruction = "Please rotate the initial HWP to "+rotHWPInizAngle0 + ", then press Enter"
+instruction = "Please rotate the initial HWP to "+str(rotHWPInizAngle0) + ", then press Enter"
 input(instruction)
 
 print("Measuring DHA")
@@ -958,7 +958,7 @@ print("Counts for QSTD = ", QSTD)
 print("Counts for QSTD = ", QSTD, file = outputFile)
 resultdata.update({"QSTD": QSTD})
 
-instruction = "Please rotate LCR2 to " + rotLCR2Angle0 + ", then press Enter"
+instruction = "Please rotate LCR2 to " + str(rotLCR2Angle0) + ", then press Enter"
 input(instruction)
 
 print("Measuring QSTR")
