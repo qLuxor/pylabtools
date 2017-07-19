@@ -373,3 +373,10 @@ print("\nimrhoVH = {0}".format(imrhoVHTwoAnc), file = outputFile)
 print("\nresult = ", resultTwoAnc, file = outputFile)
 
 print("\n\n\n", file = outputFile)
+
+stoptime=datetime.datetime.now()
+resultdata.update({ "StartTime":str(starttime), "StopTime":str(stoptime)})                    
+
+jsonfilename=outputfilename[:-4]+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
