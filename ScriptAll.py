@@ -9,6 +9,7 @@ Created on Sun May 28 22:48:25 2017
 import sys
 sys.path.append('..')
 import time
+import datetime
 from ThorCon import ThorCon
 import numpy as np
 import instruments as ik
@@ -29,6 +30,8 @@ def setangle(rotator, angle, angleErr):
 def setvoltage(lcc, voltage, voltageErr):
     if abs(float(lcc.voltage1) - voltage) > voltageErr:
         lcc.voltage1=voltage
+        
+starttime=datetime.datetime.now()
 
 if len(sys.argv) >1:
     filename = str(sys.argv[1])
@@ -1067,11 +1070,7 @@ resultTekkCorrection=qutip.Qobj([[rerhoHHTekkCorrection+imrhoHHTekkCorrection*1j
 
 #save qobjs
 qutip.qsave([resultQST, resultDirac, resultTwoAnc, resultTekkComplete, resultTekk, resultTekkCorrection], outputfilename[:-4])
-
-jsonfilename=outputfilename[:-4]+".json"
-with open(jsonfilename, 'w') as outfile:
-    json.dump(resultdata, outfile)
-    
+ 
 #output of final results
 print("Final result")
 print("resultQST = ", resultQST)
@@ -1088,3 +1087,10 @@ print("resultTwoAnc = ", resultTwoAnc, file = outputFile)
 print("resultTekkComplete = ", resultTekkComplete, file = outputFile)
 print("resultTekk = ", resultTekk, file = outputFile)
 print("resultTekkCorrection = ", resultTekkCorrection, file = outputFile)
+
+stoptime=datetime.datetime.now()
+resultdata.update({ "StartTime":str(starttime), "StopTime":str(stoptime)})
+
+jsonfilename=outputfilename[:-4]+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
