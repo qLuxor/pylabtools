@@ -14,7 +14,7 @@ import numpy as np
 from plotly.graph_objs import Scatter, Data, Stream, Layout, Figure
 import plotly.plotly as py
 
-port='/dev/ttyACM1'
+port='/dev/ttyACM0'
 baud=9600
 stream_id = '8fki3onim7'
 
@@ -82,6 +82,6 @@ while(True):
     s.write(dict(x=list_time[-1], y=list_T[-1]))
     
     # wait    
-    time.sleep(5)
+    time.sleep(30)
 
 s.close()
