@@ -13,13 +13,13 @@ import time
 from thorpy.port import Port
 from serial.tools.list_ports import comports
 
-def discoverPort(SN):
+def discoverPort(serial_number):
     serial_ports = [(x[0], x[1], dict(y.split('=', 1) for y in x[2].split(' ') if '=' in y)) for x in comports()]
-    port_candidates = [x[0] for x in serial_ports if x[2].get('SER', None) == SN]
+    port_candidates = [x[0] for x in serial_ports if x[2].get('SER', None) == serial_number]
     if len(port_candidates==1):
         return port_candidates[0]
     else:
-        raise ValueError("No device with serial number "+SN)
+        raise ValueError("No device with serial number "+serial_number)
 
 class ThorConType(Enum):
     APT=1
@@ -27,29 +27,31 @@ class ThorConType(Enum):
 
 class ThorCon:
     #this class wraps thorpy and aptlib
-    def __init__(self, SN):
-        SN=str(SN)
-        if SN[:2]=="27":
+    def __init__(self, serial_number):
+        serial_number=str(serial_number)
+        if serial_number[:2]=="27":
             self.type=ThorConType.KIN
-            port= discoverPort(SN)
-            p=Port.Create(port, SN)
+            port= discoverPort(serial_number)
+            p=Port.Create(port, serial_number)
             found_stages=p.get_stages().values()
             stages=list(found_stages)
             self.con=stages[0]
         else:
             self.type=ThorConType.APT
-            self.con=aptlib.PRM1(serial_number=SN)
+            self.con=aptlib.PRM1(serial_number=int(serial_number))
             
     def goto(self, pos, channel=0, wait=True):
+        pos=float(pos)
         if self.type==ThorConType.APT:
             self.con.goto(pos, channel, wait)
         elif self.type==ThorConType.KIN:
             self.con.position=pos
             if wait:
-                while not self.con.status_settled:
+                while abs(self.con.position-pos)>0.01:
                     time.sleep(0.1)
             
     def move(self, dist, channel=0, wait=True):
+        dist=float(dist)
         if self.type==ThorConType.APT:
             self.con.move(dist, channel, wait)
         elif self.type==ThorConType.KIN:
@@ -57,7 +59,7 @@ class ThorCon:
             newpos=curpos+dist
             self.con.position=newpos
             if wait:
-                while not self.con.status_settled:
+                while abs(self.con.position-newpos)>0.01:
                     time.sleep(0.1)
                     
     def home(self, channel=0, force = False):
@@ -71,6 +73,13 @@ class ThorCon:
             return self.con.position()
         elif self.type==ThorConType.KIN:
             return self.con.position
+        
+    def close(self):
+        if self.type==ThorConType.APT:
+            return self.con.close()
+        elif self.type==ThorConType.KIN:
+            del self.con
+            return
         
             
     
