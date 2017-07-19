@@ -3,7 +3,7 @@ import sys
 from PyQt4 import QtCore, QtGui, uic
 
 sys.path.append('..')
-import aptlib
+from ThorCon import ThorCon
 
 qtCreatorFile = 'AllRotator.ui'
 
@@ -73,7 +73,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect.setStyleSheet('background-color: red')
             self.btnConnect.setText('Disconnect')
             self.SN = int(self.txtSN.text())
-            self.con = aptlib.PRM1(serial_number=self.SN)
+            self.con = ThorCon(serial_number=self.SN)
             
             self.btnUp.setEnabled(True)
             self.btnDown.setEnabled(True)
@@ -105,7 +105,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect_2.setStyleSheet('background-color: red')
             self.btnConnect_2.setText('Disconnect')
             self.SN_2 = int(self.txtSN_2.text())
-            self.con_2 = aptlib.PRM1(serial_number=self.SN_2)
+            self.con_2 = ThorCon(serial_number=self.SN_2)
             
             self.btnUp_2.setEnabled(True)
             self.btnDown_2.setEnabled(True)
@@ -137,7 +137,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect_3.setStyleSheet('background-color: red')
             self.btnConnect_3.setText('Disconnect')
             self.SN_3 = int(self.txtSN_3.text())
-            self.con_3 = aptlib.PRM1(serial_number=self.SN_3)
+            self.con_3 = ThorCon(serial_number=self.SN_3)
             
             self.btnUp_3.setEnabled(True)
             self.btnDown_3.setEnabled(True)
@@ -169,7 +169,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect_4.setStyleSheet('background-color: red')
             self.btnConnect_4.setText('Disconnect')
             self.SN_4 = int(self.txtSN_4.text())
-            self.con_4 = aptlib.PRM1(serial_number=self.SN_4)
+            self.con_4 = ThorCon(serial_number=self.SN_4)
             
             self.btnUp_4.setEnabled(True)
             self.btnDown_4.setEnabled(True)
@@ -201,7 +201,7 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnConnect_5.setStyleSheet('background-color: red')
             self.btnConnect_5.setText('Disconnect')
             self.SN_5 = int(self.txtSN_5.text())
-            self.con_5 = aptlib.PRM1(serial_number=self.SN_5)
+            self.con_5 = ThorCon(serial_number=self.SN_5)
             
             self.btnUp_5.setEnabled(True)
             self.btnDown_5.setEnabled(True)

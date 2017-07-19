@@ -9,7 +9,7 @@ Created on Tue May  9 10:15:16 2017
 import sys
 sys.path.append('..')
 import time
-import aptlib
+from ThorCon import ThorCon
 import numpy as np
 import instruments as ik
 import qutip
@@ -103,28 +103,28 @@ lcc2.enable = True
 #ROT1 configuration and initialization
 print("Initializing ROT1")
 rot1SN = settings["rot1SN"]
-rot1 = aptlib.PRM1(serial_number=rot1SN)
+rot1 = ThorCon(serial_number=rot1SN)
 if home:
     rot1.home()
 
 #ROT2 configuration and initialization
 print("Initializing ROT2")
 rot2SN = settings["rot2SN"]
-rot2 = aptlib.PRM1(serial_number=rot2SN)
+rot2 = ThorCon(serial_number=rot2SN)
 if home:
     rot2.home()
 
 #ROTHWP configuration and initialization
 print("Initializing ROTHWP")
 rotHWPSN= settings["rotHWPSN"]
-rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
+rotHWP = ThorCon(serial_number=rotHWPSN)
 if home:
     rotHWP.home() #beware of bug in rotator
 
 #ROTQWP configuration and initialization
 print("Initializing ROTQWP")
 rotQWPSN= settings["rotQWPSN"]
-rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
+rotQWP = ThorCon(serial_number=rotQWPSN)
 if home:
     rotQWP.home()
 

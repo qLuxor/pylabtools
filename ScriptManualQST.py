@@ -9,7 +9,7 @@ Created on Wed May 10 22:22:38 2017
 import sys
 sys.path.append('..')
 import time
-import aptlib
+from ThorCon import ThorCon
 import numpy as np
 import qutip
 import json
@@ -81,14 +81,14 @@ if sensor == "spad" or sensor == "SPAD":
 #ROTHWP configuration and initialization
 print("Initializing ROTHWP")
 rotHWPSN= settings["rotHWPSN"]
-rotHWP = aptlib.PRM1(serial_number=rotHWPSN)
+rotHWP = ThorCon(serial_number=rotHWPSN)
 if home:
     rotHWP.home() #beware of bug in rotator
 
 #ROTQWP configuration and initialization
 print("Initializing ROTQWP")
 rotQWPSN= settings["rotQWPSN"]
-rotQWP = aptlib.PRM1(serial_number=rotQWPSN)
+rotQWP = ThorCon(serial_number=rotQWPSN)
 if home:
     rotQWP.home()
     

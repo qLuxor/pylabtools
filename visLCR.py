@@ -6,7 +6,7 @@ sys.path.append('..')
 import time
 
 from pyThorPM100.pm100 import pm100d
-import aptlib
+from ThorCon import ThorCon
 
 import numpy as np
 
@@ -391,7 +391,7 @@ class Vis(QMainWindow, Ui_MainWindow):
         # open APT controller
         SN = int(self.txtSN.text())
         self.btnConnect.setText('Connecting')
-        self.con = aptlib.PRM1(serial_number=SN)
+        self.con = ThorCon(serial_number=SN)
         home = self.cbHome.isChecked()
         if home:
             self.con.home()
