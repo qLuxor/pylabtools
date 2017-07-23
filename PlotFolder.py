@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import datetime
 import matplotlib
 
-hastemperature=False
+hastemperatures=False
 if len(sys.argv) ==2:
     path = str(sys.argv[1])
 elif len(sys.argv) ==3:
@@ -36,6 +36,8 @@ minvoltarray=np.zeros(len(allFiles))
 maxpowerarray=np.zeros(len(allFiles))
 minpowerarray=np.zeros(len(allFiles))
 visarray=np.zeros(len(allFiles))
+deltaphimaxarray=np.zeros(len(allFiles))
+deltaphiminarray=np.zeros(len(allFiles))
 timelist=[]
 
 cont=0
@@ -66,13 +68,19 @@ for file in allFiles:
     if data["MaxFound"]:
         maxvolt = data["MaxVolt"]
         maxpower= data["MaxPower"]
-        maxvoltarray[cont]=maxvolt
-        maxpowerarray[cont]=maxpower
+    else:
+        maxvolt=rawmaxvolt
+        maxpower=rawmaxpower
+    maxvoltarray[cont]=maxvolt
+    maxpowerarray[cont]=maxpower
     if data["MinFound"]:
         minvolt=data["MinVolt"]
         minpower=data["MinPower"]
-        minvoltarray[cont]=minvolt
-        minpowerarray[cont]=minpower
+    else:
+        minvolt=rawminvolt
+        minpower=rawminpower
+    minvoltarray[cont]=minvolt
+    minpowerarray[cont]=minpower
     if data["MaxFound"] and data["MinFound"]:
         visibility=data["Visibility"]
         visarray[cont]=visibility
@@ -80,6 +88,20 @@ for file in allFiles:
         half1volt=data["Half1Volt"]
     if data["Half2Found"]:
         half2volt=data["Half2Volt"]    
+        
+    curpowerinmax=data["curpowerinmax"]
+    curpowerinmin=data["curpowerinmin"]    
+    
+    #assuming vis=1
+    deltaphimax=np.arccos(2*(curpowerinmax-minpower)/(maxpower-minpower)-1)
+    if maxvoltarray[cont]>maxvoltarray[0]:
+        deltaphimax *=-1
+    deltaphimin=np.arccos(2*(curpowerinmin-minpower)/(maxpower-minpower)-1)-np.pi
+    if minvoltarray[cont]>minvoltarray[0]:
+        deltaphimin *=-1
+        
+    deltaphimaxarray[cont]=deltaphimax
+    deltaphiminarray[cont]=deltaphimin
     cont +=1
 
 if hastemperatures:
@@ -105,6 +127,7 @@ if hastemperatures:
     plottabletemptimes = matplotlib.dates.date2num(temptimelist)
     
 fig, ax = plt.subplots()
+fig2, ax2 = plt.subplots()
 
 if hastime:
     plottabletimes = matplotlib.dates.date2num(timelist)
@@ -114,17 +137,29 @@ if hastime:
     ax.plot_date(plottabletimes, rawminvoltarray, 'yx', label="RawMin")
     ax.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
     ax.set_xlabel("Time")
+    ax2.plot_date(plottabletimes, deltaphimaxarray, 'bx', label="DeltaMax")
+    ax2.plot_date(plottabletimes, deltaphiminarray, 'rx', label="DeltaMin")
+    ax2.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
+    ax2.set_xlabel("Time")
     if hastemperatures:
-        ax2=ax.twinx()
-        ax2.plot_date(plottabletemptimes, templist, "k.", label="Temp")
-        ax2.set_ylabel("Temperature (°C)")
+        axtemp=ax.twinx()
+        axtemp.plot_date(plottabletemptimes, templist, "k.", label="Temp")
+        axtemp.set_ylabel("Temperature (°C)")
+        axtemp2=ax2.twinx()
+        axtemp2.plot_date(plottabletemptimes, templist, "k.", label="Temp")
+        axtemp2.set_ylabel("Temperature (°C)")
 else:
     ax.plot(np.arange(len(allFiles)), maxvoltarray, 'bx-', label="Max")
     ax.plot(np.arange(len(allFiles)), minvoltarray, 'rx-', label="Min")
     ax.plot(np.arange(len(allFiles)), rawmaxvoltarray, 'gx-', label="RawMax")
     ax.plot(np.arange(len(allFiles)), rawminvoltarray, 'yx-', label="RawMin")
     ax.set_xlabel("File index")
+    ax2.plot(np.arange(len(allFiles)), deltaphimaxarray, 'bx-', label="DeltaMax")
+    ax2.plot(np.arange(len(allFiles)), deltaphiminarray, 'rx-', label="DeltaMin")
+    ax2.set_xlabel("File index")
     
 ax.set_ylabel("Voltage (V)")
 ax.grid()
+ax2.set_ylabel("Phase (rad)")
+ax2.grid()
 plt.show()

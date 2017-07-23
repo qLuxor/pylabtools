@@ -42,7 +42,7 @@ def stline(x, m, q):
 def interceptstline(y,m,q):
     return (y-q)/m
 
-def Analyzefile(filename):
+def Analyzefile(filename, maxvolt=0, minvolt=0, compare=True):
     if filename[-4:]!=".npz":
         filename +=".npz"
     data = np.load(filename)
@@ -138,6 +138,15 @@ def Analyzefile(filename):
         voltage2fit=np.delete(voltage2fit, removedindexes)
         power2fit=np.delete(power2fit, removedindexes)
     
+    if compare:
+        curpowerinmax=power2[find_crossing(voltage2, maxvolt)]
+        curpowerinmin=power1[find_crossing(voltage1, minvolt)]
+    else:
+        curpowerinmax=maximum
+        curpowerinmin=minimum
+    returnmaxvolt=voltmaximum
+    returnminvolt=voltminimum
+    
     #actual fit
     isZeroFoundWithFit = False
     isPiFoundWithFit= False
@@ -145,18 +154,30 @@ def Analyzefile(filename):
         if voltage1fit.size>=3:
             exppar=[1,voltminimum, minimum]
             popt1, pcov1 = curve_fit(parabola, voltage1fit, power1fit, p0=exppar)
+            if compare:
+                curpowerinmin=parabola(minvolt, popt1[0], popt1[1], popt1[2])
+            else:
+                curpowerinmin = popt1[2]
             fitminimum = popt1[2]
-            isPiFoundWithFit=True
+            returnminvolt=popt1[1]
+            isPiFoundWithFit=True            
     except Exception as e:
         logging.error(traceback.format_exc())
     try:
         if voltage2fit.size >=2:
             exppar=[-1,voltmaximum, maximum]
             popt2, pcov2 = curve_fit(parabola, voltage2fit, power2fit, p0=exppar)
+            if compare:
+                curpowerinmax=parabola(maxvolt,  popt2[0], popt2[1], popt2[2])
+            else:
+                curpowerinmax = popt2[2]
             fitmaximum = popt2[2]
+            returnmaxvolt=popt2[1]
             isZeroFoundWithFit=True
     except Exception as e:
             logging.error(traceback.format_exc())
+            
+    resultdata.update({"curpowerinmin":curpowerinmin, "curpowerinmax":curpowerinmax})
     
     #search for the other two useful points
     halfpoint= (maximum+minimum)/2
@@ -265,6 +286,8 @@ def Analyzefile(filename):
             ax.plot(voltage2fitr, stline(voltage2fitr, *popt2r), 'blue')
         ax.hlines(halfpoint,0,25,'orange')
         plt.show()
+        
+    return (returnmaxvolt, returnminvolt)
 
 if "subtract" in sys.argv:
     subtract = True
@@ -308,7 +331,9 @@ elif mode == "folder":
         if file.find("Temperatures") != -1:
             allFiles.remove(file)
     plot = False
-    for file in allFiles:
-        Analyzefile(file)
+    (maxvolt, minvolt) =Analyzefile(allFiles[0], compare=False)
+    for i in range(1, len(allFiles)):
+        file=allFiles[i]
+        Analyzefile(file, maxvolt, minvolt, True)
     
 
