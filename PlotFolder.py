@@ -145,9 +145,13 @@ if hastime:
         axtemp=ax.twinx()
         axtemp.plot_date(plottabletemptimes, templist, "k.", label="Temp")
         axtemp.set_ylabel("Temperature (°C)")
+        axtemp.legend(loc="lower right")
         axtemp2=ax2.twinx()
         axtemp2.plot_date(plottabletemptimes, templist, "k.", label="Temp")
         axtemp2.set_ylabel("Temperature (°C)")
+        axtemp2.legend(loc="lower right")
+    ax.legend(loc="lower left")
+    ax2.legend(loc="lower left")
 else:
     ax.plot(np.arange(len(allFiles)), maxvoltarray, 'bx-', label="Max")
     ax.plot(np.arange(len(allFiles)), minvoltarray, 'rx-', label="Min")
@@ -157,6 +161,8 @@ else:
     ax2.plot(np.arange(len(allFiles)), deltaphimaxarray, 'bx-', label="DeltaMax")
     ax2.plot(np.arange(len(allFiles)), deltaphiminarray, 'rx-', label="DeltaMin")
     ax2.set_xlabel("File index")
+    ax.legend(loc="lower left")
+    ax2.legend(loc="lower left")
     
 ax.set_ylabel("Voltage (V)")
 ax.grid()

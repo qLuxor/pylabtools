@@ -154,14 +154,16 @@ def Analyzefile(filename, hasmobile=False, filenamemobile ="", fixedpower=0, dat
             ax3.set_ylabel("Counts per second")
             ax3.set_title("Interference")
         ax5=fig3.add_subplot(111)
-        ax5.plot(posdiff, power, "b.")
+        ax5.plot(posdiff, power, "b.", label="Power")
         ax5.set_xlabel("OPL (mm)")
         ax5.set_ylabel("Counts per second")
         ax6=ax5.twinx()
-        ax6.plot(posdiffreduced, viscorrected, "r-")
+        ax6.plot(posdiffreduced, viscorrected, "r-", label="Visibility")
         ax6.axhline(np.exp(-1), color="0.80")
         ax6.set_ylabel(r'Coefficient $\gamma$')
         align_yaxis(ax5, np.mean(power), ax6, 0,-1,1)
+        ax5.legend(loc="lower left")
+        ax6.legend(loc="lower right")
         plt.show()
 
 if "subtract" in sys.argv:
