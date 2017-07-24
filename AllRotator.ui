@@ -14,252 +14,58 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label_3">
+   <item row="0" column="7">
+    <widget class="QPushButton" name="btnLoad">
      <property name="font">
       <font>
        <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>ALICE</string>
+      <string>Load</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label_2">
+   <item row="0" column="0" colspan="3">
+    <widget class="QLabel" name="label_12">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Load settings</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="6">
+    <widget class="QPushButton" name="btnConnect_All">
      <property name="font">
       <font>
        <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>SN</string>
+      <string>Connect All</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="3">
-    <widget class="QLineEdit" name="txtSN">
+   <item row="0" column="3" colspan="4">
+    <widget class="QLineEdit" name="txtLoadFileName">
      <property name="font">
       <font>
-       <pointsize>17</pointsize>
+       <pointsize>11</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>83865112</string>
+      <string>settings.json</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="8" rowspan="2">
-    <widget class="QLineEdit" name="txtPos">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>48</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="9" rowspan="2">
-    <widget class="QSplitter" name="splitter">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="QPushButton" name="btnUp">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>UP</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDown">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>DOWN</string>
-      </property>
-     </widget>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="label_4">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>BOB1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLabel" name="label_5">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>SN</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3" colspan="2">
-    <widget class="QLineEdit" name="txtSN_2">
-     <property name="font">
-      <font>
-       <pointsize>17</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>83825870</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="5" colspan="2">
-    <widget class="QPushButton" name="btnConnect_2">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Connect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="7">
-    <widget class="QPushButton" name="btnHome_2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>HOME</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="8" rowspan="2">
-    <widget class="QLineEdit" name="txtPos_2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>48</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="9" rowspan="2">
-    <widget class="QSplitter" name="splitter_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="QPushButton" name="btnUp_2">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>UP</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDown_2">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>DOWN</string>
-      </property>
-     </widget>
-    </widget>
-   </item>
-   <item row="3" column="7">
+   <item row="4" column="7">
     <widget class="QPushButton" name="btnMove_2">
      <property name="enabled">
       <bool>false</bool>
@@ -270,23 +76,11 @@
       </font>
      </property>
      <property name="text">
-      <string>MOVE</string>
+      <string>Move</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QLabel" name="label_6">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>BOB1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2">
+   <item row="5" column="2">
     <widget class="QLabel" name="label_7">
      <property name="font">
       <font>
@@ -298,7 +92,19 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="3" colspan="2">
+   <item row="5" column="0" colspan="2">
+    <widget class="QLabel" name="txtLabel_3">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>BOB1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3" colspan="2">
     <widget class="QLineEdit" name="txtSN_3">
      <property name="font">
       <font>
@@ -313,19 +119,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="5" colspan="2">
-    <widget class="QPushButton" name="btnConnect_3">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Connect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="7">
+   <item row="5" column="7">
     <widget class="QPushButton" name="btnHome_3">
      <property name="enabled">
       <bool>false</bool>
@@ -336,11 +130,11 @@
       </font>
      </property>
      <property name="text">
-      <string>HOME</string>
+      <string>Home</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="8" rowspan="2">
+   <item row="5" column="8" rowspan="2">
     <widget class="QLineEdit" name="txtPos_3">
      <property name="enabled">
       <bool>false</bool>
@@ -364,53 +158,46 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="9" rowspan="2">
-    <widget class="QSplitter" name="splitter_3">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="5" column="5" colspan="2">
+    <widget class="QPushButton" name="btnConnect_3">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="7">
+    <widget class="QPushButton" name="btnMove_3">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
      <property name="font">
       <font>
        <pointsize>20</pointsize>
       </font>
      </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+     <property name="text">
+      <string>Move</string>
      </property>
-     <widget class="QPushButton" name="btnUp_3">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>UP</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnDown_3">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>DOWN</string>
-      </property>
-     </widget>
     </widget>
    </item>
-   <item row="5" column="3" colspan="4">
+   <item row="7" column="2">
+    <widget class="QLabel" name="label_9">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>SN</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3" colspan="4">
     <widget class="QLineEdit" name="txtMove_3">
      <property name="font">
       <font>
@@ -425,23 +212,8 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="7">
-    <widget class="QPushButton" name="btnMove_3">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>MOVE</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QLabel" name="label_8">
+   <item row="7" column="0" colspan="2">
+    <widget class="QLabel" name="txtLabel_4">
      <property name="font">
       <font>
        <pointsize>20</pointsize>
@@ -452,19 +224,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
-    <widget class="QLabel" name="label_9">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>SN</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3" colspan="2">
+   <item row="7" column="3" colspan="2">
     <widget class="QLineEdit" name="txtSN_4">
      <property name="font">
       <font>
@@ -479,7 +239,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="5" colspan="2">
+   <item row="7" column="5" colspan="2">
     <widget class="QPushButton" name="btnConnect_4">
      <property name="font">
       <font>
@@ -491,22 +251,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="7">
-    <widget class="QPushButton" name="btnHome_4">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>HOME</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="7">
+   <item row="8" column="7">
     <widget class="QPushButton" name="btnMove_4">
      <property name="enabled">
       <bool>false</bool>
@@ -517,11 +262,11 @@
       </font>
      </property>
      <property name="text">
-      <string>MOVE</string>
+      <string>Move</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="8" rowspan="2">
+   <item row="7" column="8" rowspan="2">
     <widget class="QLineEdit" name="txtPos_4">
      <property name="enabled">
       <bool>false</bool>
@@ -545,7 +290,355 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="9" rowspan="2">
+   <item row="7" column="7">
+    <widget class="QPushButton" name="btnHome_4">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="QLabel" name="txtLabel_5">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>GLASS</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="3" colspan="4">
+    <widget class="QLineEdit" name="txtMove_4">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>-1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2">
+    <widget class="QLabel" name="label_11">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>SN</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="5" colspan="2">
+    <widget class="QPushButton" name="btnConnect_5">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="3" colspan="2">
+    <widget class="QLineEdit" name="txtSN_5">
+     <property name="font">
+      <font>
+       <pointsize>17</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>83825706</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="7">
+    <widget class="QPushButton" name="btnHome_5">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="8" rowspan="2">
+    <widget class="QLineEdit" name="txtPos_5">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>48</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="7">
+    <widget class="QPushButton" name="btnHome_1">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="3" colspan="4">
+    <widget class="QLineEdit" name="txtMove_5">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>20.4</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="7">
+    <widget class="QPushButton" name="btnMove_5">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Move</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="7">
+    <widget class="QPushButton" name="btnMove_1">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Move</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3" colspan="4">
+    <widget class="QLineEdit" name="txtMove_1">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>77</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3" colspan="4">
+    <widget class="QLineEdit" name="txtMove_2">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>13</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="7">
+    <widget class="QPushButton" name="btnHome_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="8" rowspan="2">
+    <widget class="QLineEdit" name="txtPos_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>48</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QLabel" name="txtLabel_1">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>ALICE</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>SN</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="8" rowspan="2">
+    <widget class="QLineEdit" name="txtPos_1">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>48</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="label_5">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>SN</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3" colspan="2">
+    <widget class="QLineEdit" name="txtSN_2">
+     <property name="font">
+      <font>
+       <pointsize>17</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>83825870</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLabel" name="txtLabel_2">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>BOB1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5" colspan="2">
+    <widget class="QPushButton" name="btnConnect_2">
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="9" rowspan="2">
     <widget class="QSplitter" name="splitter_8">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -572,7 +665,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>UP</string>
+       <string>Up</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btnDown_4">
@@ -586,117 +679,58 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>DOWN</string>
+       <string>Down</string>
       </property>
      </widget>
     </widget>
    </item>
-   <item row="7" column="3" colspan="4">
-    <widget class="QLineEdit" name="txtMove_4">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>-1</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="QLabel" name="label_10">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>GLASS</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="2">
-    <widget class="QLabel" name="label_11">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>SN</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="3" colspan="2">
-    <widget class="QLineEdit" name="txtSN_5">
-     <property name="font">
-      <font>
-       <pointsize>17</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>83825706</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="5" colspan="2">
-    <widget class="QPushButton" name="btnConnect_5">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Connect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="7">
-    <widget class="QPushButton" name="btnHome_5">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>HOME</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="8" rowspan="2">
-    <widget class="QLineEdit" name="txtPos_5">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
+   <item row="5" column="9" rowspan="2">
+    <widget class="QSplitter" name="splitter_3">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="font">
       <font>
-       <pointsize>48</pointsize>
+       <pointsize>20</pointsize>
       </font>
      </property>
-     <property name="text">
-      <string>0</string>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
+     <widget class="QPushButton" name="btnUp_3">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Up</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDown_3">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Down</string>
+      </property>
+     </widget>
     </widget>
    </item>
-   <item row="8" column="9" rowspan="2">
+   <item row="9" column="9" rowspan="2">
     <widget class="QSplitter" name="splitter_10">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -723,7 +757,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>UP</string>
+       <string>Up</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btnDown_5">
@@ -737,28 +771,105 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>DOWN</string>
+       <string>Down</string>
       </property>
      </widget>
     </widget>
    </item>
-   <item row="9" column="3" colspan="4">
-    <widget class="QLineEdit" name="txtMove_5">
+   <item row="1" column="9" rowspan="2">
+    <widget class="QSplitter" name="splitter">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="font">
       <font>
        <pointsize>20</pointsize>
       </font>
      </property>
-     <property name="text">
-      <string>20.4</string>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
+     <widget class="QPushButton" name="btnUp_1">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Up</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDown_1">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Down</string>
+      </property>
+     </widget>
     </widget>
    </item>
-   <item row="9" column="7">
-    <widget class="QPushButton" name="btnMove_5">
+   <item row="3" column="9" rowspan="2">
+    <widget class="QSplitter" name="splitter_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QPushButton" name="btnUp_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Up</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDown_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Down</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="12" column="6">
+    <widget class="QPushButton" name="btnDisconnect_All">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -768,12 +879,12 @@
       </font>
      </property>
      <property name="text">
-      <string>MOVE</string>
+      <string>Disconnect All</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="7">
-    <widget class="QPushButton" name="btnMove">
+   <item row="11" column="7">
+    <widget class="QPushButton" name="btnHome_All">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -783,12 +894,12 @@
       </font>
      </property>
      <property name="text">
-      <string>MOVE</string>
+      <string>Home All</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="7">
-    <widget class="QPushButton" name="btnHome">
+   <item row="12" column="7">
+    <widget class="QPushButton" name="btnMove_All">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -798,38 +909,11 @@
       </font>
      </property>
      <property name="text">
-      <string>HOME</string>
+      <string>Move All</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="3" colspan="4">
-    <widget class="QLineEdit" name="txtMove">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>77</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="6">
-    <widget class="QPushButton" name="btnConnect">
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Connect</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="8">
+   <item row="11" column="8" rowspan="2">
     <widget class="QLineEdit" name="txtStep">
      <property name="font">
       <font>
@@ -844,7 +928,7 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="9">
+   <item row="11" column="9" rowspan="2">
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
@@ -856,15 +940,27 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3" colspan="4">
-    <widget class="QLineEdit" name="txtMove_2">
+   <item row="1" column="5" colspan="2">
+    <widget class="QPushButton" name="btnConnect_1">
      <property name="font">
       <font>
        <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>13</string>
+      <string>Connect</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="txtSN_1">
+     <property name="font">
+      <font>
+       <pointsize>17</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>83865112</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
