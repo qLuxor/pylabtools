@@ -6,17 +6,19 @@ Created on Mon Jul 17 14:27:11 2017
 """
 
 from enum import Enum
+import sys
+sys.path.append('..')
 import thorpy
 import aptlib
 import time
 
-from thorpy.port import Port
+from thorpy.comm.port import Port
 from serial.tools.list_ports import comports
 
 def discoverPort(serial_number):
     serial_ports = [(x[0], x[1], dict(y.split('=', 1) for y in x[2].split(' ') if '=' in y)) for x in comports()]
     port_candidates = [x[0] for x in serial_ports if x[2].get('SER', None) == serial_number]
-    if len(port_candidates==1):
+    if len(port_candidates)==1:
         return port_candidates[0]
     else:
         raise ValueError("No device with serial number "+serial_number)
@@ -32,8 +34,8 @@ class ThorCon:
         if serial_number[:2]=="27":
             self.type=ThorConType.KIN
             port= discoverPort(serial_number)
-            p=Port.Create(port, serial_number)
-            found_stages=p.get_stages().values()
+            self.p=Port.create(port, serial_number)
+            found_stages=self.p.get_stages().values()
             stages=list(found_stages)
             self.con=stages[0]
         else:
@@ -78,7 +80,8 @@ class ThorCon:
         if self.type==ThorConType.APT:
             return self.con.close()
         elif self.type==ThorConType.KIN:
-            del self.con
+            #del self.con
+            del self.p
             return
         
             
