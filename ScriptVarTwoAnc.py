@@ -193,6 +193,8 @@ strQWP2Angle0=settings["strQWP2Angle0"]
 
 strengthA=settings["strengthA"]
 strengthB=settings["strengthB"]
+strCoeffA=settings["strCoeffA"]
+strCoeffB=settings["strCoeffB"]
 
 #functions that implements settings
 def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangle, lcc1voltage, lcc2voltage):
@@ -223,7 +225,7 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
 
 resultdata={}
 
-instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strengthB/2)  +" then press Enter"
+instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strCoeffB*strengthB/2)  +" then press Enter"
 input(instruction)
 instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
 input(instruction)

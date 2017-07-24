@@ -193,6 +193,8 @@ strQWP2Angle0=settings["strQWP2Angle0"]
 
 strengthA=settings["strengthA"]
 strengthB=settings["strengthB"]
+strCoeffA=settings["strCoeffA"]
+strCoeffB=settings["strCoeffB"]
 
 #functions that implements settings
 def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangle, lcc1voltage, lcc2voltage):
@@ -222,7 +224,7 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
     return result
 
 resultdata={}
-instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strengthB/2)  +" then press Enter"
+instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strCoeffB*strengthB/2)  +" then press Enter"
 input(instruction)
 instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
 input(instruction)
@@ -816,7 +818,7 @@ print("Counts for AAVVT = ", AAVVT)
 print("Counts for AAVVT = ", AAVVT, file = outputFile)
 resultdata.update({"AAVVT": AAVVT})
 
-instruction = "Please set the second strength plate to " + strHWP2Angle0 +", then press Enter"
+instruction = "Please set the second strength plate to " + str(strHWP2Angle0) +", then press Enter"
 input(instruction)
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
@@ -951,7 +953,7 @@ print("Counts for VHA = ", VHA)
 print("Counts for VHA = ", VHA, file = outputFile)
 resultdata.update({"VHA": VHA})
 
-instruction = "Please set the first strength plate to " + strHWP1Angle0 +", then press Enter"
+instruction = "Please set the first strength plate to " + str(strHWP1Angle0) +", then press Enter"
 input(instruction)
 input("Please unblock all paths, then press Enter")
 
