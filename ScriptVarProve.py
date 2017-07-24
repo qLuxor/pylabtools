@@ -272,8 +272,8 @@ print("Counts for c6 = ", c6, "\tNormalized as = ", c6/c0)
 print("Counts for c6 = ", c6, "\tNormalized as = ", c6/c0, file = outputFile)
 resultdata.update({"c6": c6})
 
-input(instruction)
 instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strCoeffB*strengthB/2)  +" then press Enter"
+input(instruction)
 
 print("Measuring c7")
 c7 = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle315, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
@@ -353,8 +353,8 @@ print("Counts for c19 = ", c19, "\tNormalized as = ", c19/c0)
 print("Counts for c19 = ", c19, "\tNormalized as = ", c19/c0, file = outputFile)
 resultdata.update({"c19": c19})
 
-input(instruction)
 instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
+input(instruction)
 
 print("Measuring c20")
 c20 = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle315, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
@@ -398,8 +398,8 @@ print("Counts for c26 = ", c26, "\tNormalized as = ", c26/c0)
 print("Counts for c26 = ", c26, "\tNormalized as = ", c26/c0, file = outputFile)
 resultdata.update({"c26": c26}) 
 
-input(instruction)
 instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strCoeffB*strengthB/2)  +" then press Enter"
+input(instruction)
 input("Please block Non2 path, unblock all others, then press Enter")
 
 print("Measuring c27")
@@ -491,5 +491,5 @@ listconfig.append(c33)
 listconfig.append(c34)
 
 for i in range(0, len(listconfig)):
-    print(i,"\t", listconfig[i])
+    print(i,"\t", listconfig[i]/listconfig[0])
 
