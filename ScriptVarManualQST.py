@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul 25 22:08:29 2017
+Created on Mon Jul 24 21:49:44 2017
 
 @author: Giulio Foletto
 """
@@ -51,11 +51,11 @@ else:
 if outputfilename[-4:]==".txt":
     outputfilename =outputfilename[:-4]
 
-outputfilename+="VarQST"
+outputfilename+="VarManualQST"
 outputfilename+=".txt"
 
 outputFile=open(outputfilename, "w")
-print("Results for VarQST protocol", file = outputFile)
+print("Results for VarManualQST protocol", file = outputFile)
 
 #useful values
 allowTime=settings["allowTime"]
@@ -143,20 +143,18 @@ print("Finished initialization\n\n")
 lcc1Voltage180=settings["lcc1Voltage180"]
 
 #calibration values for LCC2
-lcc2Voltage0=settings["lcc2Voltage0"]
+lcc2Voltage90=settings["lcc2Voltage90"]
 
 #calibration values for rotLCC
 rotLCR1Angle0=settings["rotLCR1Angle0"]
+rotLCR2Angle0=settings["rotLCR2Angle0"]
 rotLCR2Angle315=settings["rotLCR2Angle315"]
 
 #calibration values for rotQWP1
 rotQWP1Angle0=settings["rotQWP1Angle0"]
-rotQWP1Angle45=settings["rotQWP1Angle45"]
 
 #calibration values for rotHWP1
-rotHWP1Angle0=settings["rotHWP1Angle0"]
 rotHWP1Angle45=settings["rotHWP1Angle45"]
-rotHWP1Angle225=settings["rotHWP1Angle225"]
 
 #calibration values for rotQWP2
 rotQWP2Angle45=settings["rotQWP2Angle45"]
@@ -168,7 +166,6 @@ rotHWP2Angle0=settings["rotHWP2Angle0"]
 rotHWPFinAngle0=settings["rotHWPFinAngle0"]
 rotHWPFinAngle45=settings["rotHWPFinAngle45"]
 rotHWPFinAngle225=settings["rotHWPFinAngle225"]
-rotHWPFinAngle675=settings["rotHWPFinAngle675"]
 
 #calibration values for rotHWPFin
 rotHWPInizAngle0=settings["rotHWPInizAngle0"]
@@ -179,10 +176,7 @@ strHWP2Angle0=settings["strHWP2Angle0"]
 strQWP1Angle0=settings["strQWP1Angle0"]
 strQWP2Angle0=settings["strQWP2Angle0"]
 
-strengthA=90.0
-strCoeffA=settings["strCoeffA"]
-
-#function that implements settings
+#functions that implements settings
 def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangle, lcc1voltage, lcc2voltage):
     setangle(rotQWP1, rotQWP1angle, angleErr)
     setangle(rotHWP1, rotHWP1angle, angleErr)
@@ -210,43 +204,39 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
     return result
 
 resultdata={}
-print("Setting the interferometers")
-setvoltage(lcc1, lcc1Voltage180, voltageErr)
-setvoltage(lcc2, lcc2Voltage0, voltageErr)
-setangle(rotQWP2, rotQWP2Angle45, angleErr)
-setangle(rotHWP2, rotHWP2Angle0, angleErr)
-setangle(rotHWPFin, rotHWPFinAngle675, angleErr)
-print("Finished setting the interferometers")
 
-instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
+instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
 input(instruction)
-instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
+instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle0) + ", then press Enter"
 input(instruction)
 instruction = "Please rotate the initial HWP to "+str(rotHWPInizAngle0) + ", then press Enter"
 input(instruction)
-input("Please block Non2 path, unblock all others, then press Enter")
+input("Please unblock all paths, then press Enter")
 
 print("Measuring QSTH")
-QSTH = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+QSTH = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle0, lcc1Voltage180, lcc2Voltage90)
 print("Counts for QSTH = ", QSTH    )
 print("Counts for QSTH = ", QSTH, file = outputFile)
 resultdata.update({"QSTH": QSTH})
 
-print("Measuring QSTR")
-QSTR = measure(rotQWP1Angle0, rotHWP1Angle225, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
-print("Counts for QSTR = ", QSTR    )
-print("Counts for QSTR = ", QSTR, file = outputFile)
-resultdata.update({"QSTR": QSTR})
-
 print("Measuring QSTV")
-QSTV = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+QSTV = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle45, lcc1Voltage180, lcc2Voltage90)
 print("Counts for QSTV = ", QSTV    )
 print("Counts for QSTV = ", QSTV, file = outputFile)
 resultdata.update({"QSTV": QSTV})
 
+print("Measuring QSTR")
+QSTR = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage90)
+print("Counts for QSTR = ", QSTR)
+print("Counts for QSTR = ", QSTR, file = outputFile)
+resultdata.update({"QSTR": QSTR})
+
+instruction = "Please rotate LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
+input(instruction)
+
 print("Measuring QSTD")
-QSTD = measure(rotQWP1Angle45, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
-print("Counts for QSTD = ", QSTD    )
+QSTD = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage90)
+print("Counts for QSTD = ", QSTD)
 print("Counts for QSTD = ", QSTD, file = outputFile)
 resultdata.update({"QSTD": QSTD})
 
@@ -254,22 +244,19 @@ normconstant= QSTH+QSTV
 
 rhoHHQST=QSTH/normconstant
 rhoVVQST=QSTV/normconstant
-rerhoHVQST=strCoeffA*(QSTD/normconstant-0.5)
-imrhoHVQST=strCoeffA*(QSTR/normconstant-0.5)
+rerhoHVQST=QSTD/normconstant-0.5
+imrhoHVQST=QSTR/normconstant-0.5
 rerhoVHQST=rerhoHVQST
 imrhoVHQST=-imrhoHVQST
 
-rawresult=qutip.Qobj([[rhoHHQST , rerhoHVQST+imrhoHVQST*1j],[rerhoVHQST+imrhoVHQST*1j, rhoVVQST]])
-correction = qutip.Qobj([[1,0],[0,-1]])
-result=correction.dag()*rawresult*correction
+resultQST=qutip.Qobj([[rhoHHQST , rerhoHVQST+imrhoHVQST*1j],[rerhoVHQST+imrhoVHQST*1j, rhoVVQST]])
 
 #save qobjs
-qutip.qsave([result, rawresult], outputfilename[:-4])
+qutip.qsave([resultQST], outputfilename[:-4])
 
 #output of final results
-print("Final results")
-print("Raw result = ", rawresult)
-print("Corrected result = ", result)
+print("Final result")
+print("Result = ", resultQST)
 
 stoptime=datetime.datetime.now()
 resultdata.update({ "StartTime":str(starttime), "StopTime":str(stoptime)})                    
