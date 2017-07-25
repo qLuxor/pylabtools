@@ -72,6 +72,10 @@ class Apt(QtGui.QWidget, Ui_Widget):
         self.connected_3 = False
         self.connected_4 = False
         self.connected_5 = False
+
+        if len(sys.argv) >1:
+            self.txtLoadFileName.setText(str(sys.argv[1]))
+            self.LoadSettings()
         
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.UpdatePos)
@@ -80,8 +84,8 @@ class Apt(QtGui.QWidget, Ui_Widget):
     def Connect_1(self):
         if not self.connected_1:
             self.connected_1 = True
-            self.SN_1 = int(self.txtSN.text())
-            self.con_1 = ThorCon(serial_number=self.SN)            
+            self.SN_1 = int(self.txtSN_1.text())
+            self.con_1 = ThorCon(serial_number=self.SN_1)            
             if self.timerStarted == False:
                 self.timer.start(100)
         else:
@@ -276,25 +280,25 @@ class Apt(QtGui.QWidget, Ui_Widget):
             if "Label_5" in settings:
                 self.txtLabel_5.setText(settings["Label_5"])
             if "SN_1" in settings:
-                self.txtSN_1.setText(settings["SN_1"]) 
+                self.txtSN_1.setText("{0}".format(settings["SN_1"]))
             if "SN_2" in settings:
-                self.txtSN_2.setText(settings["SN_2"]) 
+                self.txtSN_2.setText("{0}".format(settings["SN_2"]))
             if "SN_3" in settings:
-                self.txtSN_3.setText(settings["SN_3"]) 
+                self.txtSN_3.setText("{0}".format(settings["SN_3"])) 
             if "SN_4" in settings:
-                self.txtSN_4.setText(settings["SN_4"]) 
+                self.txtSN_4.setText("{0}".format(settings["SN_4"]))
             if "SN_5" in settings:
-                self.txtSN_5.setText(settings["SN_5"]) 
-            if "pos_1" in settings:
-                self.txtMove_1.setText(settings["pos_1"]) 
-            if "pos_2" in settings:
-                self.txtMove_2.setText(settings["pos_2"]) 
-            if "pos_3" in settings:
-                self.txtMove_3.setText(settings["pos_3"]) 
-            if "pos_4" in settings:
-                self.txtMove_4.setText(settings["pos_4"]) 
-            if "pos_5" in settings:
-                self.txtMove_5.setText(settings["pos_5"])            
+                self.txtSN_5.setText("{0}".format(settings["SN_5"]))
+            if "Pos_1" in settings:
+                self.txtMove_1.setText("{0}".format(settings["Pos_1"]))
+            if "Pos_2" in settings:
+                self.txtMove_2.setText("{0}".format(settings["Pos_2"]))
+            if "Pos_3" in settings:
+                self.txtMove_3.setText("{0}".format(settings["Pos_3"]))
+            if "Pos_4" in settings:
+                self.txtMove_4.setText("{0}".format(settings["Pos_4"]))
+            if "Pos_5" in settings:
+                self.txtMove_5.setText("{0}".format(settings["Pos_5"]))           
         except Exception as e:
             logging.error(traceback.format_exc())
             
@@ -396,9 +400,9 @@ class Apt(QtGui.QWidget, Ui_Widget):
             self.btnHome_All.setEnabled(False)
             
         if self.connected_1 and self.connected_2 and self.connected_3 and self.connected_4 and self.connected_5:
-            self.btnConnect_All.setEnabled(True)
-        else:
             self.btnConnect_All.setEnabled(False)
+        else:
+            self.btnConnect_All.setEnabled(True)
             
     
             
