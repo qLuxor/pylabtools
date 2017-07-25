@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1114</width>
-    <height>614</height>
+    <width>1271</width>
+    <height>748</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="7">
-    <widget class="QPushButton" name="btnLoad">
+    <widget class="QPushButton" name="btnLoadSettings">
      <property name="font">
       <font>
        <pointsize>20</pointsize>
