@@ -959,6 +959,7 @@ resultdata.update({"VHA": VHA})
 
 instruction = "Please set first strenght plate to maximum strength: "+str(strHWP1Angle0+strCoeffA*90/2) +" then press Enter"
 input(instruction)
+input("Please block Non2 path, unblock all others, then press Enter")
 
 print("Measuring QSTH")
 QSTH = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
@@ -1067,7 +1068,7 @@ print("resultTekk = ", resultTekk)
 print("resultTekkCorrection = ", resultTekkCorrection)
 
 print("Final result", file = outputFile)
-print("rawResultQST = ", rawResultQST)
+print("rawResultQST = ", rawResultQST, file = outputFile)
 print("resultQST = ", resultQST, file = outputFile)
 print("resultDirac = ", resultDirac, file = outputFile)
 print("resultTwoAnc = ", resultTwoAnc, file = outputFile)
