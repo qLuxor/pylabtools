@@ -996,6 +996,8 @@ imrhoVHQST=-imrhoHVQST
 rawResultQST=qutip.Qobj([[rhoHHQST , rerhoHVQST+imrhoHVQST*1j],[rerhoVHQST+imrhoVHQST*1j, rhoVVQST]])
 correction = qutip.Qobj([[1,0],[0,-1]])
 resultQST=correction.dag()*rawResultQST*correction
+                        
+normconstant *=2
 
 rho11HD=VHD/normconstant
 rho10HD=0.5*(DHD-AHD+1.0j*(LHD-RHD))/normconstant
