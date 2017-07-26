@@ -94,7 +94,7 @@ print("Initializing LCC1")
 port1=settings["port1"]
 lcc1 = ik.thorlabs.LCC25.open_serial(port1, 115200,timeout=1)
 lcc1.mode = lcc1.Mode.voltage1
-lcc1.enable = True
+lcc1.enable = False #due to malfunctioning, change if necessary
 
 #LLC2 configuration and initialization
 print("Initializing LCC2")
@@ -957,7 +957,7 @@ print("Counts for VHA = ", VHA)
 print("Counts for VHA = ", VHA, file = outputFile)
 resultdata.update({"VHA": VHA})
 
-instruction = "Please set first strenght plate to maximum strength: "+str(strHWP1Angle0+strCoeffA*90/2) +" then press Enter"
+instruction = "Please set first strength plate to maximum strength: "+str(strHWP1Angle0+strCoeffA*90/2) +" then press Enter"
 input(instruction)
 input("Please block Non2 path, unblock all others, then press Enter")
 
@@ -989,6 +989,7 @@ normconstant= QSTH+QSTV
 
 rhoHHQST=QSTH/normconstant
 rhoVVQST=QSTV/normconstant
+#strCoeffA can change the sign of results
 rerhoHVQST=strCoeffA*(QSTD/normconstant-0.5)
 imrhoHVQST=strCoeffA*(QSTR/normconstant-0.5)
 rerhoVHQST=rerhoHVQST
@@ -1011,34 +1012,37 @@ rho10VA=0.5*(DVA-AVA+1.0j*(LVA-RVA))/normconstant
 
 d=2
 rhoHHDirac=(d*np.tan(np.radians(strengthA/2))*rho11HA+ rho10HA+rho10HD )/np.sin(np.radians(strengthA))
-rhoHVDirac=(rho10HD-rho10HA )/np.sin(np.radians(strengthA))
-#metto un segno meno perchè così uso le stesse misure con la lamina cambiata
-rhoVHDirac=-(rho10VD-rho10VA )/np.sin(np.radians(strengthA))
+#strCoeffA can change the sign of results
+rhoHVDirac=strCoeffA*(rho10HD-rho10HA )/np.sin(np.radians(strengthA))
+#Additional minus sign due to trick
+rhoVHDirac=-strCoeffA*(rho10VD-rho10VA )/np.sin(np.radians(strengthA))
 rhoVVDirac=(d*np.tan(np.radians(strengthA/2))*rho11VA+ rho10VA+rho10VD )/np.sin(np.radians(strengthA))
 resultDirac=qutip.Qobj([[rhoHHDirac , rhoHVDirac],[rhoVHDirac, rhoVVDirac]])
 
 rhoHHTwoAnc=4*VVHH/normconstant/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians(strengthB))**2)
 rhoVVTwoAnc=4*VVVV/normconstant/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians(strengthB))**2)
-rerhoHVTwoAnc=(RLHV+LRHV-RRHV-LLHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoHVTwoAnc=(DLHV-DRHV+ARHV-ALHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-rerhoVHTwoAnc=(RLVH+LRVH-RRVH-LLVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoVHTwoAnc=(DLVH-DRVH+ARVH-ALVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+#strCoeffA can change the sign of results
+rerhoHVTwoAnc=strCoeffA*(RLHV+LRHV-RRHV-LLHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoHVTwoAnc=strCoeffA*(DLHV-DRHV+ARHV-ALHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+rerhoVHTwoAnc=strCoeffA*(RLVH+LRVH-RRVH-LLVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoVHTwoAnc=strCoeffA*(DLVH-DRVH+ARVH-ALVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 resultTwoAnc=qutip.Qobj([[rhoHHTwoAnc , rerhoHVTwoAnc+imrhoHVTwoAnc*1j],[rerhoVHTwoAnc+imrhoVHTwoAnc*1j, rhoVVTwoAnc]])
 
 rerhoHHTekkComplete=0.5*((DDHH-DAHH-ADHH+AAHH)-(LLHH-LRHH-RLHH+RRHH)+2*np.tan(np.radians(strengthB/2))*(DVHH-AVHH)+2*np.tan(np.radians(strengthA/2))*(VDHH-VAHH)+4*np.tan(np.radians(strengthA/2))*np.tan(np.radians(strengthB/2))*VVHH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 imrhoHHTekkComplete=0.5*((LDHH-LAHH-RDHH+RAHH)+(DLHH-DRHH-ALHH+ARHH)+2*np.tan(np.radians(strengthB/2))*(LVHH-RVHH))/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-rerhoHVTekkComplete=0.5*((DDHV-DAHV-ADHV+AAHV)-(LLHV-LRHV-RLHV+RRHV)+2*np.tan(np.radians(strengthB/2))*(DVHV-AVHV)+2*np.tan(np.radians(strengthA/2))*(VDHV-VAHV)+4*np.tan(np.radians(strengthA/2))*np.tan(np.radians(strengthB/2))*VVHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoHVTekkComplete=0.5*((LDHV-LAHV-RDHV+RAHV)+(DLHV-DRHV-ALHV+ARHV)+2*np.tan(np.radians(strengthB/2))*(LVHV-RVHV))/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-rerhoVHTekkComplete=-0.5*((DDVHT-DAVHT-ADVHT+AAVHT)-(LLVHT-LRVHT-RLVHT+RRVHT)+2*np.tan(np.radians(strengthB/2))*(DVVHT-AVVHT)+2*np.tan(np.radians(strengthA/2))*(VDVHT-VAVHT)+4*np.tan(np.radians(strengthA/2))*np.tan(np.radians(strengthB/2))*VVVHT)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoVHTekkComplete=-0.5*((LDVHT-LAVHT-RDVHT+RAVHT)+(DLVHT-DRVHT-ALVHT+ARVHT)+2*np.tan(np.radians(strengthB/2))*(LVVHT-RVVHT))/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+#strCoeffA can change the sign of results, additional minus sign are due to tricks
+rerhoHVTekkComplete=strCoeffA*0.5*((DDHV-DAHV-ADHV+AAHV)-(LLHV-LRHV-RLHV+RRHV)+2*np.tan(np.radians(strengthB/2))*(DVHV-AVHV)+2*np.tan(np.radians(strengthA/2))*(VDHV-VAHV)+4*np.tan(np.radians(strengthA/2))*np.tan(np.radians(strengthB/2))*VVHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoHVTekkComplete=strCoeffA*0.5*((LDHV-LAHV-RDHV+RAHV)+(DLHV-DRHV-ALHV+ARHV)+2*np.tan(np.radians(strengthB/2))*(LVHV-RVHV))/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+rerhoVHTekkComplete=-strCoeffA*0.5*((DDVHT-DAVHT-ADVHT+AAVHT)-(LLVHT-LRVHT-RLVHT+RRVHT)+2*np.tan(np.radians(strengthB/2))*(DVVHT-AVVHT)+2*np.tan(np.radians(strengthA/2))*(VDVHT-VAVHT)+4*np.tan(np.radians(strengthA/2))*np.tan(np.radians(strengthB/2))*VVVHT)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoVHTekkComplete=-strCoeffA*0.5*((LDVHT-LAVHT-RDVHT+RAVHT)+(DLVHT-DRVHT-ALVHT+ARVHT)+2*np.tan(np.radians(strengthB/2))*(LVVHT-RVVHT))/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 rerhoVVTekkComplete=0.5*((DDVVT-DAVVT-ADVVT+AAVVT)-(LLVVT-LRVVT-RLVVT+RRVVT)+2*np.tan(np.radians(strengthB/2))*(DVVVT-AVVVT)+2*np.tan(np.radians(strengthA/2))*(VDVVT-VAVVT)+4*np.tan(np.radians(strengthA/2))*np.tan(np.radians(strengthB/2))*VVVVT)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 imrhoVVTekkComplete=0.5*((LDVVT-LAVVT-RDVVT+RAVVT)+(DLVVT-DRVVT-ALVVT+ARVVT)+2*np.tan(np.radians(strengthB/2))*(LVVVT-RVVVT))/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 rerhoHHTekk=0.5*((DDHH-DAHH-ADHH+AAHH)-(LLHH-LRHH-RLHH+RRHH))/normconstant
 imrhoHHTekk=0.5*((LDHH-LAHH-RDHH+RAHH)+(DLHH-DRHH-ALHH+ARHH))/normconstant
-rerhoHVTekk=0.5*((DDHV-DAHV-ADHV+AAHV)-(LLHV-LRHV-RLHV+RRHV))/normconstant
-imrhoHVTekk=0.5*((LDHV-LAHV-RDHV+RAHV)+(DLHV-DRHV-ALHV+ARHV))/normconstant
-rerhoVHTekk=-0.5*((DDVHT-DAVHT-ADVHT+AAVHT)-(LLVHT-LRVHT-RLVHT+RRVHT))/normconstant
-imrhoVHTekk=-0.5*((LDVHT-LAVHT-RDVHT+RAVHT)+(DLVHT-DRVHT-ALVHT+ARVHT))/normconstant
+rerhoHVTekk=strCoeffA*0.5*((DDHV-DAHV-ADHV+AAHV)-(LLHV-LRHV-RLHV+RRHV))/normconstant
+imrhoHVTekk=strCoeffA*0.5*((LDHV-LAHV-RDHV+RAHV)+(DLHV-DRHV-ALHV+ARHV))/normconstant
+rerhoVHTekk=-strCoeffA*0.5*((DDVHT-DAVHT-ADVHT+AAVHT)-(LLVHT-LRVHT-RLVHT+RRVHT))/normconstant
+imrhoVHTekk=-strCoeffA*0.5*((LDVHT-LAVHT-RDVHT+RAVHT)+(DLVHT-DRVHT-ALVHT+ARVHT))/normconstant
 rerhoVVTekk=0.5*((DDVVT-DAVVT-ADVVT+AAVVT)-(LLVVT-LRVVT-RLVVT+RRVVT))/normconstant
 imrhoVVTekk=0.5*((LDVVT-LAVVT-RDVVT+RAVVT)+(DLVVT-DRVVT-ALVVT+ARVVT))/normconstant
 rerhoHHTekkCorrection=rerhoHHTekkComplete-rerhoHHTekk

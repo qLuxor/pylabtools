@@ -94,7 +94,7 @@ print("Initializing LCC1")
 port1=settings["port1"]
 lcc1 = ik.thorlabs.LCC25.open_serial(port1, 115200,timeout=1)
 lcc1.mode = lcc1.Mode.voltage1
-lcc1.enable = True
+lcc1.enable = False #due to malfunctioning, change if necessary
 
 #LLC2 configuration and initialization
 print("Initializing LCC2")
@@ -352,10 +352,11 @@ normconstant=4*(VVHH+VVVV)/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians
 
 rhoHHTwoAnc=4*VVHH/normconstant/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians(strengthB))**2)
 rhoVVTwoAnc=4*VVVV/normconstant/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians(strengthB))**2)
-rerhoHVTwoAnc=(RLHV+LRHV-RRHV-LLHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoHVTwoAnc=(DLHV-DRHV+ARHV-ALHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-rerhoVHTwoAnc=(RLVH+LRVH-RRVH-LLVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoVHTwoAnc=(DLVH-DRVH+ARVH-ALVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+#strCoeffA can change the sign of results
+rerhoHVTwoAnc=strCoeffA*(RLHV+LRHV-RRHV-LLHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoHVTwoAnc=strCoeffA*(DLHV-DRHV+ARHV-ALHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+rerhoVHTwoAnc=strCoeffA*(RLVH+LRVH-RRVH-LLVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoVHTwoAnc=strCoeffA*(DLVH-DRVH+ARVH-ALVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 resultTwoAnc=qutip.Qobj([[rhoHHTwoAnc , rerhoHVTwoAnc+imrhoHVTwoAnc*1j],[rerhoVHTwoAnc+imrhoVHTwoAnc*1j, rhoVVTwoAnc]])
 
 qutip.qsave([resultTwoAnc], outputfilename[:-4])
