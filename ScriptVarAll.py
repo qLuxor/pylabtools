@@ -820,6 +820,14 @@ resultdata.update({"AAVVT": AAVVT})
 
 instruction = "Please set the second strength plate to " + str(strHWP2Angle0) +", then press Enter"
 input(instruction)
+input("Please block Non1, Int2 paths, unblock all others, then press Enter")
+
+print("Measuring VVA")
+VVA = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage0)
+print("Counts for VVA = ", VVA)
+print("Counts for VVA = ", VVA, file = outputFile)
+resultdata.update({"VVA": VVA})
+
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
 print("Measuring VVD")
@@ -827,12 +835,6 @@ VVD = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHW
 print("Counts for VVD = ", VVD)
 print("Counts for VVD = ", VVD, file = outputFile)
 resultdata.update({"VVD": VVD})
-
-print("Measuring VVA")
-VVA = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage0)
-print("Counts for VVA = ", VVA)
-print("Counts for VVA = ", VVA, file = outputFile)
-resultdata.update({"VVA": VVA})
 
 input("Please block Non2 path, unblock all others, then press Enter")
 
@@ -939,6 +941,25 @@ print("Counts for DHD = ", DHD)
 print("Counts for DHD = ", DHD, file = outputFile)
 resultdata.update({"DHD": DHD})
 
+input("Please block Non1, Non2 paths, unblock all others, then press Enter")
+
+print("Measuring VHD")
+VHD = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for VHD = ", VHD)
+print("Counts for VHD = ", VHD, file = outputFile)
+resultdata.update({"VHD": VHD})
+
+input("Please block Non1, Int2 paths, unblock all others, then press Enter")
+
+print("Measuring VHA")
+VHA = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage0)
+print("Counts for VHA = ", VHA)
+print("Counts for VHA = ", VHA, file = outputFile)
+resultdata.update({"VHA": VHA})
+
+instruction = "Please set first strenght plate to maximum strength: "+str(strHWP1Angle0+strCoeffA*90/2) +" then press Enter"
+input(instruction)
+
 print("Measuring QSTH")
 QSTH = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
 print("Counts for QSTH = ", QSTH    )
@@ -962,20 +983,6 @@ QSTD = measure(rotQWP1Angle45, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rot
 print("Counts for QSTD = ", QSTD    )
 print("Counts for QSTD = ", QSTD, file = outputFile)
 resultdata.update({"QSTD": QSTD})
-
-input("Please block Non1, Non2 paths, unblock all others, then press Enter")
-
-print("Measuring VHD")
-VHD = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
-print("Counts for VHD = ", VHD)
-print("Counts for VHD = ", VHD, file = outputFile)
-resultdata.update({"VHD": VHD})
-
-print("Measuring VHA")
-VHA = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage0)
-print("Counts for VHA = ", VHA)
-print("Counts for VHA = ", VHA, file = outputFile)
-resultdata.update({"VHA": VHA})
 
 normconstant= QSTH+QSTV
 
