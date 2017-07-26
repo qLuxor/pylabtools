@@ -939,6 +939,30 @@ print("Counts for DHD = ", DHD)
 print("Counts for DHD = ", DHD, file = outputFile)
 resultdata.update({"DHD": DHD})
 
+print("Measuring QSTH")
+QSTH = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTH = ", QSTH    )
+print("Counts for QSTH = ", QSTH, file = outputFile)
+resultdata.update({"QSTH": QSTH})
+
+print("Measuring QSTR")
+QSTR = measure(rotQWP1Angle0, rotHWP1Angle225, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTR = ", QSTR    )
+print("Counts for QSTR = ", QSTR, file = outputFile)
+resultdata.update({"QSTR": QSTR})
+
+print("Measuring QSTV")
+QSTV = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTV = ", QSTV    )
+print("Counts for QSTV = ", QSTV, file = outputFile)
+resultdata.update({"QSTV": QSTV})
+
+print("Measuring QSTD")
+QSTD = measure(rotQWP1Angle45, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTD = ", QSTD    )
+print("Counts for QSTD = ", QSTD, file = outputFile)
+resultdata.update({"QSTD": QSTD})
+
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
 print("Measuring VHD")
@@ -953,47 +977,18 @@ print("Counts for VHA = ", VHA)
 print("Counts for VHA = ", VHA, file = outputFile)
 resultdata.update({"VHA": VHA})
 
-instruction = "Please set the first strength plate to " + str(strHWP1Angle0) +", then press Enter"
-input(instruction)
-input("Please unblock all paths, then press Enter")
-
-print("Measuring QSTD")
-QSTD = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage90)
-print("Counts for QSTD = ", QSTD)
-print("Counts for QSTD = ", QSTD, file = outputFile)
-resultdata.update({"QSTD": QSTD})
-
-instruction = "Please rotate LCR2 to " + str(rotLCR2Angle0) + ", then press Enter"
-input(instruction)
-
-print("Measuring QSTR")
-QSTR = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle225, lcc1Voltage180, lcc2Voltage90)
-print("Counts for QSTR = ", QSTR)
-print("Counts for QSTR = ", QSTR, file = outputFile)
-resultdata.update({"QSTR": QSTR})
-
-print("Measuring QSTH")
-QSTH = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle0, lcc1Voltage180, lcc2Voltage90)
-print("Counts for QSTH = ", QSTH    )
-print("Counts for QSTH = ", QSTH, file = outputFile)
-resultdata.update({"QSTH": QSTH})
-
-print("Measuring QSTV")
-QSTV = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle45, lcc1Voltage180, lcc2Voltage90)
-print("Counts for QSTV = ", QSTV    )
-print("Counts for QSTV = ", QSTV, file = outputFile)
-resultdata.update({"QSTV": QSTV})
-
 normconstant= QSTH+QSTV
 
 rhoHHQST=QSTH/normconstant
 rhoVVQST=QSTV/normconstant
-rerhoHVQST=QSTD/normconstant-0.5
-imrhoHVQST=QSTR/normconstant-0.5
+rerhoHVQST=strCoeffA*(QSTD/normconstant-0.5)
+imrhoHVQST=strCoeffA*(QSTR/normconstant-0.5)
 rerhoVHQST=rerhoHVQST
 imrhoVHQST=-imrhoHVQST
 
-resultQST=qutip.Qobj([[rhoHHQST , rerhoHVQST+imrhoHVQST*1j],[rerhoVHQST+imrhoVHQST*1j, rhoVVQST]])
+rawResultQST=qutip.Qobj([[rhoHHQST , rerhoHVQST+imrhoHVQST*1j],[rerhoVHQST+imrhoVHQST*1j, rhoVVQST]])
+correction = qutip.Qobj([[1,0],[0,-1]])
+resultQST=correction.dag()*rawResultQST*correction
 
 rho11HD=VHD/normconstant
 rho10HD=0.5*(DHD-AHD+1.0j*(LHD-RHD))/normconstant
@@ -1054,6 +1049,7 @@ qutip.qsave([resultQST, resultDirac, resultTwoAnc, resultTekkComplete, resultTek
     
 #output of final results
 print("Final result")
+print("rawResultQST = ", rawResultQST)
 print("resultQST = ", resultQST)
 print("resultDirac = ", resultDirac)
 print("resultTwoAnc = ", resultTwoAnc)
@@ -1062,6 +1058,7 @@ print("resultTekk = ", resultTekk)
 print("resultTekkCorrection = ", resultTekkCorrection)
 
 print("Final result", file = outputFile)
+print("rawResultQST = ", rawResultQST)
 print("resultQST = ", resultQST, file = outputFile)
 print("resultDirac = ", resultDirac, file = outputFile)
 print("resultTwoAnc = ", resultTwoAnc, file = outputFile)

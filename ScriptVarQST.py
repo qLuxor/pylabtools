@@ -218,7 +218,7 @@ setangle(rotHWP2, rotHWP2Angle0, angleErr)
 setangle(rotHWPFin, rotHWPFinAngle675, angleErr)
 print("Finished setting the interferometers")
 
-instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
+instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
 input(instruction)
 instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
 input(instruction)
