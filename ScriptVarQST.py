@@ -180,7 +180,7 @@ strQWP1Angle0=settings["strQWP1Angle0"]
 strQWP2Angle0=settings["strQWP2Angle0"]
 
 strengthA=90.0
-strCoeffA=settings["strCoeffA"]
+strSignA=np.sign(settings["strengthA"])
 
 #function that implements settings
 def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangle, lcc1voltage, lcc2voltage):
@@ -210,6 +210,7 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
     return result
 
 resultdata={}
+resultdata.update({"strengthA": strSignA*strengthA})
 print("Setting the interferometers")
 setvoltage(lcc1, lcc1Voltage180, voltageErr)
 setvoltage(lcc2, lcc2Voltage0, voltageErr)
@@ -218,7 +219,7 @@ setangle(rotHWP2, rotHWP2Angle0, angleErr)
 setangle(rotHWPFin, rotHWPFinAngle675, angleErr)
 print("Finished setting the interferometers")
 
-instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
+instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strSignA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0)  +" then press Enter"
 input(instruction)
 instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
 input(instruction)
@@ -254,8 +255,8 @@ normconstant= QSTH+QSTV
 
 rhoHHQST=QSTH/normconstant
 rhoVVQST=QSTV/normconstant
-rerhoHVQST=strCoeffA*(QSTD/normconstant-0.5)
-imrhoHVQST=strCoeffA*(QSTR/normconstant-0.5)
+rerhoHVQST=strSignA*(QSTD/normconstant-0.5)
+imrhoHVQST=strSignA*(QSTR/normconstant-0.5)
 rerhoVHQST=rerhoHVQST
 imrhoVHQST=-imrhoHVQST
 

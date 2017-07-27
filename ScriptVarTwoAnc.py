@@ -193,8 +193,7 @@ strQWP2Angle0=settings["strQWP2Angle0"]
 
 strengthA=settings["strengthA"]
 strengthB=settings["strengthB"]
-strCoeffA=settings["strCoeffA"]
-strCoeffB=settings["strCoeffB"]
+strSignA=np.sign(strengthA)
 
 #functions that implements settings
 def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangle, lcc1voltage, lcc2voltage):
@@ -224,8 +223,9 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
     return result
 
 resultdata={}
+resultdata.update({"strengthA": strengthA, "strengthB": strengthB})
 
-instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strCoeffA*strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strCoeffB*strengthB/2)  +" then press Enter"
+instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strengthB/2)  +" then press Enter"
 input(instruction)
 instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
 input(instruction)
@@ -352,11 +352,10 @@ normconstant=4*(VVHH+VVVV)/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians
 
 rhoHHTwoAnc=4*VVHH/normconstant/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians(strengthB))**2)
 rhoVVTwoAnc=4*VVVV/normconstant/(np.sin(np.radians(strengthA))**2 * np.sin(np.radians(strengthB))**2)
-#strCoeffA can change the sign of results
-rerhoHVTwoAnc=strCoeffA*(RLHV+LRHV-RRHV-LLHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoHVTwoAnc=strCoeffA*(DLHV-DRHV+ARHV-ALHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-rerhoVHTwoAnc=strCoeffA*(RLVH+LRVH-RRVH-LLVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
-imrhoVHTwoAnc=strCoeffA*(DLVH-DRVH+ARVH-ALVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+rerhoHVTwoAnc=strSignA*(RLHV+LRHV-RRHV-LLHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoHVTwoAnc=strSignA*(DLHV-DRHV+ARHV-ALHV)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+rerhoVHTwoAnc=strSignA*(RLVH+LRVH-RRVH-LLVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
+imrhoVHTwoAnc=strSignA*(DLVH-DRVH+ARVH-ALVH)/normconstant/(np.sin(np.radians(strengthA)) * np.sin(np.radians(strengthB)))
 resultTwoAnc=qutip.Qobj([[rhoHHTwoAnc , rerhoHVTwoAnc+imrhoHVTwoAnc*1j],[rerhoVHTwoAnc+imrhoVHTwoAnc*1j, rhoVVTwoAnc]])
 
 qutip.qsave([resultTwoAnc], outputfilename[:-4])
