@@ -979,11 +979,23 @@ print("Counts for QSTV = ", QSTV    )
 print("Counts for QSTV = ", QSTV, file = outputFile)
 resultdata.update({"QSTV": QSTV})
 
+print("Measuring QSTA")
+QSTA = measure(rotQWP1Angle45, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTA = ", QSTA    )
+print("Counts for QSTA = ", QSTA, file = outputFile)
+resultdata.update({"QSTA": QSTA})
+
 print("Measuring QSTD")
 QSTD = measure(rotQWP1Angle45, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
 print("Counts for QSTD = ", QSTD    )
 print("Counts for QSTD = ", QSTD, file = outputFile)
 resultdata.update({"QSTD": QSTD})
+
+print("Measuring QSTL")
+QSTL = measure(rotQWP1Angle0, rotHWP1Angle675, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTL = ", QSTL    )
+print("Counts for QSTL = ", QSTL, file = outputFile)
+resultdata.update({"QSTL": QSTL})
 
 normconstant= QSTH+QSTV
 
