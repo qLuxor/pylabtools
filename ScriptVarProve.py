@@ -94,14 +94,14 @@ print("Initializing LCC1")
 port1=settings["port1"]
 lcc1 = ik.thorlabs.LCC25.open_serial(port1, 115200,timeout=1)
 lcc1.mode = lcc1.Mode.voltage1
-lcc1.enable = False #due to malfunctioning, change if necessary
+lcc1.enable = True
 
 #LLC2 configuration and initialization
 print("Initializing LCC2")
 port2=settings["port2"]
 lcc2 = ik.thorlabs.LCC25.open_serial(port2, 115200,timeout=1)
 lcc2.mode = lcc2.Mode.voltage1
-lcc2.enable = True
+lcc2.enable = False #due to malfunctioning, change if necessary
 
 #rotQWP1 configuration and initialization
 print("Initializing rotQWP1")

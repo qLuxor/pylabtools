@@ -94,14 +94,14 @@ print("Initializing LCC1")
 port1=settings["port1"]
 lcc1 = ik.thorlabs.LCC25.open_serial(port1, 115200,timeout=1)
 lcc1.mode = lcc1.Mode.voltage1
-lcc1.enable = False #due to malfunctioning, change if necessary
+lcc1.enable = True 
 
 #LLC2 configuration and initialization
 print("Initializing LCC2")
 port2=settings["port2"]
 lcc2 = ik.thorlabs.LCC25.open_serial(port2, 115200,timeout=1)
 lcc2.mode = lcc2.Mode.voltage1
-lcc2.enable = True
+lcc2.enable = False #due to malfunctioning, change if necessary
 
 #rotQWP1 configuration and initialization
 print("Initializing rotQWP1")
@@ -121,7 +121,7 @@ if home:
 print("Initializing rotQWP2")
 rotQWP2SN= settings["rotQWP2SN"]
 rotQWP2 = ThorCon(serial_number=rotQWP2SN)
-if home:
+if home or not home:
     rotQWP2.home()
 
 #rotHWP2 configuration and initialization
@@ -135,7 +135,7 @@ if home:
 print("Initializing rotHWPFin")
 rotHWPFinSN = settings["rotHWPFinSN"]
 rotHWPFin = ThorCon(serial_number=rotHWPFinSN)
-if home:
+if home or not home:
     rotHWPFin.home()
     
 print("Finished initialization\n\n")
@@ -961,29 +961,29 @@ instruction = "Please set first strength plate to maximum strength: "+str(strHWP
 input(instruction)
 input("Please block Non2 path, unblock all others, then press Enter")
 
+print("Measuring QSTA")
+QSTA = measure(rotQWP1Angle315, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+print("Counts for QSTA = ", QSTA    )
+print("Counts for QSTA = ", QSTA, file = outputFile)
+resultdata.update({"QSTA": QSTA})
+
 print("Measuring QSTH")
-QSTH = measure(rotQWP1Angle0, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+QSTH = measure(rotQWP1Angle90, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
 print("Counts for QSTH = ", QSTH    )
 print("Counts for QSTH = ", QSTH, file = outputFile)
 resultdata.update({"QSTH": QSTH})
 
 print("Measuring QSTR")
-QSTR = measure(rotQWP1Angle0, rotHWP1Angle225, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+QSTR = measure(rotQWP1Angle90, rotHWP1Angle225, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
 print("Counts for QSTR = ", QSTR    )
 print("Counts for QSTR = ", QSTR, file = outputFile)
 resultdata.update({"QSTR": QSTR})
 
 print("Measuring QSTV")
-QSTV = measure(rotQWP1Angle0, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+QSTV = measure(rotQWP1Angle90, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
 print("Counts for QSTV = ", QSTV    )
 print("Counts for QSTV = ", QSTV, file = outputFile)
 resultdata.update({"QSTV": QSTV})
-
-print("Measuring QSTA")
-QSTA = measure(rotQWP1Angle45, rotHWP1Angle45, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
-print("Counts for QSTA = ", QSTA    )
-print("Counts for QSTA = ", QSTA, file = outputFile)
-resultdata.update({"QSTA": QSTA})
 
 print("Measuring QSTD")
 QSTD = measure(rotQWP1Angle45, rotHWP1Angle0, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
@@ -992,11 +992,10 @@ print("Counts for QSTD = ", QSTD, file = outputFile)
 resultdata.update({"QSTD": QSTD})
 
 print("Measuring QSTL")
-QSTL = measure(rotQWP1Angle0, rotHWP1Angle675, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
+QSTL = measure(rotQWP1Angle90, rotHWP1Angle675, rotQWP2Angle45, rotHWP2Angle0, rotHWPFinAngle675, lcc1Voltage180, lcc2Voltage0)
 print("Counts for QSTL = ", QSTL    )
 print("Counts for QSTL = ", QSTL, file = outputFile)
 resultdata.update({"QSTL": QSTL})
-
 normconstant= QSTH+QSTV
 
 rhoHHQST=QSTH/normconstant
