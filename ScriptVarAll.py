@@ -22,6 +22,13 @@ import ttag
 sys.path.append('..')
 from pyThorPM100.pm100 import pm100d
 
+def alarm():
+    f=open("/dev/console/", "w")
+    for i in range(0, 10):
+        print('\a', file =f)
+        time.sleep(0.1)
+    f.close()
+
 #functions that set apparatus to specific settings
 def setangle(rotator, angle, angleErr):
     if abs(rotator.position()-angle)> angleErr:
@@ -234,6 +241,7 @@ def measure(rotQWP1angle, rotHWP1angle, rotQWP2angle,rotHWP2angle, rotHWPFinangl
 
 resultdata={}
 resultdata.update({"strengthA": strengthA, "strengthB": strengthB})
+alarm()
 instruction = "Please set strength plates to the desired values: Int1 "+str(strHWP1Angle0+strengthA/2) +"\tInt2 " +str(strHWP2Angle0+strengthB/2)  +" then press Enter"
 input(instruction)
 instruction = "Please rotate LCR1 to " + str(rotLCR1Angle0) + " and LCR2 to " + str(rotLCR2Angle315) + ", then press Enter"
@@ -254,6 +262,7 @@ print("Counts for VVHV = ", VVHV)
 print("Counts for VVHV = ", VVHV, file = outputFile)
 resultdata.update({"VVHV": VVHV})
 
+alarm()
 input("Please block Non1 path, unblock all others, then press Enter")
 
 print("Measuring VDHV")
@@ -280,6 +289,7 @@ print("Counts for VAHV = ", VAHV)
 print("Counts for VAHV = ", VAHV, file = outputFile)
 resultdata.update({"VAHV": VAHV})
 
+alarm()
 input("Please block Non2 path, unblock all others, then press Enter")
 
 print("Measuring DVHV")
@@ -330,6 +340,7 @@ print("Counts for RVHV = ", RVHV)
 print("Counts for RVHV = ", RVHV, file = outputFile)
 resultdata.update({"RVHV": RVHV})
 
+alarm()
 input("Please unblock all paths, then press Enter")
 
 print("Measuring RLHV")
@@ -524,6 +535,7 @@ print("Counts for LDHV = ", LDHV)
 print("Counts for LDHV = ", LDHV, file = outputFile)
 resultdata.update({"LDHV": LDHV})
 
+alarm()
 instruction = "Please rotate the initial HWP to "+str(rotHWPInizAngle45) + ", then press Enter"
 input(instruction)
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
@@ -542,6 +554,7 @@ print("Counts for VVVVT = ", VVVVT)
 print("Counts for VVVVT = ", VVVVT, file = outputFile)
 resultdata.update({"VVVVT": VVVVT})
 
+alarm()
 input("Please block Non1 path, unblock all others, then press Enter")
 
 print("Measuring VAVVT")
@@ -568,6 +581,7 @@ print("Counts for VDVVT = ", VDVVT)
 print("Counts for VDVVT = ", VDVVT, file = outputFile)
 resultdata.update({"VDVVT": VDVVT})
 
+alarm()
 input("Please block Non2 path, unblock all others, then press Enter")
 
 print("Measuring DVVVT")
@@ -618,6 +632,7 @@ print("Counts for AVVVT = ", AVVVT)
 print("Counts for AVVVT = ", AVVVT, file = outputFile)
 resultdata.update({"AVVVT": AVVVT})
 
+alarm()
 input("Please unblock all paths, then press Enter")
 
 print("Measuring ALVVT")
@@ -828,6 +843,7 @@ print("Counts for AAVVT = ", AAVVT)
 print("Counts for AAVVT = ", AAVVT, file = outputFile)
 resultdata.update({"AAVVT": AAVVT})
 
+alarm()
 instruction = "Please set the second strength plate to " + str(strHWP2Angle0) +", then press Enter"
 input(instruction)
 input("Please block Non1, Int2 paths, unblock all others, then press Enter")
@@ -838,6 +854,7 @@ print("Counts for VVA = ", VVA)
 print("Counts for VVA = ", VVA, file = outputFile)
 resultdata.update({"VVA": VVA})
 
+alarm()
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
 print("Measuring VVD")
@@ -846,6 +863,7 @@ print("Counts for VVD = ", VVD)
 print("Counts for VVD = ", VVD, file = outputFile)
 resultdata.update({"VVD": VVD})
 
+alarm()
 input("Please block Non2 path, unblock all others, then press Enter")
 
 print("Measuring DVD")
@@ -872,6 +890,7 @@ print("Counts for AVD = ", AVD)
 print("Counts for AVD = ", AVD, file = outputFile)
 resultdata.update({"AVD": AVD})
 
+alarm()
 input("Please block Int2 path, unblock all others, then press Enter")
 
 print("Measuring AVA")
@@ -898,6 +917,7 @@ print("Counts for DVA = ", DVA)
 print("Counts for DVA = ", DVA, file = outputFile)
 resultdata.update({"DVA": DVA})
 
+alarm()
 instruction = "Please rotate the initial HWP to "+str(rotHWPInizAngle0) + ", then press Enter"
 input(instruction)
 
@@ -925,6 +945,7 @@ print("Counts for AHA = ", AHA)
 print("Counts for AHA = ", AHA, file = outputFile)
 resultdata.update({"AHA": AHA})
 
+alarm()
 input("Please block Non2 path, unblock all others, then press Enter")
 
 print("Measuring AHD")
@@ -951,6 +972,7 @@ print("Counts for DHD = ", DHD)
 print("Counts for DHD = ", DHD, file = outputFile)
 resultdata.update({"DHD": DHD})
 
+alarm()
 input("Please block Non1, Non2 paths, unblock all others, then press Enter")
 
 print("Measuring VHD")
@@ -959,6 +981,7 @@ print("Counts for VHD = ", VHD)
 print("Counts for VHD = ", VHD, file = outputFile)
 resultdata.update({"VHD": VHD})
 
+alarm()
 input("Please block Non1, Int2 paths, unblock all others, then press Enter")
 
 print("Measuring VHA")
@@ -967,6 +990,7 @@ print("Counts for VHA = ", VHA)
 print("Counts for VHA = ", VHA, file = outputFile)
 resultdata.update({"VHA": VHA})
 
+alarm()
 instruction = "Please set first strength plate to maximum strength: "+str(strHWP1Angle0+strSignA*90/2) +" then press Enter"
 input(instruction)
 input("Please block Non2 path, unblock all others, then press Enter")
