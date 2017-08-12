@@ -22,6 +22,10 @@ elif len(sys.argv) ==3:
     hastemperatures=True
 else:
     print("Please insert folder")
+    
+def running_mean(x, N):
+    cumsum = np.cumsum(np.insert(x, 0, 0)) 
+    return (cumsum[N:] - cumsum[:-N]) / N 
 
 
 allFiles = glob.glob(path + "/*.json")  # List of files' names
@@ -124,7 +128,14 @@ if hastemperatures:
             corrfactor=templist[i-1]/templist[i]
             for j in range(i, len(templist)):
                 templist[j]=templist[j]*corrfactor
-    plottabletemptimes = matplotlib.dates.date2num(temptimelist)
+    
+    #running mean
+    window_size=1
+    if window_size>1 and window_size % 2 ==1:
+        templist=running_mean(templist, window_size)
+        plottabletemptimes = matplotlib.dates.date2num(temptimelist[window_size//2:-(window_size//2)])
+    else:
+        plottabletemptimes = matplotlib.dates.date2num(temptimelist)
     
 fig, ax = plt.subplots()
 fig2, ax2 = plt.subplots()
