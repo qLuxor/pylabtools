@@ -107,6 +107,14 @@ for file in allFiles:
     deltaphimaxarray[cont]=deltaphimax
     deltaphiminarray[cont]=deltaphimin
     cont +=1
+    
+#convert time to timedelta objects
+timelist=np.array(timelist)
+time0=timelist[0]
+timelist = timelist-time0
+
+#convert timedeltas to minutes
+timelist=np.array([x.total_seconds()/60 for x in timelist])
 
 if hastemperatures:
     temperatures=np.load(temperaturesFile)
@@ -129,36 +137,35 @@ if hastemperatures:
             for j in range(i, len(templist)):
                 templist[j]=templist[j]*corrfactor
     
+    temptime0=temptimelist[0]
+    temptimelist= temptimelist-temptime0
+    temptimelist=np.array([x.total_seconds()/60 for x in temptimelist])
+    
     #running mean
     window_size=1
     if window_size>1 and window_size % 2 ==1:
         templist=running_mean(templist, window_size)
-        plottabletemptimes = matplotlib.dates.date2num(temptimelist[window_size//2:-(window_size//2)])
-    else:
-        plottabletemptimes = matplotlib.dates.date2num(temptimelist)
+        temptimelist=temptimelist[window_size//2:-(window_size//2)]
     
 fig, ax = plt.subplots()
 fig2, ax2 = plt.subplots()
 
 if hastime:
-    plottabletimes = matplotlib.dates.date2num(timelist)
-    ax.plot_date(plottabletimes, maxvoltarray, 'bx', label="Max")
-    ax.plot_date(plottabletimes, minvoltarray, 'rx', label="Min")
-    ax.plot_date(plottabletimes, rawmaxvoltarray, 'gx', label="RawMax")
-    ax.plot_date(plottabletimes, rawminvoltarray, 'yx', label="RawMin")
-    ax.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
-    ax.set_xlabel("Time")
-    ax2.plot_date(plottabletimes, deltaphimaxarray, 'bx', label="DeltaMax")
-    ax2.plot_date(plottabletimes, deltaphiminarray, 'rx', label="DeltaMin")
-    ax2.xaxis.set_major_formatter( matplotlib.dates.DateFormatter("%H:%M"))
-    ax2.set_xlabel("Time")
+    ax.plot(timelist, maxvoltarray, 'bx', label="Max")
+    ax.plot(timelist, minvoltarray, 'rx', label="Min")
+    ax.plot(timelist, rawmaxvoltarray, 'gx', label="RawMax")
+    ax.plot(timelist, rawminvoltarray, 'yx', label="RawMin")
+    ax.set_xlabel("Time (minutes)")
+    ax2.plot(timelist, deltaphimaxarray, 'bx', label="Near Max")
+    ax2.plot(timelist, deltaphiminarray, 'rx', label="Near Min")
+    ax2.set_xlabel("Time (minutes)")
     if hastemperatures:
         axtemp=ax.twinx()
-        axtemp.plot_date(plottabletemptimes, templist, "k.", label="Temp")
+        axtemp.plot(temptimelist, templist, "k.", label="Temperature")
         axtemp.set_ylabel("Temperature (°C)")
         axtemp.legend(loc="lower right")
         axtemp2=ax2.twinx()
-        axtemp2.plot_date(plottabletemptimes, templist, "k.", label="Temp")
+        axtemp2.plot(temptimelist, templist, "k.", label="Temperature")
         axtemp2.set_ylabel("Temperature (°C)")
         axtemp2.legend(loc="lower right")
     ax.legend(loc="lower left")
@@ -169,14 +176,14 @@ else:
     ax.plot(np.arange(len(allFiles)), rawmaxvoltarray, 'gx-', label="RawMax")
     ax.plot(np.arange(len(allFiles)), rawminvoltarray, 'yx-', label="RawMin")
     ax.set_xlabel("File index")
-    ax2.plot(np.arange(len(allFiles)), deltaphimaxarray, 'bx-', label="DeltaMax")
-    ax2.plot(np.arange(len(allFiles)), deltaphiminarray, 'rx-', label="DeltaMin")
+    ax2.plot(np.arange(len(allFiles)), deltaphimaxarray, 'bx-', label="Near Max")
+    ax2.plot(np.arange(len(allFiles)), deltaphiminarray, 'rx-', label="Near Min")
     ax2.set_xlabel("File index")
     ax.legend(loc="lower left")
     ax2.legend(loc="lower left")
     
 ax.set_ylabel("Voltage (V)")
 ax.grid()
-ax2.set_ylabel("Phase (rad)")
+ax2.set_ylabel("Phase Variation (rad)")
 ax2.grid()
 plt.show()
