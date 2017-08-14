@@ -100,3 +100,20 @@ for cont in range(repetitions):
         print(cont,"\tPWM measured = ", np.mean(singleMeasure), " mW")
         
 np.savez(outputfilename, results=results, resultsA=resultsA, resultsB=resultsB)
+
+if sensor == "pwm" or sensor == "PWM":
+    print("Average power = ", np.mean(results), "W\tStdDev = ", np.std(results), "W")
+else:
+    if spadChannelA == spadChannelB:
+        print("Average counts on channel ",spadChannelA," = ", np.mean(results), "\tStdDev = ", np.std(results))
+    else:
+        print("Average counts on channel ",spadChannelA," = ", np.mean(resultsA), "\tStdDev = ", np.std(resultsA), 
+              "\nAverage counts on channel ",spadChannelB," = ", np.mean(resultsB), "\tStdDev = ", np.std(resultsB),
+              "\nAverage coincs = ", np.mean(results), "\tStdDev = ", np.std(results))
+        
+resultdata={}
+resultdata.update({"Mean":np.mean(results), "StdDev":np.std(results), "MeanA":np.mean(resultsA), "StdDevA":np.std(resultsA),"MeanB":np.mean(resultsB), "StdDevB":np.std(resultsB)  })
+
+jsonfilename=outputfilename+".json"
+with open(jsonfilename, 'w') as outfile:
+    json.dump(resultdata, outfile)
