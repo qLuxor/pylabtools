@@ -270,8 +270,8 @@ normconstant= QSTH+QSTV
 
 rhoHHQST=QSTH/normconstant
 rhoVVQST=QSTV/normconstant
-rerhoHVQST=strSignA*(QSTD/normconstant-0.5)
-imrhoHVQST=strSignA*(QSTR/normconstant-0.5)
+rerhoHVQST=strSignA*0.5*(QSTD-QSTA)/(QSTD+QSTA)
+imrhoHVQST=strSignA*0.5*(QSTR-QSTL)/(QSTR+QSTL)
 rerhoVHQST=rerhoHVQST
 imrhoVHQST=-imrhoHVQST
 

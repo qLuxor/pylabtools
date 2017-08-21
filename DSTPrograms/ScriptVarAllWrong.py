@@ -23,9 +23,9 @@ sys.path.append('..')
 from pyThorPM100.pm100 import pm100d
 
 def alarm():
-    f=open("/dev/console/", "w")
+    f=open("/dev/console", "w")
     for i in range(0, 10):
-        print('\a', file =f)
+        print('\a', file=f)
         time.sleep(0.1)
     f.close()
 
