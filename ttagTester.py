@@ -70,59 +70,60 @@ for cont in range(repetitions):
     time.sleep(spadExpTime)
     if spadChannelA == spadChannelB:
         start=timer()
+        coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, False)
+        end =timer()
+        totaltimeLuxor += end-start
+        print(cont," LUXOR: Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
+        
+        start=timer()
+        coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, True)
+        end =timer()
+        totaltimeLuxorSorting += end-start
+        print(cont," LUXOR (sort): Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
+        start=timer()
         singles = ttagBuf.singles(spadExpTime)
         end=timer()
         totaltimeKwiatSingles += end-start
-        print(cont,"\tUsing Kwiat singles function:\tTime = ", end-start,
-              "s\tCounts on Channel ", spadChannelA, " = ", singles[spadChannelA])
+        print(cont," Kwiat singles: Time = ", end-start,
+              "s Ch ", spadChannelA, " = ", singles[spadChannelA])
         
         start=timer()
         coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
         end =timer()
         totaltimeKwiat += end-start
-        print(cont,"\tUsing Kwiat coinc function:\tTime = ", end-start, 
-              "s\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
+        print(cont," Kwiat coinc: Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
         
-        start=timer()
-        coinc= ttagBuf.luxorcoincidences(spadExpTime,coincWindow,-delayarray)
-        end =timer()
-        totaltimeLuxor += end-start
-        print(cont,"\tUsing LUXOR function:\tTime = ", end-start, 
-              "s\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
         
-        start=timer()
-        coinc= ttagBuf.luxorcoincidences(spadExpTime,coincWindow,-delayarray, True)
-        end =timer()
-        totaltimeLuxorSorting += end-start
-        print(cont,"\tUsing LUXOR function (with sorting):\tTime = ", end-start, 
-              "s\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
         
         print("\n\n")
     else:
         start=timer()
+        coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, False)
+        end =timer()
+        totaltimeLuxor += end-start
+        print(cont," LUXOR: Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
+               " Ch ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
+               " Coinc = ", coinc[spadChannelA, spadChannelB])
+        start=timer()
+        coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, True)
+        end =timer()
+        totaltimeLuxorSorting += end-start
+        print(cont," LUXOR (sort): Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
+               " Ch ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
+               " Coinc = ", coinc[spadChannelA, spadChannelB])
+        start=timer()
         coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
         end =timer()
         totaltimeKwiat += end-start
-        print(cont,"\tUsing Kwiat function:\tTime = ", end-start, 
-              "s\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
-               "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
-               "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
-        start=timer()
-        coinc= ttagBuf.luxorcoincidences(spadExpTime,coincWindow,-delayarray)
-        end =timer()
-        totaltimeLuxor += end-start
-        print(cont,"\tUsing LUXOR function:\tTime = ", end-start, 
-              "s\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
-               "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
-               "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
-        start=timer()
-        coinc= ttagBuf.luxorcoincidences(spadExpTime,coincWindow,-delayarray, True)
-        end =timer()
-        totaltimeLuxorSorting += end-start
-        print(cont,"\tUsing LUXOR function (with sorting):\tTime = ", end-start, 
-              "s\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
-               "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
-               "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
+        print(cont," Kwiat coinc: Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
+               " Ch ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
+               " Coinc = ", coinc[spadChannelA, spadChannelB])
         
         print("\n\n")
 
