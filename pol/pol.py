@@ -308,7 +308,7 @@ class Monitor(QtGui.QMainWindow, Ui_MainWindow):
     
     def getData(self):
         self.singles = self.ttagBuf.singles(self.exptime)
-        self.coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+        self.coincidences = self.ttagBuf.fastcoincidences(self.exptime,self.coincWindow,-self.delay)
 		
 
     def Monitor(self):
