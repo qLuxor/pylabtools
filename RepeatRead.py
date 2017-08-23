@@ -8,6 +8,7 @@ Created on Thu Jun 15 11:21:17 2017
 import sys
 import json
 import time
+from timeit import default_timer as timer
 import numpy as np
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
@@ -71,6 +72,7 @@ resultsA = np.zeros(repetitions)
 resultsB = np.zeros(repetitions)
 cont=0 
 print("Starting Measurements")
+start=timer()
 for cont in range(repetitions):
     if sensor == "spad" or sensor == "SPAD":
         time.sleep(spadExpTime)
@@ -79,15 +81,15 @@ for cont in range(repetitions):
             results[cont]=singles[spadChannelA]
             resultsA[cont]=singles[spadChannelA]
             resultsB[cont]=singles[spadChannelB]
-            print(cont,"\tCounts on Channel ", spadChannelA, " = ", singles[spadChannelA])
+            print(cont," Time = ", "{:10.6f}".format(timer()-start), " Ch ", spadChannelA, " = ", singles[spadChannelA])
         else:
             coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, sort=False)
             results[cont]=coinc[spadChannelA, spadChannelB]
             resultsA[cont]=coinc[spadChannelA, spadChannelA]
             resultsB[cont]=coinc[spadChannelB, spadChannelB]
-            print(cont,"\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
-                   "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
-                   "\tCoincidences = ", coinc[spadChannelA, spadChannelB])
+            print(cont," Time = ", "{:10.6f}".format(timer()-start)," Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
+                   " Ch ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
+                   " Coinc = ", coinc[spadChannelA, spadChannelB])
     elif sensor == "pwm" or sensor == "PWM":
         singleMeasure = np.zeros(pwmAverage)
         for j in range(pwmAverage):
@@ -97,10 +99,11 @@ for cont in range(repetitions):
         results[cont]=np.mean(singleMeasure)
         resultsA[cont]=np.mean(singleMeasure)
         resultsB[cont]=np.mean(singleMeasure)
-        print(cont,"\tPWM measured = ", np.mean(singleMeasure), " mW")
+        print(cont," Time = ", "{:10.6f}".format(timer()-start)," PWM = ", np.mean(singleMeasure), " mW")
         
 np.savez(outputfilename, results=results, resultsA=resultsA, resultsB=resultsB)
 
+print("\n\nTotal time = ", "{:10.6f}".format(timer()-start))
 if sensor == "pwm" or sensor == "PWM":
     print("Average power = ", np.mean(results), "W\tStdDev = ", np.std(results), "W")
 else:
