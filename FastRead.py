@@ -64,7 +64,7 @@ while(1):
             singles = ttagBuf.singles(spadExpTime)
             print(cont,"\tCounts on Channel ", spadChannelA, " = ", singles[spadChannelA])
         else:
-            coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+            coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, sort=False)
             print(cont,"\tCounts on Channel ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA], 
                    "\tCounts on Channel ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
                    "\tCoincidences = ", coinc[spadChannelA, spadChannelB])

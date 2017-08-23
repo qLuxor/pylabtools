@@ -81,7 +81,7 @@ for cont in range(repetitions):
             resultsB[cont]=singles[spadChannelB]
             print(cont,"\tCounts on Channel ", spadChannelA, " = ", singles[spadChannelA])
         else:
-            coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
+            coinc= ttagBuf.fastcoincidences(spadExpTime,coincWindow,-delayarray, sort=False)
             results[cont]=coinc[spadChannelA, spadChannelB]
             resultsA[cont]=coinc[spadChannelA, spadChannelA]
             resultsB[cont]=coinc[spadChannelB, spadChannelB]
