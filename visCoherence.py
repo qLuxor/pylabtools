@@ -171,7 +171,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                             self.countA[i]=self.count[i]
                             self.countB[i]=self.count[i]
                         else:
-                            coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                            coincidences = self.ttagBuf.fastcoincidences(self.exptime,self.coincWindow,-self.delay, sort=False)
                             self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
                             self.countA[i]=coincidences[self.SPADChannel, self.SPADChannel]
                             self.countB[i]=coincidences[self.SPADOtherChannel, self.SPADOtherChannel]
