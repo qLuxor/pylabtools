@@ -228,7 +228,7 @@ class Vis(QMainWindow, Ui_MainWindow):
                                 singles = self.ttagBuf.singles(self.exptime)
                                 self.count[i]=singles[self.SPADChannel]
                             else:
-                                coincidences = self.ttagBuf.coincidences(self.exptime,self.coincWindow,-self.delay)
+                                coincidences = self.ttagBuf.fastcoincidences(self.exptime,self.coincWindow,-self.delay, sort=False)
                                 self.count[i]=coincidences[self.SPADChannel, self.SPADOtherChannel]
                         self.axVis.plot(self.totvoltage_arr, self.count, '.')
                         self.plotVis.draw()
