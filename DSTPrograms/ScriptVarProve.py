@@ -8,6 +8,7 @@ Created on Sat Jul 22 17:46:52 2017
 #necessary imports
 import sys
 sys.path.append('..')
+sys.path.append('../..')
 import time
 import datetime
 from ThorCon import ThorCon
@@ -19,7 +20,6 @@ import json
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
 
-sys.path.append('..')
 from pyThorPM100.pm100 import pm100d
 
 #functions that set apparatus to specific settings

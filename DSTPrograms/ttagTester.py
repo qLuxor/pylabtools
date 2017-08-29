@@ -6,6 +6,9 @@ Created on Mon Aug 14 15:06:54 2017
 """
 
 import sys
+
+sys.path.append('..')
+sys.path.append('../..')
 import json
 import time
 from timeit import default_timer as timer
@@ -13,8 +16,6 @@ import numpy as np
 
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
-
-sys.path.append('..')
 
 if len(sys.argv) >1:
     filename = str(sys.argv[1])

@@ -6,11 +6,13 @@ Created on Fri Apr 21 22:40:37 2017
 """
 
 #necessary imports
-
+import sys
+sys.path.append('..')
+sys.path.append('../..')
 from ThorCon import ThorCon
 import instruments as ik
 import json
-import sys
+
 
 #functions that set apparatus to specific settings
 def setangle(rotator, angle, angleErr):

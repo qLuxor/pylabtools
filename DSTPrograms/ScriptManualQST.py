@@ -8,6 +8,7 @@ Created on Wed May 10 22:22:38 2017
 #necessary imports
 import sys
 sys.path.append('..')
+sys.path.append('../..')
 import time
 from ThorCon import ThorCon
 import numpy as np
@@ -17,7 +18,6 @@ import json
 sys.path.append('/home/sagnac/Quantum/ttag/python/')
 import ttag
 
-sys.path.append('..')
 from pyThorPM100.pm100 import pm100d
 
 def setangle(rotator, angle, angleErr):
