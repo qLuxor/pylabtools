@@ -17,6 +17,13 @@ import ttag
 sys.path.append('..')
 from pyThorPM100.pm100 import pm100d
 
+def alarm():
+    f=open("/dev/console", "w")
+    for i in range(0, 10):
+        print('\a', file=f)
+        time.sleep(0.1)
+    f.close()
+
 if len(sys.argv) >1:
     filename = str(sys.argv[1])
 else:
@@ -41,6 +48,11 @@ else:
     outputfilename = "dump"
 if outputfilename[-4:]==".txt":
     outputfilename =outputfilename[:-4]
+
+if "alarm" in settings:
+    alarmswitch=settings["alarm"]
+else:
+    alarmswitch=False
 
 #pwm configuration and initialization
 pwmAverage=settings["pwmAverage"]
@@ -120,3 +132,6 @@ resultdata.update({"Mean":np.mean(results), "StdDev":np.std(results), "MeanA":np
 jsonfilename=outputfilename+".json"
 with open(jsonfilename, 'w') as outfile:
     json.dump(resultdata, outfile)
+
+if alarmswitch:
+    alarm()
