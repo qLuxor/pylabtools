@@ -66,6 +66,8 @@ totaltimeKwiat=0
 totaltimeKwiatSingles=0
 totaltimeLuxor=0
 totaltimeLuxorSorting=0
+totaltimePair=0
+totaltimePairSorting=0
 print("Starting Measurements")
 for cont in range(repetitions):
     time.sleep(spadExpTime)
@@ -83,6 +85,18 @@ for cont in range(repetitions):
         totaltimeLuxorSorting += end-start
         print(cont," LUXOR (sort): Time = ", end-start, 
               "s Ch ", spadChannelA, " = ", coinc[spadChannelA, spadChannelA])
+        start=timer()
+        res= ttagBuf.paircoincidences([spadChannelA, spadChannelA],spadExpTime,coincWindow,-delayarray, False)
+        end =timer()
+        totaltimePair += end-start
+        print(cont," Pair: Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", res[0])
+        start=timer()
+        res= ttagBuf.paircoincidences([spadChannelA, spadChannelA],spadExpTime,coincWindow,-delayarray, True)
+        end =timer()
+        totaltimePairSorting += end-start
+        print(cont," Pair (sort): Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", res[0])
         start=timer()
         singles = ttagBuf.singles(spadExpTime)
         end=timer()
@@ -118,6 +132,22 @@ for cont in range(repetitions):
                " Ch ", spadChannelB, " = ", coinc[spadChannelB, spadChannelB], 
                " Coinc = ", coinc[spadChannelA, spadChannelB])
         start=timer()
+        res= ttagBuf.paircoincidences([[spadChannelA, spadChannelB],[spadChannelA, spadChannelA],[spadChannelB, spadChannelB]],spadExpTime,coincWindow,-delayarray, False)
+        end =timer()
+        totaltimePair += end-start
+        print(cont," Pair: Time = ", end-start, 
+              "s Ch ", spadChannelA, " = ", res[1], 
+               " Ch ", spadChannelB, " = ", res[2], 
+               " Coinc = ", res[0])
+        start=timer()
+        res= ttagBuf.paircoincidences([[spadChannelA, spadChannelB],[spadChannelA, spadChannelA],[spadChannelB, spadChannelB]],spadExpTime,coincWindow,-delayarray, True)
+        end =timer()
+        totaltimePairSorting += end-start
+        print(cont," Pair (sort): Time = ", end-start, 
+               "s Ch ", spadChannelA, " = ", res[1], 
+               " Ch ", spadChannelB, " = ", res[2], 
+               " Coinc = ", res[0])
+        start=timer()
         coinc= ttagBuf.coincidences(spadExpTime,coincWindow,-delayarray)
         end =timer()
         totaltimeKwiat += end-start
@@ -130,6 +160,6 @@ for cont in range(repetitions):
 
 
 if spadChannelA == spadChannelB:
-    print("Average time:\tKwiatSingles = ",totaltimeKwiatSingles/repetitions, "s\tKwiat = ", totaltimeKwiat/repetitions,"s\tLUXOR = ", totaltimeLuxor/repetitions,"s\tLUXOR (sorting) = ", totaltimeLuxorSorting/repetitions)
+    print("Average time:\nKwiatSingles = ",totaltimeKwiatSingles/repetitions, "s\nKwiat = ", totaltimeKwiat/repetitions,"s\nLUXOR = ", totaltimeLuxor/repetitions,"s\nLUXOR (sorting) = ", totaltimeLuxorSorting/repetitions,"s\nPair = ", totaltimePair/repetitions,"s\nPair (sorting)= ", totaltimePairSorting/repetitions)
 else:
-    print("Average time:\tKwiat = ", totaltimeKwiat/repetitions,"s\tLUXOR = ", totaltimeLuxor/repetitions,"s\tLUXOR (sorting) = ", totaltimeLuxorSorting/repetitions)
+    print("Average time:\nKwiat = ", totaltimeKwiat/repetitions,"s\nLUXOR = ", totaltimeLuxor/repetitions,"s\nLUXOR (sorting) = ", totaltimeLuxorSorting/repetitions,"s\nPair = ", totaltimePair/repetitions,"s\nPair (sorting)= ", totaltimePairSorting/repetitions)
